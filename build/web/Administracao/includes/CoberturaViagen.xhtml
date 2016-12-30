@@ -1,0 +1,370 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+
+    </h:head>
+    <h:body>
+        <div class="divTotalCobert">
+            <h3>Cobertura de Viagem</h3>
+            <h:form id="forUtlCober">
+                <p:remoteCommand name="addEditTravelCover" actionListener="#{utilitarioBean.editeAndAddPrecoCoberturaViagem()}" />
+                <div class="unidentified">
+                    <div>
+                        <p>
+                            <h:outputLabel value="Início"/>
+                            <h:inputText id="dataIncio" class="dataIncio viagemCoberturaCampo" 
+                                         onkeyup="onlyNumber($('.dataIncio'))"/>
+                        </p>
+                        <p>
+                            <h:outputLabel  value="Fim"/>
+                            <h:inputText id="dataFim" class="dataFim viagemCoberturaCampo"
+                                         onkeyup="onlyNumber($('.dataFim'))" />
+                        </p>
+                        <p>
+                            <h:outputLabel value="Total"/>
+                            <h:inputText id="NC"  class="textRight NC viagemCoberturaCampo justNumeric" />
+                        </p>
+                        <p>
+                            <h:outputLabel value="Premio"/>
+                            <h:inputText id="preco" class="preco textRight viagemCoberturaCampo justNumeric"/>
+                        </p>
+                        <span>
+                            <h:selectBooleanCheckbox class="coberturaViagemMultiViagem"/>
+                            Multiviagem
+                        </span>
+                        <div class="divBtUni">             
+                            <h:commandButton value="Adicionar"  class="mf-bt-ok regCoberturaViagem">
+                                <p:ajax process="@this"  />
+                            </h:commandButton>
+                            <h:commandButton value="Cancelar"  style="display: none;" class="mf-bt-ko viagemCancelar">
+                                <p:ajax process="@this" onstart="cancelarCoberturaViagem()" />
+                            </h:commandButton>
+                        </div>
+                    </div>
+                    <p:dataTable value="#{utilitarioBean.listaPrecoCobertura}"  selectionMode="single" id="tableCoberturaViagem"
+                                 var="pcl" rowKey="#{pcl}" selection="#{utilitarioBean.precoCoberturaSelected}" scrollable="true" scrollHeight="155"
+                                 class="tableCobViag" emptyMessage="Nenhuma cobertura encontrada">
+                        <p:column headerText="NC">
+                            <h:outputText value="#{pcl.formatStringToMoeda(pcl.nc)}"/>      
+                        </p:column>
+                        <p:column headerText="Prémio">
+                            <h:outputText value="#{pcl.formatStringToMoeda(pcl.premio)}"/>
+                        </p:column>
+                        <p:column headerText="Total">
+                            <h:outputText value="#{pcl.formatStringToMoeda(pcl.total)}"/>
+                        </p:column>
+                        <p:column headerText="Início">
+                            <h:outputText value="#{pcl.incio}"/>
+                        </p:column>
+                        <p:column headerText="Fim">
+                            <h:outputText value="#{pcl.fim}"/>
+                        </p:column>
+                        <p:column headerText="Ação">
+                            <h:outputLabel class="actionTable icon-pencil" title="Editar">
+                                <p:ajax event="click" listener="#{utilitarioBean.editarCoberturaViagem(pcl)}"
+                                        onstart="$('.processamento').show()" oncomplete="$('.processamento').hide()"  />
+                            </h:outputLabel>                                    
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+            <h3>Limite de Responsabilidade</h3>
+            <div class="limitResp">
+                <h:form id="editeLimiteC">
+                    <c:forEach items="#{utilitarioBean.listaLimiteResp}" var="lLR" >
+                        <p>
+                            <h:outputLabel value="#{lLR.destalhes}"/>
+                            <span>
+                                <h:outputLabel class="valorLimite#{lLR.id}" value="#{lLR.value}"/>
+                                <h:outputLabel  value="Editar" class="editLimitResp">
+                                    <p:ajax event="click" update="@none" oncomplete="editeValor('.valorLimite#{lLR.id}','#{lLR.destalhes}','#{lLR.id}','#{lLR.codigoNicon}')"  />
+                                </h:outputLabel>
+                            </span>
+                        </p>
+                    </c:forEach>
+                </h:form>
+            </div>
+        </div>
+        <h:form>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+        </h:form>
+        <h:form>
+            <div class="modalPage mp-editCobViag">
+
+                <div class="modalFrame">                                            
+                    <div class="modalContainer">
+                        <h:inputText value="#{utilitarioBean.limiteRespo.codigoNicon}" class="modalIdInfor" style="display: none;" />
+                        <h:inputText value="#{utilitarioBean.limiteRespo.id}" class="modalId" style="display: none;" />
+                        <h3><h:outputText value="#{utilitarioBean.limiteRespo.destalhes}" class="modalLabel" ></h:outputText></h3>
+                        <h:inputText value="#{utilitarioBean.limiteRespo.value}" class="modalValor" />
+                        <div class="divButtons">
+                            <h:commandButton class="mf-bt-ok" value="Editar" action="#{utilitarioBean.editeLimeteResp()}" >
+                                <p:ajax process="@form" update=":editeLimiteC" onstart="mostrarPU()" oncomplete="fecharPU()" />
+                            </h:commandButton>
+                            <h:commandButton class="mf-bt-ko" value="Cancelar">
+                                <p:ajax oncomplete="closeModalLimiteResp()" update="@none" />
+                            </h:commandButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </h:body>
+    <style>
+        .divTotalCobert{
+            background: #fff;
+            padding: 20px;
+        }
+        .divTotalCobert h3{
+            margin-bottom: 15px;
+            color: #555;
+        }
+        .unidentified{
+            display: flex;
+            justify-content: space-between;
+        }
+        .unidentified div{
+            margin-right: 0 !important;
+        }
+        .unidentified > div{
+            width: 40%;
+            margin-bottom: 3em;
+        }
+        .unidentified > div + div{
+            width: 55%;
+        }
+        .unidentified p{
+            width: 46%;
+            display: inline-block;
+            font-size: .95em;
+            margin: 0 10px 10px 0;
+        }
+        .unidentified p input{
+            width: 100%;
+            border: 1px #ccc solid;
+            padding: 8px;
+            font-size: .95em;
+            border-radius: 2px;
+        }
+        .unidentified .textRight{
+            text-align: right;
+        }
+        .divBtUni input{
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: all .4s ease;
+            font-size: 1em;
+            font-weight: bold;
+            margin-top: 1em ;
+            border-radius: 3px;
+            min-width: 120px;
+        }
+        .limitResp p{
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 10px;
+            padding-left: 40px;
+            border-bottom: 1px #ddd solid;
+            background: #f9f9f9;
+            color: #333;
+            font-size: .9em;
+            transition: all .4s ease;
+        }
+        .limitResp p:first-child{
+            border-top: 1px #ddd solid;
+        }
+        .limitResp p:first-child{
+            border-top: 1px #ddd solid;
+        }
+        .limitResp p:hover{
+            background: #f5f5f5;
+            transition: all .4s ease;
+        }
+        .limitResp p:hover .editLimitResp{
+            color: #4d87e2;
+            transition: all .4s ease;
+        }
+        .limitResp .editLimitResp{
+            display: inline-block;
+            margin-left: 10px;
+            color: transparent;
+            cursor: pointer;
+        }
+        .limitResp .editLimitResp:hover{
+            text-decoration: underline;
+        }
+        .mp-editCobViag [type=text]{
+            width: 100%;
+            margin: 20px 0 15px 0;
+            text-align: right;
+            border: 1px #ccc solid;
+            padding: 8px;
+            font-size: .95em;
+            border-radius: 2px;
+            max-width: 240px;
+        }
+        .mp-editCobViag .modalContainer{
+            text-align: center;
+        }
+    </style>
+    <script>
+
+
+        $(".coberturaViagemMultiViagem").click(function()
+        { 
+            if($(this).prop('checked') === true)
+            {
+                $(".dataIncio").val("");
+                $(".dataIncio").attr("disabled", true);
+                $(".dataFim").val("");
+                $(".dataFim").attr("disabled", true);
+            }
+                
+        });
+
+        $(".viagemCoberturaCampo").focus(function ()
+        {
+            $(this).css("border", "");
+        });
+        $(".regCoberturaViagem").click(function ()
+        {
+            var preenchido = true;
+            $(".viagemCoberturaCampo").each(function ()
+            {
+                if($(this).prop('disabled') === false)
+                {
+                    if ($(this).val() === "")
+                    {
+                        $(this).css("border", "1px solid red");
+                        preenchido = false;
+                    }
+                    else
+                        $(this).css("border", "");
+                }
+            });
+            if (preenchido === true)
+            {
+                $('.processamento').show();
+                dadosCoberturaViagem();
+            }
+        });
+        function editeValor(valor, label, id, idInfor)
+        {
+            $(".modalId").val(id);
+            $(".modalLabel").html(label);
+            $(".modalValor").val($(valor).html());
+            $(".modalValor").focus();
+            $(".modalIdInfor").val(idInfor);
+            testeVasioModal("");
+            $(".mp-editCobViag").show('fade');
+        }
+        function closeModalLimiteResp() {
+            $(".mp-editCobViag").hide('fade');
+        }
+        function testeVasioModal(colores)
+        {
+            if (colores !== "") {
+                $(".modalValor").css("border", "1px solid " + colores);
+            } else {
+                $(".modalValor").css("border", colores);
+            }
+        }
+
+        function alterarCoberturaViagem()
+        {
+            $(".dataIncio").attr("readonly", true);
+            $(".dataFim").attr("readonly", true);
+            $(".viagemCancelar").css("display", "block");
+        }
+
+        function cancelarCoberturaViagem()
+        {
+            $(".dataIncio").attr("disabled", false);
+            $(".coberturaViagemMultiViagem").attr("checked", false);
+            $(".dataFim").attr("disabled", false);
+            $(".viagemCancelar").css("display", "none");
+
+            limparCoberturaViagem();
+        }
+
+        function limparCoberturaViagem()
+        {
+            $(".coberturaViagemMultiViagem").attr("checked", false);
+            $('.processamento').hide();
+            $(".dataIncio").val("");
+            $(".dataIncio").attr("disabled", false);
+            $(".dataFim").val("");
+            $(".dataFim").attr("disabled", false);
+            $(".preco").val("");
+            $(".NC").val("");
+            $(".viagemCancelar").css("display", "none");
+        }
+
+        function onlyNumber(variavel)
+        {
+            var expre = /[^0-9]/g;
+            if (variavel.val().match(expre))
+                variavel.val(variavel.val().replace(expre, ''));
+        }
+
+
+        function onlyMoner(variavel)
+        {
+            if (!$.isNumeric(variavel.val()))
+                            variavel.val("");
+        }
+
+        function coberturaViagemEditar(inicio, fim, nc, premio)
+        {
+             $(".coberturaViagemMultiViagem").attr("checked", false);
+            $(".viagemCancelar").css("display", "");
+            $(".regCoberturaViagem").val("Editar");
+            $(".dataIncio").val(inicio);
+            $(".dataIncio").attr("disabled", true);
+            $(".dataFim").val(fim);
+            $(".dataFim").attr("disabled", true);
+            $(".NC").val(nc);
+            $(".dataIncio").css("border", "");
+            $(".dataFim").css("border", "");
+            $(".preco").val(premio);
+            if($("#dataIncio").val() !== "-1")
+            {
+               if($(".dataFim").val() !== "-1")
+               {
+                    $(".coberturaViagemMultiViagem").attr("checked", false);
+               }
+            }
+          
+                
+        }
+
+        function dadosCoberturaViagem()
+        {
+            var tipo = $(".dataFim").is(":disabled");
+            if($(".coberturaViagemMultiViagem").prop('checked') === true)
+                tipo = "multi viagem";
+            else
+            {
+                if (tipo === true)
+                     tipo = "atualizar";
+                else
+                    tipo = "adicionar";
+            }
+
+            addEditTravelCover([{name: 'data inicio', value: $(".dataIncio").val()},
+                {name: 'data fim', value: $(".dataFim").val()},
+                {name: 'nc', value: $(".NC").val()},
+                {name: 'tipo', value: tipo},
+                {name: 'prémio', value: $(".preco").val()}]);
+        }
+    </script>
+</html>
+

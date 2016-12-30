@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <h:head>
+        <h:outputStylesheet library="Styles" name="geralSeguros.css"/>
+        <h:outputStylesheet library="Styles" name="seguroMultiriscos.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="seguroMultiriscos.js" />
+    </h:head>
+    <h:body>
+        <h:form id="multiCabecalho">
+            <p:remoteCommand  actionListener="#{risco.segurosAdicionar()}" name="segurosAdicionar" />
+            <p:growl id="multiRiscoGrowl" showDetail="false" />
+            <h:outputLabel class="multiDadosIncendio multiDados" />
+            <h:outputLabel class="multiDadosRoubo multiDados" />
+            <h:outputLabel class="multiDadosDinheiro multiDados" />
+            <h:outputLabel class="preenchido" />
+            <div class="K-seguros">
+            <span>
+                Nº de apólice
+                <h:inputText  class="mulitRiscoApolice apolice" value="#{risco.multiRisco.numeroApolice}">
+                    <p:ajax event="blur" process="@this" />
+                </h:inputText>
+            </span>
+            <span>
+                Nº de registro
+                <h:inputText  class="cargaNR multiNumeroRegistro"  id="multiNumeroR" value="#{risco.multiRisco.numeroRegistro}" >
+                        <p:ajax event="change" process="@this multiMoeda" />
+                    </h:inputText>
+            </span>
+            <span>
+                Moeda
+                <h:selectOneMenu value="#{risco.multiRisco.moeda}" id="multiMoeda">
+                        <f:selectItems  value="#{rouboBean.moeda}" itemLabel="#{m.value}" var="m" itemValue="#{m.id}"/>
+                        <p:ajax event="change" process="@this"/>
+                    </h:selectOneMenu>
+            </span>
+        </div>
+        </h:form>
+        <div class="total-multiriscos">
+                <div class="multi-header">            
+                    <label class="label-active">Seguro Roubo</label>
+                    <label class="label-active">Seguro Incêndio</label>
+                    <label class="">Seguro Dinheiro</label>
+                </div>
+                <div class="multi-content-header">
+                    <label class="section-active active-content-header seguros-1">Seguro Roubo</label>
+                    <label class="section-active seguros-1">Seguro Incêndio</label>
+                    <label class="seguros-1">Seguro Dinheiro</label>
+                </div>
+                <!--<h:form id="multi">-->
+                    <div class="content-content">
+                        <section class="seguros-2 section-active">
+                            <ui:include src="seguroRoubo.xhtml"/>
+                        </section>
+                        <section class="seguros-2">
+                            <ui:include src="seguroIncendio.xhtml"/>
+                        </section>
+                        <section class="seguros-2">
+                            <ui:include src="seguroDinheiro.xhtml"/>
+                        </section>
+                    </div>
+             <!--</h:form>-->
+         </div>
+    </h:body>
+    <script>
+        
+        
+        
+        
+    </script>
+</html>
+

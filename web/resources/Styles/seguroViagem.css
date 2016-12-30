@@ -1,0 +1,42 @@
+.box-arrow{
+    background: #f9f9f9;
+    border: 1px #ededed solid;
+    font-size: .92em;
+    color: #555;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.box-arrow:before{
+    border-bottom: 12px #f6f6f6 solid;
+    z-index: 2;   
+}
+.box-arrow:after{
+    border-bottom: 13px #ddd solid;  
+}
+.detalhesV input,
+.pessoasSeg input,
+.detalhesV select,
+.pessoasSeg select,
+.pessoasSeg textarea{
+    width: 100%;
+}
+.accountDays label{
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+}
+.accountDays label:first-child{
+    font-size: 2em;
+    font-weight: bold;
+}
+.pessoasSeg textarea{
+    resize: none;
+    height: 80px;
+}
+.pessoasSeg .viagemAdicionar{
+    max-width: 150px;
+    height: 50px;
+    align-self: flex-end;
+    margin-bottom: 10px;
+}
+.contactoPessoaSegurada{display: none;}

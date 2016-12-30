@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Relatórios</title>
+        <h:outputStylesheet library="Styles" name="geralSeguros.css"/> 
+        <h:outputStylesheet library="Styles" name="relatorioCss.css"></h:outputStylesheet>     
+        <h:outputStylesheet library="Styles" name="withLateral.css"></h:outputStylesheet>
+
+        <h:outputScript library="js" name="withLateral.js" />
+        <h:outputScript library="js" name="RelatorioContabilidade.js" />
+    </h:head>
+    <h:body>
+        <h:form class="lateral-menu-content-page" id="contabilidadeRelatorioForm">
+            <p:remoteCommand name="relatorioContabilidade" actionListener="#{relatorioContabilidadeBean.relatorioSelecionado()}" process="@this" />
+            <div class="menu-lateral">
+                <i class="icon-menu hide-show-lateral"></i>
+
+                <div class="sectionsMenu section1">
+                    <ul class="single-menu-lateral">
+                        <li class="header-menu">Menu</li>
+                        <li class="active-item-menu">Pagamentos</li>
+                        <li>Recebimentos</li>
+                        <li>Mapa de Produção</li>
+                        <li>Taxas</li>
+                        <li>Balancete</li>
+                        <li>Contas</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="content-lateral">
+                <div class="contentRel">
+                    <div class="rel-group active-rel">
+                        <div class="export">
+                            <h2 class="titleSelected">Pagamentos</h2>
+                            <span>
+                                <h2>Exportar para: </h2>
+                                <h:outputLabel class="icon-file-pdf" title="Exportar para PDF">
+                                    <p:ajax process="@this" update="@this" onstart="$('.processamento').show()"
+                                            event="click" listener="#{relatorioContabilidadeBean.exportRepor(1)}" oncomplete="$('.processamento').hide()" />
+                                </h:outputLabel>
+                                <h:outputLabel class="icon-file-excel" title="Exportar para Excel">
+                                    <p:ajax process="@this" update="@this" onstart="$('.processamento').show()"
+                                            event="click" listener="#{relatorioContabilidadeBean.exportRepor(2)}"
+                                            oncomplete="$('.processamento').hide()" />
+                                </h:outputLabel>
+                            </span>
+                        </div>
+                        <div class="divSearch">
+                            <nav>
+                                <span>
+                                    <h:outputLabel value="Data Início" class="dataInicioLabel"/>
+                                    <p:calendar  pattern="dd-MM-yyyy"  navigator="true" id="relatorioContabilidadeDataInicio"
+                                                 value="#{relatorioContabilidadeBean.relatorio.dataInicio}" >
+                                        <p:ajax event="dateSelect"
+                                                listener="#{relatorioContabilidadeBean.searchReport()}"
+                                                process="relatorioContabilidadeCampoPesquisa relatorioContabilidadeDataInicio relatorioContabilidadeDataFim relatorioContabilidadeValorPesqusia" />
+                                    </p:calendar>
+                                </span>
+                                <span>
+                                    <h:outputLabel value="Data Fim"/>
+                                    <p:calendar  pattern="dd-MM-yyyy" navigator="true" 
+                                                 value="#{relatorioContabilidadeBean.relatorio.dataFim}" id="relatorioContabilidadeDataFim">
+                                        <p:ajax event="dateSelect"
+                                                listener="#{relatorioContabilidadeBean.searchReport()}"
+                                                process="relatorioContabilidadeCampoPesquisa relatorioContabilidadeDataInicio relatorioContabilidadeDataFim relatorioContabilidadeValorPesqusia" />
+                                    </p:calendar>
+                                </span>
+                            </nav>
+                            <div class="searchMaster">
+                                <h:selectOneMenu class="textClient field" value="#{relatorioContabilidadeBean.relatorio.campoPesquisa}" id="relatorioContabilidadeCampoPesquisa">
+                                    <f:selectItems value="#{relatorioContabilidadeBean.list}" var="field" itemValue="#{field.id}" itemLabel="#{field.value}" />
+                                    <p:ajax event="change" onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()" 
+                                            listener="#{relatorioContabilidadeBean.searchReport()}"
+                                            process="relatorioContabilidadeCampoPesquisa relatorioContabilidadeDataInicio relatorioContabilidadeDataFim relatorioContabilidadeValorPesqusia" />
+                                </h:selectOneMenu>
+                                <h:inputText pt:placeholder="Descrição..." class="textClient searchReportField" 
+                                             value="#{relatorioContabilidadeBean.relatorio.valorPesquisa}"
+                                             id="relatorioContabilidadeValorPesqusia" >
+                                </h:inputText>
+                                <h:commandButton class="searchBt icon-search contabilidadeDisableFiled" />                                
+                                <label for="relatorioContabilidade:btSearch" class="icon-search"></label>
+                            </div>                            
+                        </div>
+
+                        <p:dataTable class="tableRel"  id="relatorioContabilidadeTabela"
+                                     scrollable="true" scrollHeight="400" >
+                        </p:dataTable>
+                    </div>
+                    <div class="rel-group">
+                        <div class="export">
+                            <h2 class="titleSelected">Pagamentos</h2>
+                            <span>
+                                <h2>Exportar para: </h2>
+                                <h:outputLabel class="icon-file-pdf" title="Exportar para PDF">
+                                    <p:ajax process="@this" update="@this" onstart="$('.processamento').show()"
+                                            event="click" listener="#{relatorioContabilidadeBean.exportRepor(1)}" oncomplete="$('.processamento').hide()" />
+                                </h:outputLabel>
+                                <h:outputLabel class="icon-file-excel" title="Exportar para Excel">
+                                    <p:ajax process="@this" update="@this" onstart="$('.processamento').show()"
+                                            event="click" listener="#{relatorioContabilidadeBean.exportRepor(2)}" oncomplete="$('.processamento').hide()" />
+                                </h:outputLabel>
+                            </span>
+                        </div>
+                        <div class="divSearch">
+                            <nav class="date---">
+                                    <span>
+                                        <h:outputLabel value="Data Inicio"/>
+                                        <p:calendar  pattern="dd-MM-yyyy" navigator="true" id="contabilidadeRelatorioTaxaDataI"
+                                                     value="#{relatorioContabilidadeBean.relatorio.dataInicio}" >
+                                            <p:ajax event="dateSelect"
+                                                    listener="#{relatorioContabilidadeBean.searchReport()}"
+                                                    process="@this" />
+                                        </p:calendar>
+                                    </span>
+                                <span>
+                                        <h:outputLabel value="Data Fim"/>
+                                        <p:calendar  pattern="dd-MM-yyyy" navigator="true" 
+                                                     value="#{relatorioContabilidadeBean.relatorio.dataInicio}" >
+                                            
+                                        </p:calendar>
+                                    </span>
+                            </nav>
+                            <div class="searchMaster">
+                                <h:selectOneMenu class="textClient field" >
+                                    <f:selectItems  />
+
+                                </h:selectOneMenu>
+                                <h:inputText pt:placeholder="Descrição..." class="textClient searchReportField" >
+                                </h:inputText>
+                                <h:commandButton class="searchBt icon-search contabilidadeDisableFiled" />                                
+                                <label  class="icon-search"></label>
+                            </div>                            
+                        </div>
+                        <h2>Taxa de Produção</h2>
+                        <p:dataTable class="tableRel" scrollable="true" scrollHeight="180" id="contabilidadeTabelaTaxaProducao">
+
+                        </p:dataTable>
+                        <h2>Taxa de Salario</h2>
+                        <p:dataTable class="tableRel" scrollable="true" scrollHeight="150" id="contabilidadeTabelaTaxaSalario" emptyMessage=""
+                                     value="#{relatorioContabilidadeBean.listaTaxaSalario}" var="salario" rowKey="#{salario}">
+                            <p:column headerText="NOME">
+                                #{salario.nome}
+                            </p:column>
+                            <p:column headerText="VALOR">
+                                #{salario.valor}
+                            </p:column>
+                        </p:dataTable>
+                        <h2>Taxa de Segurança Social</h2>
+                        <p:dataTable class="tableRel" scrollable="true" scrollHeight="150" emptyMessage=""
+                                     value="#{relatorioContabilidadeBean.listaTaxaSegurancaSocial}" var="social" rowKey="#{social}"
+                                     id="contabilidadeTabelaSecurityTax">
+                            <p:column headerText="NOME">
+                                #{social.nome}
+                            </p:column>
+                            <p:column headerText="VALOR">
+                                #{social.valor}
+                            </p:column>
+                        </p:dataTable>
+                        <h2>Mapa Resumo de Taxa</h2>
+                        <p:dataTable class="tableRel" scrollable="true" scrollHeight="120" selectionMode="single" rowKey="#{taxa}"
+                                     id="contabilidadeTabelaMapaResumoTaxa" value="#{relatorioContabilidadeBean.listaResumoTaxa}" var="taxa">
+                            <p:column headerText="FGA">
+                                #{taxa.fga}
+                            </p:column>
+                            <p:column headerText="CONSUMO">
+                                #{taxa.consumo}
+                            </p:column>
+                            <p:column headerText="SELO">
+                                #{taxa.selo}
+                            </p:column>
+                            <p:column headerText="IRS">
+                                #{taxa.irs}
+                            </p:column>
+                            <p:column headerText="SEGURANÇA SOCIAL">
+                                #{taxa.segSocial}
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </div>
+                
+                 <div class="mi-values">
+                    <section>
+                        <h:outputText  class="firstSectionDescriptionField"/>
+                          <b><h:outputText  class="firstField"/></b>
+                        <h:outputText  class="firstSectionSecondDescriptionField negrito balancete secction1"/><br/>
+                        <h:outputText  class="firstSectionThirdDescriptionField negrito balancete secction1"/><br/>
+                        <h:outputText  class="firstSectionFourthDescriptionField negrito balancete secction1"/><br/>
+                        <h:outputText  class="firstSectionFifthDescriptionField negrito balancete"/>
+                    </section>
+                    <div class="sectionHide" >
+                            <section >
+                                <h:outputText class="secondSectionDescriptionField" />
+                                <h:outputText  class="secondSectionSecondDescriptionField negrito balancete"/><br/>
+                                <h:outputText  class="secondSectionThirdDescriptionField negrito"/><br/>
+                                <h:outputText  class="secondSectionFourthDescriptionField negrito balancete"/><br/>
+                                <h:outputText  class="secondSectionFifthDescriptionField negrito balancete"/>
+                                <b><h:outputText  class="secondField"/></b>
+                            </section>
+                        </div>
+                    <div class="sectionHide">
+                            <section >
+                                <h:outputText class="thirdSectionDescriptionField" />
+                                <h:outputText  class="thirdSectionSecondDescriptionField negrito balancete"/><br/>
+                                <h:outputText  class="thirdSectionThirdDescriptionField negrito balancete"/><br/>
+                                <h:outputText  class="thirdSectionFourthDescriptionField negrito balancete"/><br/>
+                                <h:outputText  class="thirdSectionFifthDescriptionField negrito balancete"/>
+                                <b><h:outputText  class="thirdField"/></b>
+                            </section>
+                    </div>
+ 
+
+
+                    <span class="close-mi-values">X</span>
+                </div>
+            </div>
+            
+
+            <h:form>
+                <div class="processamento modalProcess">
+                    <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+                </div>
+            </h:form>
+        </h:form>
+    </h:body>   
+    <style>
+        .rel-group{
+            display: none;
+        }
+        .active-rel{
+            display: block;
+        }
+        .date--- span{
+            min-width: 100px;
+        }
+    </style>
+    <script>
+        $('.sectionsMenu li').click(function () {
+            if ($(this).index() === 4)
+                $('.rel-group').toggleClass('active-rel');
+            else
+                $('.rel-group:first-child').addClass('active-rel')
+                        .siblings().removeClass('active-rel');
+        });
+
+    </script>
+</html>
+

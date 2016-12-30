@@ -1,0 +1,145 @@
+/* 
+    Created on : Feb 18, 2016, 1:33:45 PM
+    Author     : Junior
+*/
+.divSearch{
+    background: #444;
+    padding: 1em 0;
+}
+.searchBt{
+    display: none;
+}
+.divSearch .searchMaster{
+    margin: auto;
+    height: 40px;
+    display: flex;
+    width: 100%;
+    max-width: 700px;
+    border: 1px #fff solid;
+}
+.divSearch .icon-search{
+    display: inline-block;
+    line-height: 40px;
+    font-size: 1.4rem;
+    padding: 0 10px;
+    background: #f9f9f9;
+}
+.divSearch i{
+    color: #555;
+    cursor: pointer;
+}
+
+.searchMaster input,
+.searchMaster select{
+    border: none;
+    height: 100%;
+    padding: 0 5px;
+    
+    color: #555;
+    
+}
+.searchMaster input[type=text]{
+    width: 100%;
+    max-width: 540px;
+    padding-left: 10px;
+    border-left: 1px #bbb solid;
+    font-size: 1.1rem;
+}
+
+.searchMaster select{
+    font-size: 1rem;
+    flex-grow: 1;
+    cursor: pointer;
+    background: #fcfcfc;
+    appearance: none;
+    -moz-appearance: none; 
+    -webkit-appearance: none; 
+}
+.searchMaster .searchBt{
+    background: #f9f9f9;
+    background-size: cover;
+    min-width: 40px;
+    padding:  5px;
+}
+
+.geralClient{
+    width: 90%;
+    margin: 20px auto;
+}
+.secDiv,
+.afterTable{
+    color: #555;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.secDiv{
+    margin: 2rem 0 1rem 0;
+}
+.secDiv h1{
+    font-weight: lighter;
+}
+.secDiv input{
+    min-width: 90px;
+    padding: 6px 0;
+    font-size: .9rem;
+    border: 1px #ddd solid;
+    color: #555;
+    margin-left: 10px;
+    border-radius: 3px;
+    transition: all .5s ease;
+    font-weight: bold;
+    background: #f2f2f2;
+}
+.secDiv input:hover{
+    background: #f8f8f8;
+    transition: all .5s ease;
+}
+.afterTable{
+    margin-top: 10px;
+}
+.clienteS:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+/*############# class CLIENT DETAILS #################*/
+
+.mp-addClient select.onlyInfoSelected,
+.mp-addClient .onlyInfoSelected,
+.mp-addClient .clientNumber,
+.mp-addClient .adjustmentForced{
+    border: none !important;
+    font-weight: bold !important;
+    font-size: .9em !important;
+}
+.mp-addClient .onlyInfoSelected:disabled{
+    background: transparent !important;
+    color: #333;
+}
+.mp-addClient select.onlyInfoSelected{
+    appearance: none;
+    -moz-appearance: none; 
+    -webkit-appearance: none; 
+}
+.mp-addClient input[type=radio].onlyInfoSelected{
+    display: none;
+}
+.editClient{
+    position: absolute;
+    top: 1em;
+    left: 1em;
+    color: #4682b4;
+    cursor: pointer;
+    font-size: 1em;
+}
+.editClient:hover{
+    text-decoration: underline;
+}
+.icon-file-pdf{
+    color: #BB0706;
+    font-size: 2rem;
+    cursor: pointer;
+}
+.Print{
+    display: none;
+}

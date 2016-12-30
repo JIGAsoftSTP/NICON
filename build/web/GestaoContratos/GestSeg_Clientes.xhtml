@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head> 
+        <h:outputStylesheet library="Styles" name="addClientCSS.css" ></h:outputStylesheet> 
+        <h:outputScript library="js" name="scriptAddSeguro.js" ></h:outputScript>
+        <h:outputScript library="js" name="gestaoClientes.js" />
+
+
+        <title>Clientes</title>     
+    </h:head>
+
+    <h:body id="GC-PAGE-CLIENTES">
+        <div class="ant-menus">            
+            <ui:include src="../includes/menuPrincipal.xhtml"></ui:include>
+            <ui:include src="includes/menuContratos.xhtml"/>
+        </div>
+        <div class="ant-page">            
+            <ui:include src="includes/clientes.xhtml"/>
+        </div>
+    </h:body>
+</html>

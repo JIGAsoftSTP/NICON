@@ -1,0 +1,703 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Sinistro | Novo</title>
+            
+        <h:outputStylesheet library="Styles" name="regSinistro.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="Sinistro.js" />
+    </h:head>
+    <h:body id="SN-PAGE-REGISTRO" class="SN-REGISTRO PR-PAGE">
+        <div class="ant-menus">            
+            <ui:include src="../includes/menuPrincipal.xhtml"/>
+            <ui:include src="includes/menuSinistro.xhtml"/>
+        </div>
+        <div class="ant-page">  
+            <h:form id="sinistro" >
+                <div class="contentSinistro">
+                    <div class="contentBody">
+                        <div class="validatorSinistro" >
+                            <section class="areaContrato">
+                                <h3>Contrato</h3>
+                                <article>
+                                    <aside class="OpenModalSin">Selecionar Segurado</aside>
+                                    <section class="areaSegMenor">
+                                        <h:outputLabel value="Apólice"/>
+                                        <h:inputText id="sApolice" readonly="true" value="#{sinistroBean.sinistro.apolice}" ></h:inputText>
+                                    </section>
+                                    <section class="areaSegMenor">
+                                        <h:outputLabel value="Seguro"/>
+                                        <h:inputText id="sSeguro" readonly="true" value="#{sinistroBean.sinistro.seguro}" ></h:inputText>
+                                    </section>
+                                    <setion class="areaSegMenor topSin">
+                                        <h:outputLabel value="Nº Sinistro"/>
+                                        <h:inputText id="numSinistro" value="#{sinistroBean.sinistro.numSinistro}" ></h:inputText>
+                                    </setion>
+                                </article>
+                            </section>
+
+                            <section class="areaSegMenor">
+                                <h3>Seguro Automóvel</h3>
+                                <article>
+                                    <section>
+                                        <h:outputLabel value="Nº de Veículo"/>
+                                        <p:autoComplete value="#{sinistroBean.sinistro.numVeiculo}" readonly="#{!sinistroBean.selectedContrato.seguro.equalsIgnoreCase('MV')}" id="sNumVeiculo" />
+                                    </section>
+                                    <section>
+                                        <h:outputLabel value="Nº de Chassi"/>
+                                        <p:autoComplete value="#{sinistroBean.sinistro.numChassi}"  readonly="#{!sinistroBean.selectedContrato.seguro.equalsIgnoreCase('MV')}" id="sNumChassi" />
+                                    </section>
+                                </article>
+                            </section>
+                        </div> 
+                        <div class="validatorSinistro" >
+                            <section class="SectionMaior">
+                                <h3>Ocorrência</h3>
+                                <article>
+                                    <section class="areaData">
+                                        <h:outputLabel value="Data"/>
+                                        <p:calendar value="#{sinistroBean.sinistro.data}" pattern="dd-MM-yyyy" maxdate="#{dataBean.maxDate}" ></p:calendar>
+                                    </section>
+                                    <section class="areaHora">
+                                        <h:outputLabel value="Hora"/>
+                                        <h:inputText class="sHora" value="#{sinistroBean.sinistro.hora}" ></h:inputText>
+                                    </section>
+                                    <section class="areaLocal">
+                                        <h:outputLabel value="Local"/>
+                                        <h:inputText value="#{sinistroBean.sinistro.local}" ></h:inputText>
+                                    </section>
+                                    <section class="areaLocal">
+                                        <h:outputLabel value="Endereço Policial"/>
+                                        <h:inputText value="#{sinistroBean.sinistro.enderecoPolicial}" ></h:inputText>
+                                    </section>
+                                </article>
+                            </section>
+
+                        </div>
+                        <div class="validatorSinistro" >
+                            <section class="areaEndereco" >
+                                <h:outputLabel value="Endereço do Sinistrado"/>
+                                <h:inputText value="#{sinistroBean.sinistro.enderecoSinistro}" ></h:inputText>
+                                <h:outputLabel value="Estimativa de reparação"/>
+                                <h:inputText value="#{sinistroBean.sinistro.estimativaRecuperacao}" ></h:inputText>
+                                
+                            </section>
+                            <section class="areaNarracao" >
+                                <h:outputLabel value="Narração do sucedido"/>
+                                <h:inputTextarea class="narracao" value="#{sinistroBean.sinistro.narracaoSucedido}" ></h:inputTextarea>
+                            </section>
+<!--                            <section class="areaRecuperacao" >
+                                
+                            </section>-->
+                        </div>
+                        <div class="validatorSinistro" >
+                            <section class="areaEndereco" >
+                                <h:outputLabel value="Medidas tomadas"/>
+                                <h:inputTextarea value="#{sinistroBean.sinistro.medidasTomadas}" ></h:inputTextarea>
+                            </section>
+                            <section class="areaInspecao" >
+                                <h3>Inspeção</h3>
+                                <article>
+                                    <section>
+                                        <h:outputLabel value="Data"/>
+                                        <p:calendar value="#{sinistroBean.sinistro.idata}" pattern="dd-MM-yyyy" maxdate="#{dataBean.maxDate}" ></p:calendar>
+                                    </section>
+                                    <section class="SectionMaior">
+                                        <h:outputLabel value="Local"/>
+                                        <h:inputText value="#{sinistroBean.sinistro.ilocal}" ></h:inputText>
+                                    </section>
+                                </article>
+                            </section>
+                        </div>
+                        <h3></h3>
+                        <div class="validatorSinistro">
+                            <section class="areaNome">
+                                <article>
+                                    <h4>Testemunhas</h4> 
+                                    <h:selectOneRadio id="sSetTestemunha" value="#{sinistroBean.sinistro.testemunha}" >
+                                        <f:selectItem itemValue="true" itemLabel="Sim" ></f:selectItem>
+                                        <f:selectItem itemValue="false" itemLabel="Não"></f:selectItem>
+                                        <p:ajax event="click" process="@this" update="@this" listener="#{sinistroBean.validacaoTestemunha()}" />
+                                    </h:selectOneRadio>
+                                </article>
+                                <article>
+                                    <section class="areaNome">
+                                        <h:outputLabel value="Nome"/>
+                                        <h:inputText id="sTesNome" value="#{sinistroBean.testemunha.codigoNicon}" ></h:inputText>
+                                    </section>
+                                    <section>
+                                        <h:outputLabel value="Telefone"/>
+                                        <h:inputText id="sTesTelefone" class="justIntiger" value="#{sinistroBean.testemunha.destalhes}" ></h:inputText>
+                                    </section>
+                                </article>
+                                <section class="areaEnderecoInteresado">
+                                    <h:outputLabel value="Endereço"/>
+                                    <h:inputText id="sTesEndereco" value="#{sinistroBean.testemunha.value}" ></h:inputText>
+                                </section>
+                            </section>
+                            <section class="SectionMaior">
+                                <article>
+                                    <h4>Hipoteca</h4> 
+                                    <h:selectOneRadio id="sSetHipotese" value="#{sinistroBean.sinistro.hipoteca}" >
+                                        <f:selectItem itemValue="true" itemLabel="Sim"></f:selectItem>
+                                        <f:selectItem itemValue="false" itemLabel="Não"></f:selectItem>
+                                        <p:ajax event="click" process="@this" update="@this" listener="#{sinistroBean.validacaoHipoteca()}" />
+                                    </h:selectOneRadio>
+                                </article>
+                                <article>
+                                    <section class="areaNomeInteresado">
+                                        <h:outputLabel value="Nome do Interessado"/>
+                                        <h:inputText id="sHNomeIntere" value="#{sinistroBean.hipoteca.codigoNicon}" ></h:inputText>
+                                    </section>
+                                    <section class="areaNomeInteresado">
+                                        <h:outputLabel value="Endereço"/>
+                                        <h:inputText id="sHEndereco" value="#{sinistroBean.hipoteca.value}" ></h:inputText>
+                                    </section>
+                                    <h:commandButton value="Adicionar" class="btAddSinistro" action="#{sinistroBean.addHipoteca()}" >
+                                        <p:ajax process="@this sHNomeIntere sHEndereco" />
+                                    </h:commandButton>
+                                </article>
+                                <p:dataTable class="tableSinistro" id="tableHipoteca" value="#{sinistroBean.listHipoteca}" var="lh" rowKey="#{lh}"
+                                             selectionMode="single" selection="#{sinistroBean.seletedHipoteca}" >
+                                    <p:column headerText="Nome">
+                                        <h:outputText value="#{lh.codigoNicon}" />
+                                    </p:column>
+                                    <p:column headerText="Endereço">
+                                        <h:outputText value="#{lh.value}" />
+                                    </p:column>
+                                    <p:column headerText="Ação">
+                                        <h:outputLabel class="icon-pencil" title="Editar Linha" >
+                                            <p:ajax process="@this" event="click" listener="#{sinistroBean.removeAndEditeHipoteca(1, lh)}" />
+                                        </h:outputLabel>
+                                        <h:outputLabel class="icon-cancel-circle" title="Remover Linha" >
+                                            <p:ajax process="@this" event="click" listener="#{sinistroBean.removeAndEditeHipoteca(2, lh)}" />
+                                        </h:outputLabel>
+                                    </p:column>
+                                </p:dataTable>
+                            </section>
+                        </div>
+                        <h3></h3>
+                        <p:growl id="mesagemSinistro" sticky="false" life="10000"/>
+                        <h:outputLabel class="mesagemLabel" style="display: none;" >
+                            <p:ajax event="click" process="@this" listener="#{sinistroBean.messagem(1)}" />
+                            <f:ajax event="dblclick" render="@this" listener="#{sinistroBean.messagem(2)}" />
+                            <p:ajax event="keyup" process="@this @form" onstart="$('.processamento').show()" oncomplete="$('.processamento').hide()" listener="#{sinistroBean.regSinistro()}" />
+                        </h:outputLabel>
+                        <div class="areaSave">
+                            <h:commandButton value="Guardar" class="btSaveSinistro" >
+                                <p:ajax process="@this @form" />
+                            </h:commandButton>
+                        </div>
+                    </div>
+
+                </div>
+            </h:form>
+            <div class="modalFrameSin">
+                <div class="modalContainerSin">
+                    <h:form id="table" >
+                        <article class="areaTitle">
+                            <h5>Selecione o Segurado</h5>
+                            <p class="CloseModalSin" title="Fechar">X</p>
+                        </article>
+                        <div class="BobyModalSin">
+                            <article>
+                                <p>Lista de Contratos</p>
+                                <div class="areaSearch">
+                                    <h:inputText id="sPesquisa" value="#{sinistroBean.pesquisa}" pt:placeholder="Pesquise aqui...">
+                                        <p:ajax event="change" update="@this sPesquisa" process="@this sPesquisa" oncomplete="$('.processamento').hide()" listener="#{sinistroBean.pesquisarC(0)}" />
+                                    </h:inputText>
+                                    <h:outputLabel class="icon-search btserchSin" style="">
+                                        <p:ajax event="click" update="@this sPesquisa" process="@this sPesquisa"
+                                                onstart="$('.processamento').show()" oncomplete="$('.processamento').hide()" listener="#{sinistroBean.pesquisarC(1)}" />
+                                    </h:outputLabel>
+                                </div>
+                            </article>
+                            <div class="areaTableSin">
+                                <p:dataTable class="tableSegurados" id="tableContrato" value="#{sinistroBean.listContrato}" var="lc" rowKey="#{lc}"
+                                             selectionMode="single" scrollHeight="400" scrollable="true" selection="#{sinistroBean.selectedContrato}" >
+                                    <p:column headerText="Apolice">
+                                        <h:outputText value="#{lc.apolice}" />
+                                    </p:column>
+                                    <p:column headerText="Seguro">
+                                        <h:outputText value="#{lc.seguro}" />
+                                    </p:column>
+                                    <p:column headerText="Cliente">
+                                        <h:outputText value="#{lc.cliente}" />
+                                    </p:column>
+                                    <p:column headerText="Premio Bruto">
+                                        <h:outputText value="#{lc.premioBruto}" />
+                                    </p:column>
+                                    <p:column headerText="Data Contrato">
+                                        <h:outputText value="#{lc.dataContrato}" />
+                                    </p:column>
+                                    <p:column headerText="Limite">
+                                        <h:outputText value="#{lc.limiteResponsabilidade}" />
+                                    </p:column>
+                                    <p:column headerText="Ação">
+                                        <h:outputLabel class="icon-checkmark" title="selecionar" >
+                                            <f:ajax event="click" listener="#{sinistroBean.selecionarContrato(lc)}" />
+                                        </h:outputLabel>
+                                        <h:outputLabel class="icon-info" title="Mais informações">
+                                            <f:ajax event="click" listener="#{sinistroBean.showMaisInfrorm(lc)}" />
+                                        </h:outputLabel>
+                                    </p:column>
+                                    <p:ajax event="rowDblselect" process="@this" listener="#{sinistroBean.selecionaContrato()}" />
+                                </p:dataTable>
+                            </div>
+
+                        </div>
+                        <div class="modalPage mp-infoTable sinistroMaisInfo">
+                            <p:remoteCommand name="dadosSinistro" process="@this"  actionListener="#{sinistroBean.dados()}"/>
+                            <div class="modalFrame">                                            
+                                <div class="modalContainer">
+                                    <div class="closeModalFrame moreData" >X</div>
+                                    <p class="titleSinModal"><b>Mais Informações</b></p>
+
+                                    <div class="menuSin">
+                                        <nav class="nav1 activo">Dados do Contrato</nav>
+                                        <nav class="nav2">Dados do Segurado</nav>
+                                    </div> 
+                                    <div class="areaDivs" >
+                                        <div class="FirstSin">
+                                            <article>
+                                                <h:outputLabel  class="textoNegrito" value="Nº Apólice"/>
+                                                <h:outputLabel class="moreInfoSinistroApolice" ></h:outputLabel>
+                                            </article>
+                                            <article>
+                                                <h:outputLabel  class="textoNegrito" value="Data de Início"/>
+                                                <h:outputLabel class="moreInfoSinistroDataInicio"></h:outputLabel>
+                                            </article>
+                                            <article>
+                                                <h:outputLabel  class="textoNegrito" value="Data de Fim"/>
+                                                <h:outputLabel class="moreInfoSinistroDataFim"></h:outputLabel>
+                                            </article>
+                                            <article>
+                                                <h:outputLabel  class="textoNegrito"  value="Cliente"/>
+                                                <h:outputLabel class="moreInfoSinistroCliente"></h:outputLabel>
+                                            </article>
+                                            <article>
+                                                <h:outputLabel class="textoNegrito" value="Valor Segurado"/>
+                                                <h:outputLabel class="moreInfoSinistroValorSegurado"></h:outputLabel>
+                                            </article>
+                                            <article>
+                                                <h:outputLabel class="textoNegrito" value="Valor Premio Bruto"/>
+                                                <h:outputLabel class="moreInfoSinistroPremioBruto"></h:outputLabel>
+                                            </article>
+                                            <article>
+                                                <h:outputLabel class="textoNegrito" value="Valor Excesso"/>
+                                                <h:outputLabel class="moreInfoSinistroValorExcesso"></h:outputLabel>
+                                            </article>
+                                            <article>
+                                                <h:outputLabel value="Estado do pagamento" class="textoNegrito"/>
+                                                <h:outputLabel class="moreInfoSinistroEstadoPagamento"></h:outputLabel>
+                                            </article>
+                                            <article>
+                                                <h:outputLabel value="Estado do Contrato" class="textoNegrito"/>
+                                                <h:outputLabel class="moreInfoSinistroEstadoContrato"></h:outputLabel>
+                                            </article>
+                                            <article>
+                                                <h:outputLabel value="Moeda" class="textoNegrito"/>
+                                                <h:outputLabel class="moreInfoSinistroMoeda"></h:outputLabel>
+                                            </article>
+                                        </div>
+                                        <h:panelGroup id="SeguradoViagem" class="painelGroupSinistro">
+                                            <article>
+                                                  <h:outputLabel class="textoNegrito" value="Nome"/> 
+                                                <c:forEach items="#{sinistroBean.dadosSeguradoViagem}" var="mapVar" > 
+                                                     <h:outputLabel  value="#{mapVar.nomePessoaSegurada}" />   
+                                                </c:forEach>
+                                            </article>
+                                            <article>
+                                                <h:outputLabel class="textoNegrito" value="Endereço"/> 
+                                                <c:forEach items="#{sinistroBean.dadosSeguradoViagem}" var="mapVar" > 
+                                                   <h:outputLabel  value="#{mapVar.endereco}" />
+                                                </c:forEach>
+                                            </article>
+                                            <article>
+                                               <h:outputLabel class="textoNegrito" value="Tipo Documento"/> 
+                                                <c:forEach items="#{sinistroBean.dadosSeguradoViagem}" var="mapVar" > 
+                                                    <h:outputLabel  value="#{mapVar.tipoDoc} " />
+                                                </c:forEach>
+                                            </article>  
+                                            <article>
+                                                <h:outputLabel class="textoNegrito" value="Data Emissão"/>
+                                                <c:forEach items="#{sinistroBean.dadosSeguradoViagem}" var="mapVar" > 
+                                                   <h:outputLabel  value="#{mapVar.dataEmissaoFormatada} " />
+                                                </c:forEach>
+                                            </article>  
+                                            <article>
+                                               <h:outputLabel class="textoNegrito" value="Local Emissão"/> 
+                                                <c:forEach items="#{sinistroBean.dadosSeguradoViagem}" var="mapVar" > 
+                                                    <h:outputLabel  value="#{mapVar.localEmissao} " />
+                                                </c:forEach>
+                                            </article>  
+                                            <article>
+                                                <h:outputLabel class="textoNegrito" value="Data Nasc."/> 
+                                                <c:forEach items="#{sinistroBean.dadosSeguradoViagem}" var="mapVar" > 
+                                                    <h:outputLabel  value="#{mapVar.dataNascFormatada} " />
+                                                </c:forEach>
+                                            </article>  
+                                            <article>
+                                                <h:outputLabel class="textoNegrito" value="Local Nasc."/>
+                                                <c:forEach items="#{sinistroBean.dadosSeguradoViagem}" var="mapVar" > 
+                                                  <h:outputLabel  value="#{mapVar.localNascimento} " />
+                                                </c:forEach> 
+                                            </article>  
+                                            <article>
+                                                <h:outputLabel class="textoNegrito" value="Sexo"/>
+                                                <c:forEach items="#{sinistroBean.dadosSeguradoViagem}" var="mapVar" > 
+                                                    <h:outputLabel  value="#{mapVar.sexo} " />
+                                                </c:forEach>
+                                            </article>  
+                                            <article>
+                                                <h:outputLabel class="textoNegrito" value="Telefone"/>
+                                                <c:forEach items="#{sinistroBean.dadosSeguradoViagem}" var="mapVar" > 
+                                                   <h:outputLabel  value="#{mapVar.telefone} " />
+                                                </c:forEach>
+                                            </article>  
+                                        </h:panelGroup>
+                                        
+                                         <h:panelGroup id="SeguradoAcidentePG" class="painelGroupSinistro">
+                                                 <article>
+                                                    <h:outputLabel class="textoNegrito" value="Nome"/>  #{acidentePG.nome}   
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoAcidentePG}" var="acidentePG" > 
+                                                       <h:outputLabel value="#{acidentePG.nome} "/>
+                                                    </c:forEach>
+                                                 </article>
+                                                <article>
+                                                    <h:outputLabel class="textoNegrito" value="Categoria"/> 
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoAcidentePG}" var="acidentePG" > 
+                                                      <h:outputLabel value="#{acidentePG.categoria} "/>
+                                                    </c:forEach>
+                                                </article>
+                                                 <article>
+                                                    <h:outputLabel class="textoNegrito" value="Profissão"/>
+                                                     <c:forEach items="#{sinistroBean.dadosSeguradoAcidentePG}" var="acidentePG" > 
+                                                      <h:outputLabel value="#{acidentePG.profissao} "/>
+                                                    </c:forEach>
+                                                </article>  
+                                                 <article>
+                                                    <h:outputLabel class="textoNegrito" value="Data de Nascimento"/> 
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoAcidentePG}" var="acidentePG" > 
+                                                      <h:outputLabel value="#{acidentePG.dataNascimentoFormatada} "/>
+                                                    </c:forEach>
+                                                </article>  
+                                         </h:panelGroup>
+                                        <h:panelGroup id="SeguradoRoubo" class="painelGroupSinistro">
+                                                <article>
+                                                    <h:outputLabel class="textoNegrito" value="Descrição"/>
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoRoubo}" var="rouboDados" > 
+                                                       <h:outputLabel value="#{rouboDados.descricao}" /> 
+                                                    </c:forEach>
+                                                </article>
+                                                 <article>
+                                                    <h:outputLabel class="textoNegrito" value="Descrição"/>
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoRoubo}" var="rouboDados" > 
+                                                       <h:outputLabel value="#{rouboDados.valor}" /> 
+                                                    </c:forEach>
+                                                </article>
+                                                  <article>
+                                                    <h:outputLabel class="textoNegrito" value="Modelo"/>
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoRoubo}" var="rouboDados" > 
+                                                       <h:outputLabel value="#{rouboDados.modelo}" /> 
+                                                    </c:forEach>
+                                                </article>
+                                                  <article>
+                                                    <h:outputLabel class="textoNegrito" value="Quantidade"/>
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoRoubo}" var="rouboDados" > 
+                                                       <h:outputLabel value="#{rouboDados.quantidade}" /> 
+                                                    </c:forEach>
+                                                </article>
+                                         </h:panelGroup>
+                                        
+                                        <h:panelGroup id="SeguradoMaritimo" class="painelGroupSinistro">
+                                               <article>
+                                                <h:outputLabel class="textoNegrito" value="Condição Návio"/> 
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoMaritimo}" var="maritimo" > 
+                                                         <h:outputLabel  value="#{maritimo.condicaoAtual} "/> 
+                                                    </c:forEach>
+                                               </article>
+                                               <article>
+                                                  <h:outputLabel class="textoNegrito" value="Tipo de Návio"/>  
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoMaritimo}" var="maritimo" > 
+                                                         <h:outputLabel  value="#{maritimo.tipoNavio} "/> 
+                                                    </c:forEach>
+                                               </article>
+                                               <article>
+                                                    <h:outputLabel class="textoNegrito" value="Idade do Navio"/>  
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoMaritimo}" var="maritimo" > 
+                                                         <h:outputLabel  value="#{maritimo.idadeNavio} "/> 
+                                                    </c:forEach>
+                                               </article>
+                                               <article>
+                                                  <h:outputLabel class="textoNegrito" value="Nome do Návio"/>
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoMaritimo}" var="maritimo" > 
+                                                         <h:outputLabel  value="#{maritimo.nomeNavio} "/> 
+                                                    </c:forEach>
+                                               </article>
+                                               <article>
+                                                    <h:outputLabel class="textoNegrito" value="Tripulantes"/>  
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoMaritimo}" var="maritimo" > 
+                                                         <h:outputLabel  value="#{maritimo.numMaximoTripulante} "/> 
+                                                    </c:forEach>
+                                               </article>
+                                               <article>
+                                                   <h:outputLabel class="textoNegrito" value="Bandeira do Navio"/>  
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoMaritimo}" var="maritimo" > 
+                                                         <h:outputLabel  value="#{maritimo.bandeiraNavio} "/> 
+                                                    </c:forEach>
+                                               </article>
+                                               <article>
+                                                    <h:outputLabel class="textoNegrito" value="Uso do Navio"/>  
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoMaritimo}" var="maritimo" > 
+                                                         <h:outputLabel  value="#{maritimo.usoNavio} "/> 
+                                                    </c:forEach>
+                                               </article>
+                                               <article>
+                                                  <h:outputLabel class="textoNegrito" value="Marca do Motor"/>  
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoMaritimo}" var="maritimo" > 
+                                                         <h:outputLabel  value="#{maritimo.marcaMotor} "/> 
+                                                    </c:forEach>
+                                               </article>
+                                         </h:panelGroup>
+                                        
+                                        <h:panelGroup id="SeguradoIncendio" class="painelGroupSinistro">
+                                             <article>
+                                                <h:outputLabel class="textoNegrito"  value="Processo de Fabricação"/>
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoIncendio}" var="incendio" > 
+                                                          <h:outputLabel value="#{incendio.processoFabricacao}"/> 
+                                                    </c:forEach>
+                                             </article>
+                                             <article>
+                                                    <h:outputLabel class="textoNegrito"  value="Distància"/>
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoIncendio}" var="incendio" > 
+                                                          <h:outputLabel value="#{incendio.distancia}"/> 
+                                                    </c:forEach>
+                                             </article>
+                                             <article>
+                                                    <h:outputLabel class="textoNegrito"  value="Ano"/>
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoIncendio}" var="incendio" > 
+                                                          <h:outputLabel value="#{incendio.ano}"/> 
+                                                    </c:forEach>
+                                             </article>
+                                             <article>
+                                                    <h:outputLabel class="textoNegrito"  value="Número de Andar"/>
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoIncendio}" var="incendio" > 
+                                                          <h:outputLabel value="#{incendio.andar}"/> 
+                                                    </c:forEach>
+                                             </article>
+                                             <article>
+                                                    <h:outputLabel class="textoNegrito"  value="Equipamento"/>
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoIncendio}" var="incendio" > 
+                                                          <h:outputLabel value="#{incendio.equipamento}"/> 
+                                                    </c:forEach>
+                                             </article>
+                                             <article>
+                                                    <h:outputLabel class="textoNegrito"  value="Fonte de agua disponivel"/>
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoIncendio}" var="incendio" > 
+                                                          <h:outputLabel value="#{incendio.fonte}"/> 
+                                                    </c:forEach>
+                                             </article>
+                                             <article>
+                                                <h:outputLabel class="textoNegrito"  value="Condição"/>
+                                                    <c:forEach items="#{sinistroBean.dadosSeguradoIncendio}" var="incendio" > 
+                                                          <h:outputLabel value="#{incendio.condicao}"/> 
+                                                    </c:forEach>
+                                             </article>
+                                         </h:panelGroup>
+                                        
+                                        <h:panelGroup id="SeguradoCargaMaritima" class="painelGroupSinistro">
+                                            <article>
+                                                <h:outputLabel value="País de destino" class="textoNegrito" /> 
+                                                   <c:forEach items="#{sinistroBean.dadosSeguradoCargamaritima}" var="cargaMaritima" > 
+                                                        <h:outputLabel value="#{cargaMaritima.paisDestino} " /> 
+                                                   </c:forEach> 
+                                            </article>
+                                            <article>
+                                                    <h:outputLabel value="País de Origem" class="textoNegrito" /> 
+                                                   <c:forEach items="#{sinistroBean.dadosSeguradoCargamaritima}" var="cargaMaritima" > 
+                                                        <h:outputLabel value="#{cargaMaritima.paisOrigem} " /> 
+                                                   </c:forEach> 
+                                            </article>
+                                            <article>
+                                                <h:outputLabel value="Porto de Carga" class="textoNegrito" /> 
+                                                   <c:forEach items="#{sinistroBean.dadosSeguradoCargamaritima}" var="cargaMaritima" > 
+                                                        <h:outputLabel value="#{cargaMaritima.portoCarga} " /> 
+                                                   </c:forEach> 
+                                            </article> 
+                                            <article>
+                                                <h:outputLabel value="Porto de Descarga" class="textoNegrito" /> 
+                                                   <c:forEach items="#{sinistroBean.dadosSeguradoCargamaritima}" var="cargaMaritima" > 
+                                                        <h:outputLabel value="#{cargaMaritima.portoDescarga} " /> 
+                                                   </c:forEach> 
+                                            </article> 
+                                            <article>
+                                                <h:outputLabel value="Nome do Navio" class="textoNegrito" /> 
+                                                   <c:forEach items="#{sinistroBean.dadosSeguradoCargamaritima}" var="cargaMaritima" > 
+                                                        <h:outputLabel value="#{cargaMaritima.nomeNavio} " /> 
+                                                   </c:forEach> 
+                                            </article> 
+                                            <article>
+                                                <h:outputLabel value="Propósito do Seguro" class="textoNegrito" /> 
+                                                   <c:forEach items="#{sinistroBean.dadosSeguradoCargamaritima}" var="cargaMaritima" > 
+                                                        <h:outputLabel value="#{cargaMaritima.proposito} " /> 
+                                                   </c:forEach> 
+                                            </article> 
+                                         </h:panelGroup>
+                                        <h:panelGroup id="SeguradoDinheiro" class="painelGroupSinistro">
+                                            <article>
+                                                <h:outputLabel class="textoNegrito" value="Dinheiro pago na recepção"/>
+                                                 <c:forEach items="#{sinistroBean.dadosSeguradoDinheiro}" var="dinheiro" > 
+                                                       <h:outputLabel value="#{dinheiro.pagamento1item}  "/> 
+                                                 </c:forEach>
+                                            </article> 
+                                            <article>
+                                                 <h:outputLabel class="textoNegrito" value="Preocupação"/>
+                                                 <c:forEach items="#{sinistroBean.dadosSeguradoDinheiro}" var="dinheiro" > 
+                                                       <h:outputLabel value="#{dinheiro.precupacao}  "/> 
+                                                 </c:forEach>
+                                            </article> 
+                                            <article>
+                                                <h:outputLabel class="textoNegrito" value="Transporte de Dinheiro"/>
+                                                 <c:forEach items="#{sinistroBean.dadosSeguradoDinheiro}" var="dinheiro" > 
+                                                       <h:outputLabel value="#{dinheiro.transporteDinheiro}  "/> 
+                                                 </c:forEach>
+                                            </article> 
+                                            <article>
+                                                <h:outputLabel class="textoNegrito" value="Distância em relação a outros"/>
+                                                 <c:forEach items="#{sinistroBean.dadosSeguradoDinheiro}" var="dinheiro" > 
+                                                       <h:outputLabel value="#{dinheiro.outros}  "/> 
+                                                 </c:forEach>
+                                            </article> 
+                                            <article>
+                                                <h:outputLabel class="textoNegrito" value="Distância em relação a correios"/>
+                                                 <c:forEach items="#{sinistroBean.dadosSeguradoDinheiro}" var="dinheiro" > 
+                                                       <h:outputLabel value="#{dinheiro.correio}  "/> 
+                                                 </c:forEach>
+                                            </article> 
+                                            <article>
+                                                <h:outputLabel class="textoNegrito" value="Distância em relação a banco"/>
+                                                 <c:forEach items="#{sinistroBean.dadosSeguradoDinheiro}" var="dinheiro" > 
+                                                       <h:outputLabel value="#{dinheiro.banco}  "/> 
+                                                 </c:forEach>
+                                            </article> 
+                                         </h:panelGroup>
+                                        
+                                        <h:panelGroup id="SeguradoResponsabilidade" class="painelGroupSinistro">
+                                              <article>
+                                                    <h:outputLabel  value="Endereço do edificio" class="textoNegrito" />
+                                                      <c:forEach items="#{sinistroBean.dadosSeguradoResponsabilidadePublica}" var="rp" > 
+                                                           <h:outputLabel  value="#{rp.endereco} " />
+                                                      </c:forEach>
+                                              </article>
+                                              <article>
+                                                    <h:outputLabel  value="Profissão" class="textoNegrito" />
+                                                      <c:forEach items="#{sinistroBean.dadosSeguradoResponsabilidadePublica}" var="rp" > 
+                                                           <h:outputLabel  value="#{rp.profissao} " />
+                                                      </c:forEach>
+                                              </article>
+                                              <article>
+                                                    <h:outputLabel  value="Empregado" class="textoNegrito" />
+                                                      <c:forEach items="#{sinistroBean.dadosSeguradoResponsabilidadePublica}" var="rp" > 
+                                                           <h:outputLabel  value="#{rp.empregado} " />
+                                                      </c:forEach>
+                                              </article>
+                                         </h:panelGroup>
+                                        
+                                         <h:panelGroup id="SeguradoVeiculo" class="painelGroupSinistro">
+                                                <article>
+                                                    <h:outputLabel value="Número Matricula" class="textoNegrito"/> 
+                                                      <c:forEach items="#{sinistroBean.dadosSeguradoVeiculo}" var="mapVar" > 
+                                                            <h:outputLabel value=" #{mapVar.numeroMatricula} " /> 
+                                                      </c:forEach>
+                                                </article>
+                                                <article>
+                                                    <h:outputLabel value="Marca" class="textoNegrito"/> 
+                                                      <c:forEach items="#{sinistroBean.dadosSeguradoVeiculo}" var="mapVar" > 
+                                                            <h:outputLabel value=" #{mapVar.marca} " /> 
+                                                      </c:forEach>
+                                                </article>  
+                                                <article>
+                                                    <h:outputLabel value="Modelo" class="textoNegrito"/> 
+                                                      <c:forEach items="#{sinistroBean.dadosSeguradoVeiculo}" var="mapVar" > 
+                                                            <h:outputLabel value=" #{mapVar.modelo} " /> 
+                                                      </c:forEach>
+                                                </article>  
+                                                <article>
+                                                        <h:outputLabel value="Número de Motor" class="textoNegrito"/> 
+                                                      <c:forEach items="#{sinistroBean.dadosSeguradoVeiculo}" var="mapVar" > 
+                                                            <h:outputLabel value=" #{mapVar.numMotor} " /> 
+                                                      </c:forEach>
+                                                </article>  
+                                                <article>
+                                                    <h:outputLabel value="Número de Chassi" class="textoNegrito"/> 
+                                                      <c:forEach items="#{sinistroBean.dadosSeguradoVeiculo}" var="mapVar" > 
+                                                            <h:outputLabel value=" #{mapVar.chassi} " /> 
+                                                      </c:forEach>
+                                                </article>  
+                                                <article>
+                                                        <h:outputLabel value="Ano de Fabrico" class="textoNegrito"/> 
+                                                      <c:forEach items="#{sinistroBean.dadosSeguradoVeiculo}" var="mapVar" > 
+                                                            <h:outputLabel value=" #{mapVar.anoFabrico} " /> 
+                                                      </c:forEach>
+                                                </article>  
+                                                <article>
+                                                    <h:outputLabel value="Ano de Compra" class="textoNegrito"/> 
+                                                      <c:forEach items="#{sinistroBean.dadosSeguradoVeiculo}" var="mapVar" > 
+                                                            <h:outputLabel value=" #{mapVar.anoCompra} " /> 
+                                                      </c:forEach>
+                                                </article>  
+                                                <article>
+                                                      <h:outputLabel value="Capacidade" class="textoNegrito"/> 
+                                                      <c:forEach items="#{sinistroBean.dadosSeguradoVeiculo}" var="mapVar" > 
+                                                            <h:outputLabel value=" #{mapVar.capacidade} " /> 
+                                                      </c:forEach>
+                                                </article>  
+                                                <article>
+                                                    <h:outputLabel value="Valor de Compra" class="textoNegrito"/> 
+                                                      <c:forEach items="#{sinistroBean.dadosSeguradoVeiculo}" var="mapVar" > 
+                                                            <h:outputLabel value=" #{mapVar.valorCompra} " /> 
+                                                      </c:forEach>
+                                                </article>  
+                                                <article>
+                                                    <h:outputLabel value="Valor atual de Compra" class="textoNegrito"/> 
+                                                      <c:forEach items="#{sinistroBean.dadosSeguradoVeiculo}" var="mapVar" > 
+                                                            <h:outputLabel value=" #{mapVar.valorAtual} " /> 
+                                                      </c:forEach>
+                                                </article>  
+                                                <article>
+                                                      <h:outputLabel value="Total Segurado" class="textoNegrito"/> 
+                                                      <c:forEach items="#{sinistroBean.dadosSeguradoVeiculo}" var="mapVar" > 
+                                                            <h:outputLabel value=" #{mapVar.limiteResp} " /> 
+                                                      </c:forEach>
+                                                </article>  
+                                        </h:panelGroup>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+        <h:form>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+        </h:form>
+    </h:body>
+    <style>
+        .textoNegrito{
+            font-weight: bold;
+            font-size: 14px;
+        }
+    </style>
+
+</html>
+

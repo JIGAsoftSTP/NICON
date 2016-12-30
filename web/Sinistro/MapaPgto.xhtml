@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Sinistro | Mapa Pag</title> 
+        <h:outputStylesheet library="Styles" name="ContaCss.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="GestaoConta.js" />
+    </h:head>
+
+    <h:body id="SN-PAGE-MAPA">
+        <div class="ant-menus">            
+            <ui:include src="../includes/menuPrincipal.xhtml"/>
+            <ui:include src="includes/menuSinistro.xhtml"/>
+        </div>
+
+        <div class="contentConta">
+            <h:form id="formMapapagamento">
+                <div class="DivRelSin">
+                    <div class="areaButtons">
+                        <h:outputText value="Mapa de Pagamentos " class="titleSin"></h:outputText>
+                        <img src="../Images/pdf.jpg"></img><h:outputLabel value="Exportar PDF">
+                            <p:ajax event="click" listener="#{sinistroBean.exportMapaPagamento(1)}" onstart="$('.processamento').show()"
+                                    process="@this" oncomplete="$('.processamento').hide()" />
+                        </h:outputLabel>
+                        <img src="../Images/exel.jpg"></img><h:outputLabel value="Exportar Exel">
+                            <p:ajax event="click" listener="#{sinistroBean.exportMapaPagamento(2)}" onstart="$('.processamento').show()"
+                                    process="@this" oncomplete="$('.processamento').hide()" />
+                        </h:outputLabel>
+                          
+                    </div>
+                   
+                </div>
+
+                <div class="areaFiltro">
+                    <section class="areaDataRel">
+                        <h:outputLabel value="Data de Início"></h:outputLabel>
+                        <p:calendar value="#{sinistroBean.relatorio.dataInicio}" navigator="true"
+                                    id="mapaPagamentoDataInicio" pattern="dd-MM-yyyy" >
+                            <p:ajax event="dateSelect" 
+                                    process="@this mapaPagamentoDataFim mapaPagamentoValorPesquisa" 
+                                    listener="#{sinistroBean.pesquisaMapaPagamento()}" />
+                        </p:calendar>
+                        <h:outputLabel value="Data de Fim"></h:outputLabel>
+                        <p:calendar value="#{sinistroBean.relatorio.dataFim}" navigator="true"
+                                    id="mapaPagamentoDataFim" pattern="dd-MM-yyyy" >
+                            <p:ajax event="dateSelect" 
+                                    process="@this mapaPagamentoDataInicio mapaPagamentoValorPesquisa" 
+                                    listener="#{sinistroBean.pesquisaMapaPagamento()}" />
+                        </p:calendar>
+                    </section>
+                    <section class="areaPesquisa">                  
+                        <h:inputText value="#{sinistroBean.relatorio.valorPesquisa}" id="mapaPagamentoValorPesquisa">
+                            <p:ajax process="@this mapaPagamentoDataInicio mapaPagamentoDataFim" 
+                                    event="click" listener="#{sinistroBean.pesquisaMapaPagamento()}" />
+                        </h:inputText>
+                        <h:commandButton value="Ver" class="pequisarConta" action="#{sinistroBean.pesquisaMapaPagamento()}" >
+                            <p:ajax process="@this mapaPagamentoDataInicio mapaPagamentoDataFim mapaPagamentoValorPesquisa" /> 
+                        </h:commandButton>
+                    </section>
+                </div>
+                <div class="areaTable">
+                    <p:dataTable  id="tabelaMapaPagamento" scrollable="true" scrollHeight="350" >
+
+                    </p:dataTable>
+                </div>
+                <div class="mi-values">
+                    <section>
+                        <h:outputText  value="Valor:"/>
+                        <b><h:outputText  class="firstField"/></b>
+                    </section>
+                    <span class="close-mi-values">X</span>
+                 </div>
+            </h:form>
+            
+        </div>
+        <h:form>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+        </h:form>
+    </h:body>
+
+
+</html>
+

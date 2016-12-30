@@ -1,0 +1,14 @@
+
+/* 
+    Created on : 30/set/2015, 15:02:07
+    Author     : Grinalda Soares
+*/
+
+.tabClient{
+  width: 80%; 
+  margin: auto; 
+  font-size: 12px;  
+}
+.textClient{
+    padding: 4px;
+}

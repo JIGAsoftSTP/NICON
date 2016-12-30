@@ -1,0 +1,382 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <title>Administração</title>
+        <h:outputStylesheet library="Styles" name="addUserCSS.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="Funcionario.js" />
+    </h:head>
+
+    <h:body id="bodyAddUser">
+        <!--<ui:include src="../includes/menuPrincipal.xhtml"></ui:include>-->
+        <div class="bodyOfPageAdm">            
+            <div class="WhitePart">
+                <section class="sectionOne">
+                    <h:form id="formFuncSima">
+
+                        <p:growl id="funcionarioGrowl" sticky="false" life="10000"/>
+                        <h:outputLabel value="#{funcionarioBean.validoNomeAcesso}" class="fucP1ValideNomeAcess" id="fucP1ValideNomeAcess" style="display: none" />
+                        <h:outputLabel value="#{funcionarioBean.validoEmail}" class="fucP1ValideEmail" id="fucP1ValideEmail" style="display: none" />
+                        <h:outputLabel value="#{funcionarioBean.validoNIF}" class="fucP1ValideNIF" id="fucP1ValideNIF" style="display: none" />
+                        <h2>Funcionários</h2>
+                        <h:commandButton value="Adicionar Utilizador" class="addNewUser"></h:commandButton>
+                    </h:form>                                        
+                </section>
+                <section class="sectionTwo">
+                    <div class="floaToLeft">
+                        <h:form id="formFuncTabela">
+
+                            <h:inputText pt:placeholder="Procurar por nome" value="#{funcionarioBean.pesquisa}" id="pesquisaFunc">
+                                <p:ajax event="change" process="@this" listener="#{funcionarioBean.pesquisar(0)}"
+                                        update="tabelaFuncionario"/>
+                            </h:inputText>
+                            <h:selectBooleanCheckbox class="check" value="#{funcionarioBean.funcionarioDados.state}">
+                                <f:selectItem itemValue="true" itemLabel="Mostrar desabilitados" />  
+                                <p:ajax event="click"  listener="#{funcionarioBean.pesquisar(0)}" 
+                                        update="tabelaFuncionario"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel value="Mostrar desabilitados" 
+                                           style=" margin: 14px 0 8px 0;font-size: 14px;">
+                            </h:outputLabel>
+                            <p:dataTable value="#{funcionarioBean.listaFunc}" 
+                                         id="tabelaFuncionario"
+                                         emptyMessage="Nenhum funcionário encontrado"
+                                         selectionMode="single" var="func"
+                                         scrollable="true" scrollHeight="538"
+                                         rowKey="#{func}"
+                                         selection="#{funcionarioBean.funcionarioSelecionado}">
+                                <p:ajax event="rowSelect" process="@this"  />
+                                <p:ajax event="rowDblselect" process="@this"
+                                        listener="#{funcionarioBean.editarFuncionario()}" 
+                                        onstart="mostrarProcessFunc()"  oncomplete="fecharProcessFunc(), mostrarBotaoCancelarEditar()" />
+                                <p:column headerText="Nome" width="98">
+                                    <h:outputText value="#{func.nomeCompleto}"/>
+                                </p:column> 
+                                <p:column headerText="Ações" width="60">
+                                    <h:outputLabel class="actionTable icon-pencil" title="Editar nível">
+                                        <p:ajax event="click" listener="#{funcionarioBean.alterarNivel()}"  onstart="mostrarProcessFunc()"  oncomplete="fecharProcessFunc()" />
+                                    </h:outputLabel>
+                                    <h:outputLabel class="actionTable icon-unlocked" title="Ativar/Desativar">
+                                        <p:ajax event="click" listener="#{funcionarioBean.setTipoOperacao('ativar/desativar')}" />
+                                    </h:outputLabel>
+                                    <h:outputLabel class="actionTable icon-undo2 redifinirSenha" title="Redefinir senha">
+                                        <p:ajax event="click" listener="#{funcionarioBean.setTipoOperacao('redefinir senha')}" />
+                                    </h:outputLabel>
+                                </p:column>
+                            </p:dataTable>
+                            <div class="modalPage mp-messages funcionarOperacao">
+                                <div class="modalFrame">                                            
+                                    <div class="modalContainer">
+                                        <h3><h:outputText  class="titulo"></h:outputText></h3>
+                                        <p>
+                                            <h:outputText  class="mensagemApresentada"></h:outputText>
+                                        </p>
+                                        <div class="divButtons">
+
+                                            <h:commandButton class="mf-bt-ok" value="Sim" action="#{funcionarioBean.operacao()}">
+                                                <p:ajax />
+                                            </h:commandButton>
+                                            <h:commandButton class="mf-bt-ko cancelarFuncionarioOp" value="Cancelar">
+                                                <p:ajax process="@none"/>
+                                            </h:commandButton>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                    <div class="floaToRight">
+                        <h:form class="form1" id='FunCform1'>                            
+                            <div class="personalData">
+                                <h3>Dados Pessoais</h3>                       
+
+                                <div>
+                                    <label>Nome</label>
+                                    <h:inputText class="fucP1Nome funcioLimpar somenteLeitura" 
+                                                 value="#{funcionarioBean.funcionarioDados.nome}" maxlength="20" ></h:inputText>
+                                    <label>Data Nascimento</label>
+                                    <p:calendar id="funcDadoDataNac"  
+                                                value="#{funcionarioBean.funcionarioDados.dataNascimento}" 
+                                                readonlyInput="true" pattern="dd-MM-yyyy"  navigator="true"  maxdate="#{dataBean.maior18}" >
+                                    </p:calendar>
+                                    <label>Estado civil</label>
+                                    <h:selectOneMenu class="fucP1EstadoCivil funcioLimpar"  
+                                                     value="#{funcionarioBean.funcionarioDados.estadoCivil}">
+                                        <f:selectItem itemValue="" itemLabel="(Selecione)" />
+                                        <f:selectItems value="#{funcionarioBean.estadoCivis}" var="ec" itemValue="#{ec.id}" itemLabel="#{ec.value}" />
+                                    </h:selectOneMenu>
+                                    <label>Nº de filhos</label>
+                                    <h:inputText class="fucP1NumFilho numeroInterio funcioLimpar" maxlength="2" value="#{funcionarioBean.funcionarioDados.nunFilhos}"></h:inputText> 
+                                    <label>Telefone(s)</label>
+                                    <h:inputText class="fucP1Telefone numeroInterio funcioLimpar" value="#{funcionarioBean.funcionarioDados.telefone}"></h:inputText>
+
+                                </div>
+                                <div>
+                                    <label>Apelido</label>
+                                    <h:inputText class="fucP1Apelido funcioLimpar"   
+                                                 value="#{funcionarioBean.funcionarioDados.apelido}"></h:inputText>
+                                    <label>NIF</label>
+                                    <h:inputText class="fucP1Nif numeroInterio funcioLimpar funcioLimpar" maxlength="9" value="#{funcionarioBean.funcionarioDados.nif}">
+                                        <p:ajax event="change" update="@none" process="@this" listener="#{funcionarioBean.validarNif()}"/>
+                                    </h:inputText>
+                                    <label>Sexo</label>
+                                    <h:selectOneMenu class="fucP1Sexo funcioLimpar"   
+                                                     value="#{funcionarioBean.funcionarioDados.genero}">
+                                        <f:selectItem itemLabel="(Selecione)" itemValue=""/>
+                                        <f:selectItems value="#{funcionarioBean.sexos}" var="s" itemValue="#{s.id}" itemLabel="#{s.value}" />
+                                    </h:selectOneMenu>
+                                    <label>Email</label>
+                                    <h:inputText class="fucP1Email funcioLimpar"   value="#{funcionarioBean.funcionarioDados.email}">
+                                        <p:ajax event="change" update="@none" process="@this" listener="#{funcionarioBean.validarEmail()}"/>
+                                    </h:inputText>
+                                    <label>Morada</label>
+                                    <h:inputText class="fucP1Morada funcioLimpar"  
+                                                 value="#{funcionarioBean.funcionarioDados.residencia}"></h:inputText>
+                                </div>
+
+                                <h:commandButton value="Próximo" action="#{funcionarioBean.regFuncionarioPasso1()}" class="Next1">
+                                    <p:ajax process="FunCform1" />
+                                </h:commandButton>
+                                <h:commandButton value="Cancelar Editar" class="cancelarEditarFuncionario btPrevious" action="#{funcionarioBean.cancelarEditar()}">
+                                    <p:ajax process="@this" update="@none" />
+                                </h:commandButton>
+                            </div>
+                        </h:form>
+
+                        <h:form id='FunCform2' class="form2">                            
+                            <div class="personalData">
+                                <h3>Dados de Conjuge</h3>
+                                <div>
+                                    <label>Nome</label>
+                                    <h:inputText class="fucP2NomeC funcioLimpar"  
+                                                 value="#{funcionarioBean.funcionarioConjuge.nome}"></h:inputText>
+                                    <label>Data Nascimento</label>
+                                    <p:calendar id="fucP1DataNasC"  
+                                                value="#{funcionarioBean.funcionarioConjuge.dataNascimento}" 
+                                                pattern="dd-MM-yyyy"  navigator="true"
+                                                maxdate="#{dataBean.maior16}" >
+
+                                    </p:calendar>
+                                </div>
+                                <div>
+                                    <label>Apelido</label>
+                                    <h:inputText class="fucP2AplidoC funcioLimpar"  
+                                                 value="#{funcionarioBean.funcionarioConjuge.apelido}"></h:inputText>
+                                    <label>Estado civil</label>
+                                    <h:selectOneMenu id="fucP2EstadoCivil"  
+                                                     class="fucP2EstadoCivil funcioLimpar funcioLimpar" value="#{funcionarioBean.funcionarioConjuge.estadoCivil}">
+                                        <f:selectItem itemLabel="(Selecione)" />
+                                        <f:selectItems value="#{funcionarioBean.estadoCivis}" var="sd" itemValue="#{sd.id}" itemLabel="#{sd.value}" />
+                                        <p:ajax update="@none" process="@this" />
+                                    </h:selectOneMenu>
+                                </div>
+                                <h3 class="h3Class">Dados da Empresa</h3>
+                                <div>
+                                    <label>Código NICON</label>
+                                    <h:inputText class="fucP2CodogoNicon funcioLimpar"  
+                                                 required="true" value="#{funcionarioBean.empresa.codigoNicon}"></h:inputText>
+                                    <label>Departamento</label>
+                                    <h:selectOneMenu value="#{funcionarioBean.empresa.departamento}"   
+                                                     id="departamentoEmpresa" required="true" class="dept funcioLimpar">
+                                        <f:selectItem itemLabel="(Selecione)" itemValue="" />
+                                        <f:selectItems value="#{funcionarioBean.listaDepartamentos}" var="dep" itemLabel="#{dep.value}" itemValue="#{dep.id}"/>
+                                    </h:selectOneMenu>
+                                    <label>Banco</label>
+                                    <h:selectOneMenu class="fucP2Banco funcioLimpar"  
+                                                     required="true" value="#{funcionarioBean.empresa.banco}">
+                                        <f:selectItem itemLabel="(Selecione)" itemValue="" />
+                                        <f:selectItems itemLabel="#{vf.value}" itemValue="#{vf.id}" var="vf" value="#{funcionarioBean.listaBank}"/>
+                                    </h:selectOneMenu>
+
+                                </div>
+                                <div>
+                                    <label>Data de entrada</label>
+                                    <p:calendar id="fucP2DataEntrada" required="true"  
+                                                value="#{funcionarioBean.empresa.dataEntrada}" readonlyInput="true" pattern="dd-MM-yyyy"  navigator="true">
+
+                                    </p:calendar>
+                                    <label>Categoria</label>
+                                    <h:selectOneMenu class="fucP2Categoria funcioLimpar"  
+                                                     value="#{funcionarioBean.empresa.categoria}" >
+                                        <f:selectItem itemValue="" itemLabel="(Selecione)" />
+                                        <f:selectItems itemLabel="#{vf.value}" itemValue="#{vf.id}" var="vf" value="#{funcionarioBean.categoriaFunc}"/>
+                                    </h:selectOneMenu>
+                                    <label>Nº conta bancária</label>
+                                    <h:inputText class="fucP2NunContaBanco funcioLimpar"  
+                                                 required="true" value="#{funcionarioBean.empresa.numContaBancario}"></h:inputText>
+
+                                </div>                                
+                                <h:commandButton value="Concluir" class="Reg" action="#{funcionarioBean.regFuncionarioPasso2()}">
+                                    <p:ajax update="@none" process="@form fucP2EstadoCivil" 
+                                            onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide(),Parte2Concluir()"/>
+                                </h:commandButton>
+                                <h:commandButton value="Anterior" class="Prev">
+                                    <p:ajax update="@none" process="@form"  oncomplete="anterior()"/>
+                                </h:commandButton>
+                            </div>
+                        </h:form>                        
+                    </div>
+                </section>                
+            </div>            
+        </div>
+        <div class="modalPage mp-addUser">   
+            <div class="modalFrame" id="modal"> 
+                <div class="modalContainer m-newUser">
+                    <h3 class="titleH3">Adicionar Utilizador</h3>
+                    <h:form id="FunUtil">
+                        <label>Funcionário</label>
+                        <h:selectOneMenu value="#{funcionarioBean.funcionarioUilizador.nome}" id="FunUtilLis"  class="FunUtilLis FunUtilLisLimpar" required="true" >
+                            <f:selectItem itemLabel="(Selecione)" itemValue="-1"/>
+                            <f:selectItems itemLabel="#{vfc.value}" itemValue="#{vfc.id}" var="vfc" value="#{funcionarioBean.listFuncNoUser}"/>
+                            <f:ajax event="change" execute="FunUtilLis" render="FunUtilLis" listener="#{funcionarioBean.pegarCodigNicon()}" />
+                        </h:selectOneMenu>
+                        <div class="addUser1">
+                            <label>Nivel</label>
+                            <h:selectOneMenu   value="#{funcionarioBean.funcionarioUilizador.nivelAcesso}" class="FunUtilNivel FunUtilLisLimpar" required="true"  >
+                                <f:selectItem itemLabel="(Selecione)"/>
+                                <f:selectItems itemLabel="#{vf.value}" itemValue="#{vf.id}" var="vf" value="#{funcionarioBean.listaAcesso}"/>
+                            </h:selectOneMenu>  
+                        </div>
+                        <div class="addUser1">
+                            <label>Utilizador</label>
+                            <h:inputText class="FunUtilName FunUtilLisLimpar" id="nomeAcesso" disabled="true" value="#{funcionarioBean.funcionarioUilizador.nomeAcesso}">
+                            </h:inputText>
+                        </div>
+
+                        <h:commandButton value="Adicionar" action="#{funcionarioBean.regUilizador()}" class="addUser">
+                            <p:ajax update="@none" process="@form" />
+                        </h:commandButton>
+                    </h:form>
+                    <div class="closeModalFrame">X</div>
+                </div>
+            </div>
+        </div>
+        <h:form>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+        </h:form>
+        <h:form id="formNivel">
+            <div class="modalPage mp-messages nivel" >
+                <div class="modalFrame">                                            
+                    <div class="modalContainer">
+                        <div class="conteudos" >
+                            <h3><h:outputText  class="titulo" value="Alterar Nível do Utilizador"></h:outputText></h3>
+                            <p>
+                                <h:outputText value="Nível Atual:" style=" ;" class="conteudos" />
+                                <h:outputText style="margin-left: 4%;width: 50%;height: 33px;font-size: 14px;" value="#{funcionarioBean.nivelAtual}" id="nivelAtualFunc"/>
+                            </p>
+                            <p>
+                                <h:outputText value="Novo Nível"  />
+                                <h:selectOneMenu  value="#{funcionarioBean.novoNivel}" id="novoNivel">
+                                    <f:selectItem itemLabel="(Selecione)" />
+                                    <f:selectItems value="#{funcionarioBean.filtroNivel}" var="filtro" itemValue="#{filtro.id}" itemLabel="#{filtro.value}" />
+                                </h:selectOneMenu>
+                            </p>
+                        </div>
+                        <div class="divButtons">
+
+                            <h:commandButton class="mf-bt-ok" value="Próximo" action="#{funcionarioBean.changeLevel()}" >
+                                <p:ajax  process="formNivel"/>
+                            </h:commandButton>
+                            <h:commandButton class="mf-bt-ko cancelarAlterarNivel" value="Cancelar">
+                                <p:ajax process="@none"/>
+                            </h:commandButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </h:body>
+    <style>
+        .ui-inputfield{
+            border-radius: 0;
+            box-shadow: none !important;
+            font: 14px sans-serif;
+            padding: 5px;
+            margin-top: 1px;
+            border-radius: 3px;
+            width: 90%;
+            margin-left: 2%;
+        }
+        .ui-inputfield:hover{
+            border-radius: 0;
+            box-shadow: 0px 0px 0px 0px;
+        }
+        .ui-inputfield:focus{
+            border-radius: 0;
+            box-shadow: 0px 0px 0px 0px;
+        }
+        .ui-datepicker{
+            border: 1px #4682b4 solid;
+            box-shadow: 0px 0px 0px 0px;
+            font-size: 12px;
+        }
+        .ui-datepicker .ui-datepicker-header {
+            position: relative;
+            padding: .1em 0;
+            background: #4682b4;
+            color: white;
+            text-shadow: 0px 0px 0px 0px;
+            font-weight: 100;
+
+        }
+
+        .ui-datepicker .ui-datepicker-prev,
+        .ui-datepicker .ui-datepicker-next {
+            position: absolute;
+            top: 2px;
+            width: 1.8em;
+            height: 1.8em;
+            background:white;
+        }
+
+        .ui-growl-item-container {
+            background:rgba(0,0,0,0.5);
+        }
+        .ui-growl-title {
+            font: 14px cambria;
+        }
+        .ui-growl-message p {
+            /*            font: 12px sans-serif;
+                        text-align: left;*/
+        }
+        .ui-growl-icon-close {
+            background: white;
+        }
+        .bottom-button{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .bottom-button input{
+            display: block;
+            border: none;
+            margin-top: 10px;
+            background: #eee;
+            font-weight: bold;
+            color: #666;
+            border: 1px #ccc solid;
+            font-size: 1rem;
+            width: 100%;
+            padding: 8px 0;
+            transition: all .4s ease;
+        }
+        .bottom-button input:hover{
+            background: #ddd;
+            transition: all .4s ease;
+        }
+    </style>
+    <script>
+        $('.addNewUser').click(function () {
+            $(".mp-addUser").toggle('fade');
+            return false;
+        });
+
+    </script>
+</html>
+

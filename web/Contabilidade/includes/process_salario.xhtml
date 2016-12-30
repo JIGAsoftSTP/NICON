@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <h:outputStylesheet library="Styles" name="process.css"></h:outputStylesheet> 
+    </h:head>
+    <h:body>
+        <p:growl id="processamentoSalarioGrowl" showDetail="false" />
+        <div class="modalPage mp-process modalProcessamentoSalarial" >
+            <div class="modalFrame">                                            
+                <div class="modalContainer default-JIGA processamentoSalarioFrame">
+                    <nav><h3></h3> 
+                        <span class="period">
+                            <h:selectOneMenu value="#{salarioBean.processamentoSalario.mes}" required="true"
+                                             id="processamentoSalarioMes" class="processamentoSalarioMonth">
+                                <f:selectItem itemLabel="(Mês)"/>
+                                <f:selectItems value="#{salarioBean.meses}" var="mes" itemLabel="#{mes.value}" itemValue="#{mes.id}"/>
+                            </h:selectOneMenu>
+                            <h:selectOneMenu value="#{salarioBean.processamentoSalario.ano}"  required="true"
+                                             id="processamentoSalarioAno" class="processamentoSalarioYear">
+                                <f:selectItem itemLabel="(Ano)"/>
+                                <f:selectItems value="#{salarioBean.anos}" var="ano" itemLabel="#{ano.value}" itemValue="#{ano.id}" />
+                            </h:selectOneMenu>
+                        </span>
+                    </nav>
+                    <div class="div-total-modal">
+                        <div class="left-side">
+                            <div class="fisrt">
+                                <p class="func">
+                                    Funcionário
+                                    <h:selectOneMenu value="#{salarioBean.processamentoSalario.funcionario}" id="processamentoSalarioFuncionario">
+                                        <f:selectItem itemLabel="(Selecione)" itemValue="" />
+                                        <f:selectItems value="#{salarioBean.funcList}" var="func" itemLabel="#{func.value}" itemValue="#{func.id}" />
+                                        <p:ajax  event="change" onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()"
+                                                 process="@this" listener="#{salarioBean.processamentoSalarioFuncionario()}" />
+                                    </h:selectOneMenu>
+                                </p>
+                                <p>
+                                    Total a receber: <span><h:outputText value="#{salarioBean.processamentoSalario.valorTotalReceber}" class="processamentoSalarioLimparCamposTabela" 
+                                                                         id="processamentoSalarioFinalMes"/></span>
+                                </p>
+                                <jj>
+                                    <h:outputLabel class="labts bts1" value="+" title="Adicionar">
+                                        <p:ajax event="click" process="@this processamentoSalarioValorTotalEmpresa processamentoSalarioTotalSegSocialEmpresa processamentoSalarioTotalSegSocialFuncionario processamentoSalarioFuncionario processamentoSalarioFinalMes processamentoSalarioValorSemImposto processamentoSalarioTotalIRS"
+                                                onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()"
+                                                listener="#{salarioBean.processamentoSalarioAdicionarTabela()}" />
+                                    </h:outputLabel>
+                                    <h:outputLabel class="labts bts2 processamentoConcluirRegistro" title="Concluir registo">
+                                        <p:ajax event="click" process="@this processamentoSalarioMes processamentoSalarioAno"  oncomplete="$('.modalProcess').hide()"
+                                                listener="#{salarioBean.regProcessamentoSalario()}" />
+                                    </h:outputLabel>
+                                </jj>
+                            </div>
+
+                            <div class="fisrt f2">
+                                <p>
+                                    Salário base:<span><h:outputLabel
+                                            value="#{salarioBean.hashMap.get('ESTRUTURA.BASE')}" id="processamentoSalarioBase" class="processamentoSalarioLimparCamposTabela" /></span>
+                                </p>
+                                <p>
+                                    Valor total s/imposto: <span><h:outputText value="#{salarioBean.processamentoSalario.valorTotalSemImposto}"
+                                                                               id="processamentoSalarioValorSemImposto" class="processamentoSalarioLimparCamposTabela" /></span>
+                                </p>
+                                <p>
+                                    Almoço livre de imposto: <span><h:outputText value="#{salarioBean.hashMap.get('ESTRUTURA.BONUSALMOCO')}"
+                                                                                 id="processamentoSalarioAlmocoLivre" class="processamentoSalarioLimparCamposTabela" /></span>
+                                </p>
+                            </div>
+                            <section>
+                                <h4>Subsídios</h4>
+                                <nav>
+                                    Transporte: <span><h:outputText value="#{salarioBean.hashMap.get('ESTRUTURA.TRANSPORTE')}" class="processamentoSalarioLimparCamposTabela" 
+                                                                    id="processamentoSalarioValorTransporte"/></span>
+                                </nav>
+                                <nav>
+                                    Almoço: <span><h:outputText value="#{salarioBean.hashMap.get('ESTRUTURA.LANCHE')}" class="processamentoSalarioLimparCamposTabela" 
+                                                                id="processamentoSalarioAlmoco"/></span>
+                                </nav>
+                                <nav>
+                                    Alojamento: <span><h:outputText value="#{salarioBean.hashMap.get('ESTRUTURA.ALOJAMENTO')}" class="processamentoSalarioLimparCamposTabela" 
+                                                                    id="processamentoSalarioAlojamento"/></span>
+                                </nav>
+                            </section>
+                            <section>
+                                <h4>Totais</h4>
+                                <nav>
+                                    Comissão: <span><h:outputText value="#{salarioBean.hashMap.get('VALOR COMISAO')}" class="processamentoSalarioLimparCamposTabela" 
+                                                                  id="processamentoSalarioValorComissao"/></span>
+                                </nav>
+                                <nav>
+                                    Avanço: <span><h:outputText value="#{salarioBean.hashMap.get('VALOR AVANCO SALARIAL')}" class="processamentoSalarioLimparCamposTabela" 
+                                                                id="processamentoSalarioValorAvanco"
+                                                                /></span>
+                                </nav>
+                                <nav>
+                                    Situação familiar: <span><h:outputText value="#{salarioBean.hashMap.get('SIUACAO FAMILIAR TOTAL')}" class="processamentoSalarioLimparCamposTabela" 
+                                                                           id="processamentoSalarioSituacaoFamiliar"/></span>
+                                </nav>
+                            </section>
+                            <section>
+                                <h4>Impostos</h4>
+                                <nav>
+                                    Seg. Social <span><h:outputText value="#{salarioBean.hashMap.get('SS FUNCIONARIO')}" class="processamentoSalarioLimparCamposTabela" 
+                                                                    id="processamentoSalarioSSFuncionario"/></span>
+                                </nav>
+                                <nav>
+                                    IRS <span><h:outputText value="#{salarioBean.hashMap.get('IRS')}" class="processamentoSalarioLimparCamposTabela" 
+                                                            id="processamentoSalarioIRS" /></span>
+                                </nav>
+                                <nav>
+                                    Parcela <span><h:outputText value="#{salarioBean.hashMap.get('IRS PARCELA BATER')}" class="processamentoSalarioLimparCamposTabela" 
+                                                                id="processamentoSalarioParcelaBater" /></span>
+                                </nav>
+                            </section>
+                        </div>
+                        <div class="right-side">
+                            <p:dataTable class="tableSalario" scrollable="true" selectionMode="single"  scrollHeight="200"  value="#{salarioBean.listaProcessamento}" var="proc"
+                                         rowKey="#{proc}" id="processamentoSalarioTabela" emptyMessage="Nenhum registro adicionado" >
+
+                                <p:column headerText="Funcionário" width="200">
+                                    #{proc.funcionario}
+                                </p:column>
+                                <p:column headerText="Total s/imposto" width="120">
+                                    #{proc.valorTotalSemImposto}
+                                </p:column>
+                                <p:column headerText="Total a receber" width="120">
+                                    #{proc.valorTotalReceber}
+                                </p:column>
+                                <p:column  width="60">
+                                    <h:outputLabel class="icon-cancel-circle" title="Remover">
+                                        <p:ajax event="click"  onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()"
+                                                listener="#{salarioBean.processsamentoSalarioRemoverDadosTabela(proc)}" />
+                                    </h:outputLabel>
+
+                                </p:column>
+                            </p:dataTable>
+                            <section>
+
+                                <nav>
+                                    Total Empresa: <span><h:outputText  class="processamentoSalarioTotais"
+                                                                        value="#{salarioBean.processamentoSalario.valorTotalEmpresa}" id="processamentoSalarioValorTotalEmpresa"/></span>
+                                </nav>
+                                <nav class="more-down">
+                                    Total Seg. Soc. Empresa: <span><h:outputText class="processamentoSalarioTotais"
+                                                                                 value="#{salarioBean.processamentoSalario.valorTotalSegSocialEmpresa}" 
+                                                                                 id="processamentoSalarioTotalSegSocialEmpresa" /></span>
+                                </nav>
+                                <nav>
+                                    Total Seg. Soc. Funcionário <span><h:outputText class="processamentoSalarioTotais"
+                                                                                    value="#{salarioBean.processamentoSalario.valorTotalSegSocialFuncionario}"
+                                                                                    id="processamentoSalarioTotalSegSocialFuncionario" /></span>
+                                </nav>
+                                <nav>
+                                    Total IRS: <span><h:outputText class="processamentoSalarioTotais" id="processamentoSalarioTotalIRS"
+                                                                   value="#{salarioBean.processamentoSalario.valorIRS}"
+                                                                   /></span>
+                                </nav>
+                                <nav class="more-down">
+                                    TOTAL: <span><h:outputText value="#{salarioBean.processamentoSalarioTotal}" id="processamentoSalarioValorTotal" class="processamentoSalarioTotais processamentoSalarioValorTotal"
+                                                               /></span>
+                                </nav>
+                            </section>
+                        </div>
+
+                    </div>
+                    <div class="closeModalFrame processamentoSalarioCloseFrame" >X</div>
+                </div>
+            </div>
+        </div>
+        <div class="areaTable">
+            <h:commandButton value="+ Adicionar" class="abrir" type="button" action="#{salarioBean.processamentoSalarioRegistro()}">
+                <p:ajax process="@this" />
+            </h:commandButton>
+            <p:dataTable scrollable="true" selectionMode="single" id="tabelaProcessamentoSalario"
+                         scrollHeight="320" value="#{salarioBean.processamentoSalarios}" var="proc" rowKey="#{proc}">
+                <p:column headerText="Data">
+                    #{proc.data}
+                </p:column>
+                <p:column headerText="Código Processo">
+                    #{proc.codigoProcesso}
+                </p:column>
+                <p:column headerText="Montante">
+                    #{proc.montante}
+                </p:column>
+                <p:column headerText="Estado">
+                    #{proc.estado}
+                </p:column>
+                <p:column>
+                    <h:outputLabel class="actionTable icon-printer" title="Impressão">
+                        <p:ajax event="click"  listener="#{salarioBean.processamentoSalarioTabela(proc, 1)}"
+                            onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()" />
+                    </h:outputLabel>
+                    <h:outputLabel class="actionTable icon-cancel-circle" title="Anular Processamento de Salário">
+                        <p:ajax event="click" listener="#{salarioBean.processamentoSalarioTabela(proc, 2)}" oncomplete="$('.anularProcessamentoSalario').fadeIn()" />
+                    </h:outputLabel>
+                </p:column>
+            </p:dataTable>
+        </div>
+        <h:form>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+        </h:form>
+        
+        <div class="modalPage mp-messages cancelarRegistroProcessamentoSalarioFrame">
+              <div class="modalFrame">                                            
+                  <div class="modalContainer">
+                      <h3><h:outputText value="Processamento de Salario" class="titulo"></h:outputText></h3>
+                      <p>
+                          <h:outputText value="Deseja realmente cancelar o registro de processamento de salário?" class="mensagemApresentada"></h:outputText>
+                      </p>
+                      <div class="divButtons">
+                          <h:commandButton class="mf-bt-ok" value="Sim" action="#{salarioBean.processamentoSalarioRegistro()}" >
+                              <p:ajax onstart="$('.cancelarRegistroProcessamentoSalarioFrame').hide()"
+                                      oncomplete="$('.modalProcessamentoSalarial').fadeOut()" />
+                          </h:commandButton>
+                          <h:commandButton class="mf-bt-ko" value="Cancelar">
+                              <p:ajax process="@none"/>
+                          </h:commandButton>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        
+        <div class="modalPage mp-messages anularProcessamentoSalario">
+              <div class="modalFrame">                                            
+                  <div class="modalContainer">
+                      <h3><h:outputText value="Processamento de Salario" class="titulo"></h:outputText></h3>
+                      <p>
+                          <h:outputText value="Deseja realmente anular o Processamento de Salário?" class="mensagemApresentada"></h:outputText>
+                      </p>
+                      <div class="divButtons">
+                          <h:commandButton class="mf-bt-ok" value="Sim" action="#{salarioBean.anularProcessamentoSalario()}" >
+                              <p:ajax onstart="$('.anularProcessamentoSalario').hide(),$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()" />
+                          </h:commandButton>
+                          <h:commandButton class="mf-bt-ko" value="Cancelar">
+                              <p:ajax process="@none"/>
+                          </h:commandButton>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        
+    </h:body>
+    <style>
+        .divSearch select{
+            border: 1px #ddd solid;
+            padding: .4rem 1.3rem;
+        }
+    </style>
+    <script>
+
+        $('.abrir').click(function () {
+            $(".processamentoSalarioFrame h3").html("Adicionar Processamento de Salário");
+            $('.mp-process').fadeIn(400);
+        });
+        $(".processamentoSalarioCloseFrame").click(function ()
+        {
+            if($(".processamentoSalarioValorTotal").html() === "")
+                $(".modalProcessamentoSalarial").fadeOut();
+            else
+                $(".cancelarRegistroProcessamentoSalarioFrame").fadeIn();
+        });
+        $(".processamentoConcluirRegistro").click(function ()
+        {
+            var valido = true;
+            if($(".processamentoSalarioMonth").val() === "")
+            {
+                valido = false;
+                $(".processamentoSalarioMonth").css("border","1px solid red");
+            }
+            if($(".processamentoSalarioYear").val() === "")
+            {
+                valido = false;
+                $(".processamentoSalarioYear").css("border","1px solid red");
+            }
+            if(valido === true)
+                $(".modalProcess").show();
+        });
+        
+    </script>
+</html>
+

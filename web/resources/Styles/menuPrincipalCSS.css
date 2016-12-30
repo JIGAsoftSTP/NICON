@@ -1,0 +1,75 @@
+
+/*NIVEL Geral*/
+.menu,
+.menu nav{
+    display: flex;
+}
+.menu{
+    justify-content: space-between;
+    background: #4682b4;
+}
+.menu li{
+    position: relative;
+    list-style: none;
+}
+.menu li ul{
+    position: absolute; 
+    box-shadow: -2px 2px 10px 1px rgba(0,0,0,0.5);
+    background: #fff;
+    z-index: 50;
+}
+.menu i{
+    font-size: 1.2em;
+    margin-right: 5px;
+}
+.menu a{
+    font-size: .96rem;
+    text-decoration: none;    
+    display: block;
+    padding: 1em 1.5em;
+    color: #fff;
+    font-weight: bold;
+    transition: all .6s ease;
+}
+.menu nav a:hover{
+    background: #356C91;
+    transition: all .6s ease;
+}
+
+/*NIVEL 2*/
+.menu  li li{
+    max-height: 0;
+    overflow: hidden;
+    width: 12em;
+    transition: all 1s ease;
+}
+.menu li li a{
+    font-weight: normal;
+    color: #111;
+    padding: .8em 1.5em;
+    transition: all .5s ease;
+    font-size: .95rem;
+}
+.menu li:hover li {
+    max-height: 500px;
+    overflow: visible;
+    transition: all 1s ease;
+}
+.menu li ul{
+    top: 100%;
+    right: 0;
+}
+/*USER MENU*/
+.divMenuPrincipClass .user{
+    padding-right: 26px;
+}
+.menu li li a:hover{
+    background: #eee;    
+    transition: all .5s ease;
+}
+
+
+
+
+
+

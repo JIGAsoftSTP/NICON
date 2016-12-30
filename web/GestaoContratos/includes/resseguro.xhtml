@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+         <h:outputStylesheet library="Styles" name="veiculoCss.css"></h:outputStylesheet>
+         <h:outputStylesheet library="Styles" name="resseguro.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="Resseguro.js" />
+
+    </h:head>
+    <h:body>
+         <h:form id="resseguroAnularForm">
+            <p:growl id="resseguroGrowlAnular" showDetail="false" />
+            <div class="modalPage mp-messages anularResseguro">
+                <div class="modalFrame">                                            
+                    <div class="modalContainer">
+                        <h3><h:outputText value="Anular Resseguro" class="titulo"></h:outputText></h3>
+                        <p>
+                            <h:outputText value="Observação"  class="conteudos resseguroDescAnular" ></h:outputText>
+                            <h:inputTextarea value="#{resseguro.resseguro.descricao}" id="anularDescricaoObs" class="obsAnular" style="width: 100%"  required="true"/>
+                        </p>
+                        <div class="divButtons">
+                            <h:commandButton class="mf-bt-ok anularPagamentoBotao" value="Ok" action="#{resseguro.anularResseguro(null)}" >
+                                <p:ajax process="@this anularDescricaoObs"  />
+                            </h:commandButton>
+                            <h:commandButton class="mf-bt-ko" value="Cancelar">
+                                <p:ajax process="@none"/>
+                            </h:commandButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+         <h:form id="resseguroFormTable">
+            
+            <div class="contentVeiculo">
+                <div class="areaButtonsV">
+                    <div class="areaSearchV">
+                        <h:inputText value="#{resseguro.pesquisa}" id="resseguroPesquisa" class="resseguroCampoPesquisa">
+                            <p:ajax event="keyup" listener="#{resseguro.pesquisaResseguro()}" process="@this" />
+                        </h:inputText><label class="icon-search"></label>
+                    </div> 
+                    <div class="areaExportar">
+                        <h4>Exportar para:</h4>
+                        <i class="icon-file-excel" title="Exel"></i>
+                        <i class="icon-file-pdf" title="PDF"></i>
+                    </div>
+                    <h:commandButton value="Registrar Resseguro" class="addArtigoV"/>
+                </div>
+          
+            <div class="empresaReg">
+                <div class="areaTableV">
+                    <p:dataTable value="#{resseguro.listagemResseguros}" var="res" selectionMode="single" rowKey="#{res}" id="resseguros"
+                                 scrollable="true" scrollHeight="400">
+                        <p:column headerText="Apolice">
+                            #{res.apolice}
+                        </p:column>
+                        <p:column headerText="Cliente">
+                                 #{res.nomeCliente}
+                        </p:column>
+                        <p:column headerText="Moeda">
+                                 #{res.moedaSigla}
+                        </p:column>
+                        <p:column headerText="Data Inicio">
+                            #{res.dataI}
+                        </p:column>
+                        <p:column headerText="Data Fim">
+                            #{res.dataF}
+                        </p:column>
+                        <p:column headerText="Tipo Cobertura">
+                            #{res.tipoCobertura}
+                        </p:column>
+                        <p:column >
+                            <h:outputLabel class="actionTable icon-printer" title="Impressão">
+                                <p:ajax event="click" listener="#{resseguro.resseguroImpressao(res)}"
+                                                      onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()" />
+                            </h:outputLabel>
+                            <h:outputLabel class="actionTable icon-cross" title="Anular Resseguro">
+                                <p:ajax event="click" listener="#{resseguro.anularResseguro(res)}"
+                                    oncomplete="$('.anularResseguro').fadeIn()" />
+                            </h:outputLabel>
+                        </p:column>                        
+                    </p:dataTable>
+                </div>
+            </div>
+       
+        </div>
+
+          </h:form>   
+        <ui:include src="addResseg.xhtml" />
+            <div class="addRess">
+            </div>
+        <h:form>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+        </h:form>
+   
+    </h:body>
+    <script>
+        $(".valorDeducao").attr("disabled", true);
+        $(".resseguroPercentagem").attr("disabled", true);
+        $(".fechar").click(function()
+        {
+            $(".pageModal").addClass('fecharModalV');
+        });
+
+        $(".addArtigoV").click(function()
+        {
+            $(".btPreviousRess").trigger('click');
+            $(".pageModal").removeClass('fecharModalV');
+             return false;
+        });
+
+//        $(".btPreviousRess").click(function()
+//        {             
+//           $(this).addClass('hideRess');
+//           $(".btNextRess").removeClass('hideRess');
+//           $(".btSaveRess").addClass('hideRess');
+//          setTimeout(function(){
+//                $("#div1").removeClass('hideRess');
+//                $("#div2").addClass('hideRess'); 
+//              }, 500);  
+//          $('.resseguroProximo').css('display','');
+//        });
+        
+
+    </script>
+</html>
+

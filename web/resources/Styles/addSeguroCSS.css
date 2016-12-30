@@ -1,0 +1,274 @@
+
+/* 
+    Created on : Aug 8, 2015, 10:02:47 PM
+    Author     : Junior*/
+*{
+    font-family: arial, sans-serif;
+}
+.bodyAddSeguroDiv{
+    max-width: 100%;
+    background: #fff;
+    margin: auto;
+    box-sizing: border-box;
+}
+.processamento{
+    background: rgba(0,0,0,.5);
+    position:fixed;
+    width: 100%;
+    height: 100vh;
+    left:0; top:0;
+    z-index: 10;
+    display: none;
+}
+.imageProcess{ top: 0; bottom: 0;right: 0; left: 0;margin: auto; position: absolute; }
+.securyType{
+    display: inline-block;
+    width: 100%;
+    padding: 14px 0;
+    margin-bottom: 22px; 
+    text-align: center;
+    color: #555;
+    background: #fff;    
+    font-size: 140%;
+    border-top: 2px #eee solid;
+    border-bottom: 2px #eee solid;
+}
+.addClient{
+    background: #32CD32;
+    padding: 20px 8px;
+    font: bold 16px arial;
+ 
+    max-width: 200px;
+    color: #fff;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    transition: all .5s ease;
+}
+.addClient:hover{
+    background: #32AF00;
+    cursor: pointer;
+    transition: all .5s ease;
+}
+.addClient:after{
+    background: url();
+}
+.bodyAddSeguroDiv h2{
+    color: #666666;
+    text-align: center;
+    font-weight: 100;
+    margin-bottom: 20px;
+}
+.clientDivBorder{
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);
+}
+.clientDivBorder > label{
+    display: inline-block;
+    color: #4d87e2;
+    font-size: 20px;
+    font-weight: 100;
+    padding: 10px 5px;
+}
+.clientDivBorder input,
+.clientDivBorder select{
+    padding: 8px 0;
+}
+.bodyAddSeguroDiv .formTable{
+    clear: both;
+    width: 100%;   
+}
+.bodyAddSeguroDiv .infoSelected{
+ 
+    border-bottom: 1px #ddd solid;
+    padding: 14px 12px 14px 0;
+    font-size: 14px;
+    position: relative;
+}
+.infoSelected .labelTitle{
+    display: inline-block;
+    margin:0 4px 0 26px;
+    font-weight: 600;
+    color: #444;
+    position: static;
+}
+.infoSelected fixedPosition{
+    position: relative;
+}
+.infoSelected .floatSeparated{ float: right;}
+.infoSelected .light{color: #d83c3c}
+.infoSelected a:link, .infoSelected a:visited, .simulateA{
+    color: #0066ff !important;
+    font-weight: normal !important;
+    text-decoration: underline;
+    cursor: pointer;
+}
+/*############# Search Client Form #################*/
+/*Clearing Floats*/
+.cf:before, .cf:after{
+    content:"";
+    display:table;
+}
+ 
+/* Form wrapper styling */
+.form-wrapper {
+    float: right;
+    padding: 8px; 
+    position: relative
+}
+.searching input, .searching label{
+    display: inline-block;
+}
+.searching label{    
+    font-size: 13.6px;
+    padding: 6px;
+    font-weight: bold;
+    color: #444;
+}
+/* Form text select */
+
+.searching .selecT {
+    width: 140px;
+    height: 30px;
+    padding: 4px 5px;
+    font: 13px 'arial', 'sans-serif';
+    border: 2px #ddd solid;
+    border-radius: 3px;
+    box-sizing: border-box;
+
+}
+
+/* Form text input */
+.form-wrapper .selct{
+    margin-right: 12px;
+}
+.searching{
+    display: inline-block;
+}
+.search1{
+    position: relative;
+    top: 2px;
+    margin-left: 20px;
+}
+.nosearch{
+    position: relative;
+    top: -8px;
+}
+.form-wrapper .typeText {
+    width: 210px;
+    /*antes ñ entava comentado*/
+    /*height: 15px;*/
+    padding: 6.5px 5px;
+    float: left;   
+    font-size: 13px;
+    border: 0;
+    background: #eee;
+    border-radius: 3px 0 0 3px;     
+}
+
+.form-wrapper .typeText:focus {
+    outline: 0;
+    background: #fff;
+    box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+}
+
+/* Form submit button */
+.form-wrapper .typeButton {
+    overflow: visible;
+    position: relative;
+    float: right;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    height: 28px;
+    width: 80px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #fff;
+    background: #4d87e2;
+    border-radius: 0 3px 3px 0; 
+    transition: all .4s ease;
+}  
+
+.form-wrapper .typeButton:hover{    
+    background: #4682b4;
+    transition: all .4s ease;
+}  
+
+.form-wrapper .typeButton:active,
+.form-wrapper .typeButton:focus{  
+    background: #c42f2f;
+    outline: 0;  
+}
+.form-wrapper .typeButton::-moz-focus-inner { /* remove extra button spacing for Mozilla Firefox */
+    border: 0;
+    padding: 0;
+} 
+
+#MENU-GC{
+    background: #f9f9f9;
+}
+#divIncludeStep2{display: none}
+.bodyAddSeguroGeral{ 
+    margin: .5vh auto 0;
+    width: 86%;
+    border-radius: 4px;
+    background: #fff;
+    padding-top: 12px;
+    display: table;
+    padding: 0 20px;
+}
+.bodyAddSeguroGeral > div{
+    width: 100%;
+}
+.bodyAddSeguroGeral .active{
+    display: block;
+}
+.infoSelected .fixedPosition{
+    display: inline-block;
+    width: 20em;
+        
+}
+.infoSelected .fixedPosition1{
+    display: inline-block;
+    width: 8em;
+        
+}
+.infoSelected .popUpContrato{
+    position: absolute;
+    padding: 1em;
+    box-sizing: border-box;
+    background: #fff;
+    width: 480px; height: 180px;
+    border: 1px #eee solid;
+    box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.3);
+    top: -13em; left: 24em;
+    display: none;
+}
+.infoSelected .popUpContrato:after{
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: -14px;
+    right: 7%;  
+    border: 8px solid black;
+    border-color: transparent transparent #fff #fff;    
+    transform-origin: 0 0;
+    transform: rotate(-45deg); 
+    box-shadow: -3px 3px 2px -1px rgba(0, 0, 0, 0.3);        
+}
+
+.torneTable{
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+.torneTable .ui-datatable thead td, .torneTable.ui-datatable tbody{
+    border: none !important;
+    overflow-x: hidden !important;
+}
+.nomeClienteSelecionado{
+    text-decoration: underline;
+    cursor: pointer;
+}

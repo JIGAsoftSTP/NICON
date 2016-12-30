@@ -1,0 +1,124 @@
+/* 
+    Created on : 16/fev/2016, 0:58:33
+    Author     : Grinalda Soares
+*/
+label{
+    display: inline-block;
+}
+.menu-lateral li{
+    padding: 12px;
+}
+.content-lateral{
+    color: #555;
+    
+    
+}
+.rel-group h2{
+    font-weight: lighter;
+}
+.rel-group .ui-datatable{
+    margin: 5px 0 15px 0;
+    
+}
+.content-lateral h2{
+
+    font-size: 1.6rem;
+    
+    display: inline;
+}
+.export span h2{
+    font-size: 1.4rem;
+}
+.export,
+.export span,
+.formRel{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.export{
+    margin: .7rem 0 1.5rem 0;    
+}
+.export h2{
+            font-weight: lighter;
+        }
+.export label{
+    font-size: 2rem;
+    margin-left: 15px;
+    cursor: pointer;
+}
+.icon-file-pdf{
+    color: #BB0706;
+}
+.icon-file-excel{
+    color: #00983F;
+}
+.formRel{
+    margin-bottom: 1rem;
+}
+.formRel label{
+   margin-right: 5px; 
+}
+.formRel select{
+    min-width: 140px;
+}
+
+.divSearch{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    font-size: .95rem;
+    margin-bottom: 15px;
+}
+.divSearch span{
+    margin-right: 10px;
+}
+.divSearch nav input{
+    width: 25%;
+    margin-left: 5px;
+}
+.divSearch .searchMaster{
+    width: 100%;
+    max-width: 500px;
+    height: 40px;
+    display: flex;
+    border: 1px #ddd solid;
+}
+
+.searchMaster input,
+.searchMaster select{
+    border: none;
+    height: 100%;
+    padding: 0 5px;
+    color: #555;    
+}
+.searchMaster input[type=text]{
+    width: 100%;
+    padding-left: 10px;
+    font-size: 1rem;
+    flex-grow: 3;
+}
+
+.searchMaster select{
+    background: #f8f8f8;
+    border-right: 1px #ddd solid;
+    cursor: pointer;
+    appearance: none;
+    -moz-appearance: none; 
+    -webkit-appearance: none;
+    width: 200px;
+}
+.searchMaster .icon-search{
+    cursor: pointer;
+    display: inline-block;
+    padding: 0 10px;
+    font-size: 1.3rem;
+    background: #f8f8f8;
+    line-height: 40px; 
+    
+}
+.searchMaster .searchBt{
+    display: none;
+}

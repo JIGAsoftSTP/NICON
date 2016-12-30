@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="Styles" name="resseguro.css"></h:outputStylesheet>
+        <h:outputStylesheet library="Styles" name="veiculoCss.css"></h:outputStylesheet>
+    </h:head>
+    <h:body>
+        <div class="pageModal">
+            <div class="modalFrame12 corpoModal">
+                <div class="closeModalFrameV fechar">X</div>
+                <h3>Registrar novo Resseguro</h3>
+                <h:form class="formArtigo" id="articleForm">
+                <div class="formV" style="margin: 0!important">
+                    <div class="divMaster" id="div1">
+                        <div class="divMenor">
+                            <section>
+                                <label>Tipo</label>
+                                <h:selectOneMenu></h:selectOneMenu>
+                            </section>
+                            <section class="top">
+                                <label>Periodo</label>
+                                <article class="areaPeriodo">
+                                    <section>
+                                        <label>De</label>
+                                        <h:inputText></h:inputText>
+                                    </section>
+                                    <section>
+                                        <label>Para</label>
+                                        <h:inputText></h:inputText>
+                                    </section>
+                                </article>
+                                <section>
+                                    <label>Limite de Responsabilidade</label>
+                                    <h:inputText></h:inputText>
+                                    <label>Nº Apólice</label>
+                                    <h:inputText></h:inputText>
+                                    <label>Tipo de cobertura</label>
+                                    <h:inputText></h:inputText>
+                                </section>
+                            </section>
+                        </div>
+                        <div class="divMaior">
+                            <section>
+                                <label>Descrição</label>
+                                <h:inputTextarea></h:inputTextarea>
+                            </section>
+                            <article>
+                                <section>
+                                    <label>Moeda</label>
+                                    <h:selectOneMenu></h:selectOneMenu>
+                                </section>
+                                <section>
+                                    <label>Dedução</label>
+                                    <h:inputText></h:inputText>
+                                </section>
+                            </article>
+                            <article>
+                                <section>
+                                    <label>Premio Grosso</label>
+                                    <h:inputText></h:inputText>
+                                </section>
+                                <section>
+                                    <label>Total</label>
+                                    <h:inputText></h:inputText>
+                                </section>
+                            </article>
+                            <section>
+                                <label>Nome Cliente</label>
+                                <h:inputText></h:inputText>
+                            </section>
+                            <section>
+                                <label>Tipo Seguros</label>
+                                <h:inputText></h:inputText>
+                            </section>
+                        </div>
+                    </div>
+                    
+                    <div class="divMaster hideRess" id="div2">
+                        <div class="divMenor">
+                             <section>
+                                <label>Nome</label>
+                                <h:inputText></h:inputText>
+                                <label>Percentagem a ceder</label>
+                                <h:inputText></h:inputText>
+                                <label>Valor Premio</label>
+                                <h:inputText></h:inputText>
+                                <label>Valor Risco</label>
+                                <h:inputText></h:inputText>
+                                <h:commandButton value=" + Adicionar" class="btAddRess"></h:commandButton>
+                             </section>
+                        </div>
+                        <div class="divMaior">
+                            <p:dataTable class="tableRess"></p:dataTable>
+                        </div>
+                    </div>
+                    
+                    <div class="areaButtonsRess">
+                        <label class="btNextRess"> Seguinte <i class="icon-arrow-right2"></i></label>
+                        <label class="btPreviousRess hideRess"><i class="icon-arrow-left2"></i> Anterior</label>
+                        <label class="btSaveRess hideRess">Guardar <i class="icon-download"></i></label>
+                    </div>
+                </div>
+                </h:form>
+         </div>
+    </div>
+    </h:body>
+    <script type="text/javascript">
+        $(".btNextRess").click(function()
+                {
+                    $(".btPreviousRess").removeClass('hideRess');
+                    $(".btSaveRess").removeClass('hideRess');
+                    $(this).addClass('hideRess');
+                    
+                  setTimeout(function(){
+                      $("#div1").addClass('hideRess');
+                      $("#div2").removeClass('hideRess');
+                  }, 500);  
+                  });
+            
+            $(".btPreviousRess").click(function()
+                {             
+                   $(this).addClass('hideRess');
+                   $(".btNextRess").removeClass('hideRess');
+                   $(".btSaveRess").addClass('hideRess');
+                  setTimeout(function(){
+                        $("#div1").removeClass('hideRess');
+                        $("#div2").addClass('hideRess'); 
+                      }, 500);  
+
+
+                });
+    </script>
+</html>
+

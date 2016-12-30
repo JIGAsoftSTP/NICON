@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Relatório</title>       
+        <h:outputScript library="js" name="scriptRelatorio.js" />
+    </h:head>
+    
+    <h:body>
+        <h:form class="lateral-menu-content-page" id="humanResourcesReportForm">
+   
+            <div class="menu-lateral recursosHumanos">
+                <i class="icon-menu hide-show-lateral"></i>
+                <div class="sectionsMenu section1">
+                    <ul class="single-menu-lateral">
+                        <li class="header-menu">Menu</li>
+                        <li class="active-item-menu">Consumíveis</li>
+                        <li>Pessoal</li>
+                    </ul>
+                </div>
+            </div>
+   
+            <div class="content-lateral">
+                <div class="search-xpert">
+                    <h:inputText class="valorPesquisa" id="recursosHumanosValorPesquisa" value="#{recursosHumanos.relatorio.valorPesquisa}" >
+                          <p:ajax process="@this recursosHumanosValorPesquisa" event="keyup" listener="#{recursosHumanos.pesquisaRecursosHumanos()}"  />
+                    </h:inputText>
+                    <h:outputLabel class="icon-search">
+                       <p:ajax process="@this recursosHumanosValorPesquisa" event="click" listener="#{recursosHumanos.pesquisaRecursosHumanos()}"
+                                onstart="$('.processamento').show()" oncomplete="$('.processamento').hide()"  />
+                    </h:outputLabel>
+                </div>
+                <div class="export">
+                    <h2 class="titleSelected">Consumíveis</h2>
+                    <span>
+                        <h2>Exportar para: </h2>
+                        <h:outputLabel class="icon-file-pdf" title="Exportar para PDF">
+                            <p:ajax process="@this" event="click" listener="#{recursosHumanos.reportExport(1)}" onstart="$('.processamento').show()" oncomplete="$('.processamento').hide()" />
+                        </h:outputLabel>
+                        <h:outputLabel class="icon-file-excel" title="Exportar para Excel">
+                            <p:ajax process="@this" event="click" listener="#{recursosHumanos.reportExport(2)}" onstart="$('.processamento').show()" oncomplete="$('.processamento').hide()" />
+                        </h:outputLabel>
+                    </span>
+                </div>
+                <p:dataTable class="tableRel" scrollable="true" scrollHeight="360" selectionMode="single" id="humanResourcesReportTable">
+                </p:dataTable>
+            </div>
+            <p:remoteCommand name="relatorioRecursosHumanos" actionListener="#{recursosHumanos.humanResourcesTypeReport()}" process="@this"  />
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+
+        </h:form>
+
+    </h:body>
+    <style>
+        .lateral-menu-content-page{
+            height: 100%;
+            
+        }
+        .search-xpert{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.3em;
+            width: 300px;
+            border: 1px #ddd solid;
+            padding-right: 6px;
+            float: right;
+            margin-bottom: 1.5rem;
+        }
+        .search-xpert input{
+            flex-grow: 1;
+            border: none;
+            padding: 8px 0;
+        }
+        .export{
+            clear: right;
+        }
+    </style>
+</html>
+

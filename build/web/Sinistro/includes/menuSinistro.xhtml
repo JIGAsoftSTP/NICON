@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+    </h:head>
+        <header id="SN-MENU-SC" class="menu-secundario SN-MENU" >
+        <div>
+            <ul>   
+                <c:if test="#{!sessionUtil.dadosUtilizador.justRelatorio}">
+                 <li><a id="SN-MENU-REGISTRO" class="SN-REGISTRO" href="../Sinistro/Registro.xhtml">Registro</a></li> 
+                </c:if>
+                <li><a id="SN-MENU-RELATORIO" class="SN-REGISTRO" href="../Sinistro/Relatorio.xhtml">Relatório</a></li>
+                <li><a id="SN-MENU-MAPA" class="SN-REGISTRO" href="../Sinistro/MapaPgto.xhtml">Mapa de Pagamento</a></li> 
+            </ul>
+        </div>
+        </header>
+</html>
+

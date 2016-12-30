@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <h:form>
+        <h:panelGrid class="listagemA">
+            <h:panelGrid class="conteudoA">
+                <h:panelGrid style="width: 100%;" >
+                    <h:outputText value="Tipo de cobertura" class="lis-A" />
+                </h:panelGrid>
+                <div class="borderA" >
+                </div>
+                <h:outputText value="Contra terceiros" class="res-A" />
+                <h:outputText value="Comprensivo" class="res-A" />
+                <h:outputText value="Comprensivo Limitado" class="res-A" />
+                <h:panelGrid style="width: 100%;" >
+                    <h:outputText value="Abrangente" class="lis-A" />
+                </h:panelGrid>
+                <div class="borderA" >
+                </div>
+                <h:outputText value="Não" class="res-A" />
+                <h:panelGrid columns="2">
+                    <h:outputText value="Sim:" class="res-A" />
+                    <h:outputText value="Opcção dita pelo cliente" class="res-A" />
+                </h:panelGrid>
+
+                  <h:panelGrid style="width: 100%;" >
+                    <h:outputText value="O uso corrente do veículo é para" class="lis-A" />
+                </h:panelGrid>
+                <div class="borderA" />
+                <h:outputText value="Aluguer" class="res-A" />
+                <h:outputText value="Fins privados e profissionais incluindo compra e venda de mercadorias" class="res-A" />
+                <h:outputText value="Atividade comercial, excluindo o uso de transporte de mercadorias" class="res-A" />
+                <h:outputText value="Atividade comercial, incluindo o uso de transporte de mercadorias" class="res-A" />
+                <h:outputText value="Transporte de passageiros e/ou mercadorias por aluguer" class="res-A" />
+
+
+               
+                    <h:panelGrid style="width: 100%;" >
+                    <h:outputText value="Alega ser o único dono do veículo" class="lis-A" />
+                </h:panelGrid>
+                <div class="borderA" />
+                <h:panelGrid columns="2">
+                    <h:outputText value="Não:" class="res-A" />
+                    <h:outputText value="Opcção dita pelo cliente" class="res-A" />
+                </h:panelGrid>
+                <h:outputText value="Sim" class="res-A" />
+
+              
+                    <h:panelGrid  style="width: 100%;" >
+                     <h:outputText value="Alega ser o único dono do veículo" class="lis-A" />
+                </h:panelGrid>
+                <div class="borderA" />
+                <h:outputText value="Não" class="res-A" />
+                <h:panelGrid columns="2">
+                    <h:outputText value="Sim:" class="res-A" />
+                    <h:outputText value="Opcção dita pelo cliente" class="res-A" />
+                </h:panelGrid>
+
+           
+                    <h:panelGrid  style="width: 100%;" >
+                        <h:outputText value="Conservação" class="lis-A" />
+                </h:panelGrid>
+                <div class="borderA" />
+                <h:panelGrid columns="3">
+                    <h:outputText value="O veiculo fica fechado numa garagem durante a noite :" class="res-A" />
+                    <h:outputText value="Não" class="res-A" />
+                    <h:outputText value="Sim" class="res-A" />
+                </h:panelGrid>
+
+                
+                <h:panelGrid  style="width: 100%;" >
+                    <h:outputText value="O veículo será conduzido por" class="lis-A" />
+                </h:panelGrid>
+                <div class="borderA" />
+                <h:outputText value="Segurador" class="res-A" />
+                <h:outputText value="Segurador, empregados e motoristas" class="res-A" />
+                <h:outputText value="Algum menor de 18 anos" class="res-A" />
+                <h:outputText value="Alguém que possa usar o veículo apenas de licença de aprendizagem" class="res-A" />
+                <h:outputText value="Alguém que tenha problemas de visão, audição ou alguma incapacidade" class="res-A" />
+            </h:panelGrid>
+
+            <h:panelGrid columns="2" style="float: right;  width: 20%; ">
+                <h:panelGrid style="float: left;">
+                      <h:panelGroup class="concluirLA"  >
+                    <h:commandButton styleClass="concluirLA1" value="Editar">
+                    </h:commandButton>
+                </h:panelGroup>
+                </h:panelGrid>
+                <h:panelGrid style="float: right;">
+                     <h:panelGroup class="concluirLA" >
+                    <h:commandButton styleClass="concluirLA1" value="Concluir">
+                    </h:commandButton>
+                </h:panelGroup>
+                </h:panelGrid>
+            </h:panelGrid>
+        </h:panelGrid>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Redirect</title>
+        <h:outputStylesheet library="Styles" name="fonts.css"></h:outputStylesheet> 
+        <h:outputScript library="js" name="jQuery1.js" />
+        <h:outputScript library="js" name="jQuery2.js" />
+    </h:head>
+    <h:body>
+        <div>
+            <h1>Acesso Negado!</h1>
+            <h4>Não tem permissão para aceder a essa página!<br/><br/>Para mais informações, contacte o administrador do sistema.</h4>
+            <label class="lab"><label class="icon-undo2">&nbsp;</label>Voltar</label>
+        </div>
+    </h:body>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-family: 'Centaur', 'arial';
+        }
+        body{
+            background: #025484;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #D6FEE3;
+            text-align: center;
+        }
+        h1{
+            font-size: 6em;
+           margin-bottom: 50px;
+        }
+        h4{
+            font: normal 18px arial;
+            //font-weight: normal;
+            color: #D6FEE3;
+        }
+        label{
+            cursor: pointer;
+        }
+        .lab{
+            margin-top: 60px;
+            font: bold 14px arial;
+            display: inline-block;
+            padding: 11px 100px;
+            border-radius: 200px;
+            background: #fff;
+            color: steelblue;
+            
+        }
+    </style>
+    <script>
+        $('.lab').click(function(){
+            window.history.back();
+        });
+    </script>
+</html>
+

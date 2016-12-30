@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <h:outputStylesheet library="Styles" name="EmpresaParceiraCss.css"></h:outputStylesheet>
+    </h:head>
+    <h:body>
+
+        <h:form id="forTaxa" >
+            <div id="title">Taxas</div>
+            <div class="ContentEMParc">
+                <div class="corpoEMParc">
+                    <p:growl id="growlTaxa" sticky="false" life="10000"/>
+                    <h:panelGrid class="panEParcT">
+                        <h:outputLabel value="Converter de"/>
+                        <h:selectOneMenu required="true" value="#{utilitarioBean.taxa.moeda1}" class="textEMParc tMoeda1" >
+                            <f:selectItem itemValue="" itemLabel="Selecione uma (Moeda)" />
+                            <f:selectItems value="#{utilitarioBean.moedaLista}" var="ml" itemValue="#{ml.id}" itemLabel="#{ml.id}" />
+                            <p:ajax process="@this" listener="#{utilitarioBean.carregarListaTaxaMoeda()}"/>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="Para"/>
+                        <h:selectOneMenu required="true" value="#{utilitarioBean.taxa.moeda2}" class="textEMParc tMoeda2" >
+                            <f:selectItems value="#{utilitarioBean.moedaLista}" var="ml" itemValue="#{ml.id}" itemLabel="#{ml.id}" />
+                            <f:selectItem itemValue="" itemLabel="Selecione uma (Moeda)" />
+                            <f:selectItems  />     
+                        </h:selectOneMenu>
+                        <br/><br/>
+                        <h:outputLabel value="Valor da Compra"/>
+                        <h:inputText required="true" value="#{utilitarioBean.taxa.compraValue}" class="textEMParc tValorC"/>
+                        <h:outputLabel value="Valor da Venda"/>
+                        <h:inputText required="true" value="#{utilitarioBean.taxa.vendaValue}" class="textEMParc tValorM" />
+                    </h:panelGrid>
+                    <div>
+                        <h:commandButton value="Guardar" action="#{utilitarioBean.regBancoAndTaxa(2)}" class="btEParc regTaxa">
+                            <p:ajax process="@form" />
+                        </h:commandButton>
+                    </div>
+                </div>
+
+                <div class="TableEMParc TableTax">
+
+                    <p:dataTable class="tableEMParBanco" selectionMode="single" rowKey="#{item}" id="tableTaxa"
+                                 emptyMessage="Nenhum registro encontrado." var="item" 
+                                 scrollable="true" scrollHeight="230" value="#{utilitarioBean.taxaList}">
+                        <p:column headerText="Moeda">
+                            <h:outputText value="#{item.moeda1}" />
+                        </p:column>
+                        <p:column headerText="Valor da Compra">
+                            <h:outputText value="#{item.compraValueView}" />
+                        </p:column>
+                        <p:column headerText="Valor da Venda">
+                            <h:outputText value="#{item.vendaValueView}" />
+                        </p:column>
+                    <p:column headerText="Estado">
+                            <h:outputText value="#{item.estado}" />
+                        </p:column>
+                        <p:ajax event="rowSelect" process="@this" />
+                    </p:dataTable>
+<!--                    <div align="right" style="margin-right: 5%">
+                        <h:commandButton value="Ativar" class="btEParc removerTaxa" >
+                            <p:ajax update="tableTaxa"/>
+                        </h:commandButton>
+                        
+                        <h:commandButton value="Desativar" class="btEParc removerTaxa" >
+                            <p:ajax update="tableTaxa"/>
+                        </h:commandButton>
+                    </div>-->
+
+                </div>
+            </div>
+        </h:form>
+    </h:body>
+    <style>
+        .TableTax{
+            height: auto !important;
+        }
+    </style>
+    <!-- validação dos campos vazios-->
+    <script>
+        $(document).ready(function (e) {
+            $(".tValorM, .tValorC").keyup(function (e) {
+                e.preventDefault();
+                        // REMOVE OS CARACTERES DA EXPRESSAO ACIMA
+                if (!$.isNumeric($(this).val()))
+                                $(this).val("");
+            });
+            $(".regTaxa").click(function (e)
+            {
+                e.preventDefault();
+                validacaoTaxa();
+            });
+
+        });
+
+
+
+        function validacaoTaxa()
+        {
+            testeVasio($(".tMoeda1"));
+            testeVasio($(".tMoeda2"));
+            testeVasio($(".tValorC"));
+            testeVasio($(".tValorM"));
+        }
+        function limparcamposTaxa()
+        {
+            $(".tMoeda").val('');
+            $(".tValorC").val('');
+            $(".tValorM").val('');
+        }
+
+        function testeVasio(variavel)
+        {
+            var teste = true;
+            //alert(variavel.val());
+            if (variavel.val() === "")
+            {
+                variavel.css("border", "1px solid red");
+                variavel.focus();
+                teste = false;
+            } else
+            {
+                variavel.css("border", "");
+            }
+
+            return teste;
+        }
+    </script>
+</html>
+

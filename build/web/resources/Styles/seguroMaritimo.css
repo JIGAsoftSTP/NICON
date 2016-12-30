@@ -1,0 +1,69 @@
+/* 
+    Created on : Feb 24, 2016, 9:50:03 PM
+    Author     : Junior
+*/
+
+.formDinheiro h4{
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.firstPart{
+    padding: 0 20px;
+    background: #fdfdfd;
+}
+.firstPart label{
+    margin-left: 10px;
+    display: inline-block;   
+    min-width: 450px;
+    line-height: 37px;
+}
+.firstPart section{
+    border-bottom: 1px #f0f0f0 solid;
+    padding-top: 10px;
+    transition: all .4s ease;
+    font-size: .98em;
+    color: #555;
+    align-items: center;
+}
+.infoComplement{
+    background: #fdfdfd;
+}
+.infoComplement nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;    
+}
+.infoComplement nav{
+    width: 45%;
+}
+.infoComplement section{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: .98em;
+    padding: 10px 0;
+    color: #777;
+    border-bottom: 1px #f0f0f0 solid;
+    padding: 10px 20px;
+    width: 100% !important;
+}
+.infoComplement .moreInfo{
+    flex-wrap: wrap;
+    height: 130px;
+}
+.moreInfo input{
+    margin-bottom: 10px ;
+}
+.infoComplement [type=text],
+.infoComplement select{
+    margin-bottom: 0 !important;
+}
+
+.infoComplement input[type=radio]{
+    margin-left: 30px;
+}
+.infoComplement h4{
+    background: #fff;
+    width: 100%;
+    padding: 20px 0 5px 20px;
+}

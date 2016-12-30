@@ -1,0 +1,17 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 25, 2016, 12:42:54 AM
+    Author     : Junior
+*/
+
+.mp-infoTable{
+    display: none;
+}
+.maisInfo{
+    font-weight: bold !important;
+    font-size: .9em !important;
+}

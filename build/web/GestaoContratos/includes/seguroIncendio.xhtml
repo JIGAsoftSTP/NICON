@@ -1,0 +1,509 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <h:outputStylesheet library="Styles" name="geralSeguros.css"></h:outputStylesheet>
+        <h:outputStylesheet library="Styles" name="seguroIncendio.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="incendios.js" />
+    </h:head>
+    <h:body>
+        <h:form id="Incendio">
+            <p:growl id="msg" sticky="false" autoUpdate="false" life="10000"/>
+            <div class="K-seguros seguroIncendioCabecalho cabecalhoSegurosMulti">
+                <span>
+                    Nº de apólice
+                    <h:inputText class="incendiosNumeroApolice apolice" value="#{incendioBean.incendio.numeroApolice}" />
+                </span>
+                <span>
+                    Nº de registro
+                    <h:inputText class="incendioNumeroRegistro" 
+                                 value="#{incendioBean.incendio.numeroRegistro}" 
+                                 id="IncendioRegistro">
+                        <p:ajax event="blur" listener="#{incendioBean.verificarNumeroRegistro()}"
+                                oncomplete="IncendioNumeroRegistro(xhr, status, args)"/>
+
+                    </h:inputText>
+                </span>
+                <span>
+                    Moeda
+                    <h:selectOneMenu class="inputText1" value="#{incendioBean.incendio.moeda}" >
+                        <f:selectItems  value="#{veiculoBean.moeda}" itemLabel="#{m.value}" var="m" itemValue="#{m.id}"/>
+                    </h:selectOneMenu>
+                </span>
+            </div>
+            
+            
+            <div class="total-incendio formularioSeguro ">
+                <h3>Sobre a Propriedade</h3>
+                <div  class="aboutP formatInput">
+                            <nav class="input-4-1">
+                                Condição
+                                <h:inputText class="incendioCondicao txtCondicInc txtINC1 input-total"  value="#{incendioBean.incendio.condicao}" />
+                            </nav>
+                            <nav class="input-4-1">
+                                Equip. de combate ao incêndio
+                                <h:inputText title="Equipamento de combate ao incêndio" class="incendioEquipamento txtCondicInc txtINC1 input-total" value="#{incendioBean.incendio.equipamento}" required="true"> </h:inputText>
+                            </nav>
+                            <nav class="input-4-1">
+                                Fonte de água disponível
+                                <h:inputText class="incendioFonte txtCondicInc txtINC2 input-total" value="#{incendioBean.incendio.fonte}" required="true"></h:inputText>
+                            </nav>
+                            <nav class="input-6">
+                                Ano
+                                <h:inputText class="incendioAno numeroInterio txtINC3 input-total"  value="#{incendioBean.incendio.ano}" required="true"></h:inputText>
+                            </nav>
+                            <nav class="input-6">
+                                Nº de andares
+                                <h:inputText class="incendioAndar numeroInterio txtINC3 input-total" value="#{incendioBean.incendio.andar}" required="true"></h:inputText>
+                            </nav>
+                            <nav  class="input-5">
+                                Distância com o bombeiro
+                                <h:inputText class="incendioDistancia txtINC3 input-total" value="#{incendioBean.incendio.distancia}" required="true"> </h:inputText>
+                            </nav>
+                            <nav class="input-2-1">
+                                Endereço completo do edifício
+                                <h:inputText class="incendioEndereco txtCondicInc txtINC4 input-total" 
+                                             value="#{incendioBean.incendio.endereco}"
+                                             required="true">
+                                </h:inputText>
+                            </nav>
+                </div>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                <div>
+                    
+                    <div class="RiscAdd">
+                        <div class="headerR-A">
+                            <h3>Riscos adicionais</h3>
+                            <span class="headers">
+                                <label for="radio-1">Riscos 1/4</label>
+                                <label for="radio-2">Riscos 2/4</label>
+                                <label for="radio-3">Riscos 3/4</label>
+                                <label for="radio-4">Riscos 4/4</label>
+                            </span>
+                        </div>
+                        
+
+                        <div class="contentR-A">
+                            <input type="radio" name="dm" id="radio-1" checked="true" class="kk"/>                        
+                            <input type="radio" name="dm" id="radio-2" />
+                            <input type="radio" name="dm" id="radio-3" />
+                            <input type="radio" name="dm" id="radio-4" />
+                            
+                            <section id="content-1">
+                                <nav class="formatInput">
+                                    <span class="input-5">
+                                        <h:selectBooleanCheckbox value="#{incendioBean.incendioRisco.riscoAviaoId}" class="aviaoId">
+                                            <p:ajax  update="aviaoPremio" process="@this" />
+                                        </h:selectBooleanCheckbox>
+                                        Avião
+                                    </span>
+                                    <h:inputText pt:placeholder="Valor"
+                                         class="txtValInc incendioAviaoValor numeroAC input-4" id="aviaoValor" value="#{incendioBean.incendioRisco.aviaoValor}"  >
+                                        <p:ajax listener="#{incendioBean.RiscoAviao(null)}" delay="350" event="keyup" process="aviaoValor aviaoTaxa" update="aviaoPremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Taxa" id="aviaoTaxa" class="txtTaxaInc incendioAviaoTaxa numeroAC InsendioTaxa  input-6" 
+                                         value="#{incendioBean.incendioRisco.aviaoTaxa}"  >
+                                        <p:ajax listener="#{incendioBean.RiscoAviao(null)}" delay="350" event="keyup" process="aviaoValor aviaoTaxa" update="aviaoPremio"/>
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Premio" id="aviaoPremio" class="txtPremInc incendioAviaoPremio numeroAC  input-4"
+                                         value="#{incendioBean.incendioRisco.aviaoPremioMoeda}" readonly="true">
+                                    </h:inputText>
+                                </nav>
+                                <nav class="formatInput">
+                                    <span class="input-5">
+                                        <h:selectBooleanCheckbox value="#{incendioBean.incendioRisco.colisaoId}" class="clisaoId"> </h:selectBooleanCheckbox>
+                                        Colisão
+                                    </span>
+                                    <h:inputText pt:placeholder="Valor" id="colisaoValor"
+                                         class="txtValInc colisaoValor numeroAC   input-4" value="#{incendioBean.incendioRisco.colisaoValor}"  >
+                                        <p:ajax listener="#{incendioBean.RiscoColisao(null)}" delay="350" event="keyup" process="colisaoValor colisaoTaxa" update="colisaoPremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Taxa" id="colisaoTaxa" class="txtTaxaInc colisaoTaxa numeroAC InsendioTaxa  input-6" value="#{incendioBean.incendioRisco.colisaoTaxa}" >
+                                        <p:ajax listener="#{incendioBean.RiscoColisao(null)}" delay="350" event="keyup" process="colisaoValor colisaoTaxa" update="colisaoPremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Premio" id="colisaoPremio" class="txtPremInc colisaoPremio numeroAC  input-4"  value="#{incendioBean.incendioRisco.colisaoPremioMoeda}"  readonly="true" />
+                                </nav>
+                                <nav class="formatInput">
+                                    <span class="input-5">
+                                        <h:selectBooleanCheckbox value="#{incendioBean.incendioRisco.explosaoId}" class="explosaoId" > </h:selectBooleanCheckbox>
+                                        Explosão
+                                    </span>
+                                    <h:inputText pt:placeholder="Valor" id="explosaoValor" class="txtValInc explosaoValor numeroAC input-4"  value="#{incendioBean.incendioRisco.explosaoValor}"  >
+                                        <p:ajax listener="#{incendioBean.RiscoExplosao(null)}" delay="350" event="keyup" process="explosaoValor explosaoTaxa" update="explosaoPremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Taxa" id="explosaoTaxa" class="txtTaxaInc explosaoTaxa numeroAC InsendioTaxa input-6" value="#{incendioBean.incendioRisco.explosaoTaxa}"  >
+                                        <p:ajax listener="#{incendioBean.RiscoExplosao(null)}" delay="350" event="keyup" process="explosaoValor explosaoTaxa" update="explosaoPremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Premio" id="explosaoPremio"  class="txtPremInc explosaoPremio numeroAC input-4" value="#{incendioBean.incendioRisco.explosaoPremioMoeda}"  readonly="true"/>
+                                </nav>
+                                                                
+                            </section>
+                            
+                            
+                            <section id="content-2">
+                                <nav class="formatInput">
+                                    <span class="input-5">
+                                        <h:selectBooleanCheckbox value="#{incendioBean.incendioRisco.terramotoId}" class="terramotoId"> </h:selectBooleanCheckbox>
+                                        Terramoto
+                                    </span>
+                                    <h:inputText pt:placeholder="Valor" id="terramotoValor" value="#{incendioBean.incendioRisco.terramotoValor}" class="txtValInc terramotoValor numeroAC input-4"  >
+                                        <p:ajax listener="#{incendioBean.RiscoTerramoto(null)}" delay="350" event="keyup" process="terramotoValor terramotoTaxa" update="terramotoPremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Taxa" id="terramotoTaxa" value="#{incendioBean.incendioRisco.terramotoTaxa}" class="txtTaxaInc terramotoTaxa numeroAC InsendioTaxa input-6"  >
+                                        <p:ajax listener="#{incendioBean.RiscoTerramoto(null)}" delay="350" event="keyup" process="terramotoValor terramotoTaxa" update="terramotoPremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Premio" id="terramotoPremio"  class="txtPremInc terramotoPremio numeroAC input-4" value="#{incendioBean.incendioRisco.terramotoPremioMoeda}"  readonly="true"/>
+                                </nav>
+                                <nav class="formatInput">
+                                    <span class="input-5">
+                                        <h:selectBooleanCheckbox value="#{incendioBean.incendioRisco.tempestadeId}" class="tempestadeID">  </h:selectBooleanCheckbox>
+                                        Tempestade
+                                    </span>
+                                    <h:inputText pt:placeholder="Valor" id="tempestadeValor" class="txtValInc tempestadeValor numeroAC input-4" value="#{incendioBean.incendioRisco.tempestadeValor}"  >
+                                        <p:ajax listener="#{incendioBean.RiscoTempestade(null)}" delay="350" event="keyup" process="tempestadeValor tempestadeTaxa" update="tempestadePremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Taxa" id="tempestadeTaxa" class="txtTaxaInc tempestadeTaxa numeroAC InsendioTaxa input-6" value="#{incendioBean.incendioRisco.tempestadeTaxa}"  >
+                                        <p:ajax listener="#{incendioBean.RiscoTempestade(null)}" delay="350" event="keyup" process="tempestadeValor tempestadeTaxa" update="tempestadePremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Premio" id="tempestadePremio" class="txtPremInc tempestadePremio numeroAC input-4"   value="#{incendioBean.incendioRisco.tempestadePremioMoeda}"  readonly="true"/>
+                                    
+                                </nav>
+                                <nav class="formatInput">
+                                    <span class="input-5">
+                                        <h:selectBooleanCheckbox value="#{incendioBean.incendioRisco.afundamentoId}" class="afundamentoID">  </h:selectBooleanCheckbox>
+                                        Afundamento
+                                    </span>
+                                    <h:inputText pt:placeholder="Valor" id="AfValor"  class="txtValInc afundamentoValor numeroAC input-4"  value="#{incendioBean.incendioRisco.afundamentoValor}" >
+                                        <p:ajax listener="#{incendioBean.RiscoAfundamento(null)}" delay="350" event="keyup" process="AfValor AfTaxa" update="AfPremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Taxa" id="AfTaxa"  class="txtTaxaInc afundamentoTaxa numeroAC InsendioTaxa input-6" value="#{incendioBean.incendioRisco.afundamentoTaxa}"  >
+                                        <p:ajax listener="#{incendioBean.RiscoAfundamento(null)}" delay="350" event="keyup" process="AfValor AfTaxa" update="AfPremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Premio" id="AfPremio" value="#{incendioBean.incendioRisco.afundamentoPremioMoeda}"  class="txtPremInc afundamentoPremio numeroAC input-4"  readonly="true"/>
+                                </nav>
+                                
+                            </section>
+                            
+                            <section id="content-3">                                 
+                                <nav class="formatInput">
+                                    <span class="input-5">
+                                        <h:selectBooleanCheckbox value="#{incendioBean.incendioRisco.riscoPoliticoId}" class="riscoPoliticoID"> </h:selectBooleanCheckbox>
+                                        Risco Político
+                                    </span>
+                                    <h:inputText pt:placeholder="Valor" id="riscoPValor" class="txtValInc riscoPoliticoValor numeroAC input-4" value="#{incendioBean.incendioRisco.riscoPoliticoValor}"  >
+                                        <p:ajax listener="#{incendioBean.RiscoRiscoPolitico(null)}" delay="350" event="keyup" process="riscoPValor riscoPTaxa" update="riscoPPremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Taxa" value="#{incendioBean.incendioRisco.riscoPoliticoTaxa}" class="txtTaxaInc riscoPoliticoTaxa numeroAC InsendioTaxa input-6" id="riscoPTaxa" >
+                                        <p:ajax listener="#{incendioBean.RiscoRiscoPolitico(null)}" delay="350" event="keyup" process="riscoPValor riscoPTaxa" update="riscoPPremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Premio" id="riscoPPremio" class="txtPremInc riscoPoliticoPremio numeroAC input-4" value="#{incendioBean.incendioRisco.riscoPoliticoPremioMoeda}"  readonly="true"/>
+                                </nav>
+                                <nav class="formatInput">
+                                    <span class="input-5">
+                                        <h:selectBooleanCheckbox value="#{incendioBean.incendioRisco.danoId}" class="danoMaliciosoId"> </h:selectBooleanCheckbox>
+                                        Dano Malicioso
+                                    </span>
+                                    <h:inputText pt:placeholder="Valor" id="danoMValor" value="#{incendioBean.incendioRisco.danoValor}" class="txtValInc danoMaliciosoValor numeroAC input-4"  >
+                                        <p:ajax listener="#{incendioBean.RiscoDanoMalicioso(null)}" delay="350" event="keyup" process="danoMValor danoMTaxa" update="danoMPremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Taxa" id="danoMTaxa" class="txtTaxaInc danoMaliciosoTaxa numeroAC input-6"  value="#{incendioBean.incendioRisco.danoTaxa}"  >
+                                        <p:ajax listener="#{incendioBean.RiscoDanoMalicioso(null)}" delay="350" event="keyup" process="danoMValor danoMTaxa" update="danoMPremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Premio" id="danoMPremio"  class="txtPremInc danoMaliciosoPremio numeroAC InsendioTaxa input-4" value="#{incendioBean.incendioRisco.danoPremioMoeda}"  readonly="true"/>
+                                </nav>
+                                <nav class="formatInput">
+                                    <span class="input-5">
+                                        <h:selectBooleanCheckbox value="#{incendioBean.incendioRisco.tumultoId}" class="tumultoId"> </h:selectBooleanCheckbox>
+                                        Tumulto e Greve
+                                    </span>
+                                    <h:inputText pt:placeholder="Valor" id="tumultoValor" class="txtValInc tumultoValor numeroAC input-4" value="#{incendioBean.incendioRisco.tumultoValor}"  >
+                                        <p:ajax listener="#{incendioBean.RiscoTumulto(null)}" delay="350" event="keyup" process="tumultoValor tumultoTaxa" update="tumultoPremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Taxa" id="tumultoTaxa" value="#{incendioBean.incendioRisco.tumultoTaxa}" class="txtTaxaInc tumultoTaxa numeroAC InsendioTaxa input-6"  >
+                                        <p:ajax listener="#{incendioBean.RiscoTumulto(null)}" delay="350" event="keyup" process="tumultoValor tumultoTaxa" update="tumultoPremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Premio" id="tumultoPremio" value="#{incendioBean.incendioRisco.tumultoPremioMoeda}" class="txtPremInc tumultoPremio numeroAC input-4"  readonly="true"/>
+                                </nav>
+                                
+                            </section>
+                            <section id="content-4">
+                                <nav class="formatInput">
+                                    <span class="input-5">
+                                        <h:selectBooleanCheckbox value="#{incendioBean.incendioRisco.incendioFId}" class="incendioFId" ></h:selectBooleanCheckbox>
+                                        Incêndio Florestal
+                                    </span>
+                                    <h:inputText pt:placeholder="Valor" id="Ifvalor" value="#{incendioBean.incendioRisco.incendioFValor}" class="txtValInc incendioFvalor numeroAC input-4"  >
+                                        <p:ajax listener="#{incendioBean.RiscoIncendioFlorestal(null)}" delay="350" event="keyup" process="Ifvalor Iftaxa" update="Ifpremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Taxa" id="Iftaxa"  class="txtTaxaInc incendioFtaxa numeroAC InsendioTaxa input-6"  value="#{incendioBean.incendioRisco.incendioFTaxa}"  >
+                                        <p:ajax listener="#{incendioBean.RiscoIncendioFlorestal(null)}" delay="350" event="keyup" process="Ifvalor Iftaxa" update="Ifpremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Premio" id="Ifpremio" class="txtPremInc incendioFpremio numeroAC input-4"  value="#{incendioBean.incendioRisco.incendioFPremioMoeda}"  readonly="true"/>
+                                </nav>
+                                <nav class="formatInput">
+                                    <span class="input-5">
+                                        <h:selectBooleanCheckbox value="#{incendioBean.incendioRisco.explosaoExId}" class="explosaoExId">
+                                        </h:selectBooleanCheckbox>
+                                        Explosão Expontânea
+                                    </span>
+                                    <h:inputText pt:placeholder="Valor" id="explosaoExVALOR"  value="#{incendioBean.incendioRisco.explosaoExValor}"  class="txtValInc explosaoExValor numeroAC input-4"  >
+                                        <p:ajax listener="#{incendioBean.RiscoExplosaoEspontanea(null)}" delay="350" event="keyup" process="explosaoExVALOR explosaoExTAXA" update="explosaoExpremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Taxa" id="explosaoExTAXA" class="txtTaxaInc explosaoExTaxa numeroAC InsendioTaxa input-6"  value="#{incendioBean.incendioRisco.explosaoExTaxa}"  >
+                                        <p:ajax listener="#{incendioBean.RiscoExplosaoEspontanea(null)}" delay="350" event="keyup" process="explosaoExVALOR explosaoExTAXA" update="explosaoExpremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Premio" id="explosaoExpremio" class="txtPremInc explosaoExPremio numeroAC input-4" value="#{incendioBean.incendioRisco.explosaoExPremioMoeda}"  pt:readonly="true" />
+                                </nav>
+                                <nav class="formatInput">
+                                    <span class="input-5">
+                                        <h:selectBooleanCheckbox value="#{incendioBean.incendioRisco.roturaId}" class="ropturaId">
+                                            <p:ajax listener="#{incendioBean.RiscoRotura(null)}" />
+                                        </h:selectBooleanCheckbox>
+                                        Ruptura de canalização
+                                    </span>
+                                    <h:inputText pt:placeholder="Valor" id="roturaV" value="#{incendioBean.incendioRisco.roturaValor}" class="txtValInc roturaValor numeroAC input-4"  >
+                                        <p:ajax listener="#{incendioBean.RiscoRotura(null)}" delay="350" event="keyup" process="roturaV roturaTaxa" update="roturapremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Taxa" id="roturaTaxa" class="txtTaxaInc roturaTaxa numeroAC InsendioTaxa input-6" value="#{incendioBean.incendioRisco.roturaTaxa}"  >
+                                        <p:ajax listener="#{incendioBean.RiscoRotura(null)}" delay="350" event="keyup" process="roturaV roturaTaxa" update="roturapremio" />
+                                    </h:inputText>
+                                    <h:inputText pt:placeholder="Premio" id="roturapremio" class="txtPremInc roturaPremio numeroAC input-4" value="#{incendioBean.incendioRisco.roturaPremioMoeda}"  readonly="true" />
+                                </nav>
+                            </section>
+                        </div>
+                        
+
+                    </div> 
+                    
+                    
+                    
+                    <div class="RiscAdd">
+                        <div class="headerR-A">
+                            <h3>Construção</h3>
+                            <span class="headers1">
+                                <label for="radio-11">Pavimento</label>
+                                <label for="radio-21">Tecto</label>
+                                <label for="radio-31">Parede</label>
+                            </span>
+                        </div>
+                        
+
+                        <div class="contentR-A contents-2">
+                            <input type="radio" name="em" id="radio-11" checked="true"/>                        
+                            <input type="radio" name="em" id="radio-21" />
+                            <input type="radio" name="em" id="radio-31" />
+                            
+                            <section id="content-11">
+                                <h:selectBooleanCheckbox class="incePavimento1" value="#{incendioBean.incendio.pavimentoBaro}"/>
+                                <h:outputLabel value="Barro"/>
+                                <h:selectBooleanCheckbox class="incePavimento2" value="#{incendioBean.incendio.pavimentoMarmore}"/>
+                                <h:outputLabel value="Mármore"/>
+                                <h:selectBooleanCheckbox class="incePavimento3" value="#{incendioBean.incendio.pavimentoAzuleijo}"/>
+                                <h:outputLabel value="Azulejo"/>
+                                <h:selectBooleanCheckbox class="incePavimento4" value="#{incendioBean.incendio.pavimentoCerramica}"/>
+                                <h:outputLabel value="Cerâmica"/>
+                                <h:selectBooleanCheckbox class="incePavimento5" value="#{incendioBean.incendio.pavimentoBetao}"/>
+                                <h:outputLabel value="Betão"/>
+                            </section>
+                            <section id="content-21">
+                                <h:selectBooleanCheckbox class="inceTecto1" value="#{incendioBean.incendio.tectoTelha}"/>
+                                <h:outputLabel value="Telhas"/>
+                                <h:selectBooleanCheckbox class="inceTecto2" value="#{incendioBean.incendio.tectoChapaZinco}"/>
+                                <h:outputLabel value="Chapas de Zinco"/>
+                                <h:selectBooleanCheckbox class="inceTecto3" value="#{incendioBean.incendio.tectoChapaFibrocimento}"/>
+                                <h:outputLabel value="Chapas de Fibrocimento"/>
+                                <h:selectBooleanCheckbox value="#{incendioBean.incendio.tectoPlacabetao}"/>
+                                <h:outputLabel value="Placas Betão"/>
+                            </section>
+                            <section id="content-31">
+                                <h:selectBooleanCheckbox class="inceParede1" value="#{incendioBean.incendio.paredeTijolo}"/>
+                                <h:outputLabel value="Tijolo"/>
+                                <h:selectBooleanCheckbox class="inceParede2" value="#{incendioBean.incendio.paredeBetao}"/>
+                                <h:outputLabel  value="Betão"/>
+                            </section>
+                        </div>
+                    </div>
+                    
+                    <div class="moreInfo">
+                        <h3>Informações Adicionais</h3>
+                        <div>
+                            <h4>Costuma</h4>
+                        <section class="formatInput">
+                            
+                            <nav class="input-3">
+                                <h:selectBooleanCheckbox class="inceActualizar1" value="#{listaRespostas.getResposta(187).resposta}"/>
+                                <h:outputLabel value="Actualizar o livro de contas"/>
+                            </nav>
+                            <nav class="input-3">
+                                <h:selectBooleanCheckbox class="inceActualizar2" value="#{listaRespostas.getResposta(188).resposta}"/>
+                                <h:outputLabel value="Fazer inventarios"/>
+                            </nav>
+                            <nav class="input-3">
+                                <h:selectBooleanCheckbox class="inceActualizar3" value="#{listaRespostas.getResposta(189).resposta}"/>
+                                <h:outputLabel value="Guardar Registro"/>
+                            </nav>
+                        </section>
+                        <h4>Mais informações</h4>
+                        <section class="formatInput two-two">
+                            <nav class="input-2">
+                                    <h:outputLabel value="Varrimento diariamente"/>
+                                    <h:selectOneRadio class="select1" value="#{listaRespostas.getResposta(100).resposta}">
+                                        <f:selectItem itemLabel="Não" class="selet" itemValue="N"/>
+                                        <f:selectItem itemLabel="Sim" itemValue="Y"/>
+                                    </h:selectOneRadio>                                    
+                            </nav>
+                            <nav class="input-2">
+                                <h:outputLabel value="Treinamento dos inquilinos"/>
+                                    <h:selectOneRadio class="select1" value="#{listaRespostas.getResposta(110).resposta}">
+                                        <f:selectItem itemLabel="Não" class="selet" itemValue="N"/>
+                                        <f:selectItem itemLabel="Sim" itemValue="Y"/>
+                                    </h:selectOneRadio>
+                            </nav>
+                        </section>
+                            
+                        <section class="formatInput two-two">
+                            <nav class="input-2">
+                                <h:outputLabel value="Possui equipamento de combate ao incêndio"/>
+                                <h:selectOneRadio class="select1" value="#{listaRespostas.getResposta(210).resposta}">
+                                    <f:selectItem itemLabel="Não" class="selet" itemValue="N"/>
+                                    <f:selectItem itemLabel="Sim" itemValue="Y"/>
+                                </h:selectOneRadio>
+                            </nav>
+                        </section>
+                        <section class="onlyOne two-two formatInput">
+                            <nav class="input-2">
+                                <h:outputLabel value="Existem outros interessados na propriedade"/>
+                                <h:selectOneRadio value="#{listaRespostas.getResposta(101).resposta}">
+                                <f:selectItem itemLabel="Não" itemValue="N"/>
+                                <f:selectItem itemLabel="Sim" itemValue="Y"/>
+                                <p:ajax update="outros" listener="#{listaRespostas.getResposta(101).validarSelecaoCaso1()}" />
+                                </h:selectOneRadio>                        
+                            </nav>
+                            <h:inputText id="outros" pt:placeholder="Especifique"
+                                     class="txtEspecifique incendioInteresses input-2-0"
+                                     disabled="#{listaRespostas.getResposta(101).validar}" value="#{listaRespostas.getResposta(101).obj}"/>
+                        </section>
+                        
+                        <section class="onlyOne two-two formatInput">
+                            <nav class="input-2">
+                                <h:outputLabel value="Permitido Fumar, Fazer Fogueira ou Cozinhar"/>
+                                <h:selectOneRadio value="#{listaRespostas.getResposta(103).resposta}">
+                                    <f:selectItem itemLabel="Não" itemValue="N"/>
+                                    <f:selectItem itemLabel="Sim" itemValue="Y"/>
+                                    <p:ajax update="fumar" listener="#{listaRespostas.getResposta(103).validarSelecaoCaso1()}" />
+                                </h:selectOneRadio>
+                            </nav>
+                            <h:inputText id="fumar" pt:placeholder="Especifique"
+                                     class="txtEspecifique fumar input-2-0" disabled="#{listaRespostas.getResposta(103).validar}" value="#{listaRespostas.getResposta(103).obj}"/>
+                        </section>
+                        
+                        <section class="onlyOne two-two formatInput">
+                            <nav class="input-2">
+                                <h:outputLabel value="Perda por incêndio ou outros riscos"/>
+                                <h:selectOneRadio value="#{listaRespostas.getResposta(102).resposta}">
+                                    <f:selectItem itemLabel="Não" itemValue="N"/>
+                                    <f:selectItem itemLabel="Sim" itemValue="Y"/>
+                                    <p:ajax update="perda" listener="#{listaRespostas.getResposta(102).validarSelecaoCaso1()}" />
+                                </h:selectOneRadio>
+                            </nav>
+                            <h:inputText id="perda" pt:placeholder="Especifique" class="txtEspecifique perda input-2-0" disabled="#{listaRespostas.getResposta(102).validar}" value="#{listaRespostas.getResposta(102).obj}"/>
+                        </section>
+                        
+                        <section class="onlyOne two-two formatInput">
+                            <nav class="input-2  formatInput last">
+                                <h:outputLabel value="Uso do edifício"/>
+                               <h:selectOneRadio value="#{incendioBean.incendio.usoResidencial}">
+                                    <f:selectItem itemLabel="Residencial" itemValue="33"/>
+                                    <f:selectItem itemLabel="Comercial" itemValue="32"/>
+                                    <!--os dois campos acima são verdadeiros, mas para que um dos campos manter selecionado definir um como falso-->
+                                </h:selectOneRadio>
+                                <h:inputTextarea pt:placeholder="Descrição"  class="uso input-total" required="true"  value="#{incendioBean.incendio.usoEdificioDescricao}" title="Descrição"></h:inputTextarea>
+                            </nav>
+                            <nav class="input-2  formatInput last">
+                                <h:outputLabel value="Processo de fabricação"/>
+                                <h:selectBooleanCheckbox value="#{listaRespostas.getResposta(108).testevalidar}">
+                                    <p:ajax event="click" update="processo"/>
+                                </h:selectBooleanCheckbox>
+                                <h:inputTextarea 
+                                    id="processo"
+                                    pt:placeholder="Descrição"  class="processoF input-total"
+                                    value="#{incendioBean.incendio.processoFabricacao}"
+                                    title="Descrição"
+                                    disabled="#{!listaRespostas.getResposta(108).testevalidar}">
+                                </h:inputTextarea>
+                            </nav>
+                        </section>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="PrNx">
+                    <h:commandButton value="Anterior" class="btPrevious btBack" > 
+                        <p:ajax process="@none" update="@none"/>
+                    </h:commandButton>
+
+                    <h:commandButton value="Seguinte" class="btNext IncendioSeguinte" action="#{incendioBean.dadosIncendio(risco)}">
+                        <p:ajax process="@form"/>
+                    </h:commandButton>
+                </div>
+            </div>
+
+        </h:form>
+
+    </h:body>
+    <script>
+        
+        $('.headers label').eq(activee($('#radio-1'), $('#radio-2'), $('#radio-3'))).addClass('active-header');
+        
+        $('.headers1 label').eq(activee($('#radio-11'), $('#radio-21'), $('#radio-31'))).addClass('active-header');
+        
+        $('.headerR-A label').click(function (){
+
+           $(this).addClass('active-header').siblings().removeClass('active-header');
+        });
+//        
+//        $('#allRiscs').click(function (){
+//           $(this).closest('div').siblings().find('section').css({
+//               'display' : 'block',
+//               'padding' : '10px 20px'
+//           });
+//        });
+        
+        function activee( radio1, radio2, radio3){
+            if(radio1.is(':checked')) return 0;
+            if(radio2.is(':checked')) return 1;
+            if(radio3.is(':checked')) return 2;
+        }
+    </script>
+</html>
+

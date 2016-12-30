@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+          <div class="pageModal fecharModalV resseguroModal">
+            <div class="modalFrame12 corpoModal">
+                <div class="closeModalFrameV fechar">X</div>
+                <h3>Registrar novo Resseguro</h3>
+                <h:form class="formArtigo" id="resseguroForm">
+                    <p:growl id="resseguroGrowl" showDetail="false" />
+                    <p:remoteCommand name="RegResseguro" actionListener="#{resseguro.dadosRegistro()}" process="@this" />
+                <div class="formV" style="margin: 0!important">
+                    <div class="divMaster ResseguroPartOne" id="div1">
+                        <div class="divMenor">
+                            <section>
+                                <label>Tipo</label>
+                                <h:selectOneMenu value="#{resseguro.resseguro.idTipoResseguro}" 
+                                                 id="resseguroTipo" class="resseguroCampo resseguroTipoFA">
+                                    <f:selectItem itemLabel="(Selecione)" />
+                                    <f:selectItems value="#{resseguro.listaTipoResseguros}" var="res" itemLabel="#{res.value}" itemValue="#{res.id}" />
+                                </h:selectOneMenu>
+                            </section>
+                            <section class="top">
+                                <label>Periodo</label>
+                                <article class="areaPeriodo">
+                                    <section>
+                                        <label>De</label>
+                                        <p:calendar value="#{resseguro.resseguro.dataInicio}" pattern="dd-MM-yyyy"
+                                                    id="resseguroDataI" navigator="true" required="true" />
+                                    </section>
+                                    <section>
+                                        <label>Para</label>
+                                        <p:calendar value="#{resseguro.resseguro.dataFim}"  pattern="dd-MM-yyyy"
+                                                    id="resseguroDataF" navigator="true" required="true" class="dataFimResseguro"  />
+                                    </section>
+                                </article>
+                                <section>
+                                    <label>Limite de Responsabilidade</label>
+                                    <h:inputText value="#{resseguro.resseguro.limiteResp}" id="resseguroLimiteResp" 
+                                                 class="resseguroCampo resseguroLimiteResp" />
+                                    <label>Nº Apólice</label>
+                                    <h:inputText value="#{resseguro.resseguro.apolice}" id="resseguroApolice" 
+                                                 class="resseguroCampo resseguroApolice"></h:inputText>
+                                    <label>Tipo de cobertura</label>
+                                    <h:inputText value="#{resseguro.resseguro.tipoCobertura}" id="resseguroTipoCobertura" required="true" 
+                                                 class="resseguroCampo resseguroTipoCobertura" />
+                                </section>
+                            </section>
+                        </div>
+                        <div class="divMaior">
+                            <section>
+                                <label>Descrição</label>
+                                <h:inputTextarea value="#{resseguro.resseguro.descricao}" id="resseguroDescricao" 
+                                                 class="descricaoResseguro resseguroCampo"></h:inputTextarea>
+                            </section>
+                            <article>
+                                <section>
+                                    <label>Moeda</label>
+                                    <h:selectOneMenu value="#{resseguro.resseguro.moeda}" id="resseguroMoeda" 
+                                                     required="true" class="resseguroCampo resseguroMoeda">
+                                        <f:selectItem itemLabel="(Selecione)" />
+                                        <f:selectItems value="#{resseguro.listaMoedas}" var="moeda" itemLabel="#{moeda.value}" itemValue="#{moeda.id}" />
+                                    </h:selectOneMenu>
+                                </section>
+                                <section>
+                                    <label>Dedução</label>
+                                    <h:inputText value="#{resseguro.resseguro.valorDeducao}" 
+                                                 id="resseguroValorDeducao" class="valorDeducao formatValue double">
+                                            <p:ajax process="resseguroValorDeducao" event="keyup" listener="#{resseguro.calculoValorTotal()}" />
+                                    </h:inputText>
+                                </section>
+                            </article>
+                            <article>
+                                <section>
+                                    <label>Premio Grosso</label>
+                                    <h:inputText value="#{resseguro.resseguro.premioGrosso}" required="true"
+                                                 id="resseguropremio" class="formatValue double premioGrosso resseguroCampo resseguroPremioGrosso">
+                                          <p:ajax process="resseguropremio" event="keyup" listener="#{resseguro.calculoValorTotal()}" />
+                                    </h:inputText>
+                                </section>
+                                <section>
+                                    <label>Total</label>
+                                    <h:inputText class="resseguroTotal" disabled="true" value="#{resseguro.resseguro.valorTotalFormatado}" id="resseguroTotal"></h:inputText>
+                                </section>
+                            </article>
+                            <section>
+                                <label>Nome Cliente</label>
+                                <h:inputText value="#{resseguro.resseguro.nomeCliente}" id="resseguroNomeCliente" required="true" class="resseguroCampo resseguroCliente"/>
+                            </section>
+                            <article>
+                                <section>
+                                    <label>Tipo de Seguro</label>
+                                    <h:selectOneMenu value="#{resseguro.resseguro.idSeguro}" id="resseguroTipoSeguro" required="true" class="resseguroCampo resseguroTipoSeguro" >
+                                        <f:selectItem itemLabel="(Selecione)" />
+                                        <f:selectItems value="#{resseguro.listaSeguros}" var="seg" itemLabel="#{seg.value}" itemValue="#{seg.id}" />
+                                    </h:selectOneMenu>
+                                </section>
+                                <section>
+                                    <label>Nº Nota de débito</label>
+                                    <h:inputText value="#{resseguro.resseguro.notaDebito}" id="resseguroNotaDebito" class="resseguroCampo resseguroNotaDebito" required="true"></h:inputText>
+                                </section>
+                            </article>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="divMaster hideRess" id="div2">
+                        <div class="divMenor">
+                             <section>
+                                <label>Nome</label>
+                                <h:selectOneMenu  value="#{resseguro.resseguro.idEmpresa}" id="resseguroEmpresa" required="true" class="resseguroEmpresa resseguroParte2 resseguroPR">
+                                    <f:selectItem itemLabel="(Selecione)" />
+                                    <f:selectItems value="#{resseguro.listaEmpresasParceiras}" var="empresa" itemLabel="#{empresa.value}" itemValue="#{empresa.id}" />
+                                </h:selectOneMenu>
+                                <label>Percentagem a ceder</label>
+                                <h:inputText class="p resseguroPercentagem resseguroParte2 resseguroPR formatValue double" 
+                                             value="#{resseguro.resseguro.percentagem}" id="resseguroPercentagem">
+                                    <p:ajax process="resseguroPercentagem"  event="keyup" listener="#{resseguro.calculoValorPremioRisco()}" />
+                                </h:inputText>
+                                <label>Valor Premio</label>
+                                <h:inputText class="resseguroParte2 resseguroPR1" value="#{resseguro.resseguro.valorPremioFormatado}" id="resseguroValorPremio" disabled="true"></h:inputText>
+                                <label>Valor Risco</label>
+                                <h:inputText class="resseguroParte2 resseguroPR1" value="#{resseguro.resseguro.riscoFormatado}" id="resseguroRisco" disabled="true"></h:inputText>
+                                <h:commandButton value=" + Adicionar" class="btAddRess resseguroAdicionar" action="#{resseguro.addTable()}">
+                                    <p:ajax process="@this resseguroEmpresa" />
+                                </h:commandButton>
+                             </section>
+                        </div>
+                        <div class="divMaior">
+                            <p:dataTable class="tableRess" value="#{resseguro.listResseguros}" rowKey="#{res}" id="tabelaResseguro" emptyMessage=""
+                                         var="res" scrollable="true" scrollHeight="350" selectionMode="single">
+                                <p:column headerText="Empresa">
+                                    #{res.nomeEmpresa}
+                                </p:column>
+                                <p:column headerText="%" width="50">
+                                    #{res.percentagem}
+                                </p:column>
+                                <p:column headerText="Valor Prémio">
+                                    #{res.valorPremio}
+                                </p:column>
+                                <p:column headerText="Valor Risco">
+                                    #{res.risco}
+                                </p:column>
+                                <p:column  width="100">
+                                    <h:outputLabel class="actionTable icon-cancel-circle" title="Remover linha"   >
+                                    <p:ajax  process="@this" event="click" listener="#{resseguro.removeFromTable(res)}" />
+                                    </h:outputLabel>
+                                    <h:outputLabel class="actionTable icon-bin" title="Limpar tabela">
+                                        <p:ajax  process="@this" event="click" listener="#{resseguro.limparTabela()}" />
+                                    </h:outputLabel>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </div>
+                    <div class="areaButtonsRess">
+                        <h:outputLabel  class="btNextRess resseguroProximo" value="Seguinte" ><i class="icon-arrow-right2"></i></h:outputLabel>
+                        <label class="btPreviousRess hideRess"><i class="icon-arrow-left2"></i> Anterior</label>
+                        <h:outputLabel  value="Guardar" class="btSaveRess hideRess"> <i class="icon-download"></i>
+                            <p:ajax process="@this" event="click" onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()"
+                                    listener="#{resseguro.regResseguro()}" />
+                        </h:outputLabel>
+                    </div>
+                </div>
+                </h:form>
+            </div>
+   
+            </div>
+            
+    </h:body>
+</html>
+

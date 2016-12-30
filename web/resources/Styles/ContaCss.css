@@ -1,0 +1,274 @@
+body{
+    background: #efefef;
+}
+/* ----------------------------Modal-------------------------*/
+.Modalframe{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    overflow: auto;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    display: none;
+}
+.ModalConteiner{
+    margin: 1% auto;
+    background: #fff;
+    border-radius: 3px;
+    max-width: 60%;
+    width: 35%;
+}
+.CloseModalFrame{
+    color: #bbb;
+    border-radius: 50px;
+    border: 2px solid #bbb;
+    font: 20px arial;
+    font-weight: bolder;
+    float: right;
+    cursor: pointer;
+    padding: 5px 13px;
+    text-align: center;
+    margin: 10px 20px;
+}
+.CloseModalFrame:hover{
+    border: 2px solid #fc0e24;
+    color: #fc0e24;
+    transition: border, color 1s;
+}
+.ModalConteiner .export{
+    padding: 20px 20px;
+    color: #666;
+    background: #eee;
+    font: 20px arial;
+    font-weight: bolder;
+}
+.ModalConteiner .BobyModal{
+    padding: 20px;
+    margin: 2px auto;
+    width: 90%;
+}
+.ModalConteiner .BobyModal .ContaPag, .ContaBanco{
+    display: flex;
+    flex-direction: column;
+}
+.ModalConteiner .BobyModal .ContaBanco label{
+    display: block;
+}        
+
+.ModalConteiner input[type=text],select, textarea{
+    padding: 9px;
+    font: 14px arial;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    color: #7F7F7F;
+    box-shadow: 0 0 0 0.3px #bbb;
+    width: 90%;
+}
+.BobyModal .nomeCat{
+    width: 100%;
+}
+.ModalConteiner select{
+    width: 90%;
+    padding: 9px;
+}
+.ModalConteiner select:not(.nomeCat){
+   width: 95%;
+}
+.ModalConteiner .BobyModal label{
+    color: #7e7e7e;
+    font: 16px arial;
+    margin: 3px;
+    padding-top: 5px;
+    font-weight: 700;
+}
+.ModalConteiner input[type=radio]{
+    padding: 20px;
+    margin: 5px 10px;
+    border-bottom: 1px solid #eee; 
+}
+.border{
+    border-bottom: 2px solid #eee; 
+    width: 95%;
+    padding: 2px;
+    margin: 10px 0;
+}
+.ModalConteiner input[type=submit]{
+    width: 90%;
+    padding: 10px;
+    color: #fff;
+    background: #15AE32;
+    border: none;
+    font: 18px arial;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* ----------------------------Content-------------------------*/
+.contentConta{
+    padding: 30px 20px;
+    padding-bottom: 5px;
+    margin: 0 50px;
+    background: #fff;
+}
+.contentConta label{
+    color: #333;
+    font-weight: bolder;
+    font-size: 14px;
+    margin: 8px;
+}
+.areaButtons .btNewConta{
+    background: #15AE32;
+    padding: 15px 10px;
+    border: none;
+    color: #fff;
+    font: 16px arial;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    margin-right: 40px;
+    border-radius: 4px;
+}
+.areaButtons img{
+    width: 30px;
+    position: relative;
+    top: 8px;
+}
+.areaButtons label{
+    color: #0066ff;  
+    margin-left: 3px;
+    margin-right: 40px;
+    cursor: pointer;
+}
+.areaButtons label:hover{
+    color: #39b7ee;
+    text-decoration: underline;
+}
+.areaFiltro{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin-top: 10px;
+    border-top: 2px solid #eee; 
+}
+.areaFiltro section:not(.areaPesquisa .areaDataRel){
+    width: 100%;
+}
+.areaFiltro .areaPesquisa{
+    width: 40%;
+    display: flex;
+    justify-content: flex-end;
+}
+.areaFiltro .areaPesquisa input[type=text]{
+    width: 50%;
+}
+.areaFiltro input[type=text],select,calendar{
+    padding: 7px;
+    color: #333;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 30%;
+    margin: 0 5px;
+}
+.areaDataRel input[type=text]{
+     width: 28%;
+     
+}
+.anul{
+    margin: 8px 0;
+}
+.areaFiltro input[type=submit]{
+    width: 12%;
+    padding: 6px;
+    color: #fff;
+    background: #3991ee;
+    border: none;
+    font: 14px arial;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.areaTable{
+    margin-top: 10px;
+}
+
+/*// -------------------Categoria-------------------*/
+
+.ModalConteinerCat{
+    width: 40%;
+}
+.categ section{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+.categ input[type=text],.categ select{
+    width: 18%;
+}
+.categ input[type=submit]{
+    width: 7%;
+}
+.BobyModal div{
+    display: flex;
+    width: 100%;
+}
+.BobyModal div section{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.BobyModal section{
+    width: 100%;
+}
+.Total{
+    justify-content: space-around;
+}
+
+
+/* -------------------Sinistro----------------*/
+
+.btserchSin{
+    border: 1px solid #ccc !important;
+    cursor: pointer !important;
+    color: red !important;
+}
+.titleSin{
+    color: #555; 
+    font-size: 25px; 
+    margin-right: 50px;
+}
+.DivRelSin{
+    display: flex;
+    justify-content: space-between;
+}
+.areaAçoes{
+    display: flex; 
+}
+.areaAçoes p{
+    font-size: 18px;
+    color: #555;
+    font-weight: bold;
+}
+.areaAçoes i{
+    margin: 0 10px;
+    font-size: 30px;
+    cursor: pointer;
+}
+.icon-pencil{
+    color: #18984D;
+}
+.icon-cancel-circle{
+    color: #E81123;
+}
+.icon-credit-card{
+    color: #07A9DC;
+}
+
+.registrarConta{
+    z-index: 5;
+}

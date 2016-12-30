@@ -1,0 +1,370 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <h:outputStylesheet library="Styles"   name="seguroDinheiro.css"/>
+        <h:outputScript library="js" name="Dinheiro.js" />
+    </h:head>
+    <h:body>
+        <h:form id="dinhFormID"  class="formDinheiro">
+            <div class="K-seguros seguroDinheiroCabecalho cabecalhoSegurosMulti">
+                <span>
+                    Nº de apólice
+                    <h:inputText class="dinheiroApolice apolice"
+                                 id="Dapolice"
+                                 value="#{dinheiroBean.dinheiro.numApolice}" />
+                </span>
+                <span>
+                    Nº de registro
+                    <h:inputText class=" DregistroC" 
+                                 id="dinheiroRegistro"
+                                 value="#{dinheiroBean.dinheiro.numeroRegistro}">
+                        <p:ajax process="@this"
+                                event="blur"
+                                listener="#{dinheiroBean.validarNumeroRegistro()}"
+                                oncomplete="NumeroRegistro(xhr, status, args)">
+                        </p:ajax>
+                    </h:inputText>
+                </span>
+                <span>
+                    Moeda
+                    <h:selectOneMenu
+                        value="#{dinheiroBean.dinheiro.moeda}"
+                        id="dinheiroMoeda" >
+                        <f:selectItems  value="#{maritimoBean.moedas}" itemLabel="#{m.value}" var="m" itemValue="#{m.id}"/>
+                    </h:selectOneMenu>
+                </span>
+            </div>
+            <p:growl id="dinhGrowl" showDetail="false" sticky="false" life="10000"/>
+            <div class="formularioSeguro">
+                <h1>Informações do seguro</h1>
+                <div class="firstPart">
+                    <div class="formatInput">
+                        <h4 class="input-2-1">Proposta a ser Segurada</h4>
+                        <h4 class="input-5">Limite responsabilidade</h4>
+                        <h4 class="input-5">Valor para cada risco</h4>
+
+                    </div>
+                    <section class="formatInput">
+                        <span class="input-2-1">
+                            <label><b>Item 1: </b>Dinheiro em transito do banco para o pagamento de salário</label>
+                            <h:selectBooleanCheckbox class="denhcheck1" value="#{dinheiroBean.dinheiro.inten1}" id="Item1">
+                                <p:ajax onstart="checkedIntem1()" process="@this Item5"  listener="#{dinheiroBean.risco1()}"/>
+                            </h:selectBooleanCheckbox>
+                        </span>
+                        <h:inputText id="dLimite1" 
+                                     class="input-5 dinheiroLimite limite1 numeroAC denhcheck1Res  "
+                                     value="#{dinheiroBean.dinheiro.inten1Lresp}">
+                            <p:ajax process="@this" event="blur" />
+                        </h:inputText>
+                        <h:inputText id="dValor1" 
+                                     value="#{dinheiroBean.dinheiro.inten1Valor}"
+                                     class="input-5 valorDinheiro1 numeroAC dinheiroValorRisco  ">
+                            <p:ajax process="@this" event="blur" />
+                        </h:inputText>
+                    </section>
+                    <section class="formatInput">
+                        <span class="input-2-1">
+                            <label><b>Item 2: </b>Dinheiro em transito do banco para outros propósitos</label>
+                            <h:selectBooleanCheckbox class="denhcheck2" value="#{dinheiroBean.dinheiro.inten2}" id="Item2">
+                                <p:ajax onstart="checkItem2()" process="@this Item5"  listener="#{dinheiroBean.risco2()}" />
+                            </h:selectBooleanCheckbox>
+                        </span>
+                        <h:inputText id="dLimite2" 
+                                     class="input-5 dinheiroLimite limite2 numeroAC denhcheck2Res  "
+                                     value="#{dinheiroBean.dinheiro.inten2Lresp}" >
+                            <p:ajax process="@this" event="blur" />
+                        </h:inputText>
+                        <h:inputText id="dValor2" 
+                                     value="#{dinheiroBean.dinheiro.inten2Valor}"
+                                     class="input-5 valorDinheiro2 numeroAC dinheiroValorRisco denhcheck2Val  ">
+                            <p:ajax process="@this" event="blur" />
+                        </h:inputText>
+                    </section>
+                    <section class="formatInput">
+                        <span class="input-2-1">
+                            <label><b>Item 3: </b>Dinheiro em transito do banco para o banco ou os correios</label>
+                            <h:selectBooleanCheckbox  class="denhcheck3" id="Item3" value="#{dinheiroBean.dinheiro.inten3}">
+                                <p:ajax onstart="checkItem3()" process="@this Item5"  listener="#{dinheiroBean.risco3()}" />
+                            </h:selectBooleanCheckbox>
+                        </span>
+                        <h:inputText id="dLimite3" 
+                                     class="input-5 dinheiroLimite limite3 numeroAC denhcheck3Res  "
+                                     value="#{dinheiroBean.dinheiro.inten3Lresp}">
+                            <p:ajax process="@this" event="blur" />
+                        </h:inputText>
+                        <h:inputText id="dValor3" 
+                                     value="#{dinheiroBean.dinheiro.inten3Valor}"
+                                     class="input-5 valorDinheiro3 numeroAC dinheiroValorRisco denhcheck3Val  ">
+                            <p:ajax process="@this" event="blur" />
+                        </h:inputText>
+                    </section>
+                    <section class="formatInput">
+                        <span class="input-2-1">
+                            <label><b>Item 4: </b>Dinheiro em qualquer cofre ou caixa forte</label>
+                            <h:selectBooleanCheckbox class="denhcheck4" id="Item4" value="#{dinheiroBean.dinheiro.inten4}"> 
+                                <p:ajax onstart="checkItem4()" process="@this Item5"  listener="#{dinheiroBean.risco4()}"/>
+                            </h:selectBooleanCheckbox>
+                        </span>
+                        <h:inputText id="dLimite4" 
+                                     class="input-5 dinheiroLimite limite4 numeroAC denhcheck4Res  "
+                                     value="#{dinheiroBean.dinheiro.inten4Lresp}">
+                            <p:ajax process="@this" event="blur" />
+                        </h:inputText>
+                        <h:inputText id="dValor4" 
+                                     value="#{dinheiroBean.dinheiro.inten4Valor}"
+                                     class="input-5 valorDinheiro4 numeroAC dinheiroValorRisco denhcheck4Val  ">
+                            <p:ajax process="@this" event="blur" />
+                        </h:inputText>
+                    </section>
+                    <section class="formatInput">
+                        <span class="input-2-1">
+                            <label><b>Item 5: </b>Outro transito</label>
+                            <h:selectBooleanCheckbox class="denhcheck5" id="Item5" value="#{dinheiroBean.dinheiro.inten5}"> 
+                                <p:ajax onstart="checkItem5()" process="@this Item5"  listener="#{dinheiroBean.risco5()}"  />
+                            </h:selectBooleanCheckbox>
+                        </span>
+                        <h:inputText id="dLimite5" 
+                                     class="input-5 dinheiroLimite limite5 numeroAC denhcheck5Res  "
+                                     value="#{dinheiroBean.dinheiro.inten5Lresp}">
+                            <p:ajax process="@this" event="blur" />
+                        </h:inputText>
+                        <h:inputText id="dValor5" 
+                                     value="#{dinheiroBean.dinheiro.inten5Valor}"
+                                     class="input-5 valorDinheiro5 numeroAC dinheiroValorRisco denhcheck5Val  ">
+                            <p:ajax process="@this" event="blur" />
+                        </h:inputText>
+                    </section>
+                </div>
+
+
+
+
+
+
+
+                <div class="aboutTill"> 
+                    <h4>Descrição de cada cofre</h4>
+                    <div>
+                        <section class="formularioSeguro formatInput aboutForm">
+                            <h:outputLabel value="Construído ou fixado" />
+
+                            <h:selectOneRadio id="Dcontr" class="selectoneD3" value="#{dinheiroBean.dinheiro.construido_ou_Fixo}">
+                                <f:selectItem  itemLabel="Parede" itemValue="Y"/>
+                                <f:selectItem  itemLabel="Chão" itemValue="N"/>
+                                <p:ajax update="@none"
+                                        process="@this"
+                                        event="blur"/>
+                            </h:selectOneRadio>
+                            <h:inputText 
+                                pt:placeholder="Nome do Fabricante" 
+                                title="Nome do Fabricante" 
+                                value="#{dinheiroBean.dinheiro.nome_Fabricante}"
+                                id="Dnomefabricante" 
+                                class=" input-total dinheiroNome DescricaoCofre   nomeFabricante">
+                                <p:ajax update="@none" 
+                                        process="@this"
+                                        event="blur"/>
+                            </h:inputText>
+                            <h:outputLabel style="display: none;" class="DinheiroInfo"/>
+                            <h:inputText 
+                                pt:placeholder="Nº do fabricante"
+                                title="Nº do fabricante" 
+                                id="Dnumerofabricante"
+                                value="#{dinheiroBean.dinheiro.numero_Fabricante}"
+                                class=" dinheiroFabricante DescricaoCofre  numeroFabricante input-2">
+                                <p:ajax update="@none"
+                                        process="@this"
+                                        event="blur"/>
+                            </h:inputText>
+                            <h:inputText 
+                                pt:placeholder="Tamanho"
+                                title="Em metros"
+                                id="Dtamanho" 
+                                value="#{dinheiroBean.dinheiro.tamanho}"
+                                class=" input-4 dinheiroTamanho DescricaoCofre    tamanho">
+                                <p:ajax update="@none"
+                                        process="@this" 
+                                        event="blur"/>
+                            </h:inputText>
+
+                            <h:inputText 
+                                pt:placeholder="Peso" 
+                                title="Em quilos"  
+                                id="Dpeso" 
+                                value="#{dinheiroBean.dinheiro.peso}"
+                                class=" input-4 pesoDinheiro DescricaoCofre numeroAC   numeroAC DescricaoCofre">
+                                <p:ajax update="@none"
+                                        process="@this" 
+                                        event="blur"/>
+                            </h:inputText>
+                            <h:inputText 
+                                pt:placeholder="Detentor das chaves"
+                                title="Detentor das chaves" 
+                                id="DdetenterChave"
+                                value="#{dinheiroBean.dinheiro.detentor_Chave}"
+                                class=" input-2 DescricaoCofre dinheiroChave   detentor_Chave">
+                                <p:ajax update="@none" 
+                                        process="@this"
+                                        event="blur"/>
+                            </h:inputText>
+                            <h:inputText styleClass="  estrutura DescricaoCofre"
+                                         pt:placeholder="Estrutura"
+                                         title="Estrutura"
+                                         id="Destrutura" class=" input-2 "
+                              
+                                         value="#{dinheiroBean.dinheiro.estrutura}">
+                                <p:ajax update="@none" 
+                                        process="@this"
+                                        event="blur"/>
+                            </h:inputText>
+                            <h:commandButton value="Adicionar" class=" dinheiroAdd addItemTable input-2" action="#{dinheiroBean.addTable()}" >
+                                <p:ajax onstart="VerificarCampos()" 
+                                        oncomplete="addTableDeCofre(xhr, status, args)"
+                                        update="dinhFormID:tabela1">
+                                </p:ajax>
+                            </h:commandButton>
+                        </section>
+                        <p:dataTable selectionMode="single" 
+                                     class="tillTable"
+                                     value="#{dinheiroBean.infoCofre}"
+                                     scrollHeight="220"
+                                     scrollable="true"
+                                     id="tabela1"
+                                     var="dn"
+                                     rowKey="#{dn}"
+                                     selection="#{dinheiroBean.dinheiro3}"
+                                     emptyMessage="Nenhuma informação encontrada">
+                            <p:column >
+                                <f:facet name="header"  >
+                                    Fabricante
+                                </f:facet>
+                                <h:outputLabel pt:class="tableTit" value="#{dn.nome_Fabricante}"/>
+                            </p:column>
+                            <p:column >
+                                <f:facet name="header">
+                                    Nº fabricante
+                                </f:facet>
+                                <h:outputLabel pt:class="tableTit" value="#{dn.numero_Fabricante}"/>
+                            </p:column>
+
+                            <p:column >
+                                <f:facet name="header">
+                                    Detentor chaves
+                                </f:facet>
+                                <h:outputLabel pt:class="tableTit" value="#{dn.detentor_Chave}"/>
+                            </p:column>
+                            <p:column >
+                                <f:facet name="header">
+                                    Estrutura
+                                </f:facet> 
+                                <h:outputLabel pt:class="tableTit" value="#{dn.estrutura}"/>
+                            </p:column>
+
+                            <p:ajax event="rowSelect" process="@this"/>
+                            <p:column headerText="Ações" width="80">
+                                <h:outputLabel class="actionTable icon-cancel-circle" title="Remover linha">
+                                    <p:ajax process="@this" event="click" listener="#{dinheiroBean.removeFromTable()}" />
+                                </h:outputLabel>
+                                <h:outputLabel class="actionTable icon-bin" title="Limpar tabela">
+                                    <p:ajax process="@this" event="click"  listener="#{dinheiroBean.limpar()}" />
+                                </h:outputLabel>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </div>
+                
+                    <h1>Informações adicionais</h1>
+                    <div class="infoComplement ">
+                    <section>
+                        <h:outputLabel value=" Distancia entre o edifício e o:"   class="cabecalhoTetx"/>
+                        <p>
+                        <h:outputLabel value="Banco" />
+                        <h:inputText value="#{dinheiroBean.dinheiro.banco}"
+                                     styleClass="" 
+                                     title="Distancia"
+                                     id="DinheiroBanco">
+                            <p:ajax process="@this" event="blur" />
+                        </h:inputText> 
+                        </p>
+                        <p>
+                        <h:outputLabel  value="Correio" />
+                        <h:inputText value="#{dinheiroBean.dinheiro.correio}" 
+                                     styleClass="" title="Distancia"
+                                     id="dinheiroCorreio">
+                            <p:ajax process="@this" event="blur" />
+                        </h:inputText>
+                        </p>
+                        <p>
+                        <h:outputLabel value="Outros" />
+                        <h:inputText value="#{dinheiroBean.dinheiro.outros}"
+                                     styleClass=""
+                                     title="Outro"
+                                     id="dinheiroOutro">
+                            <p:ajax process="@this" event="blur" />
+                        </h:inputText>
+                        </p>
+                    </section>
+                    <section>
+                        <h:outputLabel value="Transporte do dinheiro" />
+                        <h:inputText value="#{dinheiroBean.dinheiro.transporteDinheiro}"
+                                     styleClass=" denhTD" 
+                                     id="dinheiroTransporte"
+                                     title="Transporte do dinheiro">
+                            <p:ajax process="@this" event="blur" />
+                        </h:inputText>
+                    </section>
+
+                    <section>
+                        <h:outputLabel value="Tempo de permanência no banco" />
+
+                        <h:inputText value="#{dinheiroBean.dinheiro.tempoPermanenciaBanco}"
+                                     title="Tempo de permanência no banco"
+                                     id="dinheiroTempoPermanenciaBanco"
+                                     class="tempoPDinheiro  denhTPB">
+                            <p:ajax process="@this" event="blur" />
+                        </h:inputText>
+                    </section>
+                    <section>
+                        <h:outputLabel value="O dinheiro segurado no item 1 será pago no dia da receção no banco " />
+                        <h:selectOneRadio class="selectoneD3" 
+                                          value="#{dinheiroBean.dinheiro.pagamento1item}"
+                                          id="dinheiroPagamento">
+                            <f:selectItem  itemLabel="Sim" itemValue="Y"/>
+                            <f:selectItem  itemLabel="Não"  itemValue="N"/>
+                            <p:ajax process="@this" event="click" />
+                        </h:selectOneRadio>
+                        <h:inputText value="#{dinheiroBean.dinheiro.precupacao}"
+                                     id="dinheiroPrecaucao"
+                                     title="Precauções" >
+                            <p:ajax process="@this" event="blur" />
+                        </h:inputText>
+                    </section>
+                </div>
+
+                <h:form id="dinheiroSeguinte">
+                    <div class="PrNx">
+                        <h:commandButton value="Anterior" class="btPrevious btBack">
+                            <p:ajax />
+                        </h:commandButton>  
+                        <h:commandButton value="Seguinte"  class="btRight btNext" action="#{dinheiroBean.seguinte(risco)}">
+                            <f:ajax execute="@this dinhFormID" />
+                        </h:commandButton>
+                    </div>
+                </h:form>
+
+            </div>  
+
+        </h:form>
+
+    </h:body>
+    <script>
+//        alert($('span').height());
+    </script>
+</html>
+

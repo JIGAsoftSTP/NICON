@@ -1,0 +1,157 @@
+
+/* 
+    Created on : Mar 25, 2016, 12:32:14 PM
+    Author     : Junior
+*/
+
+.menu-lateral label{
+    display: inline-block;
+    width: 100%;
+    cursor: pointer;
+    padding: .85em 1.5em;
+}
+.contentContratos{
+    height: 100%;
+    display: flex;
+}
+.contentContratos > div{
+    height: 100%;
+}
+.contentContratos .menuLateral{
+    width: 260px;
+    background: #333;
+    flex-shrink: 0;
+}
+
+
+.divSearch{
+    padding: 1em 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    margin-bottom: 20px;
+}
+.divSearch h1{
+    font-weight: lighter;
+    font-size: 1.4rem;
+    color: #555;
+}
+.divSearch .searchMaster{
+    width: 100%;
+    max-width: 600px;
+    height: 40px;
+    display: flex;
+    border: 1px #ddd solid;
+}
+
+.searchMaster input,
+.searchMaster select{
+    border: none;
+    height: 100%;
+    padding: 0 5px;
+    color: #555;    
+}
+.searchMaster input[type=text]{
+    width: 100%;
+    padding-left: 10px;
+    font-size: 1rem;
+    flex-grow: 3;
+}
+
+.searchMaster select{
+    background: #f8f8f8;
+    border-right: 1px #ddd solid;
+    cursor: pointer;
+    appearance: none;
+    -moz-appearance: none; 
+    -webkit-appearance: none;
+    width: 200px;
+}
+.searchMaster .icon-search{
+    cursor: pointer;
+    display: inline-block;
+    padding: 0 10px;
+    font-size: 1.3rem;
+    background: #f8f8f8;
+    line-height: 40px; 
+    
+}
+.searchMaster .searchBt{
+    display: none;
+}
+.but{
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 20px 0;
+}
+.period-date{
+    display: none;
+}
+.buttons{
+    border: none;
+    padding: 10px 15px;
+    font-size: .95em;
+    font-weight: bold;
+    margin-left: 2em;
+    border-radius: 3px;
+    min-width: 100px;
+    background: #4682b4;
+    color: #fff;
+    transition: all .4s ease;
+}
+.buttons:hover{
+    background: #4d87e2;
+    transition: all .4s ease;
+}
+.modalPage{
+    font-size: .95rem;
+    color: #555;
+}
+.modalPage p{
+    margin: 20px 0;
+    width: 500px;
+}
+.modalPage label{
+    color: #4d87e2;
+    font-weight: bold;
+}
+.modalPage textArea,
+.modalPage input{
+    width: 100%;
+    border: 1px #d0d0d0 solid;
+    padding: 10px;
+}
+.modalPage textArea:focus,
+.modalPage input:focus{
+    border: 1px #4285F4 solid;
+    box-shadow: 0 0 5px 0 #4285F4 !important;
+    transition: all .4s ease;
+}
+
+.modalPage textArea{
+    margin-bottom: 20px;
+    
+}
+
+.modalPage nav{
+    margin-top: 20px;
+    width: 500px;
+    display: flex;
+    justify-content: space-between;
+}
+.divButtons input{
+    max-width: 120px;
+}
+.processamento{
+    background: rgba(0,0,0,.5);
+    position:fixed;
+    width: 100%;
+    height: 100vh;
+    left:0; top:0;
+    z-index: 10;
+    display: none;
+}
+
+

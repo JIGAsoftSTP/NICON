@@ -1,0 +1,106 @@
+
+/* 
+    Created on : Mar 25, 2016, 12:28:36 PM
+    Author     : Junior
+*/
+.hide-show-lateral{
+    position: absolute;
+    top: 8px;
+/*    top: 10px;
+    right: 10px;*/
+    /*transform: translateX(-100%);*/
+    right: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 2;
+    transition: all .3s ease;
+}
+.hide-show-lateral.is-hidden{
+    right: -50px;
+    color: #222 !important;
+    transition: all .3s ease;
+}
+.lateral-menu-content-page{
+    height: 100%;
+    display: flex;
+}
+.menu-lateral{
+    width: 270px;
+    flex-shrink: 0;
+    background: #222;
+    color: #fcfcfc;
+    overflow: auto; 
+    position: relative;
+    transition: all .3s ease;
+}
+.menu-lateral.shrink{
+    overflow: visible;
+    width: 0;
+    transition: all .3s ease;
+}
+.menu-lateral.shrink li{
+    padding: 0;
+    color: #fff;
+}
+.menu-lateral ul{
+    list-style: none;
+}
+.menu-lateral li{
+    
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    font-size: .95rem;
+    background: #222;
+    color: #f5f5f5;
+    border-bottom: 1px #333 solid;
+}
+.menu-lateral .header-menu{
+    display: block;
+    padding: 10px 0;
+    border-bottom: 0;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: lighter;
+    color: #ddd;
+}
+.single-menu-lateral .header-menu{
+    margin-bottom: 20px;
+}
+.single-menu-lateral .active-item-menu,
+.multi-menu-lateral .active-header-menu{
+    background: #4d87e2;
+    color: #fff;
+}
+.multi-menu-lateral .active-item-menu{
+    background: #333;
+}
+
+.multi-menu-lateral section div{
+    background: #303030;
+    display: none;
+}
+.multi-menu-lateral .active-section{
+    display: block;
+}
+.menu-lateral li:last-child,
+.menu-lateral section li:last-child{
+    border-bottom: none;
+} 
+.menu-lateral .active-item-menu:after{
+    content: "";
+    position: absolute;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 8px solid #FFF;
+    right: 0;
+    top: 50%;
+    margin-top: -4px;
+}
+
+.content-lateral{
+    flex-grow: 1;
+    position: relative;
+    padding: 1em 1.5em;
+    overflow: auto;
+}

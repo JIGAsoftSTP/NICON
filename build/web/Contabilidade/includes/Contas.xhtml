@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+    </h:head>
+    <h:body>
+        <h:form id="contaGrowl" >
+            <p:growl showDetail="false"  id="growlConta" life="10000"/>
+        </h:form>
+        <h:form id="GestConta" class="registrarConta" >
+
+            <div class="areaModal">
+                <div class="Modalframe">
+                    <div class="ModalConteiner">
+                        <div>
+                            <label class="CloseModalFrame">x</label>
+                        </div>
+                        <div class="export">
+                            <h:outputLabel class="Titulo" ></h:outputLabel>
+                        </div>
+                        <h:form id="contaForm" class="formConta">
+                            <div class="BobyModal">
+                                <h:selectOneRadio class="Conta" id="tipoConta" value="#{contaBean.conta.tipoConta}" >
+                                    <f:selectItem itemLabel="Conta Pagamento" id="Pag" class="Pag" itemValue="contaPagamento" />
+                                    <f:selectItem itemLabel="Conta Banco" id="Banc" class="Banc" itemValue="banco" />
+                                </h:selectOneRadio>
+                                <div class="border"></div>
+                                <di class="ContaPag">
+                                    <h:outputLabel value="Conta"/>
+                                    <h:inputText value="#{contaBean.conta.conta}" class="conta numeroAC contaBancoConta contaCampos"  id="contaBanco" maxlength="12"/>
+                                    <h:outputLabel value="Tipo"/>
+                                    <h:selectOneMenu value="#{contaBean.conta.tipoContaMovimento}" class="tipoContaM adicionarContaBanco">
+                                        <f:selectItem itemLabel="(Selecione)" />
+                                        <f:selectItems value="#{contaBean.listaMovimentos}" var="tipo" 
+                                                       itemLabel="#{tipo.value}" itemValue="#{tipo.id}" />
+                                    </h:selectOneMenu>
+                                    <h:outputLabel value="Banco"/>
+                                    <h:selectOneMenu value="#{contaBean.conta.banco}" class="bancoConta adicionarContaBanco">
+                                        <f:selectItem itemLabel="(Selecione)" />
+                                        <f:selectItems value="#{contaBean.bancos}" var="b" itemLabel="#{b.value}" itemValue="#{b.id}" />
+                                    </h:selectOneMenu>
+                                    <h:outputLabel value="Nº Conta"/>
+                                    <h:inputText value="#{contaBean.conta.numConta}" class="numConta numeroAC contaCampos" />
+                                    <h:outputLabel value="Moeda"/>
+                                    <h:selectOneMenu value="#{contaBean.conta.moeda}" class="moedaConta adicionarContaBanco contaCampos">
+                                        <f:selectItem itemLabel="(Selecione)" />
+                                        <f:selectItems value="#{contaBean.moedas}" var="moeda" itemLabel="#{moeda.value}" itemValue="#{moeda.id}" />
+                                    </h:selectOneMenu>
+                                </di>
+                                <di class="ContaBanco">
+                                    <section>
+                                        <h:outputLabel value="Nº Conta"/>
+                                        <h:inputText value="#{contaBean.conta.numContaPagamento}" class="numContaP numeroAC contaCampos" maxlength="12"/>
+                                        <h:outputLabel value="Designação"/>
+                                        <h:inputText value="#{contaBean.conta.designacao}" class="designacaoConta"/>
+                                    </section> 
+                                </di>
+                                <h:commandButton value="Guardar"  action="#{contaBean.manageAccount()}"  class="regConta">
+                                    <p:ajax process ="contaForm" onstart="$('.modalProcess').show()"  oncomplete="$('.modalProcess').hide()" />
+                                </h:commandButton>
+                            </div>
+                        </h:form>
+                    </div>
+                </div> 
+            </div>
+        </h:form>
+        <h:form id="accountTableForm" >
+            <div class="contentConta">
+                <div class="areaButtons">
+                    <h:commandButton value="Adicionar Nova" class="btNewConta abrir" type="button"/>
+                    <img src="../Images/pdf.jpg"></img><h:outputLabel class="pdf" value="Exportar PDF">
+
+                    </h:outputLabel>
+                    <img src="../Images/exel.jpg"></img><h:outputLabel class="excel" value="Exportar Exel">
+
+                    </h:outputLabel>
+                </div>
+                <div class="areaFiltro">
+                    <section>
+                        <h:selectOneRadio  id="tipoContaS" class="contaPesquisa" value="#{contaBean.conta.tipo}">
+                            <f:selectItem itemLabel="Conta Banco" itemValue="Conta Banco" />
+                            <f:selectItem itemLabel="Código de Pagamento" itemValue="Conta Pagamento" />
+                            <f:selectItem itemLabel="Todas" itemValue="Todas"/>
+                        </h:selectOneRadio>
+                    </section>
+                    <section>
+                        <p:remoteCommand actionListener="#{contaBean.searchAccount()}"  name="dadosPesquisa"/>
+                        <p:remoteCommand actionListener="#{contaBean.operacao()}"  name="accountOperation"/>
+                        <h:outputLabel value="Filtrar por:"></h:outputLabel>
+                        <h:selectOneMenu class="campoPesquisaConta" value="#{contaBean.conta.fieldSearch}" id="campoFiltro">
+                            <f:selectItems value="#{contaBean.listFieldSearch}" var="field" itemLabel="#{field.value}" itemValue="#{field.id}" />
+                            <p:ajax event="blur"  process="@this"/>
+                        </h:selectOneMenu>
+                        <h:inputText class="valorPesquisaConta">
+                        </h:inputText>
+                        <h:commandButton value="Ver" class="pequisarConta">
+                        </h:commandButton>
+                    </section>
+
+                </div>
+                <div class="areaTable">
+                    <p:dataTable class="tableConta" id="accountTable" value="#{contaBean.contas}" var="conta"
+                                 rowKey="#{conta}" selectionMode="single" selection="#{contaBean.contaSelecionada}"
+                                 scrollable="true" scrollHeight="350" emptyMessage="Nenhum registro encontrado"> 
+                        <p:ajax event="rowSelect" process="@this"  />
+                        <c:if test="#{contaBean.tipoConta.equalsIgnoreCase('Conta Banco')}">
+                             <p:column headerText="Conta">
+                                #{conta.conta}
+                            </p:column>
+                            <p:column headerText="Banco" >
+                                #{conta.banco}
+                            </p:column>
+                            <p:column headerText="Tipo Movimento"    >
+                                #{conta.tipoContaMovimento}
+                            </p:column>
+                            <p:column headerText="Moeda"  >
+                                #{conta.moeda}
+                            </p:column>
+                            <p:column headerText="Número Bancário">
+                                #{conta.numConta}
+                            </p:column>
+                            <p:column headerText="Saldo" >
+                                #{conta.saldo}
+                            </p:column>
+                            <p:column headerText="Valor Crédito" >
+                                #{conta.credito}
+                            </p:column>
+                            <p:column headerText="Valor Débito">
+                                #{conta.debito}
+                            </p:column>
+                        </c:if>
+                        <c:if test="#{contaBean.tipoConta.equalsIgnoreCase('Conta Pagamento')}">
+                              <p:column headerText="Conta">
+                                #{conta.conta}
+                            </p:column>
+                              <p:column headerText="Descrição">
+                                #{conta.designacao}
+                            </p:column>
+                              <p:column headerText="Crédito">
+                                #{conta.credito}
+                            </p:column>
+                        </c:if>
+                        <c:if test="#{contaBean.tipoConta.equalsIgnoreCase('todas')}">
+                              <p:column headerText="Número Conta">
+                                #{conta.numConta}
+                            </p:column>
+                              <p:column headerText="Descrição">
+                                #{conta.designacao}
+                            </p:column>
+                              <p:column headerText="Tipo Conta">
+                                #{conta.tipoConta}
+                            </p:column>
+                              <p:column headerText="Tipo Conta Banco">
+                                #{conta.tipoContaMovimento}
+                            </p:column>
+                        </c:if>
+                        <c:if test="#{!contaBean.tipoConta.equalsIgnoreCase('todas')}">
+                            <p:column width="50">
+                                <h:outputLabel class="icon-pencil" title="Editar">
+                                    <p:ajax event="click" process="@this" listener="#{contaBean.editarConta(conta)}" />
+                                </h:outputLabel>
+                            </p:column>
+                        </c:if>
+                    </p:dataTable>
+                </div>
+            </div>
+        </h:form>
+        <h:form>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+        </h:form>
+    </h:body>
+</html>
+

@@ -1,0 +1,350 @@
+/* 
+    Created on : 21/mar/2016, 16:53:17
+    Author     : Grinalda Soares
+*/
+*{
+    margin: 0;
+    padding: 0;
+    font-family: arial, sans-serif;
+}
+.geralMov{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: hidden
+}
+.geralMov > div{
+    display: flex;
+/*    border: 1px solid red;*/
+    height: auto;
+}
+.menuMovm{
+  flex-direction: column;
+  width: 15%;
+  background: #eee;
+  padding-top: 50px;
+}
+.menuMovm section{
+   display: flex; 
+   flex-direction: column;
+}
+.ContentMov{
+    width: 85%;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+}
+.menuMovm section a{
+    color: #555;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    background: #eee;
+    padding: 13px;
+    width: 100%;
+    cursor: pointer; 
+    transition: all .6s;
+}
+.menuMovm section .active{
+    background: #fff;
+    border-left: 5px solid #4682B4;
+}
+
+/*************** Body **************/
+
+.ContentMov div{
+     width: 100%;
+     display: flex;
+}
+.ContentMov article{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;  
+    margin-bottom: 1rem;
+}
+.ContentMov article h2{
+    padding: 10px 0;
+    color: #4682B4;
+    font: 18px arial;
+    font-weight: bolder;
+}
+.ContentMov article .btLancamento{
+    background: #43A72D;
+    padding: 13px 10px;
+    border: none;
+    color: #fff;
+    font: 14px arial;
+    font-weight: bolder;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.ContentMov .DV-lancamento{
+    flex-direction: column;
+}
+.areaTableMov{
+    flex-direction: column;
+}
+.areaTableMov .filtroMov label{
+    background: #eee;
+    padding: 10px;
+    border: none;
+    color: #555;
+    font: 14px arial;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 3px;
+    margin: 5px;
+    border: 1px solid #ddd;
+}
+.areaTableMov .filtroMov{
+    padding-bottom: 0.5rem;
+}
+.areaTableMov .filtroMov .active{
+    background: #4682B4;
+    color: #fff;
+    border: none;
+}
+.areaTableMov .tabbleMov{
+   height: 450px;
+   max-height: 450px;
+   overflow: scroll;
+}
+.tabbleConta{
+    height: 200px;
+    border: 1px solid red;
+    overflow: auto;
+    margin-top: -20px;
+}
+.areaLancamento{
+    position: absolute;
+    background: #fff;
+    box-shadow: -3px 5px 18px -6px #000;
+    right: -50%;
+    top: 60px;
+    transition: all .8s;
+    padding: 0 10px;
+    overflow: auto;
+    transform: rotate(20deg);
+}
+.DV-lancamento .areaLancamento{
+    width: 40%;
+    height: 88%;
+}
+.DV-cheque .areaLancamento{
+    width: 25%;
+    height: 65%;
+}
+.aparecer{
+    transform: rotate(0deg) !important;
+    right: 0 !important;
+}
+.bodyMov{
+    display: flex;
+    flex-direction: column;
+}
+.bodyMov article{
+    display: flex;   
+}
+.bodyMov section{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.bodyMov .esconder i{
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.bodyMov input[type=text],select, textarea{
+    padding: 9px;
+    font: 14px arial;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    color: #7F7F7F;
+}
+.bodyMov input[type=text]:hover,input[type=text]:focus,
+select:hover, select:focus,
+textarea:hover, textarea:focus{
+    box-shadow: 0 0 6px -1px #0088cc;
+}
+.bodyMov input[type=text],textarea{
+    width: 95%;
+}
+.bodyMov select{
+    width: 95%;
+}
+.bodyMov label{
+    color: #7e7e7e;
+    font: 16px arial;
+    margin-bottom: 3px;
+    padding-top: 5px;
+    font-weight: normal;
+}
+.bodyMov input[type=radio]{
+    padding: 0px;
+    margin:  0 10px;
+    border-bottom: 1px solid #eee; 
+}
+.bodyMov .areaBT input[type=submit], input[type=button]{
+    padding: 10px 10px;
+    border: none;
+    color: #fff;
+    font: 16px arial;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.bodyMov .sectionMenor{
+    width: 99%;
+    margin-top: -20px !important;
+    margin-left: 10px;
+}
+.bodyMov .menor{
+    width: 90%;
+}
+.bodyMov h3{
+    color: #4682B4;
+    font-size: 16px;
+    padding: 8px 0;
+}
+.areaBT{
+    display: flex;
+    justify-content: center !important;
+    align-items: center;
+    width: 100%;
+}
+.areaBT .btSaveMov{
+    width: 30% !important;
+    background: #0088cc;
+    margin-right: 5px;
+}
+.areaBT .btCancel{
+    width: 20% !important;
+    background: #0088cc;
+}
+#MOV{
+  display: none;
+}
+.ContentMov .ativo{
+    display: flex !important;
+}
+
+.areaPesquisar{
+    padding: 0 !important;
+    margin: 0 !important;
+    margin-left: 5rem !important; 
+    display: flex;
+    align-items: center;
+}
+.areaPesquisar input[type=text],.areaPesquisar select{
+    padding: 10px !important;
+    font: 14px arial;
+    border: 1px solid #ccc;
+    color: #7F7F7F;
+    border-right: none;
+    width: 20rem;
+}
+.areaPesquisar i{
+    padding: 8px;
+    font: 20px arial;
+    border: 1px solid #ccc;
+    color: #555;
+    background: #ddd;
+    border-left: none;
+    text-align: center;
+    cursor: pointer;
+}
+/* *******************Cheque******************** */
+
+.DV-cheque .bodyCheque{
+   display: flex; 
+   flex-direction: column;
+}
+
+.bodyCheque #serchCheque{
+    width: 40%;
+    margin-bottom: 1rem !important;
+    margin-left: 0 !important;
+}
+.bodyCheque #serchCheque input{
+    width: 100% !important;
+}
+.areaBT .btAddtoTable{
+  background: #36D7B7 !important;
+  width: auto !important;
+}
+
+.drop{
+    position: absolute;
+    z-index: 1;
+    width: 5%;
+    height: auto;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    border: 1px solid #eee;
+    box-shadow: -1px 0 5px -1px #000;
+    transition: all.4s;
+    visibility: hidden;
+}
+.in{
+    visibility: visible;
+    margin-top: 0.5rem;
+    margin-right: 1rem;
+}
+.drop .content-Drop{
+    display: flex;
+}
+.drop .content-Drop div{
+    display: flex;
+    flex-direction: column;
+}
+.drop .content-Drop h4{
+     background: #eee;
+     padding: 8px;
+     width: 100%;
+}
+.drop .content-Drop article:not(.title){
+    margin: 0 !important;
+    cursor: pointer;
+    justify-content: flex-start;
+    transition: all .5s;
+}
+.drop .content-Drop .title{
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.drop .content-Drop p{
+     padding: 2px 5px;        
+}
+.drop .content-Drop article p:nth-child(1), .drop .content-Drop article h4:nth-child(1){
+    width: 30%;
+}
+.drop .content-Drop article p:nth-child(2), .drop .content-Drop article h4:nth-child(2){
+    width: 70%;
+}
+.drop .content-Drop article:hover{
+    background: #F0F7FA;
+}
+.drop .content-Drop .list{
+    max-height: 300px;
+    overflow: auto;
+}
+.seeTable{
+    color: #0088cc;
+    font-size: 11px;
+    cursor: pointer;
+    padding-left: 1rem;
+    margin-bottom: 2rem;
+}
+.yes{
+    display: none !important;
+    transition: all .5s
+}

@@ -1,0 +1,65 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 21, 2016, 3:31:51 PM
+    Author     : Junior
+*/
+
+.addAuto{
+    display: flex;
+    flex-direction: column;
+}
+.addAuto > div:first-child{
+/*    width: 400px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    outline: 1px #4285F4 solid;*/
+}
+.addAuto > div:last-child{
+    /*flex-grow: 1;*/
+    padding-top: 10px;
+    overflow: hidden;
+}
+.addAuto .coberturaType{
+    font-weight: bold;
+    background: #f7f7f7;
+    padding: 15px 0;
+    text-align: center;
+}
+.addAuto input[type=text]{
+    margin-top: 5px;
+}
+.adicionarVeiculo{
+    padding: 15px;
+}
+.infoComplement{
+    background: #fdfdfd;
+    padding: 0 20px;
+}
+.infoComplement > section{
+    display: flex;
+    align-items: center;
+    font-size: .98em;
+    padding: 15px;
+    padding-left: 25px;
+    background: #fdfdfd;
+    color: #777;
+    border-bottom: 1px #f0f0f0 solid;
+}
+.infoComplement h4{
+    margin-top: 10px;
+}
+.infoComplement > section > label{
+    display: inline-block;
+    min-width: 540px;
+}
+.infoComplement input[type=text]{
+    position: relative;
+    right: -2.5%;
+}
+.infoComplement input[type=radio]{
+    margin-left: 30px;
+}

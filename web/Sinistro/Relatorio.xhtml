@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Sinistro | Relatório</title> 
+        <h:outputStylesheet library="Styles" name="ContaCss.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="GestaoConta.js" />
+        <h:outputScript library="js" name="Sinistro.js" />
+    </h:head>
+
+    <h:body id="SN-PAGE-RELATORIO">
+        <div class="ant-menus">            
+            <ui:include src="../includes/menuPrincipal.xhtml"/>
+            <ui:include src="includes/menuSinistro.xhtml"/>
+        </div>
+      
+        <div class="contentConta">
+            <h:form id="formRelatorioSinistro">
+                       
+                <div class="DivRelSin">
+                    <div class="areaButtons">
+                        <h:outputText value="Relatórios" class="titleSin"></h:outputText>
+                        <img src="../Images/pdf.jpg"></img><h:outputLabel value="Exportar PDF">
+                            <p:ajax process="@this" update="@this" onstart="$('.processamento').show()" 
+                                    event="click" listener="#{sinistroBean.reportSinistro(1)}" oncomplete="$('.processamento').hide()" />
+                        </h:outputLabel>
+                        <img src="../Images/exel.jpg"></img><h:outputLabel value="Exportar Exel">
+                            <p:ajax process="@this" update="@this" onstart="$('.processamento').show()" 
+                                    event="click" listener="#{sinistroBean.reportSinistro(2)}" oncomplete="$('.processamento').hide()" />
+                        </h:outputLabel>
+                    </div>
+                    <div class="areaAçoes">
+                        <h:outputText value="Ações" class="titleSin"></h:outputText>
+                        <i class="icon-pencil" onclick="$('.acoesP').dblclick()" title="Editar"></i>
+                        <i class="icon-cancel-circle" title="Anular" onclick="$('.acoesP').keydown()" ></i>
+                        <i class="icon-credit-card labelPagamento" onclick="$('.acoesP').click()" title="Solicitar Pagamento"></i>
+                    </div>
+                    <h:outputLabel class="acoesP" style="display: none" >
+                        <f:ajax event="keydown" listener="#{sinistroBean.desativeModalPagamento(1)}" />
+                        <f:ajax event="click" listener="#{sinistroBean.showModalPagamento()}" />
+                        <p:ajax event="dblclick" onstart="$('.processamento').show()" oncomplete="$('.processamento').hide()" listener="#{sinistroBean.editarSinistro()}" />
+                    </h:outputLabel>
+                </div>
+
+                <div class="areaFiltro">
+                    <h:selectBooleanCheckbox value="#{sinistroBean.anulado}" >
+                        <p:ajax process="@this" update="@this" listener="#{sinistroBean.pesquisaSinistro()}" />
+                    </h:selectBooleanCheckbox>
+                    <h:outputLabel value="Anulado" />
+                    <section class="areaDataRel">
+                        <h:outputLabel value="Data de Início"></h:outputLabel>
+                        <p:calendar value="#{sinistroBean.relatorio.dataInicio}" pattern="dd-MM-yyyy" class="dataInicio"
+                                    id="dataInicioSinistroRelatorio" navigator="true">
+                            <p:ajax event="dateSelect" process="@this dataFimSinistroRelatorio sinistroValorPesquisa"
+                                    listener="#{sinistroBean.pesquisaSinistro()}" />
+                        </p:calendar>
+                        <h:outputLabel value="Data de Fim"></h:outputLabel>
+                        <p:calendar value="#{sinistroBean.relatorio.dataFim}" id="dataFimSinistroRelatorio"  class="dataFim" pattern="dd-MM-yyyy"
+                                    navigator="true">
+                            <p:ajax event="dateSelect" process="@this dataInicioSinistroRelatorio sinistroValorPesquisa"
+                                    listener="#{sinistroBean.pesquisaSinistro()}" />
+                        </p:calendar>
+                    </section>
+                    <section class="areaPesquisa">                  
+                        <h:inputText class="valorPesquisaConta"  id="sinistroValorPesquisa"
+                                     pt:placeholder="Pesquise aqui..." value="#{sinistroBean.relatorio.valorPesquisa}"> 
+                            <p:ajax event="keyup" process="dataInicioSinistroRelatorio dataFimSinistroRelatorio sinistroValorPesquisa"
+                                    listener="#{sinistroBean.pesquisaSinistro()}" />
+                        </h:inputText>
+                        <h:commandButton value="Ver" class="pequisarConta" >
+                            <f:ajax  />
+                        </h:commandButton>
+                    </section>
+                </div>
+                <div class="areaTable">
+                    <p:dataTable class="tableConta" scrollable="true" scrollHeight="350" id="sinistroTabelaRelatorio"
+                                 emptyMessage="Nenhum registro encontrado"> 
+                        <p:ajax event="rowSelect" process="@this"/>
+                        <p:ajax event="rowDblselect" process="@this" listener="#{sinistroBean.moreInfoReport()}" onstart="$('.modalProcess').show()"
+                                oncomplete="$('.modalProcess').hide()"/>
+                    </p:dataTable>
+                </div>
+            </h:form>
+        </div>
+
+
+        <div class="areaModal">
+            <div class="Modalframe modalPagamentoS">
+                <div class="ModalConteiner">
+                    <div>
+                        <label class="CloseModalFrame">x</label>
+                    </div>
+                    <div class="export">
+                        <h:outputLabel>Solicitar Pagamento</h:outputLabel>
+                    </div>
+                    <h:form id="contaForm">
+                        <p:growl id="mesagemP" sticky="false" life="10000"/>
+                        <div class="BobyModal">
+                            <div class="ContaPag ContaPagF">
+                                <h:outputLabel value="Valor"></h:outputLabel>
+                                <h:inputText value="#{sinistroBean.pagamento.valor}" class="formatValue double" ></h:inputText>
+                                <h:outputLabel value="Data de Soliçitação"></h:outputLabel>
+                                <p:calendar value="#{sinistroBean.pagamento.dataPagamento}" maxdate="#{dataBean.maxDate}" pattern="dd-MM-yyyy" ></p:calendar>
+                                <h:outputLabel value="Observação"></h:outputLabel>
+                                <h:inputTextarea value="#{sinistroBean.pagamento.descricaoPagamento}" ></h:inputTextarea>
+                                <h:commandButton class="pReg" value="Guardar" onclick="validePagamento()" >
+                                    <p:ajax process="contaForm" />
+                                    <p:ajax event="keyup" process="contaForm" listener="#{sinistroBean.regPagamento()}" />
+                                </h:commandButton>
+                            </div>
+
+                        </div>
+                    </h:form>
+                </div>
+            </div> 
+            <div class="Modalframe anular">
+                <div class="ModalConteiner">
+                    <div>
+                        <label class="CloseModalFrame">x</label>
+                    </div>
+                    <div class="export">
+                        <h:outputLabel>Anular Registro</h:outputLabel>
+                    </div>
+                    <h:form>
+                        <div class="BobyModal">
+                            <div class="ContaPag">
+                                <h:outputLabel value="Justificação"></h:outputLabel>
+                                <h:inputTextarea value="#{sinistroBean.justificacao}" class="txtarea justText"></h:inputTextarea>
+                                <h:commandButton value="Guardar" class="btCancelJust" >
+                                    <p:ajax process="@this" event="click" onstart="valideDesativarSinistro()" />
+                                    <p:ajax event="keyup" process="@form" listener="#{sinistroBean.desativeModalPagamento(0)}"  />
+                                </h:commandButton>
+                            </div>
+
+                        </div>
+
+                    </h:form>
+                </div>
+            </div>   
+        </div>
+        
+        <div class="modalPage mp-infoTable" >
+                <div class="modalFrame">                                            
+                  <div class="modalContainer">
+                    <p><b>Mais Informações</b></p>
+                   <h:form id="sinistroRelatorioMaisInfo">
+                       <p ><h:outputLabel value="Apolice" class="negrito" /><h:outputText  value="#{sinistroBean.sinistro.apolice}" class="sinistroRelatorio"/></p>   
+                     <p>
+                         <h:outputLabel value="Seguro" class="negrito" /> <h:outputText value="#{sinistroBean.sinistro.seguro}"  class="sinistroRelatorio" />
+                     </p>   
+                     <p>
+                        <h:outputLabel value="Cliente" class="negrito" />  <h:outputText value="#{sinistroBean.sinistro.cliente}"  class="sinistroRelatorio"/>
+                     </p>   
+                     <p>
+                         <h:outputLabel value="Data de Ocorrência" class="negrito" />  <h:outputText id="marcaInfo"   value="#{sinistroBean.sinistro.dataOcorrencia}" style="margin-left: 94px;" />
+                     </p>   
+                     <p>
+                         <h:outputLabel value=" Local de Ocorrência" class="negrito" />  <h:outputText  value="#{sinistroBean.sinistro.local}" style="margin-left: 88px;"   />
+                     </p>   
+                     <p>
+                        <h:outputLabel value="Data de Inspeção " class="negrito" /> <h:outputText value="#{sinistroBean.sinistro.dataInspecao}" style="margin-left: 100px;"  />
+                     </p>   
+                     <p>
+                         <h:outputLabel value="Endereço do Sinistrado " class="negrito" /> <h:outputText value="#{sinistroBean.sinistro.enderecoSinistro}" style="margin-left: 60px;"  />
+                     </p>   
+                     <p>
+                        <h:outputLabel value="Narração do Sucedido" class="negrito" />  <h:outputText value="#{sinistroBean.sinistro.narracaoSucedido}" style="margin-left: 75px;"/>
+                     </p>   
+                     <p>
+                         <h:outputLabel value="Estimativa de Recuperação" class="negrito" />  <h:outputText value="#{sinistroBean.sinistro.estimativaRecuperacao}" style="margin-left: 38px;"/>
+                     </p>   
+                     <p>
+                        <h:outputLabel value="Medidas Tomadas" class="negrito" /> <h:outputText value="#{sinistroBean.sinistro.medidasTomadas}" style="margin-left: 105px;"   />
+                     </p>
+                     <p>
+                        <h:outputLabel value="Endereço Policial" class="negrito" />  <h:outputText value="#{sinistroBean.sinistro.enderecoPolicial}" style="margin-left: 104px;" />
+                     </p>
+                    <div class="sinistroVeiculo">
+                        <p>
+                            <h:outputLabel value="Número de Veiculo" class="negrito" />  <h:outputText value="#{sinistroBean.sinistro.numVeiculo}" style="margin-left: 100px;" />
+                        </p>
+                        <p>
+                            <h:outputLabel value="Número de Chassi" class="negrito" />  <h:outputText value="#{sinistroBean.sinistro.numChassi}" style="margin-left: 100px;" />
+                        </p>
+                    </div>
+                     <p>
+                         <h:outputLabel value="Data de Registro" class="negrito" />  <h:outputText value="#{sinistroBean.sinistro.dataRegistro}" style="margin-left: 110px;" />
+                     </p>
+                     <p>
+                         <h:outputLabel value="Estado" class="negrito" />  <h:outputText value="#{sinistroBean.sinistro.estado}" style="margin-left: 178px;" />
+                     </p><p/>
+                    <div class="sinistroTestemunha">
+                        <p><b><h:outputLabel value="Testemunha" style="margin-left: 90px;" /></b></p>
+                        <p>
+                           <h:outputLabel value="Nome" class="negrito" /> <h:outputText value="#{sinistroBean.testemunha.codigoNicon}" style="margin-left: 180px;" />
+                        </p>
+                        <p>
+                           <h:outputLabel value="Endereço" class="negrito" /><h:outputText value="#{sinistroBean.testemunha.value}" style="margin-left: 155px;"/>
+                        </p>
+                        <p>
+                            <h:outputLabel value="Telefone" class="negrito" />  <h:outputText value="#{sinistroBean.testemunha.destalhes}" style="margin-left: 155px;"/>
+                        </p>
+                    </div>
+                    </h:form>
+                     <div class="closeModalFrame moreData" >X</div>
+                  </div>
+                </div>
+                </div>
+        <h:form>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+        </h:form>
+    </h:body>
+      <script type="text/javascript">
+    </script>
+</html>
+

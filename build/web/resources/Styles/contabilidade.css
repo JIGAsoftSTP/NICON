@@ -1,0 +1,110 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : May 28, 2016, 11:58:24 PM
+    Author     : 4N7UN35
+*/
+
+.menuContabilidade{
+    position: relative;
+    width: 100%;
+    background: #fff;
+    overflow: hidden;
+    transition: all .4s;
+    
+}
+.menuContabilidade.show{
+    overflow: visible;
+    transition: all .4s;
+}
+.menuContabilidade i{
+    font-size: 1.3rem;
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 5px;
+    cursor: pointer;
+}
+.menuContabilidade i label{
+    display: inline-block;
+    position: absolute;
+    font-size: .7rem;
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    background: #E04343;
+    color: #fff;
+    text-align: center;
+    top: -7px;
+    right: -5px;
+    border-radius: 50%;
+    /*text-shadow: 1px 1px #ddd;*/
+}
+.list-notification{
+    position: absolute;
+    padding-right: 0;
+    margin-top: 15px;
+    width: 100%;
+    max-width: 450px;
+    top: 100%;
+    right: 0;
+    background: #fcfcfc; 
+    border: 1px #ddd solid;
+    box-shadow: 0 10px 15px -10px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    color: #666;
+    font-size: .95rem;
+    cursor: pointer;
+    max-height: 80vh;
+}
+.list-notification section{
+    padding: 1rem;
+    max-height: 74vh;
+    overflow: auto;
+}
+.list-notification:before,
+.list-notification:after{
+    content: "";
+    position: absolute;
+    
+}
+.list-notification:after{
+    border-left: 8px transparent solid;
+    border-right: 8px transparent solid;
+    border-bottom: 10px #fcfcfc solid;
+    top: 0;
+    right: 15px;
+    top: -10px;
+}
+.list-notification:before{
+    border-left: 9px transparent solid;
+    border-right: 9px transparent solid;
+    border-bottom: 11px #ddd solid;
+    top: -11px;
+    right: 14px;
+}
+.list-notification nav{
+    padding: .5rem 0;
+    padding-top: 1rem;
+    border-bottom: 1px #eee solid;
+}
+.list-notification nav:first-child{
+    padding-top: 0;
+}
+.list-notification nav:last-child{
+    border-bottom: 0;
+}
+.list-notification span{
+    display: flex;
+    width: 100%;
+    justify-content: space-between
+}
+.list-notification small{
+    display: block;
+    margin-top: 10px;
+}

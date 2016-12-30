@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <h:outputStylesheet library="Styles" name="clientes.css"></h:outputStylesheet>
+        
+    </h:head>
+    <h:body>
+        
+        <h:form  id="gSegCli_F2">
+       
+            <div class="processamento modalProcess">
+               <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+           </div>
+
+            <div class="divSearch">
+                <!--<label>Pesquisar cliente por: </label>-->
+                <div class="searchMaster">
+                    <label for="campoSqlP"></label>
+                    <h:selectOneMenu class="textClient"  id="campoSqlP" value="#{clienteBean.campo}"  >
+                        <f:selectItem itemValue="ID"  itemLabel="Código"/>       
+                        <f:selectItem itemValue="NIF"  itemLabel="NIF"/>  
+                        <f:selectItem itemValue="NOME"  itemLabel="Nome"/>  
+                        <f:selectItem itemValue="EMAIL"  itemLabel="Contacto"/> 
+                        <f:selectItem itemValue="RESIDENCIA"  itemLabel="Endereço"/>   
+                        <f:selectItem itemValue="TELEFONE"  itemLabel="Telefone"/>   
+                    </h:selectOneMenu>
+                    <h:inputText pt:placeholder="Procure por um cliente aqui..." class="textClient"  id="infoDigitado"  value="#{clienteBean.pesquisa}">
+                        <p:ajax event="click" process="@this campoSqlP" listener="#{clienteBean.search()}"
+                                update=":geriCliente:tabelaGestaoCliente :infoCliente:totalCliente" />
+                    </h:inputText>
+                        <label for="gSegCli_F2:btSearch" class="icon-search"></label>
+                    <h:commandButton  action="#{clienteBean.search()}" class="searchBt" id="btSearch">
+                        <p:ajax  process="campoSqlP infoDigitado" update=":geriCliente:tabelaGestaoCliente :infoCliente:totalCliente " />
+                    </h:commandButton>
+                </div>
+            </div>
+        </h:form>
+        <div class="geralClient"> 
+            <h:form>
+                <div class="secDiv">
+
+                    <h1>Clientes</h1>
+                    <div>
+                        
+                        <h:commandButton value="Imprimir" class="Print">
+                            <p:ajax update="@this" process="@this" listener="#{clienteBean.reportCliente(1)}"
+                                    onstart="$('.processamento').show()" oncomplete="$('.processamento').hide()" />
+                        </h:commandButton>
+                        <h:outputLabel id="sss"/>
+                        <label for="to-pdf"  class="icon-file-pdf labPDF" title="Exportar para PDF"></label>
+                    </div>
+
+                </div>
+            </h:form>
+            <h:form id="geriCliente">
+                <p:growl id="atualizarClienteGrowl" showDetail="false"/>
+                <p:dataTable    class="tabClient" scrollable="true" scrollHeight="300" value="#{clienteBean.listaClientes}" var="cliS"
+                                emptyMessage="Nenhum cliente encontrado"    
+                                rowKey="#{cliS}" selectionMode="single" selection="#{clienteBean.cliente}" id="tabelaGestaoCliente">
+                    <p:ajax event="rowDblselect" process="@this" listener="#{clienteBean.info()}"  onstart="mostrarP()"
+                            oncomplete="ClienteSelecionado(xhr, status, args),dados(), show(),fecharP()"/>
+                    <p:ajax event="rowSelect" process="@this" listener="#{clienteBean.info()}" 
+                            oncomplete="ClienteSelecionado(xhr, status, args),dados()"/>
+                    <p:column headerText="Código" width="30">
+                        <h:outputText value="#{cliS.numero}"/>
+                    </p:column>
+                    <p:column headerText="Tipo" width="30">
+                        <h:outputText value="#{cliS.tipoCliente}"/>
+                    </p:column>
+                    <p:column headerText="NIF"  width="40">
+                        <h:outputText value="#{cliS.nif}"/>
+                    </p:column>
+                    <p:column headerText="Nome Completo"  width="110">
+                        <h:outputText value="#{cliS.nome}" />
+                    </p:column>
+                    <p:column headerText="Contacto"  width="100">
+                        <h:outputText value="#{cliS.email}"/>
+                    </p:column>
+                    <p:column headerText="Residência" width="80" >
+                        <h:outputText value="#{cliS.morada}"/>
+                    </p:column>
+                    <p:column headerText="Telefone"  width="40">
+                        <h:outputText value="#{cliS.telefoneS}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <h:outputLabel style="display: none;" class="tipoCliente" />
+            <h:form id="infoCliente">
+                <div class="afterTable">
+                    <h:outputLabel class="clienteS"
+                                   value="(Nenhum cliente selecionado)" style="color: steelblue;"/> 
+                    <label>Total encontrado: 
+                        <h:outputLabel id="totalCliente" value="#{clienteBean.totalRegistro}" style="font-weight: bold;"/>
+                    </label>     
+                    
+                </div>
+            </h:form>
+
+        </div>
+        <div class="modalPage mp-addClient">
+            <div class="modalFrame">                                            
+                <div class="modalContainer   m-addClient">
+                    <ui:include src="addClient1.xhtml"/>
+                    <div class="closeModalFrame" >X</div>
+                    <label class="editClient"> <i class="icon-pencil"></i> Editar
+                        <h:outputLabel></h:outputLabel>
+                    </label>
+                </div>
+            </div>
+        </div>
+      
+    </h:body>
+    <ui:debug />
+    <script>
+        $('.labPDF').click( function (){
+            $('.Print').trigger('click');
+        });
+        function mostrarP()
+        {
+            $(".modalProcess").show();
+        }
+        function fecharP()
+        {
+             $(".modalProcess").hide();
+        }
+    </script>
+</html>
+

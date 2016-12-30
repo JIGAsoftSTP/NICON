@@ -1,0 +1,122 @@
+.divArticle h3{
+    font-size: 24px;
+    color: #4D87E2;
+    border-bottom: 2px solid #ddd;
+}
+.contentTaxa{
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+    background: #fff;
+}
+.contentTaxa div{
+    margin: 3px;
+    box-sizing: border-box;
+}
+.contentTaxa .ContentTaxaLeft{
+    width: 40%;
+}
+.contentTaxa .ContentTaxaRight{
+    width: 60%;
+}
+.contentTaxa .ContentTaxaRight .tableTaxa{
+    height: 350px;
+    
+}
+.contentTaxa article{
+    width: 100%;
+    display: flex;
+    padding: 5px 0 !important;
+}
+.contentTaxa section{
+    display: flex;
+    flex-direction: column;
+}
+.contentTaxa [type=text],.contentTaxa select, .contentTaxa textArea{
+    padding: 8px;
+    color: #333;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    width: 80%;
+    margin: 3px;
+}
+.contentTaxa label{
+   color: #333;
+   font-weight: bolder;
+   font-size: 16px;
+   margin: 5px;
+}
+.contentTaxa .areaButtonTaxa{
+   display: flex;
+   align-itens: center;
+   justify-content: center;
+   padding-top: 10px !important;
+   margin-top: 5px;
+   border-top: 2px solid #ddd;
+   width: 90%;
+    
+}
+.contentTaxa .areaButtonTaxa input[type=submit]{
+    width: 50%;
+    padding: 10px 0;
+    color: #fff;
+    background: #3991ee;
+    border: none;
+    font: 14px arial;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.txt1{
+    width: 45% !important;
+}
+.icon-pencil{
+    cursor: pointer;
+}
+.icon-pencil:hover{
+    color: #008000;
+}
+.ContentTaxaLeft{
+    
+    padding: 10px;
+}
+.ContentTaxaLeft section{
+    display: flex;
+    flex-direction: column;
+}
+.ContentTaxaLeft section [type=text]{
+    width: 85%;
+    margin-left: 15px;
+}
+.date{
+    width: 100%;
+    margin-left: 15px;
+}
+.ContentTaxaLeft .mg{
+    margin-left: 8px !important;
+}
+.txtMenor{
+    width: 70% !important;
+}
+.outrasTaxasNome{
+    width: 93% !important;
+    margin-left: 5px !important;
+}
+.areaPercentagem input, label{
+    margin: 0 !important;  
+}
+.areaPercentagem input{
+   border-right: none !important;
+    margin-left: 5px !important;
+}
+.areaPercentagem label{
+   border: 1px solid #ccc;
+   border-left: none;
+}
+.areaPercentagem label{
+    background: #eee;
+    padding: 8.5px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}

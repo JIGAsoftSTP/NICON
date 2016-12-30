@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <h:outputScript library="js" name="Administracao.js" />
+        <h:outputStylesheet library="Styles" name="veiculoCss.css"></h:outputStylesheet>
+    </h:head>
+
+    <h:body>
+        <h:form id="regVeiculoTableForm">
+
+            <div class="contentVeiculo">
+                <div class="areaButtonsV">
+                    <div class="areaSearchV">
+                        <p:autoComplete placeholder="Pesquise aqui..." value="#{veiculoBean.pesquisaVeiculo}" class="veiculoPesquisa"
+                                        completeMethod="#{veiculoBean.completarListaMatricula}" 
+                                 itemLabel="#{matricula}" maxResults="15" itemValue="#{matricula}" >                            
+                            <p:ajax update="@none" process="@this" onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()"
+                                    listener="#{veiculoBean.pesquisarVeiculo()}" event="itemSelect" />
+
+                            <p:ajax update="@none" process="@this" listener="#{veiculoBean.pesquisarVeiculo()}" event="keyup" />
+                        </p:autoComplete><i class="icon-search"></i>
+
+                    </div> 
+                    <div class="areaExportar">
+                        <h4>Exportar para:</h4>
+                        <i class="icon-file-excel" onclick="$('.excel').click()" title="Exel"></i>
+                        <h:outputLabel style="display: none" class="excel" >
+                             <p:ajax update="@none" process="@this" onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()"
+                                     listener="#{veiculoBean.reportVeiculo(2)}" event="click" />
+                        </h:outputLabel>
+                        <i class="icon-file-pdf" onclick="$('.pdf').click()" title="PDF"></i>
+                        <h:outputLabel style="display: none" class="pdf" >
+                             <p:ajax update="@none" process="@this" onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()"
+                                     listener="#{veiculoBean.reportVeiculo(1)}" event="click" />
+                        </h:outputLabel>
+                    </div>
+                    <h:commandButton value="Registrar Veículo" class="addArtigoV novoVeiculo" type="button"/>
+                </div>
+            
+            <div class="empresaReg">
+                <div class="areaTableV">
+                    <p:dataTable value="#{veiculoBean.listagemVeiculos}" id="regVeiculoTable"
+                                 var="veiculo" rowKey="#{veiculo}" selectionMode="single" scrollHeight="450" scrollable="true">
+                        <p:column headerText="Matricula" >
+                            #{veiculo.numeroMatricula}
+                        </p:column> 
+                        <p:column headerText="Marca">
+                            #{veiculo.marca}
+                        </p:column> 
+                        <p:column headerText="Modelo">
+                             #{veiculo.modelo}
+                        </p:column>
+                        <p:column headerText="Nº Motor">
+                             #{veiculo.numMotor}
+                        </p:column>
+                        <p:column headerText="Nº Chassi">
+                            #{veiculo.chassi}
+                        </p:column>
+                        <p:column headerText="Ano Fabrico">
+                            #{veiculo.anoFabrico}
+                        </p:column>
+                         <p:column headerText="Ano Compra">
+                            #{veiculo.anoCompra}
+                        </p:column>
+                         <p:column headerText="Capacidade">
+                           #{veiculo.capacidade}
+                        </p:column>
+                        <p:column >
+                            <h:outputLabel class="icon-pencil" title="Editar Veiculo">
+                                <p:ajax event="click" onstart="$('.modalProcess').show()" 
+                                        listener="#{veiculoBean.editarVeiculo(veiculo)}" oncomplete="$('.modalProcess').hide()" />
+                            </h:outputLabel>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+       
+        </div>
+          </h:form>   
+        <div class="pageModal fecharModalV">
+            <div class="modalFrame12">
+                <div class="closeModalFrameV fechar">X</div>
+                <h3>Registrar novo Veículo</h3>
+                <h:form class="formArtigo" id="regVeiculoForm" >
+                               <p:remoteCommand name="registroVeiculo" actionListener="#{veiculoBean.dadosRegistroVeiculo()}" process="@this" />
+                    <p:growl id="regVeiculoGrowl" showDetail="false" />
+                <div class="formV" style="margin: 0!important">
+                    <article>
+                        <section>
+                            <label>Matricula</label>
+                            <h:inputText class="regVeiculo regVeiculoNumMatricula regVeiculoLimpar" id="regVeiculoMatricula"  value="#{veiculoBean.veiculo.numeroMatricula}" >
+                            </h:inputText>
+                        </section>
+                        <section>
+                            <label>NºChassi</label>
+                            <h:inputText class="regVeiculo regVeiculoLimpar regVeiculoNumChassi" value="#{veiculoBean.veiculo.chassi}"  maxlength="17"
+                                         id="regVeiculoChassi" required="true"></h:inputText>
+                        </section>
+                    </article>
+                    <article>
+                        <section>
+                            <label>Marca</label>
+                            <p:autoComplete value="#{veiculoBean.veiculo.marca}" required="true" id="regVeiculoMarca" maxResults="12" itemLabel="#{marca}" itemValue="#{marca}"
+                                            completeMethod="#{veiculoBean.completarListaMarca}" var="marca">
+                                <p:ajax update="@none" process="@this" />
+                            </p:autoComplete>
+                        </section>
+                        <section>
+                            <label>Modelo</label>
+                            <p:autoComplete value="#{veiculoBean.veiculo.modelo}" maxResults="12" var="modelo" id="regVeiculoModelo" required="true"
+                                            completeMethod="#{veiculoBean.completarListaModelo}"
+                                        itemLabel="#{modelo}" itemValue="#{modelo}" >
+                                <p:ajax update="@none" process="@this" />
+                            </p:autoComplete>
+                        </section>
+                    </article>
+                     <article>
+                        <section>
+                            <label>Nº Motor</label>
+                            <h:inputText class="regVeiculoLimpar regVeiculoMotor" value="#{veiculoBean.veiculo.numMotor}" id="regVeiculoNumMotor"></h:inputText>
+                        </section>
+                        <section>
+                            <label>Ano Fabrico</label>
+                            <h:inputText class="justIntiger regVeiculoLimpar regVeiculoAnoFabricacao"      maxlength="4" 
+                                         value="#{veiculoBean.veiculo.anoFabrico}" id="regVeiculoAnoFabrico"></h:inputText>
+                        </section>
+                    </article>
+                     <article>
+                        <section>
+                            <label>Ano compra</label>
+                            <h:inputText class="justIntiger regVeiculoLimpar regVeiculoAnoCompraV"      maxlength="4" 
+                                         value="#{veiculoBean.veiculo.anoCompra}" id="regVeiculoAnoCompra"></h:inputText>
+                        </section>
+                        <section>
+                            <label>Capacidade</label>
+                            <h:inputText class="regVeiculo justIntiger regVeiculoLimpar regVeiculoCapacidadeV" value="#{veiculoBean.veiculo.capacidade}" id="regVeiculoCapacidade" required="true"></h:inputText>
+                        </section>
+                    </article>
+                </div>
+                    <h:commandButton value="Guardar" class="addArtigoV btSaveV buttonAddCar" >
+                        <p:ajax process="@this"  />
+                    </h:commandButton>
+                </h:form>
+            </div>
+   
+            </div>
+    
+        <h:form>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+        </h:form>
+    </h:body>
+    <style>
+        .icon-pencil{cursor: pointer;}
+    </style>
+    <script>
+        $(document).ready(function()
+        {
+            var modelo = "input:text[name='regVeiculoForm:regVeiculoModelo_input']";
+            var marca = "input:text[name='regVeiculoForm:regVeiculoMarca_input']";
+            
+            $(".fechar").click(function()
+            {
+                $(".pageModal").addClass('fecharModalV');
+            });
+            
+            $(".novoVeiculo").click(function()
+            {
+                $('.regVeiculoLimpar').val("");
+                $('.regVeiculoLimpar').css("border","");
+                veiculoRegistrado();
+                $(".modalFrame12 h3").html("Registrar Veiculo");
+                $(".regVeiculoNumMatricula").attr("disabled", false);
+                $(".pageModal").removeClass('fecharModalV');
+                return false;
+            });
+            
+            $(".buttonAddCar").click(function ()
+            {
+                var valido = true;
+                if($(modelo).val() === "")
+                {
+                    $(modelo).css("border","1px solid red");
+                    valido = false;
+                }
+                if($(marca).val() === "")
+                {
+                    $(marca).css("border","1px solid red");
+                    valido = false;
+                }
+               $(".regVeiculo").each(function ()
+               {
+                    if($(this).val() === '')
+                    {
+                        valido = false;
+                        $(this).css("border"," 1px solid red");
+                    }
+               });
+               if(valido === true)
+               {
+                   $(".modalProcess").show();
+                   enviarDadosRegistroVeiculo();
+               }
+            });
+            
+          
+            
+        });
+        function veiculoRegistrado()
+        {
+            $('.modalProcess').hide();
+            $("input:text[name='regVeiculoForm:regVeiculoMarca_input']").val("");
+            $("input:text[name='regVeiculoForm:regVeiculoModelo_input']").val("");
+        }
+        
+        function editarVeiculo(matricula, chassi, marca, modelo, numMotor, anoFabrico, anoCompra, capacidade)
+        {
+            $(".modalFrame12 h3").html("Editar Veiculo");
+            $(".regVeiculoNumMatricula").val(matricula);
+            $(".regVeiculoNumMatricula").attr("disabled", true);
+            $("input:text[name='regVeiculoForm:regVeiculoChassi']").val(((chassi==='null') ? "" : chassi));
+            $("input:text[name='regVeiculoForm:regVeiculoMarca_input']").val(((marca==='null')? "" : marca));
+            $("input:text[name='regVeiculoForm:regVeiculoModelo_input']").val(((modelo==='null') ? "" : modelo));
+            $("input:text[name='regVeiculoForm:regVeiculoNumMotor']").val(((numMotor==='null') ? "" : numMotor));
+            $("input:text[name='regVeiculoForm:regVeiculoAnoFabrico']").val(((anoFabrico === 'null')? "" : anoFabrico));
+            $("input:text[name='regVeiculoForm:regVeiculoAnoCompra']").val(((anoCompra==='null')? "" : anoCompra));
+            $("input:text[name='regVeiculoForm:regVeiculoCapacidade']").val(((capacidade==='null') ? "" : capacidade));
+            $(".pageModal").removeClass('fecharModalV');
+        }
+        function enviarDadosRegistroVeiculo()
+        {
+             var modelo = "input:text[name='regVeiculoForm:regVeiculoModelo_input']";
+            var marca = "input:text[name='regVeiculoForm:regVeiculoMarca_input']";
+            registroVeiculo([{name:'matricula',value:$(".regVeiculoNumMatricula").val()},  
+                       {name:'chassi',value:$(".regVeiculoNumChassi").val()},
+                       {name:'marca', value:$(marca).val()},
+                       {name:'modelo', value:$(modelo).val()},
+                       {name:'motor', value:$(".regVeiculoMotor").val()},
+                       {name:'anoFabrico', value:$(".regVeiculoAnoFabricacao").val()},
+                       {name:'anoCompra', value:$(".regVeiculoAnoCompraV").val()},
+                       {name:'capacidade', value:$(".regVeiculoCapacidadeV").val()}]);
+        }
+    </script>
+
+</html>
+

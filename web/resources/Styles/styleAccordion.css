@@ -1,0 +1,38 @@
+/* 
+    Created on : Aug 21, 2015, 3:30:32 PM
+    Author     : Junior
+*/
+.accordion{
+    width: 100%;
+    padding: 0; margin: 6px 0;
+    list-style: none;     
+}
+.accordionHeader{
+    display: block;
+    text-decoration: none;
+    font: 16px sans-serif;
+    color:  #fff;
+    line-height: 2em;
+    background:rgba(85,107,47,0.5);
+    padding: 0 0 0 20px;
+    border-bottom: 1px #fff solid;
+}
+.accordionContent{
+    padding: 0px 5px; 
+    margin: 0;
+    height: 0;
+    overflow: hidden;
+    transition: all .2s ease;
+    max-height: 0;
+}
+.accordionContent:target{
+    padding: 10px 5px; margin: 0;
+    overflow: visible;
+    height: 442px;    
+    max-height: 90%;
+    overflow-y: scroll;
+}
+#ID_accordion2, #ID_accordion3{
+    display: none;
+}
+

@@ -1,0 +1,95 @@
+/* 
+    Created on : 18/mar/2016, 7:26:19
+    Author     : Grinalda Soares
+*/
+
+#menssa{
+    height: 100%;
+}
+    .ContentEMParc{
+        display: flex;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius:  8px;
+        background: #fff;
+        overflow: hidden;
+        padding: 0 2rem 3rem 0;
+    }
+    .corpoEMParc{
+        padding: 0 3% 0 2%;
+        width: 90%;
+    }
+    #title{
+        padding: 15px 20px;
+        color: #4682b4;
+        font-weight: bolder;
+        font: 20px arial;
+        font-weight: bold;
+        background: #fff;
+    }
+    .btEParc{
+        padding: 8px;
+        width: 120px;
+        background:  #3366ff;
+        color: #fff;
+        font: 14px arial;
+        border: none;
+        border-radius: 3px;
+        font-weight: bold;
+        margin: 10px 10px;
+    }
+    
+    .btEParc:hover{
+        cursor: pointer;
+        background: #0092db;
+    }
+    .panEParc input, select{
+        padding: 9px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        color: #333;
+        margin: 0 0 20px 10px;
+        width: 95%;
+    }
+    .panEParc label{
+        color: #7e7e7e;
+        font: 16px arial;
+        margin: 10px;
+        padding-top: 10px;
+    }
+    .panEParc{
+        width: 100%;
+    }
+    .tableEMPar{
+        border: 1px solid #cccccc;
+        height: 285px;
+        margin-top: 5%;
+        margin-right: 10px;
+        margin-left: 20px;  
+        margin-bottom: 10px;
+    }
+    .TableEMParc{
+        border-left: 1px solid #ddd;
+        width: 140%;
+    }
+   
+    .TableTax{
+        height: 500px;
+    }
+     
+    #forBanco{
+        height: auto;
+        
+    }
+
+    .panEParcT{
+        width: 100%;
+    }
+    .panEParcT input,
+    .panEParcT select{
+        padding: 10px 6px;
+        width: 100%;
+        margin: 0;
+        margin-bottom: 1rem;
+        border: 1px #ddd solid;
+    }

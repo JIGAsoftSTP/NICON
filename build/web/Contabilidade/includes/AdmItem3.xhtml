@@ -1,0 +1,637 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <h:head>
+        <title>Administração</title>
+         <h:outputScript library="js" name="Transferencia.js" />
+    </h:head>
+    <h:body id="bodyAdmItem3" class="bodyAdmItem3">
+        
+        <!--####################### BANK DEPOSIT ######################-->
+        <ul class="menuAdm3">
+            <a href="#sectionBank" class="bancMenu">Banco</a>
+            <a href="#sectionCheq">Cheque</a>
+        </ul>
+        <div class="contentsAdm3">
+            <div id="#sectionBank" class="contcont item1">
+                <h:form id="transf">
+                    
+                    <div jsf:id="assADM" class="adm3Section1">
+            
+                        <!--#### Add a bank ####-->  
+                        <div class="addBankDiv">
+                            <p>
+                                <label>Sigla</label>
+                                <h:inputText id="admSigla" value="#{administracaoBean.banco.sigla}"/>
+                            </p>
+                            <p>
+                                <label>Banco</label>
+                                <h:inputText class="banco" id="admNome" value="#{administracaoBean.banco.nome}"/>
+                            </p>
+                            
+                            <h:commandButton value="Registrar">
+                                <f:ajax event="click" execute="admSigla admNome" render="admSigla admNome admTableBanco admGrowl" listener="#{administracaoBean.regBanco('dd')}"/>
+                            </h:commandButton>
+                        </div>
+                        <div class="tableBankDiv">
+
+                            <!--##### Table registed banks ####-->
+                            <p:dataTable selection="#{administracaoBean.bancoSelected}" 
+                                         selectionMode="single"
+                                         emptyMessage=""
+                                         rowKey="#{lb}"
+                                         id="admTableBanco"
+                                         value="#{administracaoBean.listaBancos}" var="lb"
+                                         scrollable="true"
+                                         scrollHeight="200">
+                                <p:column headerText="Sigla" width="20">
+                                    <h:outputText value="#{lb.sigla}"/>
+                                </p:column>
+                                <p:column headerText="Nome" width="60">
+                                    <h:outputText value="#{lb.nome}"/>
+                                </p:column>
+                                <p:column headerText="Saldo" width="40">
+                                    <h:outputText value="#{lb.saldo}"/>
+                                </p:column>
+                                <p:ajax event="rowSelect" update=":transf:AdmMovBanco :formAdmAh:tabelaChequid" listener="#{administracaoBean.MovimentoEChequeBanco(null)}"/>
+                            </p:dataTable>
+                        </div>
+                        <div jsf:id="assADM1" class="div2">                        
+                            <p:dataTable id="AdmMovBanco" value="#{administracaoBean.listaCreditoBancos}" var="bM"
+                                        scrollable="true"
+                                        emptyMessage=""
+                                        scrollHeight="200">
+                                <p:column headerText="Data" width="20">
+                                    <h:outputText value="#{bM.datePT}"/>
+                                </p:column>
+                                <p:column headerText="Débito" width="40">
+                                    <h:outputText value="#{bM.dedito}"/>
+                                </p:column>
+                                <p:column headerText="Crédito" width="40">
+                                    <h:outputText value="#{bM.credito}"/>
+                                </p:column>
+                                <p:column headerText="Designação" width="200">
+                                    <h:outputText value="#{bM.disignacao}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                        <div class="MovDebCred">
+                            <div class="mov">
+                                <h3>Movimentações Bancárias</h3>
+                                
+                                
+                                <div>
+                                    <p>
+                                        <label for="aDebitar">De</label>
+                                        <h:selectOneMenu  id="aDebitar" class="bancoD"
+                                                          value="#{creditoBean.transferencia.bancoDebitar}">
+                                            <f:selectItem itemLabel="(Selecione)"/>
+                                            <f:selectItems value="#{creditoBean.bancos}" var="valorD" itemValue="#{valorD.id}" itemLabel="#{valorD.value}"/>
+                                        </h:selectOneMenu> 
+                                        <label class="valourMov">$</label><h:outputLabel></h:outputLabel>
+                                    </p>
+                                    <p>
+                                    <label for="aCrebitar">Para</label>
+                                        <h:selectOneMenu  id="aCrebitar" class="bancoC"
+                                                          value="#{creditoBean.transferencia.bancoCreditar}" >
+                                            <f:selectItem itemLabel="(Selecione)"/>
+                                            <f:selectItems value="#{creditoBean.bancos}"  var="valorD" itemValue="#{valorD.id}" itemLabel="#{valorD.value}" />
+                                        </h:selectOneMenu> 
+                                    <label class="valourMov">$</label><h:outputLabel></h:outputLabel>
+                                    </p>
+                                    <p>
+                                        <label for="valueToTranf">Valor</label>
+                                        <h:inputText id="valueToTranf" 
+                                                     value="#{creditoBean.transferencia.valorTransferir}"
+                                                     class="TransferenciaValor">
+                                        </h:inputText>
+                                    </p>
+                                    <label>Descrição</label>
+                                    <h:inputTextarea value="#{creditoBean.transferencia.descricao}" class="TransfDescricao"/>
+                                    <h:commandButton value="Validar" class="movimentacaoValidar" action="#{creditoBean.transferir(null)}">
+                                        <f:ajax execute="@form" render="transf:moviemtacaoB"/>
+                                    </h:commandButton>
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="debcred">
+                                <h3>Débito/Crédito</h3>
+                                
+                                <div>
+                                    <h:selectOneRadio value="#{creditoBean.contas.tipoOperacao}"  id="tipoO" class="radioDC">
+                                        <f:selectItem itemValue="D" itemLabel="Debitar" />
+                                        <f:selectItem itemValue="C" itemLabel="Creditar"/>                   
+                                    </h:selectOneRadio>
+                                    <p>
+                                        <label for="n_Doc">Nº Documento</label>
+                                        <h:inputText id="n_Doc" value="#{creditoBean.contas.numeroDoc}" class="numeroDocumento"/>
+                                    </p>
+                                    <p>
+                                        <label for="n_Val">Valor</label>
+                                        <h:inputText id="n_val" value="#{creditoBean.contas.valor}" class="valor numero2"/>
+                                    </p>    
+                                    
+                                    <p>
+                                        <label for="n_Banco">Banco</label>
+                                        <h:selectOneMenu  id="Banco" value="#{creditoBean.contas.banco}" class="bancoDebitoC">
+                                            <f:selectItem itemLabel="(Selecione)" />
+                                            <f:selectItems value="#{creditoBean.bancos}" var="b" itemValue="#{b.id}" itemLabel="#{b.value}" />
+                                        </h:selectOneMenu> 
+                                    </p>
+                                    <h:commandButton value="Validar" action="#{creditoBean.DebitoCredito(null)}">
+                                        <f:ajax execute="tipoO n_Doc n_val Banco" render="transf:moviemtacaoB"/>
+                                    </h:commandButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p:growl id="mensagem" />
+            </h:form>
+                </div>
+                    <div id="#sectionCheq" class="contcont item2">
+                        <h:form id="formAdmAh">
+                            <p:growl id="admGrowl" showDetail="false" sticky="true"/>
+                            
+                            <h3>Registro de cheques</h3>
+                            <div class="divAddCheq">
+                               
+                                <div> 
+                                    <p>
+                                        <label>Banco</label>
+                                        <h:selectOneMenu class="seqBanco" value="#{creditoBean.sequenciaCheque.banco}" id="chequeBancoID">
+                                            <f:selectItem itemLabel="(Selecione)" itemValue="xxx0xxx" />
+                                            <f:selectItems value="#{creditoBean.bancos}" var="ban" itemValue="#{ban.id}" itemLabel="#{ban.value}"/>
+                                            <p:ajax event="blur" process="chequeBancoID agenciaCheque "
+                                                listener="#{administracaoBean.sequenciaBanco(creditoBean.sequenciaCheque.banco
+                                                            ,creditoBean.sequenciaCheque.agencia)}"
+                                                    update="tabelaChequid"/>
+                                            <p:ajax event="blur" process="chequeBancoID dataSaldos agenciaCheque" 
+                                                    listener="#{creditoBean.saldos()}"
+                                                    update="admTable1"/>
+                                            <p:ajax event="blur" process="chequeBancoID dataInicialDeposito dataFinalDeposito  agenciaCheque" 
+                                                    listener="#{creditoBean.listaCobrancas()}"
+                                                    update="listaCobrancas"/>
+                                        </h:selectOneMenu> 
+                                    </p>
+                                    <p>
+                                        <label>Agência</label>
+                                        <h:selectOneMenu class="" value="#{creditoBean.sequenciaCheque.agencia}" id="agenciaCheque">
+                                            <f:selectItem itemLabel="(Selecione)" />
+                                            <f:selectItems value="#{creditoBean.listaAgencia}" var="age" itemValue="#{age.id}" itemLabel="#{age.value}"/>
+                                              <p:ajax event="blur" process="chequeBancoID agenciaCheque "
+                                                listener="#{administracaoBean.sequenciaBanco(creditoBean.sequenciaCheque.banco
+                                                            ,creditoBean.sequenciaCheque.agencia)}"
+                                                    update="tabelaChequid"/>
+                                                 <p:ajax event="blur" process="chequeBancoID dataInicialDeposito dataFinalDeposito  agenciaCheque" 
+                                                    listener="#{creditoBean.listaCobrancas()}"
+                                                    update="listaCobrancas"/>
+                                                 <p:ajax event="blur" process="chequeBancoID dataSaldos agenciaCheque" 
+                                                    listener="#{creditoBean.saldos()}"
+                                                    update="admTable1"/>
+                                        </h:selectOneMenu> 
+                                    </p>
+                                    <p>
+                                        <label>Sequencia de Inicio</label>
+                                        <h:inputText class="numero2 seqInicio" maxlength="30" value="#{creditoBean.sequenciaCheque.inicio}"></h:inputText>
+                                    </p>
+                                    <p>
+                                        <label>Sequencia de Fim</label>
+                                        <h:inputText class="numero2 seqFin" maxlength="30" value="#{creditoBean.sequenciaCheque.fim}"></h:inputText>
+                                    </p>
+                                    <p>
+                                    <label>Total Folhas</label>
+                                    <h:inputText class="numero2 seqTotal" value="#{creditoBean.sequenciaCheque.totalfolhas}"></h:inputText>
+                                    </p>
+                                    <h:commandButton value="Registrar" action="#{creditoBean.regSequenciaCredito()}" class="regSequenciaCheque">
+                                        <p:ajax process="formAdmAh" />
+                                    </h:commandButton>
+                                </div>
+                                <div class="tableCheqs">        
+                                    <p:dataTable scrollHeight="200"  scrollable="true"
+                                                 value="#{creditoBean.cheques}" var="cheque" id="chequesTabela" emptyMessage="">
+                                            <p:column headerText="Banco" width="20">
+                                                <h:outputText value="#{cheque.banco}"/>
+                                            </p:column>
+                                            <p:column headerText="Agência" width="60">
+                                                <h:outputText value="#{cheque.agencia}"/>
+                                            </p:column>
+                                            <p:column headerText="Seq. Inicio" width="60">
+                                                <h:outputText value="#{cheque.inicio}"/>
+                                            </p:column>
+                                            <p:column headerText="Seq. Fim" width="40">
+                                                <h:outputText value="#{cheque.fim}"/>
+                                            </p:column>                     
+                                            <p:column headerText="Total folhas" width="40">
+                                                <h:outputText value="#{cheque.totalfolhas}"/>
+                                            </p:column>                     
+                                        </p:dataTable>
+                                </div>
+                            </div>
+                            <div class="accordCheq">
+ 
+                                <div class="sectionsTableC">
+                                    <h4 class="activeMenu">Saldos diários</h4>
+                                    <div class="divOpened">
+                                        <section class="dateAccord">
+                                            Data
+                                            <p:calendar class="calendarCheq" value="#{creditoBean.relatorio.data}"  navigator="true" id="dataSaldos" >
+                                                <p:ajax event="dateSelect" process="chequeBancoID dataSaldos agenciaCheque" 
+                                                    listener="#{creditoBean.saldos()}"
+                                                    update="admTable1"/>
+                                            </p:calendar>                                           
+                                        </section>
+                                        <p:dataTable id="admTable1" var="saldo" emptyMessage="" 
+                                                     scrollHeight="200" value="#{creditoBean.saldosD}">
+                                            <p:column headerText="Data" width="20">
+                                                <h:outputText value="#{saldo.data}"/>
+                                            </p:column>
+                                            <p:column headerText="Débito" width="60">
+                                                <h:outputText value="#{saldo.debito}"/>
+                                            </p:column>
+                                            <p:column headerText="Crédito" width="60">
+                                                <h:outputText value="#{saldo.credito}"/>
+                                            </p:column>
+                                            <p:column headerText="Designação" width="40">
+                                                <h:outputText value="#{saldo.nome}"/>
+                                            </p:column>                     
+                                        </p:dataTable>
+                         
+                                    </div>
+                                </div> 
+                                <div class="sectionsTableC">
+                                    <h4>Cobrança e depósitos diários</h4>
+                                    <div>
+                                        <section class="dateAccord">
+                                             Data inicial
+                                             <p:calendar class="calendarCheq" value="#{creditoBean.relatorio.dataInicial}" navigator="true" id="dataInicialDeposito" >
+                                                    <p:ajax event="dateSelect" process="chequeBancoID dataInicialDeposito dataFinalDeposito  agenciaCheque" 
+                                                    listener="#{creditoBean.listaCobrancas()}"
+                                                    update="listaCobrancas"/>
+                                            </p:calendar>
+                                            Data final
+                                            <p:calendar class="calendarCheq" value="#{creditoBean.relatorio.dataFinal}" id="dataFinalDeposito" navigator="true" >
+                                                     <p:ajax event="dateSelect" process="chequeBancoID dataInicialDeposito dataFinalDeposito  agenciaCheque" 
+                                                    listener="#{creditoBean.listaCobrancas()}"
+                                                    update="listaCobrancas"/>
+                                            </p:calendar>
+                                        </section>
+                                        <p:dataTable emptyMessage="" scrollHeight="200" 
+                                                     id="listaCobrancas" value="#{creditoBean.cobrancas}" var="co">
+                                            <p:column headerText="Data" width="20">
+                                                <h:outputText value="#{co.data}"/>
+                                            </p:column>
+                                            <p:column headerText="Débito" width="60">
+                                                <h:outputText value="#{co.debito}"/>
+                                            </p:column>
+                                            <p:column headerText="Crédito" width="60">
+                                                <h:outputText value="#{co.credito}"/>
+                                            </p:column>
+                                            <p:column headerText="Sigla" width="40">
+                                                <h:outputText value="#{co.sigla}"/>
+                                            </p:column>
+                                             <p:column headerText="Banco" width="40">
+                                                 <h:outputText value="#{co.nome}"/>
+                                            </p:column>                    
+                                        </p:dataTable>
+                                    </div>
+                                </div> 
+                                <div class="sectionsTableC">
+                                    <h4>Cheques distribuidos</h4>
+                                    <div>
+                                        <section class="dateAccord">
+                                           
+                                        </section>
+                                        <p:dataTable id="tabelaChequid"  emptyMessage="" 
+                                                     value="#{administracaoBean.listaChequeBancos}" var="CB" scrollHeight="200">
+                                            <p:column headerText="Data" width="20">
+                                                <h:outputText value="#{CB.data}"/>
+                                            </p:column>
+                                            <p:column headerText="Inicio Sequencia" width="60">
+                                                <h:outputText value="#{CB.inicioSequ}"/>
+                                            </p:column>
+                                            <p:column headerText="Fim Sequencia" width="60">
+                                                <h:outputText value="#{CB.fimSequ}"/>
+                                            </p:column>
+                                            <p:column headerText="Max. Folhas" width="40">
+                                                <h:outputText value="#{CB.maxFolha}"/>
+                                            </p:column>
+                                             <p:column headerText="Folhas usadas" width="40">
+                                                 <h:outputText value="#{CB.maxFolha}"/>
+                                            </p:column>
+                                            <p:column headerText="Agencia" width="40">
+                                                <h:outputText value="#{CB.agencia}"/>
+                                            </p:column>
+                                            <p:column headerText="Estado" width="40">
+                                                <h:outputText value="#{CB.estado}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
+                                </div>  
+                            </div>
+                </h:form>
+            </div>
+        </div>
+
+        
+        <!--####################################### BANK CHECK ENTERPRISE ###############################-->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </h:body>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .menuAdm3{
+            width: 100%;
+            list-style: none;
+            border: 1px #4d87e2 solid;
+            margin-bottom: 10px;
+            display: flex;           
+            justify-content: space-between;
+        }
+        .menuAdm3 a{
+            width: 50%;
+            line-height: 2.4em;
+            display: flex;
+            justify-content: center;
+            cursor: pointer;
+            text-decoration: none;
+            color: #4d87e2;
+        }
+        .activeBC{
+            background: #4d87e2;
+            color: #fff;
+        }
+        .contcont{
+            display: none;
+        }
+        .activeAdm3C{
+            display: block;
+        }
+        .activeAdm3M{
+            background: #4d87e2;
+            color: #fff !important;
+        }
+        .adm3Section1{
+            border: 1px #ddd solid;
+            padding: 12px;
+            box-sizing: border-box;
+        }
+        .adm3Section1 .addBankDiv{
+            position: relative;
+            padding: 12px 0 ;
+        }
+        .adm3Section1 .addBankDiv p{
+            display: inline;           
+        }
+        .banco{
+            width: 40% !important;
+        }
+        .adm3Section1 .addBankDiv [type=text]{
+            width: 24%;
+            line-height: 30px;  
+            margin: 0 25px 0 10px;
+            border: 1px #bbb solid;
+            border-radius: 3px;
+        }
+        .adm3Section1 .addBankDiv [type=submit]{
+            border: none;
+            background: #0066ff;
+            color: #fff;
+            padding: 5px 18px;
+            font: bold 16px arial, sans-serif;
+            border-radius: 4px;
+            float: right;
+            cursor: pointer; 
+            /*//margin-top: 12px;*/
+            transition: all .8s ease;
+        }
+        .MovDebCred{
+            display: table;
+            margin-top: 2em;
+            width: 100%;
+            background: #f9f9f9;
+        }
+        .MovDebCred > div{
+            width: 50%;
+            float: left;
+            padding: 15px 6px;
+        }
+        .contentsAdm3 h3{
+            font-size: 1.3em;
+            text-align: center;
+            color: #333;
+            margin: 20px 0;
+            border-bottom: 1px #ddd solid;
+            width: 100%;
+        }
+        .mov{
+            border-right: 1px #888 solid;
+        }
+
+        .radioDC{
+            width: 100%;
+            text-align: center;
+            padding: 3px 0;
+            margin-bottom: 10px;
+        }
+        .debcred label, .mov label{
+            display: inline-block;
+            font-size: .9em;
+            font-weight: 400;
+            color: #333;
+            margin-left: 5px;
+        }
+        .debcred p label{
+            width: 100px;
+            text-align: right;  
+        }
+        .mov p label{
+            width: 35px;
+            text-align: right;
+            /*//outline: 1px #333 solid;*/
+        }
+
+        .debcred p{
+            margin-bottom: 8px;
+        }
+        .debcred [type=text], .mov [type=text]{
+            text-align: right;
+            font-size: 1.15em;
+            
+        }
+        .debcred [type=text], .debcred select, .mov select, .mov [type=text]{
+            padding: 6px 8px;
+            border: 1px #ccc solid;          
+            margin-left: 10px;
+            border-radius: 3px;
+            margin-bottom: 12px;
+        }
+        .debcred [type=text], .debcred select{
+            width: 72%;
+        }
+        .mov [type=text], .mov select{
+            width: 72%;
+        }
+        .mov > div > label{
+            display: inline-block;
+            width: 100%;
+        }
+        .mov textarea{
+            width: 82%;
+            margin-left: 5px;
+            padding: 5px;
+            font: 14px arial, sans-serif;
+            border: 1px #999 solid; 
+        }
+        .mov [type=submit]{
+            margin-top: 28px !important;
+        }
+        .debcred [type=submit], .mov [type=submit],
+        .divAddCheq [type=submit]{
+            border: none;
+            background: #0066ff;
+            color: #fff;
+            padding: 8px 26px;
+            font: bold 16px arial, sans-serif;
+            border-radius: 4px;
+            float: right;
+            cursor: pointer; 
+            margin-top: 12px;
+            transition: all .8s ease;
+        }
+        .debcred [type=submit]{
+            margin-top: 84px;
+        }
+         .debcred [type=submit]:hover, .mov [type=submit]:hover,
+         .divAddCheq [type=submit]:hover{
+            background: #4d87e2;
+            transition: all .8s ease;
+        }
+        .valourMov{
+            cursor: pointer;
+        }
+        .divAddCheq{
+            width: 100%;
+            display: table;
+        }
+        .divAddCheq > div{
+            float: left;
+            width: 35%;
+        }
+        .divAddCheq > div > p{
+            margin-bottom: 10px;
+        }
+        .divAddCheq > div label{
+            display: inline-block;
+            width: 100%;
+        }
+        .divAddCheq [type=text],
+        .divAddCheq select{
+            padding: 7px 6px;
+            border: 1px #ccc solid;          
+            border-radius: 3px;
+            width: 100%;
+            text-align: right;
+            font-size: 17px;
+            color: #444;
+        }
+        .divAddCheq [type=submit]{
+            float: none !important;
+        }
+        .divAddCheq .tableCheqs{
+            width: 60% !important;
+            outline: 1px #999 solid;
+            margin-left: 5%;
+            height: 20px;;
+        }
+        .accordCheq{
+            margin-top: 20px;
+        }
+        
+        .sectionsTableC h4{
+            padding: 8px 2px;
+            background: #eee;
+            color: #444 !important;
+            border-radius: 6px;
+            cursor: pointer;
+            border-top: none !important;
+            border-bottom: 1px #ddd solid !important;
+            font-weight: 100;
+        }
+        .sectionsTableC div{
+            display: none;
+            height: 220px;
+            padding: 10px;
+        } 
+
+        .titleCheq{
+            display: inline-block;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        .bancMenu{
+            position: relative;
+        }
+        .bancMenu:after{
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-top: 40px #4d87e2 solid;
+            border-left: 20px transparent solid;
+            border-right: 20px transparent solid;
+            right: -20px;
+        }
+        .dateAccord{
+            text-align: center;
+            margin: 20px 0 10px 0;
+            padding-bottom: 10px;
+            height: auto !important;
+        }
+        .dateAccord .calendarCheq{
+            margin-right: 30px;
+        }
+        
+    </style>
+    <script>
+        $(document).ready(function() {
+            var linksParent = $( '.menuAdm3');
+            var links = linksParent.find('a');
+            var items = $( '.contcont');
+            links.eq(0).addClass( 'activeAdm3M');
+            items.eq(0).addClass( 'activeAdm3C');            
+            linksParent.on('click', 'a', function(){
+                var t = $(this);
+                var i = t.index();
+                t.addClass('activeAdm3M').siblings().removeClass('activeAdm3M');                
+                items.eq(i).addClass('activeAdm3C').siblings().removeClass('activeAdm3C');
+                
+            });
+
+           $( '.accordCheq' ).on('click','h4', function (){
+              var title = $(this);
+              var toShow = title.parent().find('div');
+              var toClose = title.parent().siblings().find('div');
+              toShow.slideToggle();
+              toClose.slideUp();
+          }); 
+        });
+    </script>
+</html>
+

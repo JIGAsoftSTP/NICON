@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Estrutura Salário</title>
+        <!--<h:outputStylesheet library="Styles" name="ContaCss.css"></h:outputStylesheet>-->
+        <h:outputScript library="js" name="GestaoConta.js" />
+        <h:outputScript library="js" name="Categoria.js" />
+
+    </h:head>
+    <h:body>        
+        <h:form id="formCategoria">
+            <p:growl showDetail="false" id="growlCategoria" life="10000" />
+
+            <div class="modalPage mp-estrutura mp-salario modalEstruturaSalario">
+                <div class="modalFrame">                                            
+                    <div class="modalContainer default-JIGA">
+                        
+                        <h3></h3>
+                        <p>
+                            <h:selectOneMenu value="#{categoriaBean.categoria.nome}" id="nomeCategoria"  class="estruturaSalarioCampo nomeCategoriaSalario"> 
+                                <f:selectItem itemLabel="(Selecione)" class="nomeCat"/>
+                                <f:selectItems value="#{categoriaBean.categoriaFunc}"  var="cat" itemLabel="#{cat.value}" itemValue="#{cat.id}" />
+                            </h:selectOneMenu>
+                        </p>
+                        <section>
+                            <p>
+                                Nível
+                                <h:selectOneMenu class="nivel estruturaSalarioCampo" id="cateNivel"  value="#{categoriaBean.categoria.nivel}" >
+                                    <f:selectItem itemLabel="(Selecione)" />
+                                    <f:selectItems value="#{categoriaBean.niveis}" var="level" itemLabel="#{level.value}" itemValue="#{level.id}" />
+                                </h:selectOneMenu>
+                            </p>
+                            <p>
+                                Nº dias
+                                <h:inputText class="Ndias numeroInterio estruturaSalarioCampo" value="#{categoriaBean.categoria.numDias}" id="categoriaNumDia" required="true"/>
+                            </p>
+                            <p>
+                                Salário base
+                                <h:inputText value="#{categoriaBean.categoria.salarioBase}" required="true"
+                                             class="categoriaSalario categoriaSalario1 estruturaSalarioCampo justNumeric" id="categoriaSalarioBase"/>
+                            </p>
+                            <p>
+                                Subsídio de alojamento
+                                <h:inputText value="#{categoriaBean.categoria.subsidioAlojamento}" required="true"  id="categSubAloj"
+                                             class="categoriaSalario categoriaSalario2 estruturaSalarioCampo justNumeric"/>
+                            </p>
+                            <p>
+                                Subsídio transporte
+                                <h:inputText value="#{categoriaBean.categoria.subisidioTransporte}" required="true" id="categSubTransporte" 
+                                             class="categoriaSalario categoriaSalario4 estruturaSalarioCampo justNumeric"/>
+                            </p>
+                            <p>
+                                Subsídio almoço
+                                <h:inputText value="#{categoriaBean.categoria.subisidioAlmoco}" required="true" 
+                                             class="categoriaSalario estruturaSalarioCampo justNumeric" id="categSubAlmoco" />
+                            </p>
+                            <p>
+                            Almoço livre imposto
+                            <span>
+                                <h:inputText  class="justNumeric categoriaAlmocoLivre categoriaSalario"  value="#{categoriaBean.categoria.almocoLivreImposto}"
+                                              required="true" id="categAlmocoLivreImposto" >
+                                </h:inputText> 
+                                <h:outputLabel class="icon-pencil editarAlmocoLivre"  title="Editar"></h:outputLabel>
+                            </span>
+                        </p>
+                            <p>
+                                <b>Valor total </b><br/>
+                                <h:outputLabel style="color: #008000;" value="#{categoriaBean.categoria.valorTotal}" class="categoriaValorTotal"/> 
+                            </p>
+                            <h:commandButton value="Guardar" class="categoriaGuardar" action="#{categoriaBean.typeOperacation()}">
+                                <f:ajax execute="@this nomeCategoria cateNivel categoriaNumDia categoriaSalarioBase categSubAloj categSubAlmoco categSubTransporte categAlmocoLivreImposto"  />
+                            </h:commandButton>
+                        </section>
+                        <div class="closeModalFrame" >X</div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </h:form>
+        <h:form id="formTabelaCategoria">
+            <div class="contentConta">
+
+                <!--REMOVTION BELOW-->
+
+                <ui:remove>
+                    <div class="areaButtons">
+
+                        <img src="../Images/pdf.jpg"></img><h:outputLabel value="Exportar PDF">
+                            <p:ajax event="click" process="@this" update="@this" listener="#{categoriaBean.reportFunc(1)}" />
+                        </h:outputLabel>
+                        <img src="../Images/exel.jpg"></img><h:outputLabel value="Exportar Excel">
+                            <p:ajax event="click" process="@this" update="@this" listener="#{categoriaBean.reportFunc(2)}" />
+                        </h:outputLabel>
+                    </div>
+                    <div class="areaFiltro categ">
+                        <section>
+                            <h:outputLabel value="Filtrar por:"></h:outputLabel>
+                            <h:selectOneMenu value="#{categoriaBean.campoPesquisa}" id="categoriaCampoPesquisa">
+                                <f:selectItem itemLabel="Nome" itemValue="Nome"/>
+                                <f:selectItem itemLabel="Nível" itemValue="NIVEL"/>
+                                <f:selectItem itemLabel="Número de dias" itemValue="Dias"/>
+                                <f:selectItem itemLabel="Estado" itemValue="ESTADO"/>
+                            </h:selectOneMenu>
+                            <h:inputText value="#{categoriaBean.valorPesquisa}" id="categoriaValorPesquisa">
+                                <p:ajax event="click" process="@this categoriaCampoPesquisa" listener="#{categoriaBean.pesquisar()}" />
+                            </h:inputText>
+                            <h:commandButton value="Ver" action="#{categoriaBean.pesquisar()}">
+                                <p:ajax process="@this categoriaValorPesquisa" />
+                            </h:commandButton>
+                        </section>
+                    </div>
+                </ui:remove>
+
+
+                <div class="areaTable">
+                    <h:commandButton value="+ Adicionar" class="btNewConta abrir" type="button"/>
+                    <p:dataTable class="tableConta" value="#{categoriaBean.listaCategorias}" id="categoriaTabela" scrollable="true" scrollHeight="320"
+                                 var="cat" selectionMode="single" rowKey="#{cat}" emptyMessage="Nenhuma categoria encontrada">
+                        <p:column headerText="Nome">
+                            #{cat.nome}
+                        </p:column>
+                        <p:column headerText="Nível">
+                            #{cat.nivel}
+                        </p:column>
+                        <p:column headerText="Dias">
+                            #{cat.numDias}
+                        </p:column>
+                        <p:column headerText="Total">
+                            #{cat.valorTotal}
+                        </p:column>
+                        <p:column  width="50">
+                            <h:outputLabel class="icon-pencil" title="Editar">
+                                <p:ajax event="click" listener="#{categoriaBean.editarCategoria(cat)}" 
+                                        onstart="$('.processamento').show()" oncomplete="$('.processamento').hide()" />
+                            </h:outputLabel>
+                            <h:outputLabel class="icon-info" title="Mais Informações">
+                                <p:ajax event="click" listener="#{categoriaBean.moreInfo(cat)}"
+                                        onstart="$('.processamento').show()" oncomplete="$('.processamento').hide(),$('.mp-infoTable').fadeIn()"/>
+                            </h:outputLabel>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+        </h:form>
+         <h:form>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+        </h:form>   
+               <div class="modalPage mp-infoTable" >
+                <div class="modalFrame">                                            
+                  <div class="modalContainer">
+                    <p><b>Mais Informações</b></p>
+                   <h:form id="estruturaSalarioMaisInfo">
+                       <p ><h:outputLabel value="Nome" class="negrito" /><h:outputText  value="#{categoriaBean.categoria.nome}" style="margin-left: 150px;"/></p>   
+                     <p>
+                         <h:outputLabel value="Número de Dias" class="negrito" /> <h:outputText value="#{categoriaBean.categoria.numDias}" style="margin-left: 77px;"  />
+                     </p>   
+                     <p>
+                         <h:outputLabel value="Nivel" class="negrito" />  <h:outputText value="#{categoriaBean.categoria.nivel}" style="margin-left: 156px;" />
+                     </p>   
+                     <p>
+                         <h:outputLabel value="Salário Base" class="negrito" />  <h:outputText   value="#{categoriaBean.categoria.salarioBase}" style="margin-left: 102px;"  />
+                     </p>   
+                     <p>
+                         <h:outputLabel value="Subisidio de Alojamento" class="negrito" />  <h:outputText  value="#{categoriaBean.categoria.subsidioAlojamento}" style="margin-left: 24px;"   />
+                     </p>   
+                     <p>
+                         <h:outputLabel value="Subisidio de Transporte" class="negrito" /> <h:outputText value="#{categoriaBean.categoria.subisidioTransporte}" style="margin-left: 24px;"  />
+                     </p>   
+                     <p>
+                         <h:outputLabel value="Subisidio de Almoço" class="negrito" /> <h:outputText value="#{categoriaBean.categoria.subisidioAlmoco}"  style="margin-left: 44px;"  />
+                     </p>   
+                     <p>
+                         <h:outputLabel value="Almoço Livre de Imposto" class="negrito" /> <h:outputText value="#{categoriaBean.categoria.almocoLivreImposto}"  style="margin-left: 24px;"  />
+                     </p>   
+                     <p>
+                         <h:outputLabel value="Valor Total" class="negrito" /> <h:outputText value="#{categoriaBean.categoria.valorTotal}" style="margin-left: 120px;"  />
+                     </p>   
+                     <p>
+                         <h:outputLabel value="Estado" class="negrito" />  <h:outputText value="#{categoriaBean.categoria.estado}" style="margin-left: 148px;" />
+                     </p> 
+                    </h:form>
+                    <div class="closeModalFrame moreData" >X</div>
+                    </div>
+                  </div>
+                </div>
+    </h:body>
+    <script>
+        $('.abrir').click(function () {
+            $(".default-JIGA h3").html("Adicionar Estrutura de Salário");
+            $('.estruturaSalarioCampo').val("");
+            $('.categoriaValorTotal').html("");
+            $(".nomeCategoriaSalario").attr('disabled', false);
+            $(".nivel").attr('disabled', false);
+            $('.mp-estrutura').fadeIn(400);
+        });
+    </script>
+</html>
+
+

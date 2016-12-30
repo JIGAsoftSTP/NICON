@@ -1,0 +1,434 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <h:outputStylesheet library="Styles" name="seguroMaritimo.css"></h:outputStylesheet>
+          <h:outputScript library="js" name="Maritimo.js" />
+    </h:head>
+    <h:body>
+        <h:form id="maritimoFormulario">
+            <div class="K-seguros">
+                <span>
+                    Nº de apólice
+                    <h:inputText value="#{maritimoBean.maritimo.numeroApolice}"  class="apoliceMaritimo apolice"
+                                 id="maritimoApolice"/>
+                </span>
+                <span>
+                    Nº de registro
+                    <h:inputText    required="true" class="numeroRegistroMaritimo"
+                                    value="#{maritimoBean.maritimo.numeroRegistro}" 
+                                    id="MaritimoRegistro">
+                        <p:ajax event="blur" listener="#{maritimoBean.existNumeroRegistro()}" />
+                    </h:inputText>
+                </span>
+                <span>
+                    Moeda
+                    <h:selectOneMenu value="#{maritimoBean.maritimo.moeda}" id="maritimoMoeda">
+                        <f:selectItems  value="#{maritimoBean.moedas}" itemLabel="#{m.value}" var="m" itemValue="#{m.id}"/>
+                    </h:selectOneMenu>
+                </span>
+            </div>
+            <p:growl  showDetail="false" sticky="false" id="maritimoGrowl" autoUpdate="false" life="10000"    />
+            <div class="formularioSeguro">
+                <h1>Cobertura</h1>
+                <h:outputLabel style="display: none;"
+                               value="#{maritimoBean.exculRiscoGuerra.selcao}"
+                               class="maritimoSemGuerra" 
+                               id="riscoSguerra">
+                </h:outputLabel>
+                <h:outputLabel style="display: none;"
+                               value="#{maritimoBean.incluRiscoGuerra.selcao}"
+                               class="maritimoGuerra" 
+                               id="riscoGuerra">
+                </h:outputLabel>
+                <h:outputLabel style="display: none;"
+                               value="#{maritimoBean.excluPassageiro.selcao}"
+                               class="maritimoSpassageiro" 
+                               id="riscoSp">
+                </h:outputLabel>
+                <h:outputLabel style="display: none;"
+                               value="#{maritimoBean.incluPassgeiro.selcao}"
+                               class="maritimoPassageiro" 
+                               id="riscoP">
+                </h:outputLabel>
+
+                <div class="firstPart">
+                    <section class="formatInput">
+                        <span>
+                            <h:selectBooleanCheckbox value="#{maritimoBean.exculRiscoGuerra.selcao}" id="riscoSgu">
+                                <p:ajax update="riscoSguerra riscoGuerra riscoWar"   process="@this item1 item2"
+                                        listener="#{maritimoBean.respExcludRiscoGera()}"
+                                        oncomplete="PrimeiraCobertura(),SegundaCobertura()" />
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel value="Corpo e o Motor (Excluindo Risco de Guerra)" />
+                        </span>
+
+                        <h:inputText class=" input-5 tamanho3 MaritimoCobertura1 IniciarDesativado numeroAC valorPrimeiraC"
+                                     pt:placeholder="Valor"
+                                     title="Valor"
+                                     value="#{maritimoBean.exculRiscoGuerra.cobreValor}" 
+                                     id="item1">
+                        </h:inputText>
+                        <h:inputText class=" input-8 MaritimoCobertura1 IniciarDesativado taxaPrimeiraC numeroAC" 
+                                     pt:placeholder="Taxa(%)"
+                                     title="Taxa(%)" 
+                                     value="#{maritimoBean.exculRiscoGuerra.cobreTaxa}"
+                                     id="item2" >
+                            <f:ajax execute = "@this item1" event="keyup"      
+                                    listener="#{maritimoBean.respExcludRiscoGera()}" />
+                        </h:inputText>
+                        <h:inputText class=" input-5 tamanho3 p1"
+                                     pt:placeholder="Valor Prémio"
+                                     title="Valor Prémio" 
+                                     value="#{maritimoBean.exculRiscoGuerra.cobrePremioFormatado}" 
+                                     id="item3" disabled="true"/>
+
+
+                    </section>
+                    <section class="formatInput">
+                        <span>
+                            <h:selectBooleanCheckbox value="#{maritimoBean.incluRiscoGuerra.selcao}" id="riscoWar">
+                                <p:ajax update="riscoGuerra riscoSguerra riscoSgu" 
+                                        listener="#{maritimoBean.respIncludRiscogera()}"
+                                        oncomplete="SegundaCobertura(),PrimeiraCobertura()"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel value="Corpo e o Motor (Incluindo Risco de Guerra)" />
+                        </span>
+
+                        <h:inputText class=" input-5 tamanho3 MaritimoCobertura2 IniciarDesativado numeroAC valorSegundaC" 
+                                     pt:placeholder="Valor"
+                                     title="Valor"
+                                     value="#{maritimoBean.incluRiscoGuerra.cobreValor}" 
+                                     id="item4">
+                        </h:inputText>
+                        <h:inputText class=" input-8 MaritimoCobertura2 IniciarDesativado taxaSegundaC numeroAC"
+                                     pt:placeholder="Taxa(%)"
+                                     title="Taxa(%)" 
+                                     value="#{maritimoBean.incluRiscoGuerra.cobreTaxa}" 
+                                     id="item5" >
+                            <f:ajax execute ="@this item4" event="keyup" 
+                                    listener="#{maritimoBean.respIncludRiscogera()}" />
+                        </h:inputText>
+                        <h:inputText class=" input-5 tamanho3 p2"
+                                     pt:placeholder="Valor Prémio"
+                                     title="Valor Prémio"
+                                     value="#{maritimoBean.incluRiscoGuerra.cobrePremioFormatado}"
+                                     id="item6" disabled="true"/> 
+
+                    </section>
+                    <section class="formatInput">
+                        <span>
+
+
+                            <h:selectBooleanCheckbox value="#{maritimoBean.excluPassageiro.selcao}" id="semPassageiro">
+                                <p:ajax update="riscoSp riscoP passageiro" 
+                                        listener="#{maritimoBean.respExcluidPassa()}"
+                                        oncomplete="TerceiraCobertura(),QuartaCobertura()" process="@this"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel value="Responsabilidade civil excluindo passageiros" />
+                        </span>
+
+                        <h:inputText class=" input-5 tamanho3 MaritimoCobertura3 IniciarDesativado numeroAC valorTerceiraC"
+                                     pt:placeholder="Valor"
+                                     title="Valor"
+                                     value="#{maritimoBean.excluPassageiro.cobreValor}"
+                                     id="item7">
+                        </h:inputText>
+
+                        <h:inputText class=" input-8  MaritimoCobertura3 IniciarDesativado taxaTerceiraC numeroAC" 
+                                     pt:placeholder="Taxa(%)"
+                                     title="Taxa(%)" 
+                                     value="#{maritimoBean.excluPassageiro.cobreTaxa}"
+                                     id="item8">
+                            <f:ajax execute = "@this item7" event="keyup" 
+                                    listener="#{maritimoBean.respExcluidPassa()}" />
+                        </h:inputText>
+                        <h:inputText class=" input-5 tamanho3 p3"
+                                     pt:placeholder="Valor Prémio"
+                                     title="Valor Prémio" 
+                                     value="#{maritimoBean.excluPassageiro.cobrePremioFormatado}"
+                                     id="item9" disabled="true"/>
+
+                    </section>
+                    <section class="formatInput">
+                        <span>
+
+                            <h:selectBooleanCheckbox value="#{maritimoBean.incluPassgeiro.selcao}" id="passageiro" >
+                                <p:ajax update="riscoP riscoSp semPassageiro"
+                                        listener="#{maritimoBean.respComPassageiro()}"
+                                        oncomplete="QuartaCobertura(),TerceiraCobertura()"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel value="Responsabilidade Civil para passageiros e Tripulantes" />
+                        </span>
+
+                        <h:inputText class=" input-5 tamanho3 MaritimoCobertura4 IniciarDesativado numeroAC valorQuartaC"
+                                     pt:placeholder="Valor"
+                                     title="Valor"
+                                     value="#{maritimoBean.incluPassgeiro.cobreValor}" 
+                                     id="item10" >
+                        </h:inputText>
+                        <h:inputText class=" input-8  MaritimoCobertura4 IniciarDesativado taxaQuartaC numeroAC"
+                                     pt:placeholder="Taxa(%)"
+                                     title="Taxa(%)" 
+                                     value="#{maritimoBean.incluPassgeiro.cobreTaxa}" 
+                                     id="item11" >
+                            <f:ajax execute = "@this item10" event="keyup" 
+                                    listener="#{maritimoBean.respComPassageiro()}" />
+                        </h:inputText>
+                        <h:inputText class=" input-5 tamanho3 p4"
+                                     pt:placeholder="Valor Prémio"
+                                     title="Valor Prémio"
+                                     value="#{maritimoBean.incluPassgeiro.cobrePremioFormatado}"
+                                     id="item12" disabled="true">
+                        </h:inputText>
+                    </section>
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <h1>Informações do navio</h1>
+                <div class="infoComplement  formatInput">
+                    <section>
+                        <nav>
+                            <h:outputLabel value="Bandeira do Navio" />
+                            <h:inputText class="input-2 tamanho1 maritimoBandeira"
+                                         required="true"  
+                                         id="bandeira_do_Navio" 
+                                         value="#{maritimoBean.maritimo.bandeiraNavio}" />
+                        </nav>
+                        <nav>
+                            <h:outputLabel value="Uso a que se Destina o Navio" />
+                            <h:inputText class="input-2 tamanho1 maritimoUso" 
+                                         required="true"  
+                                         id="uso_Navio"
+                                         value="#{maritimoBean.maritimo.usoNavio}" />
+                        </nav>
+                    </section>
+                    <section>
+                        <nav>
+                            <h:outputLabel value="Classe de estatuto de renovação" />
+                            <h:inputText class="input-2 tamanho1 maritimoClasse"
+                                         required="true"
+                                         id="classe_Estatuto_Renovacao" 
+                                         value="#{maritimoBean.maritimo.classeRenovacao}"/>
+
+                        </nav>
+                        <nav>
+                            <h:outputLabel value="Potencia do Motor" />
+
+                            <h:inputText class="input-2 tamanho1 maritimoPotencia"
+                                         required="true"
+                                         id="potencia_Motor"
+                                         value="#{maritimoBean.maritimo.potenciaMotor}"/>
+                        </nav>
+                    </section>
+                    <section>
+                        <nav>
+                            <h:outputLabel value="Tipo de combustivel" />
+                            <h:selectOneMenu class="input-2 tamanho1 maritimocombustivel" 
+                                             value="#{maritimoBean.maritimo.tipoCombustivel}"
+                                             required="true"   
+                                             id="tipo_combustivel">
+                                <f:selectItems value="#{maritimoBean.listaCombustiveis}" var="c" itemLabel="#{c.value}" itemValue="#{c.id}"/>
+                            </h:selectOneMenu>
+                        </nav>
+                        <nav>
+                            <h:outputLabel value="Quantidade ou Peso" />
+                            <h:inputText class="input-2 tamanho1 maritimoPeso numeroAC" 
+                                         required="true"   
+                                         id="qualidade_Peso"
+                                         value="#{maritimoBean.maritimo.peso}"/>
+                        </nav>
+                    </section>
+
+                    <section>
+                        <nav>
+                            <h:outputLabel value="Experiencia Anterior de Reclamação" />
+                            <h:selectOneRadio  value="#{maritimoBean.maritimo.experienciaRecalmacao}" 
+                                               id="maritimoExperiencia">
+                                <f:selectItem  itemLabel="Sim" itemValue="Y"/>
+                                <f:selectItem  itemLabel="Não" itemValue="N"/>
+                            </h:selectOneRadio>
+                        </nav>
+                    </section>
+                    <section>
+                        <nav>
+                            <h:outputLabel value="Apoio para navegação Instalada" />
+                            <h:selectOneRadio value="#{maritimoBean.maritimo.apoioNavegacao}" id="maritimoApoio">
+                                <f:selectItem  itemLabel="Sim" itemValue="Y"/>
+                                <f:selectItem  itemLabel="Não" itemValue="N"/>
+                                <f:ajax listener="#{maritimoBean.ativarDesativar()}" render="especifique"/>
+                            </h:selectOneRadio>
+                        </nav>
+                        <h:inputText class="input-3-1 maritimoEspecificacao"
+                                     pt:placeholder="Especifique"
+                                     title="Especifique"
+                                     disabled="#{maritimoBean.ativar}"
+                                     id="especifique"
+                                     required="#{maritimoBean.obrigatorio}"
+                                     value="#{maritimoBean.maritimo.especificacaoApoioNavegacao}"
+                                     />
+                    </section>
+                    <section>
+                        <h:outputLabel value="Área de operação ou Limitação Territorial" />
+                        <h:inputText class="input-3-1 maritimoAreaOperacao"
+                                     required="true"  
+                                     id="area_Operacao" 
+                                     value="#{maritimoBean.maritimo.areaOperacao}"/>
+                    </section>
+                    <h4>Mais informações sobre o navio</h4>
+
+                    <section class="moreInfo">
+                        <h:inputText id="maritimoNome" 
+                                     class=" input-3 tamanho1 maritimoNomeNavio"
+                                     pt:placeholder="Nome"
+                                     title="Nome" 
+                                     value="#{maritimoBean.maritimo.nomeNavio}" 
+                                     required="true"  />
+
+
+                        <h:inputText class="input-5 tamanho1 maritimoMarcaModelo" 
+                                     pt:placeholder="Marca / Modelo"
+                                     title="Marca ou Modelo"  required="true"  
+                                     id="marca_Modelo" 
+                                     value="#{maritimoBean.maritimo.marcaModelo}"/>
+                        <h:inputText class="input-5 tamanho5 maritimoChassi"
+                                     pt:placeholder="Numero Chassi" 
+                                     title="Numero Chassi"  required="true"  
+                                     id="numero_Chassi"
+                                     value="#{maritimoBean.maritimo.numeroChassi}">
+                        </h:inputText>
+                        <h:inputText class="input-5 tamanho4 maritimoNumMotor"
+                                     pt:placeholder="Número Motor" 
+                                     required="true"   
+                                     id="numero_Motor"
+                                     value="#{maritimoBean.maritimo.numMotor}"/>
+                        <h:inputText class="input-8-1 tamanho5 maritimoIdade"
+                                     pt:placeholder="Idade do Navio" 
+                                     title="Idade do Navio"  
+                                     required="true" 
+                                     id="idade_Navio" value="#{maritimoBean.maritimo.idadeNavio}"/>
+
+
+
+                        <h:inputText class="input-3 tamanho1 maritimoTipoNavio"
+                                     pt:placeholder="Tipo de Navio" 
+                                     title="Tipo de Navio"  required="true"  
+                                     id="tipo_Navio" value="#{maritimoBean.maritimo.tipoNavio}"/>
+
+
+
+                        <h:inputText class="input-5 maritimoConstrucao" 
+                                     pt:placeholder="Tipo de construção"
+                                     id="tipo_Construcao_Navio"
+                                     value="#{maritimoBean.maritimo.tipoConstrucao}" 
+                                     required="true"  />
+
+                        <h:inputText class="input-5 maritimoCondicao " 
+                                     pt:placeholder="Condição Atual"
+                                     id="condicao_Navio"
+                                     value="#{maritimoBean.maritimo.condicaoAtual}"
+                                     required="true"  />
+
+
+                        <h:inputText class="input-5 tamanho4 maritimoMarcaMotor" 
+                                     pt:placeholder="Marca do Motor"
+                                     required="true" 
+                                     id="marca_Motor"
+                                     value="#{maritimoBean.maritimo.marcaMotor}"/>
+                        <h:inputText class="input-8-1 tamanho7 maritimoTripulante" 
+                                     pt:placeholder="Max. tripulantes"
+                                     title="Nº Máximo de tripulante"
+                                     required="true"  
+                                     id="numero_Tripulante"
+                                     value="#{maritimoBean.maritimo.numMaximoTripulante}"/>
+
+
+                    </section>
+
+
+                    <section>
+                        <h:panelGrid columns="3" cellspacing="7" id="maritimoInfoNavio2">
+
+
+
+
+
+                        </h:panelGrid>
+
+                        <h:panelGrid styleClass="borderformED12" columns="1"  cellspacing="9">
+
+                            <h:panelGrid style=" width: 102%;" columns="2">
+                                <h:panelGrid>
+
+                                </h:panelGrid>
+                                <h:panelGrid columns="1"  class="selectoneD">
+
+                                </h:panelGrid>
+                                <h:panelGrid>
+
+                                </h:panelGrid>
+                                <h:panelGrid columns="1"  class="selectoneD">
+
+                                </h:panelGrid>
+                            </h:panelGrid>
+                            <h:panelGrid  cellspacing="2" >
+
+                            </h:panelGrid>
+                        </h:panelGrid>
+
+
+                        <h:panelGrid  class="borderformM"  columns="2">
+                            <h:panelGrid >
+                                <h:panelGrid style="width: 100%;" columns="2" cellspacing="10" id="maritimoPainel1">
+
+                                </h:panelGrid>
+                                <h:panelGrid columns="3" cellspacing="10" id="maritimoPainel2">
+
+                                </h:panelGrid>
+                            </h:panelGrid>
+                            <h:panelGrid class="borderformED12" columns="1" cellspacing="10">
+                                <h:panelGrid style="width: 100%;">
+
+                                </h:panelGrid>
+                                <h:panelGrid style="width: 100%;">
+
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </section>
+                </div>
+            </div>
+            <h:form id="formProximoMaritimo">
+                <div class="PrNx">
+                    <h:commandButton value="Anterior" class="btPrevious btBack">
+                        <p:ajax />
+                    </h:commandButton>
+                    <h:commandButton value="Seguinte" class="btRight maritimoSeguinte btNext" action="#{maritimoBean.avancar()}" >
+                        <f:ajax execute="maritimoFormulario"  />
+                    </h:commandButton>
+                </div>
+            </h:form>
+        </h:form>
+    </h:body>
+</html>
+

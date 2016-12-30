@@ -1,0 +1,223 @@
+/* 
+    Created on : Aug 17, 2015, 6:43:00 PM
+    Author     : Junior
+*/
+.apoliceBody {
+    font-family: 'arial', 'sans-serif';
+    font-size: 14px;
+    max-width: 958px;
+    min-width: 956px;
+    margin: auto;
+}
+.processamento{
+    background: rgba(0,0,0,.5);
+    position:fixed;
+    width: 100%;
+    height: 100vh;
+    left:0; top:0;
+    z-index: 10;
+    display: none;
+}
+.imageProcess{ top: 0; bottom: 0;right: 0; left: 0;margin: auto; position: absolute; }
+.apoliceBody [type=text], textarea, .apoliceBody .theValour{
+    border: 1px #7096AB solid; 
+    box-sizing: border-box;
+}
+.apoliceBody textArea{
+    border: 1px #bbb solid;
+}
+.apoliceBody > h1{
+    color: #333;
+    text-align: center;
+    font-weight: normal;
+    font-size: 30px;
+    border-bottom: 1px #ddd solid;
+    padding: .5em 0 .2em 0;
+}
+.apoliceBody  > form > article{
+    width: 100%;
+}
+.apoliceBody  > form > aside{
+    width: 98%;
+    margin: 1% 2% 0 1%;
+    box-sizing: border-box;
+}
+.apoliceBody  > form > article > div{
+    width: 48%;
+    margin: 1%;
+    float: left;
+    border: 1px #ddd solid;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;    
+    box-sizing: border-box;
+    padding-bottom: 1%;
+}
+
+.apoliceBody .titleDiv{
+    font-size: 16px;
+    display: inline-block;
+    width: 100%;
+    background: #f9f9f9;
+    color: #666;
+    text-align: center;
+    line-height: 2.3em;
+    margin-bottom: 8px;
+    position: relative;
+    font-weight: bold;
+    margin-top: 0 !important;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    box-sizing: border-box;
+}
+.apoliceBody .titleDiv1{
+    border: 1px #bbb solid;
+    border-bottom: none;
+}
+.apoliceBody .indent{
+    display: inline-block;
+    margin-left: 6px;
+}
+.apoliceBody .ui-inputfield{
+    width: 30%;
+    margin-left: 6px; 
+}
+.apoliceBody textarea{
+    margin: 0;
+    width: 100%;
+    position: relative;
+    top: -10px;;
+    box-sizing: border-box;
+    border-top-color: transparent;
+    height: 80px; 
+    font: 14px arial, sans-serif; 
+    text-indent: 6px;
+}
+.apoliceBody  > form > article > section{    
+    width: 31.3%;
+    margin: 1%;
+    float: left;
+    border: 1px #ddd solid;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    box-sizing: border-box;
+    position: relative;
+    
+}
+.apoliceBody  > form > article > section > div{
+    width: 100%;
+    padding: 4%;
+    box-sizing: border-box; 
+}
+.apoliceBody  > form > article > section > div > label{
+    display: block;
+    margin: 14px 0 6px 0;
+}
+.apoliceBody  > form > article > section > div > input, .wValour input{    
+    font-size: 1.5em;
+    padding: 5px;
+    text-align: right;
+    color: #444;    
+    box-sizing: border-box;
+}
+.apoliceBody  > form > article > section > div > input{
+    display: block;
+    width: 100%;
+}
+.apoliceBody .checkk{
+    width: 100%;
+}
+
+.apoliceBody .alignment{
+    position: relative;
+}
+.wValour,.wValour1 {
+    border: 1px #7096AB solid;
+    width: 100%;      
+    display: table;    
+    margin: 0; padding: 0;
+    height: 36px;
+    box-sizing: border-box;
+}
+.wValour1{
+    margin-top: 16px;
+}
+.wValour > input[type=text]{
+    width: 80%;
+    border: none !important;
+    float: left;
+    border-right: 1px #7096AB solid !important;
+    height: 100% !important;
+    
+}
+.wValour > input[type=text]:disabled{
+    background: #fcfcfc !important;
+}
+.wValour > label{ 
+    font-size: 1.5em;
+    padding: 5px;
+    display: inline-block;
+    width: 20%;
+    border: none !important;
+    float: right;
+    text-align: center;
+}
+.wValour1 .check{
+    width: 20%;
+    border: none !important;
+    float: left ;
+    height: 100% !important;
+    border-right: 1px #7096AB solid !important;
+}
+.wValour1 > input[type=text]{
+    width: 80%;
+    border: none !important;
+    float: right !important;
+}
+.apoliceBody .specified{
+    margin-top: 10px;
+}
+
+.mp-modo-pgto{
+    font-size: .95rem;
+}
+.mp-modo-pgto h2{
+    font-weight: normal;
+    margin-bottom: 40px;
+    color: #666;
+    text-align: center;
+}
+.formularioSeguro{
+    display: flex;
+    max-width: 800px;
+}
+.formularioSeguro > div{
+    margin: 10px;
+}
+.formularioSeguro input,
+.formularioSeguro select{
+    margin-bottom: 0 !important;
+}
+.mp-modo-pgto nav{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.title-2{
+    font-size: 1rem;
+    padding: 10px;
+    margin-bottom: 30px;
+}
+.title-2 label{
+    color: #4d87e2;
+    font-weight: bold;
+}
+.formularioSeguro p{
+    width: 100%;
+    margin-top: 20px;
+}
+.p-1{
+    margin-top: 0!important;
+}
+.divButtons{
+    margin-top: 20px;
+}

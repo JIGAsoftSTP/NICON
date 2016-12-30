@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Relatórios</title>
+        <h:outputStylesheet library="Styles" name="geralSeguros.css"/> 
+        <h:outputStylesheet library="Styles" name="relatorioCss.css"></h:outputStylesheet>     
+        <h:outputStylesheet library="Styles" name="withLateral.css"></h:outputStylesheet>
+
+        <h:outputScript library="js" name="withLateral.js" />
+        <h:outputScript library="js" name="scriptRelatorio.js" />
+    </h:head>
+    <h:body>
+        <h:form id="Rel" class="lateral-menu-content-page">
+            <p:remoteCommand name="dados" actionListener="#{relatorio.teste()}" process="@this" />
+            
+            <div class="menu-lateral">
+                <i class="icon-menu hide-show-lateral"></i>
+                <div class="sectionsMenu section1">
+                    <ul class="single-menu-lateral">
+                        <li class="header-menu">Menu</li>
+                        <li class="active-item-menu">Clientes</li>
+                        <li >Seguros</li>
+                        <li >Produção</li>
+                        <li >Crescente</li>
+                        <li >Mapa de Provisão</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="content-lateral">
+                <div class="contentRel">
+                    <div class="export">
+                        <h2 class="titleSelected">Clientes</h2>
+                        <span>
+                            <h2>Exportar para: </h2>
+                            <h:outputLabel class="icon-file-pdf" title="Exportar para PDF">
+                                <p:ajax process="@this" update="@this" onstart="$('.processamento').show()"
+                                        event="click" listener="#{relatorio.printRelatorio(2)}" oncomplete="$('.processamento').hide()" />
+                            </h:outputLabel>
+                            <h:outputLabel class="icon-file-excel" title="Exportar para Excel">
+                                <p:ajax process="@this" update="@this" onstart="$('.processamento').show()" 
+                                        event="click" listener="#{relatorio.printRelatorio(3)}" oncomplete="$('.processamento').hide()" />
+                            </h:outputLabel>
+                        </span>
+                    </div>
+                    <div class="formRel formularioSeguro">
+                        <span>
+                        <h:outputLabel value="Agrupar por"/>
+                        <h:selectOneMenu class="relatorioFiltrar" value="#{relatorio.relatorio.agrupamento}" id="agrupamento">
+                            <f:selectItem itemLabel="Diário" itemValue="1"></f:selectItem>
+                            <f:selectItem itemLabel="Mensal" itemValue="2"></f:selectItem>
+                            <f:selectItem itemLabel="Anual" itemValue="3"></f:selectItem>
+                            <p:ajax event="change" oncomplete="relatorioContratos()"
+                                    process="agrupamento dataInicioRel dataFimRel relSeguroCampo" 
+                                    listener="#{relatorio.pesquisaGenerica()}" 
+                                    update="tabelaRelatorio" />
+                        </h:selectOneMenu>
+                        
+                        </span>
+                        <span>
+                        <h:outputLabel value="Data Início" class="dataInicioLabel"/>
+                        <p:calendar  value="#{relatorio.relatorio.dataInicio}"     pattern="dd-MM-yyyy" id="dataInicioRel" navigator="true">
+                            <p:ajax event="dateSelect"  process="agrupamento dataInicioRel dataFimRel relSeguroCampo" oncomplete="relatorioContratos()"
+                                    listener="#{relatorio.pesquisaGenerica()}" update="tabelaRelatorio" />
+                        </p:calendar>
+                        </span>
+                        <span>
+                        <h:outputLabel value="Data Fim"/>
+                        <p:calendar id="dataFimRel"  value="#{relatorio.relatorio.dataFim}"
+                                    pattern="dd-MM-yyyy" navigator="true">
+                            <p:ajax event="dateSelect"  process="agrupamento dataInicioRel dataFimRel relSeguroCampo"  oncomplete="relatorioContratos()"
+                                    listener="#{relatorio.pesquisaGenerica()}" update="tabelaRelatorio" />
+                        </p:calendar>
+                        </span>
+                        <span>
+                        <h:outputLabel value="Seguro"/>
+                        <h:selectOneMenu value="#{relatorio.relatorio.seguro}" id="relSeguroCampo" class="seguro">
+                            <f:selectItem itemLabel="Todos" itemValue="0"></f:selectItem>
+                            <f:selectItems value="#{relatorio.listaSeguros}" var="seguros" 
+                                           itemLabel="#{seguros.value}" itemValue="#{seguros.id}" />
+                            <p:ajax event="change"  process="agrupamento dataInicioRel dataFimRel relSeguroCampo" 
+                                    onstart="$('.processamento').show()"  oncomplete="$('.processamento').hide(),relatorioContratos()"
+                                    listener="#{relatorio.pesquisaGenerica()}" update="tabelaRelatorio" />
+                        </h:selectOneMenu>
+                        </span>
+                    </div>
+
+                    <p:dataTable class="tableRel" id="tabelaRelatorio" 
+                                 scrollable="true" scrollHeight="400"
+
+                                 >
+
+                    </p:dataTable>
+
+                </div>
+                <div class="mi-values">
+                    <section>
+                        <h:outputText  class="firstSectionDescriptionField"/>
+                        <b><h:outputText  class="firstField"/></b>
+                    </section>
+                    <div class="sectionHide" >
+                            <section >
+                                <h:outputText class="secondSectionDescriptionField" />
+                                <b><h:outputText  class="secondField"/></b>
+                            </section>
+                        </div>
+                    <div class="sectionHide">
+                            <section >
+                                <h:outputText class="thirdSectionDescriptionField" />
+                                <b><h:outputText  class="thirdField"/></b>
+                            </section>
+                    </div>
+                    <div class="sectionHide">
+                            <section >
+                                <h:outputText  class="fourthSectionDescriptionField" />
+                                <b><h:outputText  class="fourthField"/></b>
+                            </section>
+                        </div>
+                    <div class="sectionHide lastSection">
+                            <section >
+                                <h:outputText  class="fifthSectionDescriptionField"/>
+                                <b><h:outputText  class="fifthField"/></b>
+                            </section>
+                     </div>
+                    <span class="close-mi-values">X</span>
+                </div>
+            </div>
+
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+
+        </h:form>
+        <script>
+            getRowCount('#Rel:tabelaRelatorio');
+        </script>
+    </h:body>   
+</html>
+

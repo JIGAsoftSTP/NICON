@@ -1,0 +1,35 @@
+
+/* 
+    Created on : Mar 12, 2016, 1:22:32 PM
+    Author     : Junior
+*/
+
+.menu-secundario div{
+    padding: 8px 10px 0 10px;
+    border-bottom: 3px steelblue solid;
+    background: #fff;
+ }
+
+.menu-secundario  ul{
+     list-style: none;
+ }
+.menu-secundario  li{
+     display: inline-block;
+     margin: 0; padding: 0;
+     min-width: 120px;
+ }
+.menu-secundario  ul li a{
+     color: #777;
+     display: block;
+     width: 100%;
+     padding: 12px;
+     text-align: center;
+     text-decoration: none;
+     font-weight: bold;
+     border-radius: 10px 10px 0 0;
+     font-size: .95rem;
+ }
+.menu-secundario  ul li a:hover{
+     color: #222;
+     transition: all .6s;
+ }

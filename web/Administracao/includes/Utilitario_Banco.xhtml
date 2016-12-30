@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+      <!--xmlns:f="http://xmlns.jcp.org/jsf/core"-->
+    <h:head>
+        <h:outputStylesheet library="Styles" name="EmpresaParceiraCss.css"></h:outputStylesheet>
+    </h:head>
+
+    <h:body>
+        <h:form id="forBanco">
+             <div id="title">Banco</div>
+            <div class="ContentEMParc">
+                <div class="corpoEMParc">
+                    <p:growl id="growlBanco" sticky="false" life="10000"/>
+                    <h:panelGrid class="panEParc">
+                        <h:outputLabel value="Nome do Banco"/>
+                        <h:inputText class="textEMParc bNome" value="#{utilitarioBean.banco.value}"/>
+                        <h:outputLabel value="Sigla"/>
+                        <h:inputText required="true" value="#{utilitarioBean.banco.codigoNicon}" class="textEMParc  bSigla" />
+                    </h:panelGrid>
+                    <div align="right" style="margin-top: 16%">
+                        <h:commandButton value="Guardar" action="#{utilitarioBean.regBancoAndTaxa(1)}" class="btEParc regBanco">
+                            <p:ajax process="@form" />
+                        </h:commandButton>
+                    </div>
+                </div>
+
+                <div class="TableEMParc TableB">
+                    <p:dataTable class="tableEMParBanco" selectionMode="single" rowKey="#{item}"
+                                 id="tableBanco" emptyMessage="Nenhum registro encontrado."  var="item" 
+                                 scrollable="true" scrollHeight="143" value="#{utilitarioBean.bancoList}" >
+                        <p:column headerText="Nome do Banco">
+                            <h:outputText value="#{item.value}" />
+                        </p:column>
+                        <p:column headerText="Sigla">
+                            <h:outputText value="#{item.codigoNicon}" />
+                        </p:column>
+                        <p:ajax event="rowSelect" process="@this" />
+                    </p:dataTable>
+<!--                    <div align="right" style="margin-right: 2%">
+                         <h:commandButton value="Ativar" class="btEParc removerTaxa" >
+                            <p:ajax  update="tableBanco"/>
+                        </h:commandButton>
+                        
+                        <h:commandButton value="Desativar" class="btEParc removerTaxa" >
+                            <p:ajax  update="tableBanco"/>
+                        </h:commandButton>
+                    </div>-->
+
+                </div>
+            </div>
+        </h:form>
+    </h:body>
+
+    <!-- validação dos campos vazios-->
+    <script>
+        $(document).ready(function (e) {
+            $(".numeroAC").keyup(function (e) 
+            {
+                e.preventDefault();
+                if (!$.isNumeric($(this).val()))
+                    $(this).val("");
+            });
+            $(".regBanco").click(function (e)
+            {
+                e.preventDefault();
+                validacaoBanco();
+            });
+
+        });
+
+
+
+        function validacaoBanco()
+        {
+//            testeVasio($(".bNome"));
+            testeVasio($(".bNumero"));
+            testeVasio($(".bSigla"));
+        }
+        function limparcamposBanco()
+        {
+            $(".bNome").val('');
+            $(".bNumero").val('');
+            $(".bSigla").val('');
+        }
+
+        function testeVasio(variavel)
+        {
+            var teste = true;
+            //alert(variavel.val());
+            if (variavel.val() === "")
+            {
+                variavel.css("border", "1px solid red");
+                variavel.focus();
+                teste = false;
+            } else
+            {
+                variavel.css("border", "");
+            }
+
+            return teste;
+        }
+    </script>
+</html>

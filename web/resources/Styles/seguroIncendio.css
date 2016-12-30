@@ -1,0 +1,113 @@
+.total-incendio{
+    font-size: .95rem;
+}
+.aboutP,
+.moreInfo > div{
+    background: #fafafa;
+    padding: 10px 20px;
+}
+.aboutP nav{
+    margin-top: 10px;
+}
+
+.RiscAdd .headerR-A{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    border-bottom: 1px #cfcfcf solid;
+    padding-left: 20px;
+    align-items: flex-end;
+    
+}
+
+.RiscAdd [type=radio]{
+    display: none;
+}
+.headerR-A h3{
+    display: inline-block;
+    margin: 30px 20px 0 -20px;
+}
+.headerR-A label{
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    min-width: 110px;
+    line-height: 2.5rem;
+    cursor: pointer;
+}
+.headerR-A .active-header{
+    bottom: -1px;
+    border: 1px #cfcfcf solid;
+    border-bottom: 1px #fff solid;
+    color: #4285F4;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+.RiscAdd .contentR-A{
+    position: relative;
+    border: 1px #cfcfcf solid;
+    border-top: 0;
+}
+.contentR-A section{
+    display: none;
+    padding: 20px;
+    
+}
+.contentR-A section:nth-child(1){
+    display: block;    
+}
+.contentR-A nav,
+.moreInfo section,
+.contents-2 section{
+    align-items: center;
+    
+    background: #fafafa;
+    padding: 12px;
+    border-bottom: 1px #eee solid;
+    color: #777;
+}
+.contentR-A nav{
+    font-size: 1rem;
+    padding-bottom: 5px;
+}
+.RiscAdd #radio-1:checked ~ #content-1,
+.RiscAdd #radio-2:checked ~ #content-2,
+.RiscAdd #radio-3:checked ~ #content-3,
+.RiscAdd #radio-4:checked ~ #content-4,
+.RiscAdd #radio-11:checked ~ #content-11,
+.RiscAdd #radio-21:checked ~ #content-21,
+.RiscAdd #radio-31:checked ~ #content-31{
+    display: block;
+}
+
+.contents-2 label,
+.moreInfo label{
+    display: inline-block;
+    margin-right: 7%;
+    margin-left: 6px;
+}
+.contents-2 label{
+    font-size: 1rem;
+}
+.contents-2 {
+    padding: 20px;
+}
+.moreInfo h4{
+    width: 100%;
+    margin-top: 15px;
+}
+.two-two nav,
+onlyOne{
+    display: flex;
+    justify-content: space-between;
+}
+.two-two nav:nth-child(even){
+    padding-left: 20px;
+}
+.two-two nav table{
+    width: 160px;
+}
+.last table{
+    width: 250px !important;
+}

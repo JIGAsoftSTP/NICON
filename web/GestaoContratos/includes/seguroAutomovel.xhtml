@@ -1,0 +1,512 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+
+        <h:outputStylesheet library="Styles"   name="seguroAutomovel.css"/>
+         <h:outputStylesheet library="Styles"   name="moreInfoTable.css"/>
+        <h:outputScript library="js" name="Validar.js" />
+    </h:head>
+    <h:body>
+        <h:form id="veiculoFormulario" class="tt formAuto" style="width: 95%; margin: auto">
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+           </div>
+
+            <p:growl showDetail="false" id="info" />
+            <div class="K-seguros">
+                <span>
+                    Nº de apólice
+                    <h:inputText  
+                                 class="inputText1 campoApoliceVeiculo apolice"
+                                 id="veiculoApolice" value="#{veiculoBean.veiculo.numeroApolice}" />
+                </span>
+                <span>
+                    Nº de registro
+                    <h:inputText
+                        value="#{veiculoBean.veiculo.numeroRegistro}" 
+                        id="veiculoNumR2" 
+                        class="inputText1 veiculoNumR"> 
+                        <p:ajax event="blur"  process="@this"
+                                listener="#{veiculoBean.verificarNumeroRegistro()}"
+                                oncomplete="verificarNumeroRegistro(xhr, status, args)"/>                                 
+                    </h:inputText>
+                </span>
+                <span>
+                    Certificado
+                    <h:inputText
+                        
+                        class="inputText1 certificadoVeiculo"> 
+                                                        
+                    </h:inputText>
+                </span>
+                <span>
+                    Moeda
+                    <h:selectOneMenu class="inputText1 veiculoMoeda" value="#{veiculoBean.veiculo.moeda}"  id="veiculoMoeda">
+                        <f:selectItems  value="#{veiculoBean.moeda}" 
+                                        itemLabel="#{m.value}"
+                                        var="m" itemValue="#{m.id}"/>
+                    </h:selectOneMenu>
+                </span>
+            </div>
+            <p:remoteCommand name="enviarDadosVeiculo" process="veiculoFormulario" actionListener="#{veiculoBean.dadosEnviados()}" />
+            <div class="formularioSeguro">
+                <div class="addAuto">
+                    <div class="formatInput">
+                        <h:outputLabel id="adicionado" 
+                                       class="veiculoAdicionado" 
+                                       style="display: none;"
+                                       value="#{veiculoBean.mensagem}"/>
+                        <h:outputLabel style="display: none;" value="#{veiculoBean.veiculo.tipoCobertura}" class="tipoC" id="veiculoT"/>
+                        <h:selectOneRadio class="coberturaType input-total" value="#{veiculoBean.veiculo.tipoCobertura}" id="veiculoTipoC" >
+                            <f:selectItem itemLabel="Terceiros" itemValue="41" />
+                            <f:selectItem itemLabel="Todos os riscos" itemValue="42" />
+                            <f:selectItem itemLabel="Compreensivo limitado" itemValue="43"/>
+                            <p:ajax  process="@this" listener="#{veiculoBean.coberturaSelecionada()}" 
+                                    oncomplete="cobertura(xhr, status, args)" update="veiculoTipoc tabelaVeiculo"/>
+                        </h:selectOneRadio>
+                        <p:autoComplete pt:placeholder="Nº registro de automovel" id="veiculoM" class="input-4 registroAutomovel" var="matricula"
+                                        value="#{veiculoBean.veiculo.numeroMatricula}" completeMethod="#{veiculoBean.completarListaMatricula}" itemLabel="#{matricula}"
+                                        maxResults="15" itemValue="#{matricula}" >                            
+                            <p:ajax update="@none" onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()"
+                                    process="@this" event="itemSelect" listener="#{veiculoBean.carregarVeiculo()}" />
+                            <p:ajax update="@none" process="@this" />
+                        </p:autoComplete>
+
+                        <p:autoComplete class="input-4 marcaVeiculo" pt:placeholder="Marca" var="marca" id="veiculoMarca" value="#{veiculoBean.veiculo.marca}" maxResults="12"
+                                        completeMethod="#{veiculoBean.completarListaMarca}" itemLabel="#{marca}" itemValue="#{marca}"   >
+                            <p:ajax update="@none" process="@this" />
+      
+                        </p:autoComplete>
+
+                        <p:autoComplete class="input-4 modeloVeiculo" pt:placeholder="Modelo" var="modelo" id="veiculoModelo"
+                                        value="#{veiculoBean.veiculo.modelo}" maxResults="12"
+                                        completeMethod="#{veiculoBean.completarListaModelo}"
+                                        itemLabel="#{modelo}" itemValue="#{modelo}" >
+                            <p:ajax event="click" update="veiculoModelo" process="veiculoMarca veiculoModelo" 
+                                    listener="#{veiculoBean.marcaSelecionada()}" />
+                        </p:autoComplete>
+
+                        <h:inputText pt:placeholder="Nº motor"
+                                     class="input-4 veiculoMotor" 
+                                     id="veiculoMotor"
+                                     title="Valor máximo 23"
+                                     value="#{veiculoBean.veiculo.numMotor}"> 
+                            <p:ajax event="blur" listener="#{veiculoBean.verificarNumeroMotor()}" oncomplete="verificarMotor(xhr, status, args)"/>
+                        </h:inputText>
+                        <h:inputText pt:placeholder="Nº Chassi" 
+                                     class="veiculoChassi input-4" 
+                                     maxlength="17" id="veiculoChassi"
+                                     value="#{veiculoBean.veiculo.chassi}">
+                            <p:ajax event="blur" listener="#{veiculoBean.verificarNumeroChassi()}" oncomplete="verificarChassi(xhr, status, args)"/>
+                        </h:inputText>
+                        <h:inputText pt:placeholder="Ano fabrico"  
+                                     maxlength="4" 
+                                     class="veiculoAnoF numeroAC input-4"
+                                     id="veiculoAnoF"
+                                     value="#{veiculoBean.veiculo.anoFabrico}">
+                            <p:ajax event="blur" 
+                                    listener="#{veiculoBean.ValidarAnoFabrico(null)}" 
+                                    process="@this">
+                            </p:ajax>
+                        </h:inputText>
+                        <h:inputText pt:placeholder="Ano da compra" 
+                                     maxlength="5" 
+                                     class="veiculoAnoCompra numeroAC input-4"  id="veiculoAnoC"
+                                     value="#{veiculoBean.veiculo.anoCompra}" >
+                            <p:ajax event="blur" 
+                                    process="@this veiculoAnoF" 
+                                    listener="#{veiculoBean.validaAnoCompra()}" />
+                        </h:inputText>
+                        <h:inputText pt:placeholder="Capacidade" maxlength="5"
+                                     class="veiculoCapacidade numeroAC input-4"
+                                     id="veiculoFormularioCapacidade"
+                                     value="#{veiculoBean.veiculo.capacidade}">
+                            <p:ajax event="blur" listener="#{veiculoBean.validarCapacidade(null)}"/>
+                        </h:inputText>
+                        <h:outputLabel style="display: none;" value="#{veiculoBean.tipoC}" id="veiculoTipoc" class="veiculoTC" />
+                        <h:inputText pt:placeholder="Valor da compra"  id="veiculoValorC"
+                                     class=" veiculoValorCompra numeroReal input-4  isNumeric" 
+                                     value="#{veiculoBean.veiculo.valorCompra}">
+                        </h:inputText>
+                        <h:inputText pt:placeholder="Valor atual da compra"
+                                     class="veiculoValorAtual numeroReal input-4 isNumeric"
+                                     id="veiculoValorAtual"
+                                     value="#{veiculoBean.veiculo.valorAtual}">
+
+                        </h:inputText>
+                        <h:inputText value="#{veiculoBean.veiculo.limiteResp}" 
+                                     class="veiculoLimiteResp numeroReal input-4" 
+                                     id="veiculoLimiteResp">
+                            <p:ajax process="@this veiculoValorAtual veiculoTipoC"
+                                    event="keyup"
+                                    listener="#{veiculoBean.calcularValorPremio()}"
+                                    oncomplete="valorPremioVeiculo(xhr, status, args)"/>
+                        </h:inputText>
+                        <h:inputText value="#{veiculoBean.veiculo.valorPremio}" 
+                                     pt:placeholder="Valor premio" 
+                                     class="veiculoValorP numeroReal input-4"
+                                     id="veiculoPremio">
+
+                        </h:inputText>
+
+                        <h:commandButton class="adicionarVeiculo addItemTable input-total " value="Adicionar Veiculo" id="veiculoFormularioAdicionarBotao">
+                            <p:ajax process="@this" onstart="mostrarP()" oncomplete="adicionado(xhr, status, args),fecharP()"
+                                    update="adicionado" />
+                        </h:commandButton>
+
+
+
+                    </div>
+                    <div>
+                        <p:dataTable  value="#{veiculoBean.info}" scrollable="true" scrollHeight="150"
+                                      var="v"
+                                      selectionMode="single"
+                                      emptyMessage="" 
+                                      id="tabelaVeiculo"  
+                                      selection="#{veiculoBean.veiculoSelected}"
+                                      rowKey="#{v}"> 
+                            <p:ajax event="rowDblselect" process="@this" onstart="mostrarP()" 
+                                    listener="#{veiculoBean.editar()}"  oncomplete="fecharP()"/>
+                            <p:column  width="80">
+                                <f:facet name="header" >
+                                    Matricula
+                                </f:facet>
+                                <h:outputText value="#{v.numeroMatricula}"/>      
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    Marca
+                                </f:facet>
+                                <h:outputText value="#{v.marca}"/>
+                            </p:column>
+                            <p:column >
+                                <f:facet name="header">
+                                    Modelo
+                                </f:facet>
+                                <h:outputText value="#{v.modelo}"/>      
+                            </p:column>
+                            <p:column >
+                                <f:facet name="header" class="t">
+                                    Nº Chassi
+                                </f:facet>
+                                <h:outputText value="#{v.chassi}"/>      
+                            </p:column>
+                            <p:column >
+                                <f:facet name="header">
+                                    Nº Motor
+                                </f:facet>
+                                <h:outputText value="#{v.numMotor}"/>      
+                            </p:column>        
+                            <p:column>
+                                <f:facet name="header">
+                                    Limite
+                                </f:facet>
+                                <h:outputText value="#{v.limiteResp}"/>      
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    Valor Premio
+                                </f:facet>
+                                <h:outputText value="#{v.valorPremio}"/>      
+                            </p:column>
+                            <p:column headerText="Ações" width="60">
+                                <h:outputLabel class="actionTable icon-info" title="Mais informações">
+                                    <p:ajax event="click" process="@this" onstart="mostrarP()" listener="#{veiculoBean.moreInfo(v)}" oncomplete="fecharP()" />
+                                </h:outputLabel>
+                                <h:outputLabel class="actionTable icon-cancel-circle" title="Remover linha">
+                                    <p:ajax process="@this" onstart="mostrarP()" listener="#{veiculoBean.remover(v)}" event="click" oncomplete="fecharP()" />
+                                </h:outputLabel>
+                                <h:outputLabel class="actionTable icon-bin" title="Limpar tabela">
+                                    <p:ajax event="click" onstart="mostrarP()" process="@this" listener="#{veiculoBean.removeAll()}" oncomplete="fecharP()"  />
+                                </h:outputLabel>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+
+
+                </div>
+                <div class="modalPage mp-messages seguroAutomovelAlterarCobertura">
+                <div class="modalFrame">                                            
+                    <div class="modalContainer">
+                        <h3><h:outputText value="Seguro Automóvel" class="titulo"></h:outputText></h3>
+                        <p>
+                            <h:outputText value="Deseja realmente alterar o tipo de cobertura?" class="mensagemApresentada" />
+                        </p>
+                        <div class="divButtons">
+                            <h:commandButton class="mf-bt-ok" value="Sim" >
+                                <p:ajax />
+                            </h:commandButton>
+                            <h:commandButton class="mf-bt-ko cancelarTerminarSessao" value="Cancelar">
+                                <p:ajax process="@none"/>
+                            </h:commandButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="infoComplement">
+                    <h1>Informações complementares</h1>
+                    <!-- Clausulas_Automovel -->
+                    <section>
+                        <h:outputLabel value="Abrangentes"/>
+
+                        <h:selectOneRadio id="veiculoResp15"
+                                          value="#{listaRespostas.getResposta(25).resposta}" binding="#{listaRespostas.getResposta(25).objH}">
+                            <f:selectItem  itemLabel="Sim"  itemValue="Y" />
+                            <f:selectItem itemLabel="Não" itemValue="N" />
+                            <p:ajax update="abra"
+                                    listener="#{listaRespostas.getResposta(25).validarSelecaoCaso1()}"
+                                    class="veiculoAbrangentes"/>
+                        </h:selectOneRadio>
+                        <h:inputText id="abra" pt:placeholder="Que opção?"
+                                     disabled="#{listaRespostas.getResposta(25).validar}"
+                                     class="veiculoAbrange" value="#{listaRespostas.getResposta(25).obj}" size="40"/>
+
+                    </section>
+
+                    <h4 >O uso corrente do veículo é para: (selecione quantos forem necessários)</h4>
+                    <section>
+                        <h:outputLabel value="Aluguer" />
+
+                        <h:selectOneRadio id="veiculoResp14"
+                                          value="#{listaRespostas.getResposta(11).resposta}" binding="#{listaRespostas.getResposta(11).objH}">
+                            <f:selectItem  itemLabel="Sim" itemValue="Y"/>
+                            <f:selectItem  itemLabel="Não" itemValue="N"/>
+                        </h:selectOneRadio>
+                    </section>
+                    <section>
+                        <h:outputLabel value="Fins privados e profissionais incluindo compra e venda de mercadorias" />
+
+                        <h:selectOneRadio 
+
+                            id="veiculoResp1"
+                            value="#{listaRespostas.getResposta(12).resposta}" binding="#{listaRespostas.getResposta(12).objH}">
+                            <f:selectItem  itemLabel="Sim" itemValue="Y"/>
+                            <f:selectItem  itemLabel="Não" itemValue="N"/>
+                        </h:selectOneRadio>
+                    </section>
+
+                    <section>
+                        <h:outputLabel value="Atividade comercial, excluindo o uso de transporte de mercadorias" />
+
+                        <h:selectOneRadio id="veiculoResp12"
+                                          value="#{listaRespostas.getResposta(13).resposta}" binding="#{listaRespostas.getResposta(13).objH}">
+                            <f:selectItem  itemLabel="Sim" itemValue="Y" />
+                            <f:selectItem  itemLabel="Não" itemValue="N"/>
+                        </h:selectOneRadio>
+                    </section>
+                    <section>
+                        <h:outputLabel value="Atividade comercial, incluindo o uso de transporte de mercadorias" />
+
+                        <h:selectOneRadio id="veiculoResp11"
+                                          value="#{listaRespostas.getResposta(14).resposta}" binding="#{listaRespostas.getResposta(14).objH}">
+                            <f:selectItem  itemLabel="Sim" itemValue="Y"/>
+                            <f:selectItem  itemLabel="Não" itemValue="N"/>
+                        </h:selectOneRadio>
+                    </section>
+                    <section>
+
+                        <h:outputLabel value="Transporte de passageiros e/ou mercadorias por aluguer" />
+
+                        <h:selectOneRadio id="veiculoResp10"
+                                          value="#{listaRespostas.getResposta(15).resposta}" binding="#{listaRespostas.getResposta(15).objH}">
+                            <f:selectItem  itemLabel="Sim" itemValue="Y"/>
+                            <f:selectItem  itemLabel="Não" itemValue="N"/>
+                            <p:ajax update="algu" listener="#{listaRespostas.getResposta(15).validarSelecaoCaso1()}"/>
+                        </h:selectOneRadio>
+
+                        <h:inputText styleClass="inputText veiculoPassageiro"
+                                     id="algu" pt:placeholder="Especifique"
+                                     disabled="#{listaRespostas.getResposta(15).validar}"
+                                     size="40"
+                                     value="#{listaRespostas.getResposta(15).obj}">
+                        </h:inputText>
+
+                    </section>
+                    <section>
+                        <h:outputLabel value="Alega ser o único dono do veículo" class="cabecalhoTetx" />
+
+                        <h:selectOneRadio
+                            id="cob1"
+                            value="#{listaRespostas.getResposta(16).respostaY}"
+                            binding="#{listaRespostas.getResposta(16).objH}">
+                            <f:selectItem  itemLabel="Sim" itemValue="Y"/>
+                            <f:selectItem itemLabel="Não" itemValue="N"/>
+                            <p:ajax update="es1" listener="#{listaRespostas.getResposta(16).validarSelecaoCaso2()}"/>
+                        </h:selectOneRadio>
+                        <h:inputText pt:placeholder="Especifique" 
+                                     id="es1"
+                                     disabled="#{listaRespostas.getResposta(16).validar}"
+                                     class="inputText veiculoDono" size="40" value="#{listaRespostas.getResposta(16).obj}"/>
+
+
+                    </section>
+
+                    
+                    <section>
+                        <h:outputLabel value="Alteração da viatura ou componentes" class="cabecalhoTetx"/>
+
+                        <h:selectOneRadio id="veiculoResp8"
+                                          value="#{listaRespostas.getResposta(26).resposta}" binding="#{listaRespostas.getResposta(26).objH}">
+                            <f:selectItem  itemLabel="Sim" itemValue="Y" />
+                            <f:selectItem itemLabel="Não" itemValue="N"/>
+                            <p:ajax update="alt" listener="#{listaRespostas.getResposta(26).validarSelecaoCaso1()}"/>
+                        </h:selectOneRadio>
+                        <h:inputText pt:placeholder="Especifique"
+                                     id="alt" disabled="#{listaRespostas.getResposta(26).validar}"
+                                     class="inputText veiculoAlteracao"
+                                     size="40"
+                                     value="#{listaRespostas.getResposta(26).obj}"/>
+                    </section>
+
+                    <h4>O veículo será conduzido por:</h4>
+                    <section>
+                        <h:outputLabel value="Segurador" />
+
+                        <h:selectOneRadio id="veiculoResp6"
+                                          value="#{listaRespostas.getResposta(20).resposta}" binding="#{listaRespostas.getResposta(20).objH}">
+                            <f:selectItem  itemLabel="Sim" itemValue="Y"/>
+                            <f:selectItem  itemLabel="Não" itemValue="N"/>
+                        </h:selectOneRadio>
+                    </section>
+                    <section>
+                        <h:outputLabel value="Segurador, empregados e motoristas" />
+
+                        <h:selectOneRadio id="veiculoResp5"
+                                          value="#{listaRespostas.getResposta(21).resposta}" binding="#{listaRespostas.getResposta(21).objH}">
+                            <f:selectItem  itemLabel="Sim" itemValue="Y"/>
+                            <f:selectItem  itemLabel="Não" itemValue="N"/>
+                        </h:selectOneRadio>
+                    </section>
+                    <section>
+                        <h:outputLabel value="Algum menor de 18 anos" />
+
+                        <h:selectOneRadio id="veiculoResp4"
+                                          value="#{listaRespostas.getResposta(22).resposta}" binding="#{listaRespostas.getResposta(22).objH}">
+                            <f:selectItem  itemLabel="Sim" itemValue="Y"/>
+                            <f:selectItem  itemLabel="Não" itemValue="N"/>
+                        </h:selectOneRadio>
+                    </section>
+                    <section>
+                        <h:outputLabel value="Alguém que possa usar o veículo apenas de licença de aprendizagem" />
+
+                        <h:selectOneRadio id="veiculoResp3"
+                                          value="#{listaRespostas.getResposta(23).resposta}" binding="#{listaRespostas.getResposta(23).objH}">
+                            <f:selectItem  itemLabel="Sim" itemValue="Y"/>
+                            <f:selectItem  itemLabel="Não" itemValue="N"/>
+                        </h:selectOneRadio>
+                    </section>
+                    <section>
+                        <h:outputLabel value="Alguém que tenha problemas de visão, audição ou alguma incapacidade" />
+
+                        <h:selectOneRadio value="#{listaRespostas.getResposta(24).resposta}" id="veiculoResp2"
+                                          binding="#{listaRespostas.getResposta(24).objH}">
+                            <f:selectItem  itemLabel="Sim" itemValue="Y"/>
+                            <f:selectItem  itemLabel="Não" itemValue="N"/>
+                        </h:selectOneRadio>
+                    </section>
+                    <h4>Conservação</h4>
+                    <section>
+                        <h:outputLabel value="O veiculo fica fechado numa garagem durante a noite" />
+
+                        <h:selectOneRadio id="veiculoResp7"
+                                          value="#{listaRespostas.getResposta(18).resposta}" binding="#{listaRespostas.getResposta(18).objH}">
+                            <f:selectItem  itemLabel="Sim" itemValue="Y"/>
+                            <f:selectItem  itemLabel="Não" itemValue="N"/>
+                        </h:selectOneRadio>
+                    </section>
+                </div>
+            </div>
+            <h:form  id="d">
+              
+                <div class="PrNx">
+                    <h:commandButton value="Anterior"  class="btPrevious btBack">
+                        <p:ajax update="@none" />
+                    </h:commandButton>
+                    <h:commandButton value="Seguinte"  class="btRight btNext"  action="#{veiculoBean.avancar()}">
+                        <f:ajax execute="painelV1 painelV2" />
+                    </h:commandButton>
+                </div>
+                <ui:debug/>
+        </h:form>
+            
+               <div class="modalPage mp-infoTable">
+                <div class="modalFrame">                                            
+                  <div class="modalContainer">
+                    <p><b>Mais Informações</b></p>
+                   <h:form id="dataInfo">
+                    <p>Matricula: <h:outputText value="#{veiculoBean.veiculoSelected.numeroMatricula}" 
+                                             class="maisInfo" /></p>   
+                     <p>
+                         Modelo: <h:outputText value="#{veiculoBean.veiculoSelected.modelo}" 
+                                             class="maisInfo"  />
+                     </p>   
+                     <p>
+                         Marca: <h:outputText id="marcaInfo"
+                             value="#{veiculoBean.veiculoSelected.marca}" class="maisInfo"  />
+                     </p>   
+                     <p>
+                         Número Motor: <h:outputText 
+                             value="#{veiculoBean.veiculoSelected.numMotor}" class="maisInfo" />
+                     </p>   
+                     <p>
+                         Número Chassi: <h:outputText 
+                             value="#{veiculoBean.veiculoSelected.chassi}" class="maisInfo" />
+                     </p>   
+                     <p>
+                         Ano Fabrico: <h:outputText  
+                             value="#{veiculoBean.veiculoSelected.anoFabrico}" class="maisInfo"  />
+                     </p>   
+                     <p>
+                         Capacidade: <h:outputText 
+                             value="#{veiculoBean.veiculoSelected.capacidade}" class="maisInfo"  />
+                     </p>   
+                     <p>
+                         Ano Compra: <h:outputText 
+                             value="#{veiculoBean.veiculoSelected.anoCompra}" class="maisInfo"  />
+                     </p>   
+                     <p>
+                         Valor Atual: <h:outputText 
+                             value="#{veiculoBean.veiculoSelected.valorAtual}" class="maisInfo" />
+                     </p>   
+                     <p>
+                         Valor Prémio: <h:outputText 
+                             value="#{veiculoBean.veiculoSelected.valorPremio}" class="maisInfo" />
+                     </p>   
+                     <p>
+                         Limite de Responsabilidade: <h:outputText 
+                             value="#{veiculoBean.veiculoSelected.limiteResp}" class="maisInfo"  />
+                     </p>   
+                     <p>
+                         Valor Compra: <h:outputText id="valorCompraInfo"
+                             value="#{veiculoBean.veiculoSelected.valorCompra}" class="maisInfo" />
+                     </p> 
+                    </h:form>
+                     <div class="closeModalFrame moreData" >X</div>
+                  </div>
+                </div>
+                </div>
+ 
+        </h:form>
+        <script>
+            function e()
+            {
+                $(".veiculoChassi").val("");
+            }
+            function mostrarP()
+            {
+                $(".modalProcess").show();
+            }
+            function fecharP()
+            {
+                 $(".modalProcess").hide();
+            }
+        </script>
+    </h:body>
+</html>
+

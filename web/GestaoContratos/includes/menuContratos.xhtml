@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+    </h:head>
+    
+    <header id="GC-MENU-SC" class="menu-secundario GC-MENU">
+        <div>
+            <ul>   
+                <c:if test="#{!sessionUtil.dadosUtilizador.justRelatorio}">
+                    <li><a id="GC-MENU-SEGUROS" href="../GestaoContratos/GestaoContratos.xhtml"> Seguros</a></li>
+                </c:if>
+                <li><a id="GC-MENU-CLIENTES" href="../GestaoContratos/GestSeg_Clientes.xhtml">Clientes</a></li>                    
+                <li><a id="GC-MENU-CONTRATOS" href="../GestaoContratos/GestSeg_Contratos.xhtml">Contratos</a></li>
+                <!--<li ><a id="GC-MENU-COMISSOES"  href="../GestaoContratos/GestSeg_Comissao.xhtml" >Comissões</a></li>-->
+                <li><a id="GC-MENU-VEICULOS" href="../GestaoContratos/GestSeg_Veiculos.xhtml" >Veículos</a></li>
+                <li ><a id="GC-MENU-RESSEGUROS" href="../GestaoContratos/GestSeg_Resseguros.xhtml" >Resseguros</a></li>
+                <li><a id="GC-MENU-RELATORIO" href="../GestaoContratos/GestSeg_Relatorios.xhtml">Relatórios</a></li> 
+               
+            </ul>
+        </div>
+    </header>
+        
+</html>
+

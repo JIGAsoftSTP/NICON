@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <div class="modalPage mp-situacao mp-salario modalSituacaoFamiliar">
+            <div class="modalFrame">                                            
+                <div class="modalContainer default-JIGA">
+                    <h:form id="formSituacaoFamiliar">
+                        <p:growl id="situacaoFamiliarGrowl" showDetail="false" />
+                    <div class="situacaoFamiliar"  >
+                        <h3></h3>
+                        <p>
+                            Salário Base
+                            <span>
+                                <h:inputText  id="baseSalare" class="situacaoFamiliarSalarioBase justNumeric" value="#{salarioBean.situacao.salarioBase}"  >
+                                    <p:ajax event="blur" process="@this" />
+                                </h:inputText> 
+                                <h:outputLabel class="icon-pencil editarSalarioBase"  title="Editar"></h:outputLabel>
+                            </span>
+                        </p>
+                        <p>
+                            Nº filhos
+                            <h:inputText value="#{salarioBean.situacao.numFilho}" maxlength="2" required="true"
+                                         class="txt1 justIntiger situacaoFamiliarNumFilho situacaoFamiliarCampo" id="situacaoFamiliarNumFilhos"></h:inputText>
+                        </p>
+                        <p>
+                                Percentagem
+                            <span>
+                                <h:inputText value="#{salarioBean.situacao.percentagem}" required="true"
+                                             class="parceV justNumeric situacaoFamiliarPercentagem situacaoFamiliarCampo" id="situacaoFamiliarPercentagem" />
+                                <h:outputLabel value="%"></h:outputLabel>
+                            </span>
+                        </p>
+                        <p class="areaButtonTaxa">
+                            <h:commandButton class="sistuaFim" value="Guardar">
+                                <p:ajax process="@this situacaoFamiliarNumFilhos situacaoFamiliarPercentagem" onstart="$('.modalProcess').show()"
+                                        oncomplete="$('.modalProcess').hide()" listener="#{salarioBean.regSituacaoFamiliar()}" />
+                            </h:commandButton>
+                        </p>
+                     </div>
+                    </h:form>
+                    <div class="closeModalFrame situacaoFamiliarFechar" >X</div>
+                </div>
+            </div>
+        </div>
+        <div class="areaTable">
+            <h:commandButton value="+ Adicionar" class="abrir" type="button"/>
+            <p:dataTable scrollable="true" scrollHeight="320" var="lsi" value="#{salarioBean.situacaoList}" id="situacaoTable" >
+                <p:column headerText="Nº Filhos" width="80">
+                  #{lsi.numFilho}
+                </p:column>
+                <p:column headerText="Percentagem" width="80"> 
+                   #{lsi.percentagem}
+                </p:column>  
+                <p:column headerText="Valor" width="120">
+                   #{lsi.valor}
+                </p:column>
+                <p:column width="50">
+                    <h:outputLabel class="icon-pencil" title="Editar">
+                        <p:ajax event="click" listener="#{salarioBean.editarSituacaoFamiliar(lsi)}" />
+                    </h:outputLabel>
+                </p:column>
+            </p:dataTable>
+        </div>
+        <h:form id="formSituacaoFamiliarAlterarSalarioBase">
+            <div class="modalPage mp-messages situacaoFamiliarAlterarSalarioBase" >
+                    <div class="modalFrame">                                            
+                        <div class="modalContainer">
+                            <div class="conteudos" >
+                                <h3><h:outputText  class="titulo" value="Alterar Salário Base"></h:outputText></h3>
+                                <p>
+                                    <h:outputText value="Salário Base" style=" ;" class="conteudos" />
+                                    <h:inputText style="margin-left: 4%;width: 50%;height: 33px;font-size: 14px;"
+                                                 value="#{salarioBean.situacao.salarioBase}" id="alterarSalarioBaseValor" class="justNumeric" />
+                                </p>
+                            </div>
+                            <div class="divButtons">
+
+                                <h:commandButton class="mf-bt-ok" value="Alterar" action="#{salarioBean.alterarSalarioBase()}">
+                                    <p:ajax process="@this alterarSalarioBaseValor" />
+                                </h:commandButton>
+                                <h:commandButton class="mf-bt-ko cancelarAlterarNivel" value="Cancelar">
+                                    <p:ajax process="@none"/>
+                                </h:commandButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </h:form>
+         <h:form>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+        </h:form>   
+    </h:body>
+    <script>
+        $(".situacaoFamiliarSalarioBase").attr("disabled",  true);
+        
+        $('.editarSalarioBase').click(function () {
+             $(".situacaoFamiliarAlterarSalarioBase").fadeIn(400);   
+        });
+        $('.sistuaFim').click(function () {
+            
+            if($(".situacaoFamiliarSalarioBase").val() ==="")
+                $(".situacaoFamiliarSalarioBase").focus();
+            else
+            {
+                if($(".situacaoFamiliarNumFilho").val() ==="")
+                     $(".situacaoFamiliarNumFilho").focus();
+                else
+                {
+                    if($(".situacaoFamiliarPercentagem").val() ==="")
+                       $(".situacaoFamiliarPercentagem").focus();
+                }
+            }
+        });
+       
+        $('.abrir').click(function () {
+            $(".situacaoFamiliar h3").html("Adicionar Situação Familiar");
+            $(".situacaoFamiliarNumFilho").attr("disabled", false);
+            $('.mp-situacao').fadeIn(400);
+        });
+        $(".parceV").keyup(function ()
+        {
+           if(Number($(this).val()>100))
+               $(this).val("");
+        });
+              
+        function editarSituacaoFamiliar(numFilho, percentagem)
+        {     
+            $(".situacaoFamiliar h3").html("Editar Situação Familiar");
+            $(".situacaoFamiliarNumFilho").val(numFilho);
+            $(".situacaoFamiliarNumFilho").attr("disabled", true);
+            $(".situacaoFamiliarPercentagem").val(percentagem);
+            $('.mp-situacao').fadeIn(400);
+        }
+        
+ 
+        
+    </script>
+</html>
+

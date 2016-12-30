@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        
+    </h:head>
+    <h:body>
+        <h:form>
+        <section id="totosSeg" >
+            <div class="box efect">
+                <h:graphicImage class="imgbord" url="/resources/icones_seguros/automovel.PNG"> 
+                    <p:ajax event="click" listener="#{seguroBean.newSeguros('MV;2')}"/>
+                </h:graphicImage>
+                <div> Seguro Automóvel</div>
+            </div>
+            <div class="box efect">
+                <h:graphicImage class="imgbord " url="/resources/icones_seguros/viagem.PNG"> 
+                    <p:ajax event="click" listener="#{seguroBean.newSeguros('TIN;3')}"/>
+                </h:graphicImage>
+                <div>Seguro Viagem</div>
+            </div>
+            <div class="box efect">
+                <h:graphicImage class="imgbord " url="/resources/icones_seguros/acidente.PNG"> 
+                    <p:ajax event="click" listener="#{seguroBean.newSeguros('GPA;1')}"/>
+                </h:graphicImage>
+                <div>Seguro GPA</div>
+            </div>
+            <div class="box efect">
+                <h:graphicImage class="imgbord" url="/resources/icones_seguros/incendio.PNG"> 
+                    <p:ajax event="click" listener="#{seguroBean.newSeguros('FR;4')}"/>
+                </h:graphicImage>
+                <div>Seguro Incêndio</div>
+            </div>
+            <div class="box efect">
+                <h:graphicImage class="imgbord" url="/resources/icones_seguros/mercadoria.PNG"> 
+                    <p:ajax event="click" listener="#{seguroBean.newSeguros('MAC;7')}"/>
+                </h:graphicImage>
+                <div>Seguro MAC</div>
+            </div>
+            <div class="box efect">
+                <h:graphicImage class="imgbord" url="/resources/icones_seguros/roubo.PNG"> 
+                   <p:ajax event="click" listener="#{seguroBean.newSeguros('DI;6')}"/>
+               </h:graphicImage>
+               <div>Seguro Roubo</div>
+            </div>
+            <div class="box efect">
+                <h:graphicImage class="imgbord" url="/resources/icones_seguros/multirisco.PNG"> 
+                   <p:ajax event="click" listener="#{seguroBean.newSeguros('MR;10')}"/>
+               </h:graphicImage>
+               <div>Seguro Multiriscos</div>
+            </div>
+            <div class="box efect">
+                <h:graphicImage class="imgbord" url="/resources/icones_seguros/dinheiro.PNG"> 
+                    <p:ajax event="click" listener="#{seguroBean.newSeguros('DH;9')}"/>
+                </h:graphicImage>
+                <div>Seguro Dinheiro</div>
+            </div>
+            <div class="box efect">
+                <h:graphicImage class="imgbord" url="/resources/icones_seguros/responsabilidade.PNG"> 
+                    <p:ajax event="click" listener="#{seguroBean.newSeguros('RP;8')}"/>
+               </h:graphicImage> 
+                <div>Seguro RP</div>
+            </div>
+            <div class="box efect">
+                <h:graphicImage class="imgbord" url="/resources/icones_seguros/maritimo.PNG"> 
+                   <p:ajax event="click" listener="#{seguroBean.newSeguros('NHI;5')}"/>
+               </h:graphicImage> 
+               <div>Seguro Maritimo</div>
+            </div>
+        </section>
+        </h:form>
+    </h:body>
+</html>
+

@@ -1,0 +1,367 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <h:outputStylesheet library="Styles" name="geralStyle.css"></h:outputStylesheet>
+        <h:outputStylesheet library="Styles" name="geralSeguros.css"></h:outputStylesheet>
+        <h:outputStylesheet library="Styles" name="seguroCM.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="seguroCM.js"></h:outputScript>
+        <h:outputScript library="js" name="CargaMaritima.js" />
+    </h:head>   
+    <h:body>
+        <h:form id="cargaForm">
+            <p:growl id="cargaGrowl"  life="10000" showDetail="false"/>
+            <div class="K-seguros">
+                <span>
+                    Nº de apólice
+                    <h:inputText value="#{carga.cargaMaritima.numerApolice}" class="cmApolice apolice"/>
+                </span>
+                <span>
+                    Nº de registro
+                    <h:inputText  value="#{carga.cargaMaritima.numeroRegistro}" class="cargaNR" id="cargaNRegistroID"/>
+                </span>
+                <span>
+                    Moeda
+                    <h:selectOneMenu value="#{carga.cargaMaritima.moeda}" id="cargaMoeda" class="cargaMoeda" >
+                        <f:selectItems value="#{carga.moeda}" itemLabel="#{m.value}" var="m" itemValue="#{m.id}"/>
+                        <p:ajax event="change" process="@this" update="@this" />
+                    </h:selectOneMenu>
+                </span>
+            </div>
+
+            <div class="corpoCM formularioSeguro">
+
+                <div class="steps">
+                    <section class="step-1 active-step">
+                        <b>1</b>
+                        <span>
+                            Etapa 1/2 <br/>
+                            <ant>Informações Primárias</ant>
+                        </span>
+                    </section>
+                    <section class="">
+                        <b>2</b>
+                        <span>
+                            Etapa 2/2 <br/>
+                            <ant>Informações Adicionais</ant>
+                        </span>
+                    </section>
+                </div>
+
+                <div class="content-CM">
+
+                    <div class="content active-content">
+                        <div class="sect formatInput">
+                            <div class="ant-check input-2">
+                                <h1>Âmbito da cobertura</h1>
+                                <h:selectOneRadio  id="cargaCobertura" value="#{carga.cargaMaritima.cobertura}">
+                                    <f:selectItem  itemLabel="Todos os riscos" itemValue="142;Todos os riscos"/>
+                                    <f:selectItem  itemLabel="Restrita" itemValue="143;Restrita"/>
+                                    <f:selectItem  itemLabel="Mais restrita" itemValue="144;Mais restrita"/>
+                                </h:selectOneRadio>
+                            </div>
+                            <div class="ant-check input-2">
+                                <h1>Forma de envio</h1>
+                                <h:selectOneRadio id="cargaFormaEnvio" value="#{carga.cargaMaritima.formaEnvio}" >
+                                    <f:selectItem  itemLabel="Marítimo" itemValue="42;Marítimo"/>
+                                    <f:selectItem  itemLabel="Aéreo" itemValue="43;Aéreo"/>
+                                    <f:selectItem  itemLabel="Encomenda postal" itemValue="44;Encomenda postal"/>
+                                    <f:selectItem  itemLabel="Correio" itemValue="45;Correio"/>
+                                </h:selectOneRadio>
+                            </div>
+
+                        </div>
+                        <div class="sect formatInput">
+                            <div class="proposit input-3-1">
+                                <h1>Propósito do seguro</h1>
+                                <h:inputTextarea  class="proposito cargaPS" id="cargaPoSeguro" value="#{carga.cargaMaritima.proposito}"/>
+                            </div>
+                            <div class="input-2">
+                                <h1>Sobre a viagem</h1>
+                                <div class="formatInput ">
+                                    <h:selectOneMenu value="#{carga.cargaMaritima.paisOrigem}" class="selPais cargaPO input-2" pt:placeholder="País de origem" title="País de origem">
+                                        <f:selectItems value="#{carga.listaPaisesOrigem}" var="c" itemValue="#{c.id}" itemLabel="#{c.value}"/>
+                                    </h:selectOneMenu>
+                                    <h:selectOneMenu value="#{carga.cargaMaritima.paisDestino}" class="selPais cargaPD input-2" pt:placeholder="País Destino" title="País Destino"  >
+                                        <f:selectItems value="#{carga.listaPaisesDestino}" var="c" itemLabel="#{c.value}" itemValue="#{c.id}"/>
+                                    </h:selectOneMenu>
+                                    <h:inputText value="#{carga.cargaMaritima.portoCarga}" class="paisCargM cargaPDC  input-3"  pt:placeholder="Porto de Carga" title="Porto de Carga"/>
+                                    <h:inputText value="#{carga.cargaMaritima.portoDescarga}" class="paisCargM cargaPDD  input-3" pt:placeholder="Porto de Descarga" title="Porto de Descarga"/>
+                                    <h:inputText id="cargaNomeNV" value="#{carga.cargaMaritima.nomeNavio}" class="areaNome cargaNNV  input-3" pt:placeholder="Nome do Navio / Voo" title="Nome do Navio/Voo"/>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="sect formatInput">
+
+                            <nav class="input-3-1" >
+                                <h1>Carga marítima</h1>
+                                <div class="carga" id="cargaForm:cargaNavIME" >
+                                    <h:inputText value="#{carga.cargaMaritima.interese}" class="cargaIC areaNome input-3-1" pt:placeholder="Interesse / Conseguinações" title="Interresse / Conseguinações"/>
+                                    <h:inputText value="#{carga.cargaMaritima.modoEmbalagem}" class="cargaME areaNome input-3" pt:placeholder="Modo de embalagem" title="Modo de embalagem"/>
+                                    <h:inputText id="validarTableCargaID" value="#{carga.validarTable}" class="validarTableCarga" readonly="true" style="display: none;" />
+                                    <h:inputText id="cargaValidoFormeID" value="#{carga.validarForme}" class="cargaValidoForme" readonly="true" style="display: none;" />
+                                    <h:commandButton class="btAddCarg addItemTable" action="#{carga.addInterreseEModoEbalagem()}" value="Add">
+                                        <p:ajax update="@this cargaTableIME" process="" oncomplete="addModoInterreceCarga(xhr, status, args)"/>
+                                    </h:commandButton>
+                                </div>
+                                <p:dataTable  selectionMode="single" rowKey="#{mi}" selection="#{carga.selectedModoEmbalagemEInterresse}" id="cargaTableIME" value="#{carga.listaModoEmbalagemEInterresse}"
+                                              var="mi" scrollable="true" scrollHeight="160" class="tableCarg" emptyMessage="Nenhuma informação encontrada">
+                                    <p:column headerText="Interesse" width="100">
+                                        <h:outputText value="#{mi.interese}" />      
+                                    </p:column>
+                                    <p:column headerText="Modo de embalagem" width="90">
+                                        <h:outputText value="#{mi.modoEmbalagem}"/>
+                                    </p:column>
+                                    <p:column headerText="Ações" width="30">
+
+                                        <h:outputLabel class="actionTable icon-cancel-circle" title="Remover linha"   >
+                                            <f:ajax event="click" execute="@this" render="cargaTableIME" listener="#{carga.deleteInterreseEModoEbalagem(mi)}" />
+                                        </h:outputLabel>
+                                        <h:outputLabel class="actionTable icon-bin" title="Limpar tabela">
+                                            <f:ajax event="click" execute="@this" render="cargaTableIME" listener="#{carga.removeAllInterreseEModoEbalagem()}" />
+                                        </h:outputLabel>
+                                    </p:column>
+                                    <p:ajax event="rowSelect" process="cargaTableIME" />
+                                </p:dataTable>
+                            </nav>
+
+                            <nav class="input-2">
+                                <h1>Valor máximo em risco</h1>
+                                <nav class=" em-risco">
+                                    <span>
+                                        <h:inputText class="txtValorCarg cargaNumero cargaVLI input-3-2"  id="cargaValorLimite" value="#{carga.cargaMaritima.valorLimiteIndeminizacao}"  pt:placeholder="Limite de Indemnização">
+                                            <p:ajax update="cargaPremio" event="keyup" oncomplete="carcular();" process="cargaValorLimite cargaValorTaxa" listener="#{carga.calculosPremioBrupo()}" />
+                                        </h:inputText>
+                                        <h:inputText title="Taxa em (%)" class="txtTaxaCarg cargaNumero cargaTLI input-8" id="cargaValorTaxa" value="#{carga.cargaMaritima.taxaValorLimiteIndeminizacao}" pt:placeholder="Taxa">
+                                            <p:ajax update="cargaPremio" event="keyup" oncomplete="carcular();" process="cargaValorLimite cargaValorTaxa" listener="#{carga.calculosPremioBrupo()}" />
+                                        </h:inputText>
+                                    </span>
+                                    <h:inputText title="Prémio" id="cargaPremio" class="txtPremCarg cargaNumero cargaP input-3-1" readonly="true"  value="#{carga.cargaMaritima.premio}" pt:placeholder="Premio"/>
+                                </nav>
+                                <h3>Detalhes</h3>
+                                <div class="formatInput ">
+                                    <h:inputText id="cargaAnualMeca" value="#{carga.cargaMaritima.anualParaCadaMercadoria}" class="areaNome cargaNumero cargaAPCM  input-total" pt:placeholder="Anual para cada mercadoria" title="Anual para cada mercadoria"/>
+                                    <h:inputText value="#{carga.cargaMaritima.qualquerNavio}" class="areaNome cargaNumero cargaQN input-2" pt:placeholder="Qualquer Navio" title="Qualquer Navio"/>
+                                    <h:inputText value="#{carga.cargaMaritima.qualquerMercadoria}" class="areaNome cargaNumero cargaQM input-2" pt:placeholder="Qualquer mercadoria" title="Qualquer mercadoria"/>
+                                    <h:inputText value="#{carga.cargaMaritima.tempoNegocio}" class="areaNome cargaNumeroInteiro cargaTN input-2" pt:placeholder="Tempo de negócio" title="Tempo de negócio"/>
+                                    <h:inputText value="#{carga.cargaMaritima.custoPorto}" class="areaNome cargaNumero cargaCP input-2" pt:placeholder="Custo do porto(10% e 20%)" title="Custo do porto(10% e 20%)"/>
+                                </div>
+                            </nav>
+
+
+                        </div>
+                        <div class="steps" style="margin-top: 20px;">
+                            <section class="step-1 active-step">
+                                <b>1</b>
+                                <span>
+                                    Etapa 1/2 <br/>
+                                    <ant>Informações Primárias</ant>
+                                </span>
+                            </section>
+                            <section class="">
+                                <b>2</b>
+                                <span>
+                                    Etapa 2/2 <br/>
+                                    <ant>Informações Adicionais</ant>
+                                </span>
+                            </section>
+                        </div>
+                    </div>
+                    
+                    <div class="content">
+                        <div class="about-vehicle" >
+                            <h1>Informações do veículo</h1>
+                            <div>
+                                <div class=" add-vehicle formatInput" id="cargaForm:cargaDeVeiculo">
+                                    <p class="MB">
+                                        <h:selectBooleanCheckbox class="cargaDUPDC" id="deDescolacaoComercia" value="#{carga.cargaMaritima.descolacaoComercia}" />
+                                        <b>Utilizado para deslocações comerciais</b>
+                                    </p>
+                                    <p class="MB">
+                                        <h:selectBooleanCheckbox class="cargaDPT" id="dePossibilidadeTrancar" value="#{carga.cargaMaritima.possibilidadeTrancar}" />
+                                        <b>Possibilidade de trancar por completo</b>
+                                    </p>
+                                    <p>
+                                        Conservados durante a noite?
+                                        <h:selectOneMenu id="cargaCDN" class="cargaCDN" value="#{carga.cargaMaritima.conservacaoNoite}" >
+                                            <f:selectItem  itemLabel="Sim" itemValue="Y"/> 
+                                            <f:selectItem  itemLabel="Não" itemValue="N"/>  
+                                        </h:selectOneMenu>
+                                    </p>
+                                    <p>
+                                        Nº Registro e Letras
+                                        <h:inputText id="deNumeroRegisto" class="cargaDNR" value="#{carga.cargaMaritima.deNumeroRegisto}" ></h:inputText>
+                                    </p>
+                                    <p>
+                                        Marca
+                                        <p:autoComplete maxResults="12" id="cargaDDM" completeMethod="#{carga.completarLista}" var="mar" itemLabel="#{mar}" itemValue="#{mar}"
+                                                        style="width: 100%; margin-left: 13px;" value="#{carga.cargaMaritima.deMarca}"  class="cargaDDM" >
+                                            <p:ajax event="click" update="@this" />
+                                        </p:autoComplete>
+                                    </p>
+                                    <p>
+                                        Veículo Comercial resgistado
+                                        <h:inputText id="deVeiculoComercialRegitrado" class="cargaDVCR" value="#{carga.cargaMaritima.deVeiculoComercialRegitrado}" ></h:inputText>
+                                    </p>
+                                    <p>
+                                        Valor Máximo do Veiculo
+                                        <h:inputText id="deValorMaximoVeiculo" class="cargaDVMV cargaNumero" value="#{carga.cargaMaritima.deValorMaximoVeiculo}" ></h:inputText>
+                                    </p>
+                                    <p>
+                                        Valor Maximo de cada carregamento
+                                        <h:inputText id="deValorMaximoCadaCarregamento" class="cargaDVMCC cargaNumero" value="#{carga.cargaMaritima.deValorMaximoCadaCarregamento}" ></h:inputText>
+                                    </p>
+                                    <p>
+                                        Valor do Carregamento anual
+                                        <h:inputText id="deValorCarregamentoAnual" class="cargaDVCA cargaNumero" value="#{carga.cargaMaritima.deValorCarregamentoAnual}" ></h:inputText>
+                                    </p>
+                                    <h:commandButton type="button"  value="Adicionar" class="addItemTable" action="#{carga.addDetalhesVeiculo()}" >
+                                        <p:ajax update="@this tabelaVeiculos" process=""
+                                                oncomplete="addTablaVeiculos(xhr, status, args)" />
+                                    </h:commandButton>
+                                </div>
+                                <p:dataTable id="tabelaVeiculos" scrollable="true" scrollHeight="230" var="vdt" rowKey="#{vdt}" value="#{carga.listaDetahlesVeiculo}" selection="#{carga.selectedDetahlesVeiculo}"  >
+                                    <p:column headerText="Nº Registro" width="100">
+                                        <h:outputText value="#{vdt.deNumeroRegisto}"/>      
+                                    </p:column>
+                                    <p:column  headerText="Marca" width="80">
+                                        <h:outputText value="#{vdt.deMarca}"/>
+                                    </p:column>
+                                    <p:column headerText="Valor do Carregamento anual" width="120">
+                                        <h:outputText value="#{vdt.deValorCarregamentoAnual}"/>
+                                    </p:column>
+                                    <p:column headerText="Ações" width="40">
+
+                                        <h:outputLabel class="actionTable icon-info" title="Mais Informações"   >
+                                            <f:ajax event="click" execute="@this" render="tabelaVeiculos" listener="#{carga.maisInfor(vdt)}" />
+                                        </h:outputLabel>
+                                        <h:outputLabel class="actionTable icon-cancel-circle" title="Remover linha"   >
+                                            <f:ajax event="click" execute="@this" render="tabelaVeiculos" listener="#{carga.deleteDetalhesVeiculo(vdt)}" />
+                                        </h:outputLabel>
+                                        <h:outputLabel class="actionTable icon-bin" title="Limpar tabela">
+                                            <f:ajax event="click" execute="@this" render="tabelaVeiculos" listener="#{carga.removeAllDetalhesVeiculo()}" />
+                                        </h:outputLabel>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                        </div>
+                        
+                        <div class="more-info" id="cargaForm:lastDados">
+                            <h1>Informações adicionais</h1>
+                            <section class="formatInput">
+                                <nav class="input-3-1 already">
+                                    Alguma vez efetuou esta classe de seguro?
+                                    <h:selectOneRadio value="#{carga.cargaMaritima.jaEfectou}" id="cargaBoo" class="cargaBoo" >
+                                        <f:selectItem  itemLabel="Sim" itemValue="true"/> 
+                                        <f:selectItem  itemLabel="Não" itemValue="false"/> 
+                                        <f:ajax event="click" render="@this cargaNomeCCl cargaEsC" execute="@this cargaNomeCCl cargaEsC" onevent="valideJaefectuou()" />
+                                    </h:selectOneRadio>
+                                </nav>
+                                <nav class="input-2">
+                                    <h:inputText id="cargaNomeCCl" readonly="#{!carga.cargaMaritima.jaEfectou}" pt:placeholder="Mencione o nome da companhia que já efectuou essa classe de seguro" value="#{carga.cargaMaritima.mecioneNomeCompanhina}" class="areaNome cargaESEC input-total"/>
+                                    <h:inputText id="cargaEsC" readonly="#{!carga.cargaMaritima.jaEfectou}" pt:placeholder="Especifique seguros efectuados com a Companhia" value="#{carga.cargaMaritima.epecifiqueCompanhina}" class="areaNome cargaESEC input-total"/>
+                                </nav>
+                            </section>
+                            <h4>Detalhes da mercadoria</h4>
+                            <section class="formatInput mercad">
+                                <nav class="input-3-1">
+                                    Área de atividade comercial                            
+                                    <h:inputText id="cargaAACID" class="cargaAAC input-total" value="#{carga.cargaMaritima.areaComercail}"/>
+                                    Mercadorias transportadas
+                                    <span class="SPAN">
+                                        <p>
+                                            <h:selectBooleanCheckbox id="cargaMTransportadaq1" class="cargaMTransportada cargaMTransportadaq1" value="#{carga.cargaMaritima.mercadoriaCigaro}" >
+                                                <f:ajax event="click" render="@this" />
+                                            </h:selectBooleanCheckbox>
+                                            <h:outputLabel value="Cigarro"/>
+                                        </p>
+                                        <p>
+                                            <h:selectBooleanCheckbox id="cargaMTransportadaq2" class="cargaMTransportada cargaMTransportadaq2" value="#{carga.cargaMaritima.mercadoriaVinho}" >
+                                                <f:ajax event="click" render="@this" />
+                                            </h:selectBooleanCheckbox>
+                                            <h:outputLabel value="Vinhos"/>
+                                        </p>
+                                        <p>
+                                            <h:selectBooleanCheckbox id="cargaMTransportadaq3" class="cargaMTransportada cargaMTransportadaq3" value="#{carga.cargaMaritima.mercadoriaMetal}" >
+                                                <f:ajax event="click" render="@this" />
+                                            </h:selectBooleanCheckbox>
+                                            <h:outputLabel value="Metais"/>
+                                        </p>
+                                        <p>
+                                            <h:selectBooleanCheckbox id="cargaMTransportadaq4" class="cargaMTransportada cargaMTransportadaq4" value="#{carga.cargaMaritima.mercadoriaExplosivo}" >
+                                                <f:ajax event="click" render="@this" />
+                                            </h:selectBooleanCheckbox>
+                                            <h:outputLabel  value="Explosivos"/>
+                                        </p>
+                                    </span>
+                                </nav>
+                                <nav class="input-2">
+                                    Descrição das mercadorias
+                                    <h:inputTextarea id="cargaDMID" class="cargaDM input-total" value="#{carga.cargaMaritima.decricaoMecadoria}" pt:placeholder="Descrição das mercadorias" title="Discrição das mercadorias"/>
+                                </nav>
+                            </section>
+                        </div>
+                        <h:form>
+
+                            <div class="PrNx">
+                                <h:commandButton value="Anterior"  class="btPrevious btBack">
+                                    <p:ajax process="@form" />
+                                </h:commandButton>
+                                <h:commandButton value="Seguinte"  class="btRight btNext" >
+                                    <f:ajax execute=":cargaForm :cargaForm:cargaMoeda" listener="#{carga.mensagen(1)}" />
+                                </h:commandButton>
+                                <h:commandButton value="Seguinte"  class="mesagemCarga" style="display: none;" >
+                                    <f:ajax execute=":cargaForm" listener="#{carga.mensagen(0)}" />
+                                </h:commandButton>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+            <div class="modalPage mp-infoTable mp-infoTableCarga">
+                <div class="modalFrame">                                            
+                    <div class="modalContainer">
+                        <p><b>Mais Informações</b></p>
+                            <p>
+                                Número de Registro: <h:outputText value="#{carga.selectedDetahlesVeiculo.deNumeroRegisto}" id="info1" />
+                            </p>
+                            <p>
+                                Valor máximo de cada: <h:outputText value="#{carga.selectedDetahlesVeiculo.deNumeroRegisto}" id="info2" />
+                            </p>
+                            <p>
+                                Marca: <h:outputText value="#{carga.selectedDetahlesVeiculo.deMarca}" id="info3" />
+                            </p>
+                            <p>
+                                Valor máximo veículo: <h:outputText value="#{carga.selectedDetahlesVeiculo.deValorMaximoVeiculo}" id="info4" />
+                            </p>
+                            <p>
+                                Uso para Deslocação Comercial: <h:outputText value="#{(carga.selectedDetahlesVeiculo.descolacaoComercia) ? 'Sim' : 'Não'}" id="info5" />
+                            </p>
+                            <p>
+                                Possibilidade de Trancar: <h:outputText value="#{(carga.selectedDetahlesVeiculo.possibilidadeTrancar) ? 'Sim' : 'Não'}" id="info6" />
+                            </p>
+                            <p>
+                                Valor do carregamento anual: <h:outputText value="#{carga.selectedDetahlesVeiculo.deValorCarregamentoAnual}" id="info7" />
+                            </p>
+                            <p>
+                                Veículo Comercial Registrado: <h:outputText value="#{carga.selectedDetahlesVeiculo.deVeiculoComercialRegitrado}" id="info8" />
+                            </p>
+                            <p>
+                                Conservados durante a noite: <h:outputText value="#{(carga.selectedDetahlesVeiculo.conservacaoNoite.equalsIgnoreCase('Y') ) ? 'Sim' : 'Não'}" id="info9" />
+                            </p>
+                        <div class="closeModalFrame moreData" >X</div>
+                </div>
+           </div>
+        </div> 
+        </h:form> 
+
+    </h:body>
+    <script>
+    </script>
+</html>

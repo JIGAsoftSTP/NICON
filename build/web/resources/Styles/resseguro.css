@@ -1,0 +1,65 @@
+/* 
+    Created on : 22/jun/2016, 14:12:39
+    Author     : Grinalda Soares
+*/
+.corpoModal{
+    width: 65% !important;
+}
+.formV .divMaster{
+  display: flex;  
+}
+.formV .divMaster section{
+  display: flex; 
+  flex-direction: column;
+}
+.formV .divMaster > div{
+  margin: 0 10px;
+}
+.formV .divMaster .divMenor{
+  width: 35%;
+}
+.formV .divMaster .divMaior{
+  width: 65%;
+}
+.areaPeriodo{
+    width: 100% !important;
+}
+.top{
+    margin-top: 16px !important;
+}
+.areaButtonsRess{
+    display: flex;
+    justify-content: flex-end;
+}
+.areaButtonsRess label{
+    padding: 10px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    background: #f0f0f0;
+    font-weight: normal;
+    margin: 3px;
+    border-radius: 5px;
+}
+.btAddRess{
+    padding: 10px;
+    font-weight: bold;
+    margin-top: 8px;
+    font-size: 16px;
+    border-radius: 3px;
+    background: #29B4E3;
+    color: #fff;
+    border: none;
+}
+.btSaveRess{
+    background: #29B4E3 !important;
+    color: #fff !important;
+    border: none !important;
+}
+.hideRess{
+    display: none !important;
+    transition: display 3s;
+}
+.tableRess{
+     border: 1px solid #ccc;
+     height: 290px;
+}

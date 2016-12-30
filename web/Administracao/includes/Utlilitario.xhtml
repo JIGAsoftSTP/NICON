@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <h:outputStylesheet library="Styles" name="utilitarioCSS.css"></h:outputStylesheet>
+    </h:head>
+    <h:body class="bodyInUtilit">
+        <h:form id="forUtlGrowl" >
+            <p:growl id="utlGrowl" sticky="false" life="10000"/>
+        </h:form>
+        <div class="divMasterUtil">
+            <aside>
+                <h2>Menu</h2>
+                <p>País</p>
+                <p>Câmbio</p>
+                <p>Moeda</p>
+                <p>Empresa Parceira</p>
+                <c:forEach items="#{utilitarioBean.listaMenu}" var="ul">
+                    <p>
+                        #{ul.value}
+                    </p>  
+                </c:forEach>
+                <p>Cobertura Viagem</p>
+                <p>Banco</p>
+            </aside>
+            <article>
+
+                <div class="divArticle">
+                    <h:form id="utilForPais1">
+                        <section class="headerSection">
+
+                            <h3><h:outputText value="País"></h:outputText></h3>
+                            <div>
+                                <h:selectOneMenu id="paisUtil" value="#{utilitarioBean.valorPais.id}" >
+                                    <f:selectItems value="#{utilitarioBean.paisesDevative}" var="pd" itemValue="#{pd.id}" itemLabel="#{pd.value}" />
+                                    <p:ajax event="change" process="@this" />
+                                </h:selectOneMenu>
+                                <h:commandButton value="Adicionar" action="#{utilitarioBean.actiarPais()}" >
+                                    <p:ajax process="@this paisUtil" update="utilForPais1 :utilForPais2"
+                                            onstart="mostrarPU()" oncomplete="fecharPU()" />
+                                </h:commandButton>
+                            </div>
+                        </section>
+                    </h:form>
+                    <section class="dataSection">
+                        <h:form id="utilForPais2">
+                            <c:forEach items="#{utilitarioBean.paisesAtive}" var="pa" > 
+                                <span>
+                                    <h:outputText value="#{pa.value}"/>
+                                    <h:outputLabel value="x">
+                                        <p:ajax event="click" process="@this" update=":utilForPais1 utilForPais2" listener="#{utilitarioBean.actiarDesativarPais(pa.id)}"
+                                                onstart="mostrarPU()" oncomplete="fecharPU()" />
+                                    </h:outputLabel>
+                                </span>
+                            </c:forEach>
+                        </h:form>
+                    </section>
+                </div>
+                <div class="divArticle">
+                    <ui:include src="Utilitario_Taxas.xhtml" />
+                </div>
+                <div class="divArticle">
+                    <h:form id="utilForMoeda1">
+                        <section class="headerSection">
+                            <h3><h:outputText value="Moeda"></h:outputText></h3>
+                            <div>
+                                <h:selectOneMenu id="moedaUtil" value="#{utilitarioBean.valorMoeda.id}" >
+                                    <f:selectItems value="#{utilitarioBean.moedasDevative}" var="md" itemValue="#{md.id}" itemLabel="#{md.value}" />
+                                    <p:ajax event="change" process="@this" />
+                                </h:selectOneMenu>
+                                <h:commandButton value="Adicionar" action="#{utilitarioBean.actiarMoeda()}" >
+                                    <p:ajax process="@this moedaUtil" update="utilForMoeda1 :utilForMoeda2" 
+                                            onstart="mostrarPU()" oncomplete="fecharPU()" />
+                                </h:commandButton>
+                            </div>
+                        </section>
+                    </h:form>
+                    <section class="dataSection">
+                        <h:form id="utilForMoeda2" >
+                            <c:forEach items="#{utilitarioBean.moedasAtive}" var="ma" >
+                                <span>
+                                    <h:outputText value="#{ma.value}"/>
+                                    <h:outputLabel value="x">
+                                        <p:ajax event="click" update=":utilForMoeda1 utilForMoeda2" process="@this" listener="#{utilitarioBean.actiarDesativarMoeda(ma.id)}"
+                                                onstart="mostrarPU()" oncomplete="fecharPU()" />
+                                    </h:outputLabel>
+                                </span>
+                            </c:forEach>
+                        </h:form>
+                    </section>
+                </div>
+                <div class="divArticle" >
+                    <ui:include src="EmpresaParceira.xhtml"></ui:include>
+                </div>
+                <c:forEach items="#{utilitarioBean.listaMenu}" var="ulD">               
+                    <div class="divArticle">
+                        <section class="headerSection">
+                            <h3>
+                                <h:outputText value="#{ulD.value}" >
+                                </h:outputText>
+                            </h3>
+                            <div>
+                                <h:form id="princ#{ulD.id}" >
+                                    <c:if test="#{ulD.codigoNicon!=null}">
+                                        <h:selectOneMenu id="como#{ulD.id}" value="#{utilitarioBean.valores.codigoNicon}" >
+                                            <f:selectItem itemLabel="(Selecine #{ulD.destalhes})" itemValue="-1" />
+                                            <f:selectItems id="valor#{ulD.id}" value="#{utilitarioBean.carregarLista(ulD.codigoNicon)}" var="outher" 
+                                                           itemLabel="#{outher.value}" itemValue="#{outher.id}" />
+                                            <p:ajax event="change" process="valorUt#{ulD.id} como#{ulD.id}" update=":valoresCa#{ulD.id}" listener="#{utilitarioBean.updateArray(ulD)}" 
+                                                    onstart="mostrarPU()" oncomplete="fecharPU()" />
+                                        </h:selectOneMenu>
+
+                                        <h:inputText id="valorUt#{ulD.id}" value="#{utilitarioBean.valores.value}">
+                                            <p:ajax event="change" process="como#{ulD.id} valorUt#{ulD.id}" update="valorUt#{ulD.id}" />
+                                        </h:inputText>
+
+                                        <h:commandButton value="Adicionar" >
+                                            <p:ajax process="@this como#{ulD.id} valorUt#{ulD.id}" update=":valoresCa#{ulD.id}" listener="#{utilitarioBean.addObj(ulD)}" 
+                                                    onstart="mostrarPU()" oncomplete="fecharPU()" />
+                                        </h:commandButton>
+                                    </c:if>
+                                    <c:if test="#{ulD.codigoNicon==null}">
+                                        <h:inputText id="valorUt#{ulD.id}" value="#{utilitarioBean.valores.value}">
+                                            <p:ajax event="change" process="valorUt#{ulD.id}" update="valorUt#{ulD.id}" />
+                                        </h:inputText>
+
+                                        <h:commandButton value="Adicionar" >
+                                            <p:ajax process="@this valorUt#{ulD.id}" update=":valoresCa#{ulD.id}" listener="#{utilitarioBean.addObj(ulD)}"
+                                                    onstart="mostrarPU()" oncomplete="fecharPU()" />
+                                        </h:commandButton>
+                                    </c:if>
+                                </h:form>
+                            </div>
+                        </section>
+                        <section class="dataSection">
+                            <h:form id="valoresCa#{ulD.id}" >
+                                <c:forEach items="#{utilitarioBean.getListaValoresMep(ulD.id)}" var="mapVar" >
+                                    <span>
+                                        <h:outputText  value="#{mapVar.value}"/>
+                                        <h:outputLabel value="x">
+                                            <p:ajax event="click" update="valoresCa#{ulD.id}" process=":princ#{ulD.id}" listener="#{utilitarioBean.desativeObj(mapVar,ulD)}" 
+                                                    onstart="mostrarPU()" oncomplete="fecharPU()" />
+                                        </h:outputLabel>
+                                    </span>
+                                </c:forEach>
+                            </h:form>
+                        </section>
+                    </div>
+                </c:forEach>
+                <div class="divArticle">
+                    <ui:include src="CoberturaViagen.xhtml" />
+                </div>
+
+                <div class="divArticle">
+                    <ui:include src="Utilitario_Banco.xhtml" />
+                </div>
+                
+            </article>
+        </div>
+        <h:form>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+        </h:form>
+    </h:body>
+    <script>
+        $('.divMasterUtil').css('height' , ($(document).height() - $('.ant-menus').height()) + 'px');
+        var linksParent = $('aside');
+        var links = linksParent.find('p');
+        var items = $('.divArticle');
+        links.eq(0).addClass('actualMenu');
+        items.eq(0).addClass('actualSection');
+        linksParent.on('click', 'p', function () {
+            var t = $(this);
+            var i = (t.index() - 1);
+            t.addClass('actualMenu').siblings().removeClass('actualMenu');
+            items.eq(i).addClass('actualSection').siblings().removeClass('actualSection');
+
+        });
+        function mostrarPU()
+        {
+            $(".processamento").show();
+        }
+        function fecharPU()
+        {
+            $(".processamento").hide();
+        }
+    </script>
+</html>
+

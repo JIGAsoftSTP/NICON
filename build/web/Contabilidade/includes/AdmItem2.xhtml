@@ -1,0 +1,295 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Administração</title>
+        <h:outputScript library="js" name="TaxaSeguro.js" />
+    </h:head> 
+    <h:body class="bodyAdmItem2">
+        <article class="taxaSection">
+            <div class="addIt2Mast">
+                <h3 class="h3AddItem2">Taxas</h3>
+                <div>
+                    
+                    <h:form id="ts_tipoCreditoLista">
+                        <p:growl id="ts_tipoCreditoGrowl" showDetail="true" sticky="true"/>
+                        <label>Tipo de Crédito</label>
+                        <h:selectOneMenu id="ts_tipoCreditoListaCP" >
+                            <f:selectItem itemValue="" itemLabel="(Selecione)"/>
+                            <f:selectItems var="ta"/>
+                        </h:selectOneMenu>
+                    </h:form>
+                </div>
+                <button class="btNovaTaxa regTaxaLi">Nova taxa</button>
+            </div>
+            <div class="tableTaxas">
+                <h:form id="ts_tipoCreditoTabela">
+                    <p:dataTable id="ts_tipoCreditoTabelaDados" var="dadoLista"
+                                  selectionMode="single"
+                                 scrollable="true" scrollHeight="250"
+                    >      
+                         <p:column headerText="Taxa" width="60">
+                             <h:outputText />
+                        </p:column>
+                        <p:column headerText="Dias" width="50">
+                            <h:outputText />
+                        </p:column>
+                        <p:column headerText="De" width="50">
+                            <h:outputText />
+                        </p:column>
+                        <p:column headerText="Á" width="20">
+                            <h:outputText />
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                </div>
+            <div class="addNewItem2 ts_tipoCreditoRegClose">
+                <label class="closeIt closeItTaxa">X</label>
+                <div class="addNewItem2Cont">
+                    <h4 style="display: inline-block; width: 100%; text-align: center;">Tipo de crédito</h4>
+                    <h:form id="ts_tipoCreditoReg" class="formTaxa">
+                        <div class="separated">
+                            <label style="width: 11%;">Taxa</label>
+                            <h:inputText class="taxaValor soValorTaxaSeguro regTaxaLimpar" style="width: 23%;"/>
+                            <label  style="width: 11%;">Dias</label>
+                            <h:inputText class="soValorTaxaSeguro regTaxaLimpar"  style="width: 23%;"/>
+                        </div>
+                        <label >Tipo crédito</label>
+                        <h:selectOneMenu  >
+                            <f:selectItems  var="reTC"/>
+                        </h:selectOneMenu>
+                        <h:commandButton value="Concluir" class="buttonAddItem21">
+                            <p:ajax process="ts_tipoCreditoReg"/>
+                        </h:commandButton>
+                    </h:form>
+                </div>
+            </div>
+            
+            
+        </article>
+        <article class="seguroSection">
+            <h3 class="h3AddItem2">Seguros</h3><button class="btNovoSeguro regSeguroLi">Novo seguro</button>
+            <div>                
+                <div class="tableSeguros">
+                    <h:form id="ts_tipoCreditoSeguroTable">
+                        <p:dataTable id="ts_tipoCreditoSeguroTableDados" var="tSe"
+                                 scrollable="true"
+                                 scrollHeight="117"
+                        >                           
+                            <p:column headerText="Valor">
+                                <h:outputText />
+                            </p:column>
+                            <p:column headerText="Estado">
+                                <h:outputText/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </div>
+            </div>
+            <div class="addNewItem2 ts_tipoCreditoSeguroClose">
+                <label class="closeIt closeItSeguro">X</label>
+                <div class="addNewItem2Cont">
+                    <h:form id="ts_tipoCreditoSeguroDados" class="formSeguro">
+                        <h4 style="display: inline-block; width: 100%; text-align: center;">Novo seguro</h4>
+                        <label>Valor</label>                         
+                        <h:commandButton value="Concluir" class="buttonAddItem2" >
+                            <p:ajax process="ts_tipoCreditoSeguroDados"/>
+                        </h:commandButton>
+                        <h:inputText  class="soValorTaxaSeguro regValorLimpar"/>
+                    </h:form>
+                    
+                </div>
+            </div>
+        </article>
+
+    </h:body>
+    <style>
+        .bodyAdmItem2 h3{
+            float: left;
+            color: #444;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+        .bodyAdmItem2 .taxaSection{
+            height: 368px;
+            border-bottom: 2px #ddd dashed;
+        }
+         .bodyAdmItem2 .seguroSection{
+            height: 200px;
+        }
+        .bodyAdmItem2 article{                        
+            margin: 20px 8px;
+            padding: 8px 12px;
+            box-sizing: border-box;
+            position: relative;
+        }        
+        .bodyAdmItem2 article button, .bodyAdmItem2 .buttonAddItem2, .bodyAdmItem2 .buttonAddItem21{
+            float: right;
+            margin-left: 8px;
+            border: none;
+            background: #54c654;
+            color: #fff;
+            padding: 8px;
+            font: bold 14px arial, sans-serif;
+            border-radius: 4px;
+            cursor: pointer; 
+            transition: all .8s ease;
+        }
+        .bodyAdmItem2 article button:hover, .bodyAdmItem2 .buttonAddItem2:hover{
+            background: #32CD32;
+            transition: all .8s ease;
+        }
+        .bodyAdmItem2 .seguroSection > div, .bodyAdmItem2 .tableCheques{
+            clear: both;
+            display: table;
+            margin-top: 10px;
+        }
+        .bodyAdmItem2 article > button{
+            width: 116px;
+        }
+        .bodyAdmItem2 article .tableTaxas{
+            clear: both;
+            width: 84%;
+            position: relative;
+            top: 2em;
+        }
+        .bodyAdmItem2 article .tableSeguros{
+            width: 30%;
+        }
+        /*########### Modals ##########*/
+        .bodyAdmItem2 article .addNewItem2{
+            position: absolute;
+            background: rgba(0,0,0,.5);
+            width: 100%;
+            top: -4px; left: 0;
+            height: 100%;
+            display: none;            
+        }
+        .bodyAdmItem2 article .addNewItem2Cont{
+            position: relative;
+            background: #fff;
+            width: 50%;
+            top: 10%; left: 25%;
+            height: 80%;
+            border-radius: 4px;
+        }
+        .bodyAdmItem2 article .addNewItem2 > label{
+            font: 16px  'Tahoma';
+            color: #000;
+            position: absolute;
+            right: 6px;
+            top: 6px;
+            cursor: pointer;
+            display: inline-block;
+            padding: 2px 8px;       
+            border-radius: 100%;
+            background: #fff;
+        }
+        .bodyAdmItem2 article .addNewItem2Cont label{
+            display: inline-block;
+            font-size: 14px;
+            color: #555;  
+            float: left;
+            margin: 1.6em 0 .3em 1em;             
+            font-weight: bold;
+            
+        }
+        .bodyAdmItem2 article .addNewItem2Cont [type=text], .addNewItem2Cont select{
+            float: right;
+            font-size: .9em !important;
+            width: 55%;
+            margin: 1em 1em 0 0; 
+            height: 28px;
+            border: 1px #767676 solid;
+            border-radius: 3px;
+            box-sizing: border-box;
+            text-align: right;
+            color: #222;
+        }
+        .bodyAdmItem2 .buttonAddItem2{
+            position: relative;
+            right: 1em;
+            top: 1em;
+            font-size: 16px;
+        }
+        .bodyAdmItem2  h4{
+            color: #222;
+            font-size: 1.2em;
+            padding-bottom: 20px;
+        }
+        .bodyAdmItem2 art.buttonAddItem2:before{
+            content: "\2713" !important;
+            color: red;
+        }
+        .bodyAdmItem2 .separated{
+            display: table;
+            position: relative;
+            padding-left: 11%;
+        }
+        .bodyAdmItem2 .separated > label, .bodyAdmItem2 .separated > input{
+            float: none !important;                        
+        }
+        .bodyAdmItem2 .addNewItem2Cont{
+            padding-top: 2em;
+            box-sizing: border-box;
+        }
+        .bodyAdmItem2 .addNewItem2Cont select{
+            position: relative;
+            right: 3.9em !important;
+            width: 59% !important;
+            font-size: 1em;
+        }
+        .bodyAdmItem2 .buttonAddItem21{
+            clear: both;
+            float: right;
+            position: relative;
+            right: 4.8em;
+            top: 1em;
+            font-size: 16px;
+        }
+        .bodyAdmItem2 .disabled{
+            display: none;
+        }
+        .addIt2Mast{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .addIt2Mast > div{
+            width: 50%;
+        }
+        .addIt2Mast select{
+            padding: 8px;
+            width: 70%;
+            margin-left: 8px;
+        }
+        
+    </style>
+    <script>
+        $('button').add('.h3AddItem2').click(function (){
+            var openIt=$(this).parent().find('.addNewItem2');
+            openIt.toggle('');            
+            return false;
+        });
+        $('.closeIt').click(function (){
+            var closeIt=$(this).parent();
+            closeIt.toggle('');            
+        });
+        function CloseRegTaxa()
+        {
+            var close=$('.ts_tipoCreditoRegClose');
+            close.toggle(''); 
+        }
+        
+        function CloseRegSeguros()
+        {
+            var close=$('.ts_tipoCreditoSeguroClose');
+            close.toggle(''); 
+        }
+    </script>
+    
+</html>
+

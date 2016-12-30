@@ -1,0 +1,388 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <h:outputScript library="js" name="Viagem.js" />
+        <h:outputScript library="js" name="scriptAddSeguro.js" />
+        <h:outputStylesheet library="Styles" name="seguroViagem.css"></h:outputStylesheet>   
+        <h:outputStylesheet library="Styles" name="mensagens.css"></h:outputStylesheet>
+        <h:outputStylesheet library="Styles"   name="moreInfoTable.css"/>
+    </h:head>
+
+    <h:body>
+        <h:form id="ViagemformularioGrowl">   
+            <p:growl id="viagemInfo"  life="5000"/>
+            <div class="modalPage mp-infoTable">
+                <div class="modalFrame">                                            
+                    <div class="modalContainer">
+                        <p><b>Mais Informações</b></p>
+                            <p>
+                                Apólice: <h:outputText value="#{viagemBean.viagemSelecionada.numApolice}"
+                                                      id="apoliceS"    class="maisInfo" />
+                            </p>   
+                             <p>
+                                Objetivo da Viagem: <h:outputText  id="objetivoV"
+                                        value="#{viagemBean.viagemSelecionada.objetivoViagem}" class="maisInfo"  />
+                            </p>  
+                             <p>
+                                País de Destino: <h:outputText  id="viagemPaisD"
+                                                                value="#{viagemBean.viagemSelecionada.paisDestino}" class="maisInfo"  />
+                            </p>  
+                             <p>
+                                Data de Inicio: <h:outputText  id="viagemDataInicioF"
+                                                               value="#{viagemBean.viagemSelecionada.dataInicioFormatada}" class="maisInfo"  />
+                            </p>  
+                             <p>
+                                Data de Fim: <h:outputText  id="viagemDataFimF"
+                                                           value="#{viagemBean.viagemSelecionada.dataFimFormatada}" class="maisInfo"  />
+                            </p>  
+                             <p>
+                                Cidade de Destino: <h:outputText  id="cidadeDestinoV"
+                                        value="#{viagemBean.viagemSelecionada.cidadeDestino}" class="maisInfo"  />
+                            </p>  
+                             <p>
+                                Zona de Destino: <h:outputText  id="zonaDestinoV"
+                                        value="#{viagemBean.viagemSelecionada.zonaDestino}" class="maisInfo"  />
+                            </p>  
+                            <p>Nome: <h:outputText value="#{viagemBean.viagemSelecionada.nomePessoaSegurada}"
+                                                  id="nomeP"    class="maisInfo" /></p>   
+                            <p>
+                                Endereço: <h:outputText  id="enderecoP"
+                                    value="#{viagemBean.viagemSelecionada.endereco}" class="maisInfo"  />
+                            </p>   
+                            <p>
+                                Documento: <h:outputText id="documentoP"
+                                    value="#{viagemBean.viagemSelecionada.tipoDoc}" class="maisInfo"  />
+                            </p>   
+                            <p>
+                                Numero Documento: <h:outputText id="numDocP"
+                                    value="#{viagemBean.viagemSelecionada.numDoc}" class="maisInfo" />
+                            </p>   
+                            <p>
+                                Data Emissão: <h:outputText id="dataEmissaoP"
+                                                           value="#{viagemBean.viagemSelecionada.dataEmissaoFormatada}" class="maisInfo" />
+                            </p>   
+                            <p>
+                                Local Emissão: <h:outputText id="localEmissaoP"
+                                    value="#{viagemBean.viagemSelecionada.localEmissao}" class="maisInfo"  />
+                            </p>   
+                            <p>
+                                Data Nascimento: <h:outputText id="dataNascP"
+                                                              value="#{viagemBean.viagemSelecionada.dataNascFormatada}" class="maisInfo"  />
+                            </p>   
+                            <p>
+                                Local Nascimento: <h:outputText  id="localNascP"
+                                    value="#{viagemBean.viagemSelecionada.localNascimento}" class="maisInfo" />
+                            </p>   
+                            <p>
+                                Nacionalidade: <h:outputText  id="nascimentoP"
+                                                              value="#{viagemBean.viagemSelecionada.nacionalidade}" class="maisInfo" />
+                            </p>   
+                            <p>
+                                Sexo:<h:outputText id="sexoP"
+                                    value="#{viagemBean.viagemSelecionada.sexo}" class="maisInfo" />
+                            </p>   
+                            <p>
+                                Telefone: <h:outputText  id="telefoneP"
+                                    value="#{viagemBean.viagemSelecionada.telefone}" class="maisInfo"  />
+                            </p>   
+                     
+                            <p>
+                                Outras informações: <h:outputText  id="outrasInfP"
+                                    value="#{viagemBean.viagemSelecionada.outrasInformacoes}" class="maisInfo" />
+                            </p>   
+                        <div class="closeModalFrame moreData" >X</div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        <div class="formularioSeguro">
+            <h:form id="Viagemformulario">
+                <div class="K-seguros">
+                    <span>
+                        Nº de apólice
+                        <h:inputText id="Vapolice" class="viagemApolice apolice apoliceFormato viagemCampo"
+                                     value="#{viagemBean.viagem.numApolice}">
+                        </h:inputText>
+                    </span>
+                    <span>
+                        <h:selectBooleanCheckbox value="#{viagemBean.viagem.tipoViagem}" id="viagemTipo" class="viagemMulti">
+                            <p:ajax event="click" process="@this" listener="#{viagemBean.multiViagem()}" />
+                            <h:outputLabel value="Multi-Viagem" />
+                        </h:selectBooleanCheckbox>
+
+                    </span>
+                    <span>
+                        Nº de registro
+                        <h:inputText class="viagemNumeroRegistro"
+                                     id="Vregistro" 
+                                     value="#{viagemBean.viagem.numeroRegistro}" >
+                        </h:inputText>
+                    </span>
+                </div>
+                <h4>Detalhes da viagem</h4>
+                <div class="box-arrow">
+                    <div class="detalhesV formatInput">
+                        <p class="input-3">
+                            <h:outputLabel value="Objetivo da viagem"/>
+                            <p:autoComplete 
+                                title="Objetivo da viagem" 
+                                class="viagemObjetivo input-total"
+                                value="#{viagemBean.viagem.objetivoViagem}"
+                                id="Vobj" maxResults="12" completeMethod="#{viagemBean.completarListaObjetivoViagem}" var="objetivoViagem"
+                                itemLabel="#{objetivoViagem}" itemValue="#{objetivoViagem}" required="true">
+                                <p:ajax event="click" update="@this" process="@this" />  
+                            </p:autoComplete>
+                        </p>
+                        <p class="input-3">
+                            <h:outputLabel value="Pais de destino"/>
+                            <h:selectOneMenu 
+                                class="paisDestinoViagem viagemCampo"  
+                                value="#{viagemBean.viagem.paisDestino}" 
+                                id="Vpais">
+                                <f:selectItem itemLabel="(Selecione)" />
+                                <f:selectItems value="#{viagemBean.paises}"  var="p" itemValue="#{p.id}" itemLabel="#{p.value}" />
+                            </h:selectOneMenu>
+                        </p>
+                        <p class="input-7">
+                            <h:outputLabel value="Data de Início"/>
+                            <p:calendar yearRange="c-190:c+190" pt:type="date"
+                                        navigator="true"
+                                        class="" readonlyInput="true" pattern="dd-MM-yyyy"
+                                        value="#{viagemBean.viagem.dataInicio}" mindate="#{dataBean.minDate}"
+                                        maxdate="#{dataBean.maxDate}"
+                                        id="VdataI">
+                                <p:ajax event="dateSelect" 
+                                        process="VdataF VdataI viagemTipo"
+                                        listener="#{viagemBean.devolverDias()}"
+                                        />
+                            </p:calendar>
+                        </p>
+                        <p class="input-7">
+                            <h:outputLabel value="Data Fim"/>
+                            <p:calendar yearRange="c-190:c+190" pt:type="date" mindate="#{viagemBean.viagem.dataInicio}"
+                                        class=" " readonlyInput="true" pattern="dd-MM-yyyy"
+                                        value="#{viagemBean.viagem.dataFim}"
+                                        navigator="true"
+                                        id="VdataF" >
+                                <p:ajax event="dateSelect"
+                                        process="VdataF VdataI viagemTipo" 
+                                        listener="#{viagemBean.devolverDias()}" />
+                            </p:calendar>
+                        </p>
+                        <p class="accountDays input-20">
+                            <h:outputLabel value="#{viagemBean.dia}" id="numDias" class="viagemNumDias"/>
+                        </p>
+                        <p class="input-2">
+                            <h:outputLabel value="Cidade de destino"/>
+                            <p:autoComplete class="input-total" value="#{viagemBean.viagem.cidadeDestino}" 
+                                            id="viagemCidadeDestino" maxResults="12" completeMethod="#{viagemBean.completarListaCidadeDestino}"
+                                            var="destinyCity" itemLabel="#{destinyCity}" itemValue="#{destinyCity}" required="true" >
+                                <p:ajax event="click" update="@this" process="@this" />            
+                            </p:autoComplete>
+                        </p>
+                        <p class="input-2">
+                            <h:outputLabel value="Zona de destino"/>
+                            <p:autoComplete class="input-total" value="#{viagemBean.viagem.zonaDestino}" id="viagemZonaDestino"
+                                            maxResults="12" completeMethod="#{viagemBean.completarListaZonaDestino}" var="targetZone"
+                                            itemLabel="#{targetZone}" itemValue="#{targetZone}" required="true">
+                                <p:ajax event="click" update="@this" process="@this" />     
+                            </p:autoComplete>
+                        </p>
+                    </div>
+                </div>
+            </h:form >
+            <h4>Pessoas Seguradas</h4> 
+
+            <h:form id="ViagemformularioTable"  >
+
+                <p:remoteCommand name="viagemDados" actionListener="#{viagemBean.dadosEnviados()}"  process="@this"/>
+                <p:remoteCommand name="viagemProximo" actionListener="#{viagemBean.proximo()}"  process="@this"/>
+                <div class="box-arrow">
+                    <div class="formatInput pessoasSeg">
+                        <p class="input-2">
+                            <h:outputLabel value="Nome" class="" />
+                            <h:inputText class="textPess viagemNome viagemCampo"
+                                         value="#{viagemBean.viagem.nomePessoaSegurada}" 
+                                         id="Vnome" required="true" >
+                            </h:inputText>   
+                        </p>
+                        <p class="input-2">
+                            <h:outputLabel value="Endereço"  style="margin-left: 10px;"/>
+                            <p:autoComplete class="textPess viagemEndereco " maxResults="12"
+                                            completeMethod="#{viagemBean.completarEndereco}" var="adress" itemLabel="#{adress}" itemValue="#{adress}"
+                                            style="width: 100%; margin-left: 13px;" value="#{viagemBean.viagem.endereco}"
+                                            id="Vadress" required="true" >
+                                <p:ajax event="click" update="@this" process="@this" />
+                            </p:autoComplete>
+                        </p>
+
+                        <p class="input-4">
+                            <h:outputLabel value="Documento" class=""  />
+                            <h:selectOneMenu class="textPess viagemTipoDoc viagemCampo" value="#{viagemBean.viagem.tipoDoc}" id="VtipoDoc" required="true" >
+                                <f:selectItem itemLabel="(Selecione)" />
+                                <f:selectItems value="#{viagemBean.listDocumentos}" var="doc" itemLabel="#{doc.value}" itemValue="#{doc.id}"/>
+                            </h:selectOneMenu>
+                        </p>
+                        <p class="input-4">
+                            <h:outputLabel value="Nº Documento" />
+                            <p:autoComplete class="textPess viagemNumDoc" var="numDoc" maxResults="12"   id="numeroDoc"
+                                            completeMethod="#{viagemBean.completarListaNumeroDocumentos}" itemLabel="#{numDoc}" itemValue="#{numDoc}"                                   
+                                            value="#{viagemBean.viagem.numDoc}" required="true">
+
+                                <p:ajax event="click" update="@this" process="@this"  />                         
+                                <p:ajax update="@none" process="@this" onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()"
+                                        event="itemSelect" listener="#{viagemBean.carregarSegurado()}"  />
+                            </p:autoComplete>
+                        </p>
+                        <p class="input-8">
+                            <h:outputLabel value="Data de emissão" class="" />
+                            <p:calendar yearRange="c-190:c+190" class="textPessO viagemDataEmissao input-total"  
+                                        value="#{viagemBean.viagem.dataEmissao}" navigator="true"
+                                        id="dataEmissaoViagem" maxdate="#{dataBean.maxDataEmissao}"
+                                        readonlyInput="true" pattern="dd-MM-yyyy" required="true">
+
+                            </p:calendar>
+                        </p>
+                        <p class="input-8">
+                            <h:outputLabel value="Data de nascimento"  class=""  />
+                            <p:calendar yearRange="c-190:c+190" class="textPessO viagemDataNasc input-total"
+                                        readonlyInput="true"
+                                        value="#{viagemBean.viagem.dataNasc}"
+                                        navigator="true" maxdate="#{dataBean.maxDataEmissao}"
+                                        id="VdataNasc" pattern="dd-MM-yyyy" >
+                            </p:calendar>
+                        </p>
+                        <p class="input-4">
+                            <h:outputLabel value="Nacionalidade" class="" />
+                            <h:selectOneMenu class="input-total viagemNacionalidade viagemCampo" value="#{viagemBean.viagem.nacionalidade}"  id="viagemNac" >
+                                <f:selectItem itemLabel="(Selecione)" />
+                                <f:selectItems value="#{viagemBean.paises}"  var="p" itemValue="#{p.id}" itemLabel="#{p.value}" />
+                            </h:selectOneMenu>
+                        </p>
+                        <p class="input-4">
+                            <h:outputLabel value="Local emissão" class=""  />
+                            <h:inputText class="textPess viagemLocalEmissao viagemCampo"
+                                         value="#{viagemBean.viagem.localEmissao}"
+                                         id="VlocalEmissao" required="true">
+                            </h:inputText>
+                        </p>
+                        
+                        <p class="input-4">
+                            <h:outputLabel value="Local de Nascimento" class=""  />
+                            <h:inputText class="textPess viagemLocalNasc viagemCampo"
+                                         value="#{viagemBean.viagem.localNascimento}"
+                                         id="ViagemLocalNascimento" required="true" >
+                            </h:inputText>
+                        </p>
+                        <p class="input-4">
+                            <h:outputLabel value="Sexo" class=""  />
+                            <h:selectOneMenu class="textPess viagemSexo viagemCampo" 
+                                             value="#{viagemBean.viagem.sexo}" id="Vsexo" required="true">
+                                <f:selectItem itemLabel="(Selecione)" />
+                                <f:selectItems  value="#{viagemBean.listaSexo}" 
+                                                var="sexo" itemValue="#{sexo.id}" itemLabel="#{sexo.value}"/>
+                            </h:selectOneMenu>
+                        </p>
+                        <p class="input-4">
+                            <h:outputLabel value="Telefone" class=""  />
+                            <h:inputText class="textPess viagemTelefone viagemCampo"
+                                         value="#{viagemBean.viagem.telefone}"  maxlength="15"
+                                         id="ViagemT" required="true"  >
+                            </h:inputText>
+                        </p>
+                        <p class="input-2">
+                            <h:outputLabel value="Outras Informações" />
+                            <h:inputTextarea class="textPess viagemOutrasInf viagemCampo"                                             
+                                             value="#{viagemBean.viagem.outrasInformacoes}"
+                                             id="ViagemOutrasInf">
+                            </h:inputTextarea>
+                        </p> 
+                        <h:outputLabel id="contacto" class="contactoPessoaSegurada" value="#{viagemBean.viagem.telefone}" />
+                        <h:commandButton  value="Adicionar" class="addItemTable viagemAdicionar" >
+                            <p:ajax   process="ViagemformularioTable"  oncomplete="modalProcessingHide()"   />    
+                        </h:commandButton>
+                    </div>
+                </div>
+
+                <p:dataTable emptyMessage="" class="tablevc" id="tabela1" value="#{viagemBean.infoPessoaSegurada}" 
+                             var="vg" rowKey="#{vg}" selection="#{viagemBean.viagemSelecionada}"
+                             selectionMode="single"      style="font-size: 11px; font-family: sans-serif"
+                             scrollWidth="100" 
+                             scrollRows="5"
+                             scrollHeight="100">
+
+                    <p:column>
+                        <f:facet name="header">Apólice</f:facet>
+                        <h:outputLabel pt:class="tableTit" value="#{vg.numApolice}"/>
+                    </p:column>
+                    <p:column >
+                        <f:facet name="header">Nome</f:facet>
+                        <h:outputLabel pt:class="tableTit" value="#{vg.nomePessoaSegurada}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Sexo</f:facet>
+                        <h:outputLabel pt:class="tableTit" value="#{vg.sexo}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Telefone</f:facet>
+                        <h:outputLabel pt:class="tableTit" value="#{vg.telefone}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet  name="header">Tipo Doc</f:facet>
+                        <h:outputLabel pt:class="tableTit" value="#{vg.tipoDoc}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Data Emissão</f:facet>
+                        <h:outputLabel pt:class="tableTit" p:value="#{vg.dataEmissaoFormatada}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Local Emissão</f:facet>
+                        <h:outputLabel pt:class="tableTit" p:value="#{vg.localEmissao}"/>
+                    </p:column>
+                    <p:column headerText="Ações" width="100">
+
+                        <h:outputLabel class="actionTable icon-pencil" title="Editar informações do segurado">
+                            <p:ajax  process="@this" event="click" listener="#{viagemBean.editarInfo(vg)}"
+                                     onstart="$('.modalProcess').show()"  oncomplete="$('.modalProcess').hide()" />
+                        </h:outputLabel>
+                        <h:outputLabel class="actionTable icon-info" title="Mais informações">
+                            <p:ajax  process="@this" event="click" listener="#{viagemBean.moreInformations(vg)}"  />
+                        </h:outputLabel>
+                        <h:outputLabel class="actionTable icon-cancel-circle" title="Remover linha"   >
+                            <p:ajax  process="@this" event="click" listener="#{viagemBean.removeFromTable(vg)}" update="tabela1" />
+                        </h:outputLabel>
+                        <h:outputLabel class="actionTable icon-bin" title="Limpar tabela">
+                            <p:ajax  process="@this" event="click" listener="#{viagemBean.limparTudo()}" update="tabela1" />
+                        </h:outputLabel>
+                    </p:column>
+                </p:dataTable> 
+            </h:form>
+
+        </div>
+        <div class="PrNx">
+            <h:form id="ViagemformularioButon">
+                <h:commandButton value="Anterior" class="btPrevious btBack">
+                    <p:ajax update="@none"/>
+                </h:commandButton>
+                <h:commandButton value="Seguinte" class="btNext viagemConcluir" >
+
+                </h:commandButton>
+            </h:form>
+        </div>
+        <div class="processamento modalProcess">
+            <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+        </div>
+    </h:body>
+    <style>
+        .multi--v{
+            display: inline-block;
+            padding: 8px 20px;
+
+        }
+    </style>
+</html>

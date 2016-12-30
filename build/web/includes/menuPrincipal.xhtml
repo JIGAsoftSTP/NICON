@@ -1,0 +1,385 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <h:outputStylesheet library="Styles" name="fonts.css" />
+       
+        <h:outputStylesheet library="Styles" name="geralStyle.css" />
+        <h:outputStylesheet library="Styles" name="menuPrincipalCSS.css"></h:outputStylesheet>
+        <h:outputStylesheet library="Styles" name="menuSecundarioCSS.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="controlMenus.js" />
+  
+         <h:outputScript library="js" name="Sessao.js" />
+         <h:outputScript library="js" name="Funcionario.js" />
+         <h:outputScript library="js" name="script_Geral.js" />
+         <h:outputScript library="js" name="jquery.number.js" />
+    </h:head> 
+    <h:body>
+    <h:form id="menuP"> 
+        <div class="divMenuPrincipClass">            
+            <ul class="menu">  
+                <nav>
+                    <div class="logo"></div>
+                    <c:if test="#{!sessionUtil.dadosUtilizador.menuGestaoContrato.equalsIgnoreCase('ocultar')}">
+                        <li>
+                            <c:if test="#{!sessionUtil.dadosUtilizador.justRelatorio}">
+                                <a id="GC-MENU-PR" class="GC-MENU" href="../GestaoContratos/GestaoContratos.xhtml">
+                                    <i class="icon-home2" ></i>Gestão de Contratos
+                                </a>
+                            </c:if>
+                            <c:if test="#{sessionUtil.dadosUtilizador.justRelatorio}">
+                                <a id="GC-MENU-PR" class="GC-MENU" href="../GestaoContratos/GestSeg_Clientes.xhtml">
+                                    <i class="icon-home2" ></i>Gestão de Contratos
+                                </a>
+                            </c:if>
+                        </li>
+                    </c:if>
+                    <c:if test="#{!sessionUtil.dadosUtilizador.menuContabilidade.equalsIgnoreCase('ocultar')}">
+                        <li>
+                            <c:if test="#{!sessionUtil.dadosUtilizador.justRelatorio}">
+                                <a id="CT-MENU-PR" class="CT-MENU"  href="../Contabilidade/Pgtos_Rcbtos.xhtml" >
+                                    <i class="icon-pie-chart"></i>Contabilidade
+                                </a>
+                            </c:if>
+                            <c:if test="#{sessionUtil.dadosUtilizador.justRelatorio}">
+                                <a id="CT-MENU-PR" class="CT-MENU"  href="../Contabilidade/Relatorio.xhtml" >
+                                    <i class="icon-pie-chart"></i>Contabilidade
+                                </a>
+                            </c:if>
+                        </li>
+                    </c:if>
+                    <c:if test="#{!sessionUtil.dadosUtilizador.menuRecHumanano.equalsIgnoreCase('ocultar')}">
+                        <li>
+                            <c:if test="#{!sessionUtil.dadosUtilizador.justRelatorio}">
+                                <a id="RH-MENU-PR" class="RH-MENU" href="../RecursosHumanos/Funcionarios.xhtml">
+                                    <i class="icon-users" ></i>RH &amp; Administração
+                                </a>
+                            </c:if>
+                            <c:if test="#{sessionUtil.dadosUtilizador.justRelatorio}">
+                                <a id="RH-MENU-PR" class="RH-MENU" href="../RecursosHumanos/Relatorio.xhtml">
+                                    <i class="icon-users" ></i>RH &amp; Administração
+                                </a>
+                            </c:if>
+                        </li> 
+                    </c:if>
+                    <c:if test="#{!sessionUtil.dadosUtilizador.menuSinistro.equalsIgnoreCase('ocultar')}">
+                        <li>
+                            <c:if test="#{!sessionUtil.dadosUtilizador.justRelatorio}">
+                                <a id="SN-MENU-PR" class="SN-MENU" href="../Sinistro/Registro.xhtml">
+                                    <i class=" icon-shield" ></i>Sinistro
+                                </a>
+                            </c:if>
+                            <c:if test="#{sessionUtil.dadosUtilizador.justRelatorio}">
+                                <a id="SN-MENU-PR" class="SN-MENU" href="../Sinistro/Relatorio.xhtml">
+                                    <i class=" icon-shield" ></i>Sinistro
+                                </a>
+                            </c:if>
+                        </li> 
+                    </c:if>
+                    <ui:remove>
+                    <c:if test="#{!sessionUtil.dadosUtilizador.menuAuditoria.equalsIgnoreCase('ocultar')}">
+                        <li>
+                            <a  href="#" >
+                                <i class="icon-file" ></i>Auditoria
+                            </a>
+                        </li>
+                    </c:if>
+                    </ui:remove>
+                    <li>
+                        <a id="AD-MENU-PR" class="AD-MENU menuAdministracao"  href="../Administracao/AdmEmpresa.xhtml" >
+                            <i class="icon-cog" ></i>Configurações
+                        </a>
+                    </li> 
+                </nav>
+                <li class="user"><a href="#" ><i class="icon-user" ></i>#{sessionUtil.nomeAcesso}</a>
+                    <ul>
+                        <li class="menuMyProfile"><a href="#">Meu Perfil</a></li>
+                        <li><a href="#"  class="alterarSenha">Editar senha</a></li> 
+                        <li><a href="../includes/FeedBack.xhtml" class="">Feedback</a></li>
+                        <li><a href="#" id="terminar" class="linkTerminarSessao">Sair</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+      
+    </h:form>
+    <h:form>
+    <div class="modalPage mp-userProfile">
+        <div class="modalFrame">                                            
+            <div class="modalContainer">
+                <h3>Meu perfil</h3>
+                <div class="menuLabel">
+                    <label>Dados da empresa</label>
+                    <label>Dados pessoais</label>
+                    <label>Dados de conjuge</label>
+                </div>
+                <div class="menuSections">
+                    <section>
+                        <p>
+                            <label>Código NICON</label><h:outputLabel>#{sessionUtil.funcionario.nomeAcesso}</h:outputLabel>
+                        </p>
+                        <p>
+                            <label>Categoria</label><h:outputLabel>#{sessionUtil.funcionario.categoria}</h:outputLabel>
+                        </p>
+                        <p>
+                            <label>Nível de acesso</label><h:outputLabel>#{sessionUtil.funcionario.nivel}</h:outputLabel>
+                        </p>
+                        <p>
+                            <label>Banco</label><h:outputLabel>#{sessionUtil.funcionario.banco}</h:outputLabel>
+                        </p>
+                        <p>
+                            <label>Nº C. Bancária</label><h:outputLabel>#{sessionUtil.funcionario.numConta}</h:outputLabel>
+                        </p>
+                        <p>
+                            <label>Data de entrada</label><h:outputLabel>#{sessionUtil.funcionario.dataEnt}</h:outputLabel>
+                        </p>
+                    </section>
+                    <section class="second">
+                        <p>
+                            <label>Nome completo</label><h:outputLabel>#{sessionUtil.funcionario.nome}</h:outputLabel>
+                        </p>
+                        <p>
+                            <label>Email</label><h:outputLabel>#{sessionUtil.funcionario.email}</h:outputLabel> 
+                        </p>
+                        <div>
+                            <p>
+                                <label>Nasceu em</label><h:outputLabel>#{sessionUtil.funcionario.dataNasc}</h:outputLabel>
+                            </p>
+                            <p>
+                                <label>NIF</label><h:outputLabel>#{sessionUtil.funcionario.nif}</h:outputLabel>
+                            </p>
+                            <p>
+                                <label>Estado civil</label><h:outputLabel>#{sessionUtil.funcionario.estadoCivil}</h:outputLabel>
+                            </p>
+                            <p>
+                                <label>Sexo</label><h:outputLabel>#{sessionUtil.funcionario.genero}</h:outputLabel>
+                            </p>
+                            
+                        </div>
+                        <div>
+                            
+                            <p>
+                                <label>Nª filhos</label><h:outputLabel>#{sessionUtil.funcionario.nunFilhos}</h:outputLabel>
+                            </p>
+                            
+                            <p>
+                                <label>Telefone(s)</label><h:outputLabel>#{sessionUtil.funcionario.movel}</h:outputLabel>
+                            </p>
+                            <p>
+                                <label>Morada</label><h:outputLabel>#{sessionUtil.funcionario.residencia}</h:outputLabel>
+                            </p>
+                        </div>
+                    </section>
+                    <section>
+                        <p>
+                            <label>Nome completo</label><h:outputLabel>#{sessionUtil.conjugue.conjugueNome}</h:outputLabel>
+                        </p>
+                        <p>
+                            <label>Nasceu em</label>#{sessionUtil.conjugue.conjugueDataNasc}<h:outputLabel></h:outputLabel>
+                        </p>
+                        <p>
+                            <label>Estado civil</label><h:outputLabel>#{sessionUtil.conjugue.conjugueEstadoCivil}</h:outputLabel>
+                        </p>
+                    </section>
+                </div>
+                <div class="closeModalFrame" >X</div>
+            </div>
+        </div>
+    </div>  
+    </h:form>
+        
+        
+        <h:form>
+            <div class="modalPage mp-messages terminarSessao">
+                <div class="modalFrame">                                            
+                    <div class="modalContainer">
+                        <h3><h:outputText value="Terminar Sessão" class="titulo"></h:outputText></h3>
+                        <p>
+                            <h:outputText value="Deseja realmente terminar a sessão?" class="mensagemApresentada"></h:outputText>
+                        </p>
+                        <div class="divButtons">
+                            <h:commandButton class="mf-bt-ok" value="Sim" action="#{login.terminarSessao()}">
+                                <p:ajax />
+                            </h:commandButton>
+                            <h:commandButton class="mf-bt-ko cancelarTerminarSessao" value="Cancelar">
+                                <p:ajax process="@none"/>
+                            </h:commandButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        <h:form id="changePassword">
+            <p:growl id="growlChangePassword" showDetail="false" />
+            <div class="modalPage mp-editPassword editActual">
+                <div class="modalFrame">                                            
+                    <div class="modalContainer">
+                        <h3>Editar senha - <h:outputLabel value="#{sessionUtil.nomeAcesso}"></h:outputLabel></h3>
+                        <p>
+                            Senha atual   <h:outputLabel class="senhaAtual"/>
+                            <h:inputSecret value="#{utilizadorBean.funcionario.senha}" required="true"
+                                 class="senhaAtualFuncionario" id="senhAtual" >
+                                <p:ajax process="@this" event="blur" listener="#{utilizadorBean.validarSenhaAtual()}" />
+                            </h:inputSecret>
+                        </p>
+                        <p>
+                            Nova senha
+                            <h:inputSecret value="#{utilizadorBean.funcionario.novaSenha}" required="true"
+                                           id="novaSenha" class="novaSenhaFuncionario" />
+                        </p>
+                        <p>
+                            Confirme a senha
+                             <h:inputSecret value="#{utilizadorBean.funcionario.confirmarSenha}" required="true"
+                                            class="confirmarSenhaFuncionario" id="confSsenha" />
+                             <h:outputLabel class="senhasDiferentes" value="!"/>
+                        </p>
+                        
+                        <div class="divButtons">
+                            <h:commandButton class="mf-bt-ok editarSenha" value="Editar" action="#{utilizadorBean.alterarSenha()}">
+                                <f:ajax execute="senhAtual novaSenha confSsenha"/>
+                            </h:commandButton>
+                            <h:commandButton class="mf-bt-ko" value="Cancelar">
+                                <p:ajax process="@none"/>
+                            </h:commandButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </h:body>
+    <style>
+        .msn{
+            font-size: 16px;
+            color: #000;
+
+        }
+        .ui-dialog .ui-dialog-titlebar-close {
+            background: white;
+        }
+        .ui-draggable .ui-dialog-titlebar {
+            background: #2973b7;
+            color: white;
+            font-weight: 300;
+        }
+        .btf{
+            border-radius: 5%;
+            color: white;
+            border:  1px #2973b7 solid;
+            background: #2973b7;
+            width: 100%;
+            padding: 5%;
+        }
+        .btf:hover{
+            border:  1px #0066cc solid;
+            cursor:pointer;
+            background: #0066cc;
+        }
+        .btf1{
+            border-radius: 5%;
+            color: white;
+            border:  1px #666666 solid;
+            background: #666666;
+            width: 100%;
+            padding: 7%;
+        }
+        .btf1:hover{
+            border:  1px #999999 solid;
+            cursor:pointer;
+            background: #999999;
+        }
+       
+        .mp-userProfile{
+            color: #333;
+        }
+        .mp-userProfile h3{
+            margin: 10px;
+            text-align: center;
+        }
+        .mp-userProfile label{
+            display: inline-block;
+        }
+        .menuLabel{
+            display: flex;
+            justify-content: space-between;
+        }
+        .menuLabel label{
+            padding: 10px 0 5px 0; 
+            margin: 15px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            border-bottom: 3px #fff solid;
+            transition: all .4s ease;
+        }
+        .menuLabel label:hover{
+            color: #4d87e2;
+            transition: all .4s ease;
+        }
+        .menuSections{
+            position: relative;
+            min-height: 250px;
+        }
+        .menuSections section{
+            padding-top: 15px;
+            position: absolute;
+            display: none;
+            width: 100%;
+        }
+        .menuSections p{
+          margin-bottom: 2rem;
+        }
+
+        .menuSections .second div{
+            width: 60%;
+            display: inline-block;
+        }
+        .menuSections .second div + div{
+            width: 35%;
+            vertical-align: bottom;
+        }
+        .menuSections p label{
+            width: 150px;
+        }
+        .menuSections .second label{
+            width: 120px;
+        }
+        .menuSections .second label + label,
+        .menuSections p label + label{
+          font-weight: bold;
+          width: auto;
+        }
+        .menuLabel .activeMenu{
+            border-bottom: 3px #4d87e2 solid;
+            color: #4d87e2;
+        }
+        .menuSections .activeSection{
+            display: block;
+        }
+    </style>
+    <script>
+        $('.menuMyProfile').click(function (){  
+            $(".mp-userProfile").show('fade');
+            return false;            
+        });
+        
+        var linksParent = $( '.menuLabel');
+        var links = linksParent.find('label');
+        var items = $( '.menuSections section');
+        links.eq(0).addClass( 'activeMenu');
+        items.eq(0).addClass( 'activeSection');            
+        linksParent.on('click', 'label', function(){
+            var t = $(this);
+            var i = t.index();
+            t.addClass('activeMenu').siblings().removeClass('activeMenu');                
+            items.eq(i).addClass('activeSection').siblings().removeClass('activeSection');
+
+        });
+    </script>
+</html>
+

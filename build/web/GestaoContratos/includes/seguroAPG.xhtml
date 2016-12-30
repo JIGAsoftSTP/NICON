@@ -1,0 +1,320 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <h:outputStylesheet library="Styles" name="seguroAPG.css"/>  
+        <h:outputScript library="js" name="AcidentePG.js" />
+        <h:outputStylesheet library="Styles"   name="moreInfoTable.css"/>
+    </h:head>
+    <h:body>
+
+        <h:form id="acidenteF">
+            <h:outputLabel id="info" />
+            <p:growl id="acidenteGrowl" sticky="false" life="10000"/>
+            <div class="K-seguros">
+                <span>
+                    Nº de apólice
+                    <h:inputText  class="acidenteNumeroApolice apolice"
+                                  value="#{acidente.acidentePG.numeroApolice}" id="apolice" >
+                    </h:inputText>
+                </span>
+                <span>
+                    Nº de registro
+                    <h:inputText  class="acidenteNumeroRegistro" value="#{acidente.acidentePG.numeroRegistro}" id="AcidenteRegistro" required="true">
+                    </h:inputText>
+                </span>
+                <span>
+                    Moeda
+                    <h:selectOneMenu id="acidenteMoeda"  class="acidenteMoeda" value="#{acidente.acidentePG.moeda}" >
+                        <f:selectItems  value="#{acidente.moedas}" itemLabel="#{m.value}" var="m" itemValue="#{m.id}"/>
+                    </h:selectOneMenu>
+                </span>
+            </div>
+            <div class="formularioSeguro">
+                <div class="cobertType">
+                    <h1>Cobertura do seguro</h1>
+                    <div>
+                        <h:selectOneRadio layout="pageDirection" class="select1 tipoCoberturaAcidente" value="#{acidente.acidentePG.tipoCobertura}" id="radio1" >
+                            <f:selectItem itemLabel="Apenas em situação de acidente de trabalho" class="select1" itemValue="1" />
+                            <f:selectItem itemLabel="Durante 24 horas" itemValue="2"/>
+                            <p:ajax event="click" process="@this" />
+                        </h:selectOneRadio>
+
+                    </div>
+                </div>
+                <p:remoteCommand actionListener="#{acidente.verificarDados()}"  name="dadosAcidente" />
+
+                <section>
+                    <nav>
+                        <h:outputLabel value="Acidentes ocorridos nos últimos 3 anos" />
+                        <h:selectOneRadio value="#{acidente.acidentePG.acidenteUltimosTresAnos}" class="acidenteOU3A acidenteU3anos" id="anos">
+                            <f:selectItem itemLabel="Sim" itemValue="Y"/>
+                            <f:selectItem itemLabel="Não" itemValue="N"/>
+                            <f:ajax execute="@this" listener="#{acidente.alterarEstadoCampo()}" render="te acidenteAci" event="click" />
+                        </h:selectOneRadio>
+                    </nav>
+                </section>
+
+                <section>
+                    <nav>
+                        <h:outputLabel value="Viagens longas efeituadas no decorrer das funções"/>
+                        <h:selectOneRadio id="acidenteLis1" class="select1 viagemEfetuadas" value="#{listaRespostas.getResposta(4).resposta}">
+                            <f:selectItem itemLabel="Sim" itemValue="Y"/>
+                            <f:selectItem itemLabel="Não" itemValue="N"/>
+                            <p:ajax event="click" process="@this" />
+                        </h:selectOneRadio>
+                    </nav>
+                </section>
+                <section class="formatInput">
+                    <nav>
+                        <h:outputLabel value="Defeitos físicos e mentais" />
+                        <h:selectOneRadio value="#{acidente.acidentePG.defeitosFisicos}" class="acidenteDFM acidenteDefeitosF" id="r">
+                            <f:selectItem itemLabel="Sim" itemValue="Y"/>
+                            <f:selectItem itemLabel="Não" itemValue="N"/>
+                            <f:ajax execute="r" event="click"  listener="#{acidente.alterarEstadoCampo()}" render="trd acidenteDef"/>
+                        </h:selectOneRadio>
+                    </nav>
+                    <h:inputText id="trd" pt:placeholder="Descrição" class="input-3-1 textPG acidenteDFMV acidenteDefeitosFCampo limparCampo" 
+                                 title="Descrição" disabled="#{acidente.habilitarDesabilitar}" 
+                                 value="#{acidente.acidentePG.defeitosFisicosCampo}" required="#{acidente.obrigatorio}">
+                    </h:inputText>
+                </section>
+                <section class="formatInput">
+                    <nav>
+                        <h:outputLabel value="Alguns dos segurados utiliza maquinas"/>
+                        <h:selectOneRadio id="acidenteLis2" class="select1 maquinasUtilizadas" value="#{listaRespostas.getResposta(5).resposta}">
+                            <f:selectItem itemLabel="Sim" class="selet" itemValue="Y"/>
+                            <f:selectItem itemLabel="Não" itemValue="N"/>
+                            <p:ajax event="click" process="@this"/>
+                        </h:selectOneRadio>
+                    </nav>
+                    <h:inputText pt:placeholder="Descrição" title="Descrição" 
+                                 class="input-3-1 acidenteOU3AV acidenteUltimosAnos limparCampo" disabled="#{acidente.lastYears}"
+                                 value="#{acidente.acidentePG.acidenteUltimos}" 
+                                 id="te" required="#{acidente.obrigatorio2}" >
+                    </h:inputText>                    
+                </section>
+                <div class="cobertura1">
+                    <h1>Coberturas</h1>         
+                    <div class="formatInput">
+                        <nav class="input-3">
+                            <h:outputLabel value="Nome"/>
+                            <h:inputText class="input-total acidenteNome limparCampo" id="AcidenteNome" value="#{acidente.acidentePG.nome}" required="true">
+                            </h:inputText>
+                        </nav>
+                        <nav class="input-4">
+                            <h:outputLabel value="Profissão"/>
+                            <h:inputText class="input-total acidenteProfissao limparCampo" id="AcidenteProfissao" 
+                                         value="#{acidente.acidentePG.profissao}" required="true">
+                            </h:inputText>
+                        </nav>
+                        <nav class="input-4">
+                            <h:outputLabel value="Categoria"/>
+                            <h:inputText class="input-total acidenteCategoria limparCampo" 
+                                         id="AcidenteCategoria" value="#{acidente.acidentePG.categoria}" required="true">
+                            </h:inputText>
+                        </nav>
+                        <nav class="input-6">
+                            <h:outputLabel value="Data de Nascimento"/>
+                            <p:calendar class="input-total dataNascAcidentelimparCampo " title="Data de Nascimento" navigator="true" 
+                                        readonlyInput="true" pattern="dd-MM-yyyy" maxdate="#{acidente.maxDate}" styleClass="acidenteDataNasc" 
+                                        id="AcidenteDataNasc" value="#{acidente.acidentePG.dataNascimento}" required="true">
+                            </p:calendar>
+                        </nav>
+                    </div>
+                </div>    
+                <h4>Valores</h4>
+                <div class="formatInput cobertura2">
+                    <nav class="input-5">
+                        <h:inputText pt:placeholder="Valor de Morte" class="input-2-2 numeroAC morte valorMorte" 
+                                     title="Valor em caso de morte" value="#{acidente.acidentePG.valorMorte}" 
+                                     id="AcidenteMorte" required="true">
+                        </h:inputText>
+                        <h:inputText pt:placeholder="Taxa" title="Taxa" 
+                                     class="input-2-3  txtTaxa acidenteTaxa100 numeroAC taxaMorte" 
+                                     value="#{acidente.acidentePG.taxaMorte}" id="AcidenteTaxaMorte" required="true">
+                        </h:inputText>
+                    </nav>
+                    <nav class="input-5">
+                        <h:inputText pt:placeholder="Inc. temporária" 
+                                     class="input-2-2 acidenteIncapTemp numeroAC" 
+                                     title="Incapacidade temporária"
+                                     value="#{acidente.acidentePG.incapacidadeTotalTemporaria}" id="AcidenteIncapTemp" required="true" >
+                        </h:inputText>
+                        <h:inputText pt:placeholder="Taxa"  title="Taxa" 
+                                     class="input-2-3  txtTaxa acidenteTaxa100 acidenteTaxaIncapTemp numeroAC " 
+                                     value="#{acidente.acidentePG.taxaIncapacidadeTemporaria}" id="AcidenteTaxaIncapTemp" required="true">
+                        </h:inputText>
+                    </nav>
+                    <nav class="input-5">
+                        <h:inputText pt:placeholder="Inc. permanente" 
+                                     class="input-2-2 numeroAC incapacidadePermanente"
+                                     title="Incapacidade Permanente" value="#{acidente.acidentePG.incapacidadeTotal}" 
+                                     id="AcidenteIncapPermanente" required="true">
+                        </h:inputText>
+                        <h:inputText pt:placeholder="Taxa"  title="Taxa" 
+                                     class="input-2-3  txtTaxa acidenteTaxa100 numeroAC taxaIncapPermanente"
+                                     value="#{acidente.acidentePG.taxaIncapacidadePermanente}" id="AcidenteTaxaIncapPermanente" required="true">
+                        </h:inputText>
+
+                    </nav>
+                    <nav class="input-5">
+                        <h:inputText pt:placeholder=" Despesa médica" 
+                                     class="input-2-2 acidenteDespesaM numeroAC" 
+                                     title="Despesa médica" 
+                                     value="#{acidente.acidentePG.despesaMedica}" id="AcidenteDespesa" required="true">
+                        </h:inputText>
+                        <h:inputText pt:placeholder="Taxa"  title="Taxa" 
+                                     class="input-2-3  txtTaxa acidenteTaxa100 numeroAC acidenteTaxaDespesaM" 
+                                     value="#{acidente.acidentePG.taxaDespesaMedica}" id="AcidenteTaxaDespesa" required="true">
+                        </h:inputText>
+                    </nav>
+                    <nav class="input-5">
+                        <h:inputText pt:placeholder="Custo repatriamento" 
+                                     class="input-2-2 acidenteCustoRep numeroAC" 
+                                     title="Custo com repatriamento" 
+                                     value="#{acidente.acidentePG.custoRepatriamento}" id="AcidenteCustoRep" required="true">
+                        </h:inputText>
+                        <h:inputText pt:placeholder="Taxa"  title="Taxa" 
+                                     class="input-2-3 txtTaxa acidenteTaxa100 acidenteTaxaCustoRep numeroAC"
+                                     value="#{acidente.acidentePG.taxaCustoRepatriamento}" id="AcidenteTaxaCustoRep" required="true">
+                        </h:inputText>
+                    </nav>
+                </div>
+                <h:commandButton value="Adicionar" class=" addItemTable acidenteAdicionar"  >
+                    <p:ajax process="@this" onstart="mostrarPorocessamentoA()" oncomplete="fecharPorocessamentoA()" />
+                </h:commandButton>
+            </div>
+            <div class="divData">
+                <p:dataTable id="Acidentetabela" class="table" selectionMode="single"  value="#{acidente.info}" 
+                             selection="#{acidente.acidente2}" var="a" rowKey="#{a}"  emptyMessage="">
+                    <p:ajax event="rowSelect" process="@this" />
+                    <p:column headerText="Nome">
+                        <h:outputText value="#{a.nome}"/>
+                    </p:column >
+                    <p:column headerText="Categoria">
+                        <h:outputText value="#{a.categoria}"/>
+                    </p:column>
+                    <p:column headerText="Profissão">
+                        <h:outputText value="#{a.profissao}"/>
+                    </p:column>
+                    <p:column headerText="Data Nascimento">
+                        <h:outputText value="#{a.dataNascimentoFormatada}"/>
+                    </p:column>
+                    <p:column headerText="Ações" width="80">
+
+                        <h:outputLabel class="actionTable icon-info" title="Mais informações">
+                            <p:ajax event="click" process="@this" onstart="mostrarPorocessamentoA()" 
+                                    listener="#{acidente.moreInfo()}" oncomplete="fecharPorocessamentoA()"/>
+                        </h:outputLabel>
+                        <h:outputLabel class="actionTable icon-cancel-circle" title="Remover linha">  
+                                <p:ajax event="click" process="@this"  listener="${acidente.removerDados()}"/>
+                        </h:outputLabel>
+                        <h:outputLabel class="actionTable icon-bin" title="Limpar tabela">
+                                <p:ajax event="click" process="@this"  listener="${acidente.removeAllFromTable()}"/>
+                        </h:outputLabel>
+                    </p:column>
+                </p:dataTable>
+                <div class="infoTotalTable" >
+                    <div>
+                        <label><b>Cobertura</b></label>
+                        <label><b>Limite responsabilidade</b></label>
+                        <label><b>Valor prémio</b></label>
+                    </div>
+                    <nav>
+                        <b><h:outputLabel value="Valor total de custo em caso de morte"/></b>
+                        <h:outputLabel value="#{acidente.acidentePG.totalMorte}" id="limiteMorte" class="limparValores" />
+                        <h:outputLabel value="#{acidente.acidentePG.premioMorteMoeda}" id="premioMorte" class="limparValores" />
+                    </nav>
+                    <nav>
+                        <b><h:outputLabel value="Valor total incapacidade permanente"/></b>
+                        <h:outputLabel value="#{acidente.acidentePG.totalIncaTotal}" id="limiteIncaP" class="limparValores"/>
+                        <h:outputLabel value="#{acidente.acidentePG.premioIncapacidadePermanenteMoeda}" id="premioIncapacidadeTotal" class="limparValores" />
+                    </nav>
+                    <nav>
+                        <b><h:outputLabel value="Valor total incapacidade temporária"/></b>
+                        <h:outputLabel value="#{acidente.acidentePG.totalIncapTemp}" id="limiteIncaT" class="limparValores" />
+                        <h:outputLabel value="#{acidente.acidentePG.premioIncapacidadeTemporariaMoeda}" id="premioIncapacidadeTemp" class="limparValores" />
+                    </nav>
+                    <nav>
+                        <b><h:outputLabel value="Valor total despesa médica"/></b>
+                        <h:outputLabel value="#{acidente.acidentePG.totalDespesa}" id="limiteDespesaM" class="limparValores" />
+                        <h:outputLabel value="#{acidente.acidentePG.premioDespesaMedicaMoeda}" id="premioDesepesa" class="limparValores"  />
+                    </nav>
+                    <nav>
+                        <b><h:outputLabel value="Valor total custo com repatriamento"/></b>
+                        <h:outputLabel value="#{acidente.acidentePG.totalCusto}" id="limiteCustoR" class="limparValores" />
+                        <h:outputLabel value="#{acidente.acidentePG.premioCustoRepatriamentoMoeda}" id="premioCusto" class="limparValores" />
+                    </nav>
+                    <nav>
+                        <b><h:outputLabel value="VALOR TOTAL"/></b>
+                        <h:outputLabel  value="#{acidente.acidentePG.totalSeguradoMoeda}" id="totalS" class="limparValores" />
+                        <h:outputLabel id="AcPremioL" value="#{acidente.acidentePG.premioLiquidoMoeda}" class="limparValores" />
+                    </nav>                       
+                </div>
+            </div>
+            <div class="PrNx">
+                <h:form>
+                    <h:commandButton value="Anterior" class="btPrevious btBack" />
+                    <h:commandButton value="Seguinte" class="btNext" action="#{acidente.avancar()}">
+                        <p:ajax  />
+                    </h:commandButton>
+                </h:form>
+            </div>  
+            <h:form>
+                <div class="processamento modalProcess">
+                    <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+                </div>
+            </h:form>
+            <div class="modalPage mp-infoTable">
+             <div class="modalFrame">                                            
+                 <div class="modalContainer">
+                     <p><b>Mais Informações</b></p>
+                 <h:form id="moreInfoAcidente">
+                     <p>Nome: <h:outputText value="#{acidente.acidentePG.nome}" class="maisInfo" /></p>   
+                         <p>
+                             Categoria: <h:outputText  value="#{acidente.acidentePG.categoria}" class="maisInfo"  />
+                         </p>   
+                         <p>
+                             Profissão: <h:outputText value="#{acidente.acidentePG.profissao}" class="maisInfo"  />
+                         </p>   
+                         <p>
+                             Data de Nascimento: <h:outputText value="#{acidente.acidentePG.dataNascimentoFormatada}" class="maisInfo" />
+                         </p>   
+                         <p>
+                             Valor de Morte: <h:outputText value="#{acidente.acidentePG.valorMorte}" class="maisInfo" />
+                         </p>   
+                         <p>
+                             Valor de Incapacidade Total Temporária: <h:outputText value="#{acidente.acidentePG.incapacidadeTotalTemporaria}" class="maisInfo"  />
+                         </p>   
+                         <p>
+                             Valor de Despesa Médica: <h:outputText value="#{acidente.acidentePG.despesaMedica}" class="maisInfo"  />
+                         </p>   
+                         <p>
+                             Valor de Incapacidade Total: <h:outputText value="#{acidente.acidentePG.incapacidadeTotal}" class="maisInfo" />
+                         </p>   
+                         <p>
+                             Valor de Custo Repatriamento:<h:outputText value="#{acidente.acidentePG.custoRepatriamento}" class="maisInfo" />
+                         </p>   
+                         <p>
+                             Defeitos Físicos e Mentais: <h:outputText  value="#{acidente.acidentePG.defeitosFisicosCampo}" class="maisInfo"  />
+                         </p>   
+                         <p>
+                             Acidentes ocorridos nos últimos 3 anos: <h:outputText  value="#{acidente.acidentePG.acidenteUltimos}" class="maisInfo" />
+                         </p>   
+                       </h:form>
+                     <div class="closeModalFrame moreData" >X</div>
+                  </div>
+              </div>
+           </div>
+        </h:form>   
+    
+    </h:body>
+</html>
+

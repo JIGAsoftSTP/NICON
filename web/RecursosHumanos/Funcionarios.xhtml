@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <h:outputStylesheet library="Styles" name="geralStyle.css"></h:outputStylesheet>
+        <h:outputStylesheet library="Styles" name="addUserCSS.css"></h:outputStylesheet>  
+        <h:outputStylesheet library="Styles" name="fonts.css"></h:outputStylesheet> 
+        <h:outputScript library="js" name="script_Geral.js" />
+        <title>Funcionários</title>        
+    </h:head>
+    <h:body id="RH-PAGE-FUNCIONARIOS" class="RH-FUNCIONARIOS">
+            <ui:include src="../includes/menuPrincipal.xhtml"/>
+            <ui:include src="includes/menuRH.xhtml"/>
+            <ui:include src="includes/funcionario.xhtml"></ui:include>
+    </h:body>    
+</html>
+

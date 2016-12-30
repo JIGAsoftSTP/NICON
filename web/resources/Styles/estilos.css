@@ -1,0 +1,262 @@
+@charset "ISO-8859-1";
+/* 
+    Created on : 9/Ago/2015, 8:40:44
+    Author     : AfroBlack Man
+*/
+#header{
+    width: 100%;
+}
+#corpo{
+   /* // border: 1px black solid;*/
+    width: 100%;
+    padding: 5px;
+}
+#corpo_Header{
+  /*  // border: 1px black solid;*/
+    width: 100%;
+}
+#corpo_Footer{
+   /* // border: 1px black solid;*/
+    width: 100%;
+    height: 200px;
+}
+#corpo_Login{
+  /*  // border: 1px black solid;*/
+    width: 100%;
+
+}
+#footer{
+    margin-top: 2px;
+   /* // border: 1px black solid;*/
+    width: 100%;
+    height: 100px;
+
+}
+
+.cabecalhoTetx{
+    font-family: sans-serif; 
+    font-size: 20px;
+    color: #4682b4;
+}
+.pn_titulo{
+    background-image:none;
+    width: 100%; 
+    height: 30px;
+    padding: 2px;
+    border-bottom: 1px #4682b4 solid;
+}
+.detalhe_empr{
+    border-bottom: 1px #FFFFFF solid;
+    border-top:1px #FFFFFF solid; 
+    background: rgba(102,102,102,0.1);
+    padding: 8px;
+    color: #000;
+    font-size: 25px;
+    width: 100%;
+    height: 60px;
+    margin-top: 1%;
+    margin-bottom: 0.5%;
+}
+.n_Apolice_registo{
+    border-top:1px #FFFFFF solid; 
+    background: rgba(102,102,102,0.1);
+    width: 100%;
+}
+.inputText{
+    padding:5px;
+    font-size: 15px;
+    border: 1px #cccccc solid;
+}
+
+.inputText:focus{
+    outline: none;
+    border: 1px #4682b4 solid;
+    box-shadow:0px 0px  2px 0px  #4682b4;
+}
+
+.opcao{
+  /*  // display: none;*/
+}
+.inputTextCalendar{
+    padding: 5px;
+    border: 1px #666666 solid;
+}
+.inputTextarea{
+    padding: 5px;
+    width: 400px; 
+    height: 62px;
+    resize: none;
+}
+.inputText1{
+    padding: 5px;
+    border: 1px #999 solid;
+    font-size: 15px;
+}
+
+.fnRegisto{
+    margin-left: 1.2%;
+    font-size: 15px;
+
+}
+.button_a1{
+    padding:2px 3px; 
+    width: 100%;   
+    height:30px;
+}
+.button_a{
+    border-radius: 3px;
+    margin-top: 11%;
+    padding:5px; 
+    width:100px; 
+    height:30px; 
+    background-image: linear-gradient(to bottom,#333,#fff 560%);
+    text-align:center; 
+    font-size: 13px;
+    float:right; 
+    clear:right; 
+}
+.button_a:hover{
+    background-image: linear-gradient(to bottom,rgba(0,102,255,0.7),#000 460%); 
+}
+
+.button_a input{
+    background:none; 
+    color:#FFFFFF; border:0; 
+    cursor:pointer; 
+}
+.button_adicionar1{
+    padding:2px 3px; 
+    width: 87%;   
+    height:50px;
+}
+.button_adicionar{
+    border: 1px steelblue solid;
+    margin-top: 5%;
+    margin-left: 2.2%;
+    border-radius: 3px;
+    padding:16px; 
+    width:87%; 
+    background-image: linear-gradient(to bottom,rgba(0,102,255,0.7),#000 460%); 
+    text-align:center; 
+    font-size: 13px;
+    clear:right; 
+}
+.button_adicionar:hover{
+    background: rgba(0,102,255,0.8);
+}
+
+.button_adicionar input{
+    background:none; 
+    color:#FFFFFF;
+    border:0; 
+    cursor:pointer; 
+}
+.adicionarR1{
+    padding:2px 3px; 
+    width: 100%;   
+    height:30px;
+}
+.adicionarR{
+    border: 1px steelblue solid;
+    border-radius: 3px;
+    padding:10px; 
+    width:87%; 
+    background-image: linear-gradient(to bottom,rgba(0,102,255,0.7),#000 460%); 
+    text-align:center; 
+    font-size: 13px;
+    clear:right; 
+}
+.adicionarR:hover{
+    background: rgba(0,102,255,0.8);
+}
+
+.adicionarR input{
+    background:none; 
+    color:#FFFFFF;
+    border:0; 
+    cursor:pointer; 
+}
+
+.button_add_log1{
+    padding:2px 3px; 
+    width: 100%;   
+    height:26px;
+}
+.button_add_log{
+    float: left;
+    padding:8px; 
+    width:95%; 
+    height:22px; 
+    background-image: linear-gradient(to bottom,rgba(0,102,255,0.7),#000 460%); 
+    text-align:center; 
+    font-size: 12px;
+    float:right; 
+    clear:right; 
+}
+.button_add_log:hover{
+    background:#666666;
+}
+
+.button_add_log input{
+    background:none; 
+    color:#FFFFFF;
+    border:0; 
+    cursor:pointer; 
+}
+
+.button_gda1{
+    padding:2px 3px; 
+    width: 100%;   
+    height: 26px;
+}
+
+
+.add_empresa{
+    float: left; 
+    margin-left: 10%;
+    width: 14%; 
+    border: 1px #666666 solid; 
+}
+.logotipo_add_1{
+    position: absolute;
+    cursor:pointer; 
+    text-align: center;
+    padding: 2px;
+    background:rgba(70,130,180,0.9);
+    z-index: 100px;
+    bottom:0px; 
+    left:0px; 
+    width:98.8%;
+
+}
+
+
+
+
+
+
+.button_adicionar_m1{
+    padding:2px 10px; 
+    width: 90%;   
+    height:30px; 
+}
+.button_adicionar_m{
+    border: 1px steelblue solid;
+    padding:14px; 
+    width:90%; 
+    height:30px; 
+    background-image: linear-gradient(to bottom,rgba(0,102,255,0.7),#000 460%); 
+    text-align:center; 
+    font-size: 15px;
+    clear:right; 
+}
+.button_adicionar_m:hover{
+    background: rgba(0,102,255,0.8);
+    border: 1px steelblue solid;
+}
+.button_adicionar_m input{
+    background:none; 
+    color:#FFFFFF;
+    border:0; 
+    cursor:pointer; 
+}

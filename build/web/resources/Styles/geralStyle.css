@@ -1,0 +1,543 @@
+/* 
+    Created on : Aug 21, 2015, 3:30:32 PM
+    Author     : Junior
+*/
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'arial', 'sans-serif';
+}
+
+.default-JIGA input[type=text],
+.default-JIGA select,
+.default-JIGA textarea{
+    padding: 10px 6px;
+    border: 1px #d0d0d0 solid;
+    color: #333;
+    font-size: 14px;
+    border-radius: 3px;
+    margin-top: 3px;
+    margin-bottom: 10px;
+    transition: all .4s ease;
+    background: #fdfdfd;
+}
+.default-JIGA input[type=text]:focus,
+.default-JIGA select:focus
+.default-JIGA .ui-inputfield:focus,
+.default-JIGA textarea:focus{
+    background: #fff;
+    border: 1px #4285F4 solid;
+    box-shadow: 0 0 5px 0 #4285F4 !important;
+    transition: all .4s ease;
+}
+input,
+select{
+    outline: none;
+}
+::-webkit-input-placeholder { color:#666 !important; font-style: italic; } /*Chrome*/
+::-moz-placeholder { color: #444;  font-style: italic; } /* firefox 19+ */
+:-ms-input-placeholder { color:#444;  font-style: italic; } /* ie */
+:-o-input-placeholder { color:#666;  font-style: italic; } /* ie */
+input:-moz-placeholder { color:#666;  font-style: italic; }
+input:-webkit-placeholder { color:#666 !important;  font-style: italic; }
+
+.destaque{
+    background:#FFFF99;
+    color:#FF0000;
+}
+input[type="date"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
+}
+input[type=submit],
+input[type=button]{
+    cursor: pointer;
+}
+/*#################     AUTOCOMPLETE        #################*/
+
+.ui-autocomplete{
+    box-shadow: none !important;
+    
+}
+.ui-autocomplete-input{
+    border: 1px solid #999999;
+    margin-left: 0 !important;
+    font-weight: lighter;
+    border-radius: 0;
+    padding: 8px;
+    border-top: 1px solid #999999;
+    box-shadow: none !important;
+    width: 100% !important;
+}
+
+.ui-autocomplete-panel{
+    border: 1px #4682b4 solid;
+    box-shadow: 0px 0px 0px 0px;
+}
+    
+.ui-autocomplete-panel,.ui-autocomplete-panel:hover{
+    background: #fff;
+}
+.ui-autocomplete-items{
+    font-size: 13px !important;
+    color: #999999;
+    background: #fff;
+    font-weight: lighter;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.ui-state-default{
+    font-weight: normal !important;
+}
+
+/*#################     DATATABLE     #################*/
+
+.ui-datatable{
+    border: 1px #ddd solid !important;
+    border-radius: 1px;
+    padding-left: 4px;
+}
+.ui-datatable-scrollable-header{
+    background: #fff !important;
+}
+.ui-widget-header{
+    border: 0 !important;
+}
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+    border: none !important;
+    background: #2E9BDC !important;
+    color: #fff !important;
+    text-shadow:none !important;
+}
+.ui-datatable tbody .ui-state-hover{
+    background: rgba(46, 155, 220, .7) !important;
+    box-shadow: none !important;
+    transition: all .4s ease;
+    color: #fff !important;
+}
+.ui-column-title{
+    display: inline-block;
+    padding: 6px 0;
+}
+
+.ui-datatable thead td, .ui-datatable tbody{
+    border: 1px #eee solid !important;
+}
+.ui-datatable thead th{
+    background: #fff !important;
+    font: bold 14px arial, sans-serif !important;
+    padding: 8px 10px;
+    position: relative;
+    width: 100%;
+}
+.ui-datatable thead {overflow: hidden !important;}
+.ui-datatable tbody td{
+    font: 14px arial, sans-serif !important;
+}
+.ui-datatable thead th,.ui-datatable tbody td, .ui-datatable tbody tr{
+    border: none !important;
+    padding: 5px 0 !important;
+}
+.ui-datatable thead th{text-align:left !important; }
+.ui-datatable-scrollable-body{
+    overflow-x: hidden;
+}
+
+.clienteMsg:hover{
+    cursor: pointer;
+}
+.total-found{
+    text-align: right;
+    margin: 10px 0 15px 0;
+    font-size: .95rem;
+}
+/*#################     INPUT FIELD       #################*/
+
+.ui-inputfield{
+    border-radius: 0;
+    box-shadow: none !important;
+    font: 14px sans-serif;
+    padding: 5px;
+    margin-top: 1px;
+    border-radius: 3px;
+}
+.ui-inputfield:hover,
+.ui-inputfield:focus{
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/*#################     DATE PICKER       #################*/
+
+.ui-datepicker{
+    border: 1px #4682b4 solid !important;
+    box-shadow: 0px 0px 0px 0px !important;
+    font-size: 12px !important;
+}
+.ui-datepicker select{
+    padding: 0! important;
+    border: 0 !important;
+    border-radius: 0 !important;
+}
+.ui-datepicker .ui-datepicker-header {
+    position: relative !important;
+    padding: .1em 0 !important;
+    background: #4682b4 !important;
+    color: white !important;
+    text-shadow: 0px 0px 0px 0px !important;
+    font-weight: 100 !important;
+
+}
+
+.ui-datepicker .ui-datepicker-prev,
+.ui-datepicker .ui-datepicker-next {
+    position: absolute !important;
+    top: 2px !important;
+    width: 1.8em !important;
+    height: 1.8em !important;
+    background:white !important;
+}
+  
+/*#################     GROWL       #################*/
+        
+.ui-growl-item-container {
+    background:rgba(0,0,0,0.5);
+}
+.ui-growl-title {
+    font: 14px cambria;
+}
+.ui-growl-message p {
+/*  font: 12px sans-serif;
+    text-align: left;*/
+}
+.ui-growl-icon-close {
+    background: white;
+}
+
+
+
+/*#################     MODAL FRAME     #################*/     
+        
+
+.modalPage{
+    background: rgba(0,0,0,.4);
+    position:fixed;
+    width: 100%;
+    height: 100vh;
+    left:0; top:0;
+    display: none;
+    color: #555;
+    z-index: 100;
+}
+ 
+.mp-userProfile .modalContainer{
+    min-height: 500px;
+    width: 600px;
+}
+
+/*usado apenas para centralizar a modal*/
+.modalFrame{
+    width: 100%;
+    display: flex;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+/*estilo geral das modais*/
+.modalContainer{
+    background: #fff;
+    padding: 30px 20px;
+    border-radius: 4px;
+    position: relative;
+}
+
+/*modal para adicionar novo utilizador*/ 
+.m-newUser{
+    width: 33%;
+}
+
+/*modal para mostrar mensagens de informações e/ou alerta*/
+.mp-messages .modalContainer{
+    width: 450px;
+    color: #555;
+    overflow: hidden;
+}
+/*paragrafo que conterá informação*/
+.mp-messages p{
+    margin: 2rem 0;
+    font-size: 14px;
+}
+
+/*Modal para mostrar mais informações de uma tabela*/
+.mp-infoTable p{
+    margin-top: 15px;
+}
+
+/*   INICIO   */
+/*itens da modal para alterar senha pela primeira vez -- este estilo foi aplicado aqui porque também é utilizado para editar senha do utilizador logado*/
+.mp-editPassword .modalContainer{
+    max-width: 352px;
+}
+.mp-editPassword h3{
+    margin-bottom: 2em;
+}
+.mp-editPassword h3 label{
+    color: #15AE32;
+}
+.mp-editPassword p{
+    margin: 15px 0;
+}
+.mp-editPassword p input{
+    width: 100%;
+    border: 1px #ddd solid;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+.mp-editPassword .divButtons{
+    margin-top: 2rem;
+}
+/*   FIM   */  
+
+.modalProcess img{
+    height: 30px;
+    width: 30px;
+}
+
+/*botões da modal de informações*/        
+.divButtons{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.divButtons input{
+    border: none;
+    padding: 6px 15px;
+    transition: all .4s ease;
+    font-size: .9em;
+    font-weight: bold;
+    margin: 0 1em ;
+    border-radius: 3px;
+    min-width: 100px;
+}
+/*botões da modal de informações -- botão OK, YES, CONFIRM*/
+.mf-bt-ok{
+    background: #4682b4;
+    color: #fff;
+}
+/*botões da modal de informações -- botão CANCEL, NO*/
+.mf-bt-ko{
+    background: #eee;
+    color: #333;
+    border: 1px #ccc solid !important;
+}
+.m-addClient{
+    width: 56%;
+}
+
+
+.closeModalFrame,
+.close-mi-values{
+    padding: 5px 10px;
+    top: 5px; right: 5px;
+    position: absolute;
+    cursor: pointer;
+    color: red;
+    border-radius: 100%;
+    transition: all .8s ease;
+    font: 16px 'Gill Sans MT';
+}
+
+
+
+
+/*################# CONTROLS #############*/
+
+#GC-PAGE-SEGUROS        #GC-MENU-SEGUROS,
+#GC-PAGE-CLIENTES       #GC-MENU-CLIENTES,
+#GC-PAGE-CONTRATOS      #GC-MENU-CONTRATOS,
+#GC-PAGE-COMISSOES      #GC-MENU-COMISSOES,
+#GC-PAGE-VEICULOS       #GC-MENU-VEICULOS,
+#GC-PAGE-RESSEGUROS     #GC-MENU-RESSEGUROS,
+#GC-PAGE-RELATORIO      #GC-MENU-RELATORIO,
+
+#CT-PAGE-PGTO-RCBTO     #CT-MENU-PGTO-RCBTO,
+#CT-PAGE-CONTAS         #CT-MENU-CONTAS,
+#CT-PAGE-MOVIMENTACOES  #CT-MENU-MOVIMENTACOES,
+#CT-PAGE-RELATORIO      #CT-MENU-RELATORIO,
+#CT-PAGE-TAXAS-IMPOSTOS #CT-MENU-TAXA-IMPOSTOS,
+#CT-PAGE-SALARIO        #CT-MENU-SALARIO,
+
+#RH-PAGE-FUNCIONARIOS   #RH-MENU-FUNCIONARIOS,
+#RH-PAGE-CATEGORIA      #RH-MENU-CATEGORIA,
+#RH-PAGE-CONSUMIVEIS    #RH-MENU-CONSUMIVEIS,
+#RH-PAGE-RELATORIO      #RH-MENU-RELATORIO,
+
+#SN-PAGE-REGISTRO       #SN-MENU-REGISTRO,
+#SN-PAGE-RELATORIO      #SN-MENU-RELATORIO,
+#SN-PAGE-MAPA           #SN-MENU-MAPA,
+
+#AD-PAGE-EMPRESA        #AD-MENU-EMPRESA,
+#AD-PAGE-UTILITARIOS    #AD-MENU-UTILITARIOS{
+    background:steelblue;
+    color: white !important;
+    border: none;
+}
+
+.ACTIVE-MENU-PRINCIPAL{
+    background: #356C91;
+}
+.ACTIVE-MENU-SECUNDARIO{
+    background:steelblue;
+    color: white !important;
+    border:none;
+}
+.PR-PAGE{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.PR-PAGE .ant-page{
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+
+.senhaAtual{font-size: 13px;color: red;margin-left: 10px;}
+.senhasDiferentes{font-size: 13px;color: red;}
+.infoPass{font-size: 14px; font-weight: bold;}
+
+.K-seguros{
+    padding: 15px 10px;
+    display: flex;
+    justify-content: space-between;
+    background: #f2f2f2;
+    color: #444;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.K-seguros input,
+.K-seguros  select{
+    border: #ddd;
+    font-size: 16px;
+    padding: 8px;
+    text-indent: 0 !important;
+    min-width: 200px;
+}
+
+/*MODAL DE PROCESSAME0NTO*/
+.imageProcess{ top: 0; bottom: 0;right: 0; left: 0;margin: auto; position: absolute; }
+
+/*################ ICON TABLE ##################*/
+.actionTable{
+    display: inline-block;
+    margin: 0 2px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.actionTable:hover{
+    color: #222;
+}
+.moreInformation{
+    cursor:pointer;
+}
+.infoLoadingGif{
+    font-size: 13px;
+    margin-left: 10px;
+    margin-bottom: 40px;
+    float:right;
+}
+.loadingGif{
+    margin-top: -10px;
+}
+.modalData{
+    background: #fff;
+    padding: 30px 20px;
+    border-radius: 4px;
+    position: relative;
+    height: 80px;
+}
+.processamento{ 
+    background: rgba(0,0,0,.5);
+    position:fixed;
+    width: 100%;
+    height: 100vh;
+    left:0; top:0;
+    z-index: 10;
+    display: none;
+}
+
+.negrito{
+    font-weight: bold;
+    font-size: 14px;
+}
+.sinistroRelatorio{
+    margin-left: 180px;
+}
+
+.modalEstruturaSalario,
+.modalSituacaoFamiliar,
+.modalAvancoSalarial{
+    z-index: 5;
+}
+.mi-values{
+    position: fixed;
+    right: 0;
+    bottom: -100%;
+    padding: 1rem;
+    border: 1px #ddd solid;
+    box-shadow: 0 0 2px 3px #ddd;
+    background: #fff;
+    font-size: .95rem;
+    transition: all .5s;
+}
+.mi-values.show{
+    bottom: 0;
+    transition: all .5s;
+}
+.mi-values section{
+  padding: 1rem 0;
+border-bottom: 1px #ddd solid;  
+}
+.mi-values b{
+    font-size: 1.1rem;
+}
+.modalProcessamentoSalarial, .anularPagamento{
+    z-index: 5;
+}
+.processamentoConcluirRegistro{
+    visibility: hidden;
+}
+
+.filter-table{
+    margin: 2rem 0 1rem 0; 
+}
+.filter-table label{
+    display: inline-block;
+    padding: 6px 18px;
+    border: 1px #ddd solid;
+    border-radius: 2px;
+    background: #fff;
+    color: #555;   
+    margin-right: 12px;
+    font-size: .9rem;
+    cursor: pointer;
+}
+.filter-table label:last-child{
+    margin-right: 0;
+    
+}
+.filter-table label.active{
+    background: #00b9a3;
+    border: 1px #00b9a3 solid;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 3px;
+}
+
+.nota-credit{
+   z-index: 8;
+}

@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <h:outputStylesheet library="Styles" name="EmpresaParceiraCss.css"></h:outputStylesheet>
+    </h:head>
+    
+    <h:body>
+        
+        <h:form id="menssa">
+        <h2 id="title">Empresa Parceira</h2>
+        <div class="ContentEMParc">
+        <div class="corpoEMParc">
+            <h:form id="menssaForm">
+                <p:growl id="parceiroGrowl" sticky="false" life="10000"/>
+                <h:panelGrid class="panEParc">
+                    <h:outputLabel value="Nome"/>
+                    <h:inputText required="true" class="textEMParc vNome" value="#{emp_Parceriabean.empresaParceiramodelo.nome}"/>
+                    <h:outputLabel value="Endereço"/>
+                    <h:inputText class="textEMParc vEndereco" required="true"
+                                 value="#{emp_Parceriabean.empresaParceiramodelo.endereco}"/>
+                    <h:outputLabel value="País"/>
+                    <h:selectOneMenu class="vPais" required="true" 
+                                     value="#{emp_Parceriabean.empresaParceiramodelo.pais}">
+                        
+                        <f:selectItem itemValue="" itemLabel="(Selecione)"/>
+                         <f:selectItems value="#{emp_Parceriabean.todosPaises}" var="c" itemLabel="#{c.value}" itemValue="#{c.id}"/>
+                    </h:selectOneMenu>
+                    
+                    <h:outputLabel value="Capital social"/>
+                    <h:inputText required="true" class="textEMParc numeroAC vCapital" 
+                                 value="#{emp_Parceriabean.empresaParceiramodelo.capitalSocial}"/>
+                </h:panelGrid>
+            <div align="center">
+                <h:commandButton value="Guardar" class="btEParc regParceira" actionListener="#{emp_Parceriabean.registarEmpresaParceiraBean()}" >
+                    <p:ajax process="@form" />
+
+                </h:commandButton>
+            </div>
+            </h:form>
+        </div>
+            
+        <div class="TableEMParc">
+          
+            <p:dataTable class="tableEMPar" selection="#{emp_Parceriabean.empresaParceiramodelo}" selectionMode="single"  rowKey="#{item}" id="tableDEmPar"
+                         emptyMessage="Nenhum registro encontrado." value="#{emp_Parceriabean.listarEmpresaParceira}" var="item" scrollable="true" scrollHeight="211">
+                <p:column headerText="Nome">
+                    <h:outputText value="#{item.nome}"/>
+                </p:column>
+                <p:column headerText="Endereço">
+                    <h:outputText value="#{item.endereco}"/>
+                </p:column>
+                <p:column headerText="País">
+                    <h:outputText value="#{item.pais}"/>
+                </p:column>
+                <p:column headerText="Capital">
+                    <h:outputText value="#{item.capitalSocial}"/>
+                </p:column>
+                <p:ajax event="rowSelect" update="tableDEmPar" />
+            </p:dataTable>
+            <div align="right" style="margin-right: 2%">
+                <h:commandButton value="Remover" class="btEParc removerParceira" action="#{emp_Parceriabean.removerdadosTabela()}">
+                        <p:ajax update="tableDEmPar"/>
+                    </h:commandButton>
+            </div>
+           
+        </div>
+    </div>
+        </h:form>
+    </h:body>
+    
+    <!-- validação dos campos vazios-->
+    <script>
+        $(document).ready(function (e) {
+            $(".numeroAC").keyup(function (e) {
+                e.preventDefault();
+                        // REMOVE OS CARACTERES DA EXPRESSAO ACIMA
+                if (!$.isNumeric($(this).val()))
+                                $(this).val("");
+            });
+        $(".regParceira").click(function(e)
+        {
+            e.preventDefault();
+           validacaoCampo(); 
+        });
+            
+        });
+        
+      
+        
+        function validacaoCampo()
+        {
+            testeVasio($(".vNome"));
+            testeVasio($(".vPais"));
+            testeVasio($(".vEndereco"));
+            testeVasio($(".vCapital"));
+        }
+        function limparcampos()
+            {
+            $(".vNome").val('');
+            $(".vPais").val('');
+            $(".vEndereco").val('');
+            $(".vCapital").val('');
+            }
+
+        function testeVasio(variavel)
+        {
+            var teste = true;
+            //alert(variavel.val());
+            if (variavel.val() === "")
+            {
+                variavel.css("border", "1px solid red");
+                variavel.focus();
+                teste = false;
+            }
+            else
+            {
+                variavel.css("border", "");
+            }
+
+            return teste;
+        }
+    </script>
+</html>
+

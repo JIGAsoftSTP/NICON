@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+    </h:head>
+        <header id="RH-MENU-SC" class="menu-secundario RH-MENU">
+            <div>
+                <ul>   
+                    <c:if test="#{!sessionUtil.dadosUtilizador.justRelatorio}">
+                        <li><a id="RH-MENU-FUNCIONARIOS" class="RH-FUNCIONARIOS" href="../RecursosHumanos/Funcionarios.xhtml">Funcionários</a></li> 
+                        <li><a id="RH-MENU-CONSUMIVEIS" class="AD-ARTIGO" href="../RecursosHumanos/Consumiveis.xhtml">Consumíveis</a></li>
+                    </c:if>
+                    <li><a id="RH-MENU-RELATORIO" class="RH-RELATORIO" href="../RecursosHumanos/Relatorio.xhtml">Relatório</a></li>
+                </ul>
+            </div>
+        </header>
+</html>
+

@@ -1,0 +1,206 @@
+.formularioSeguro{
+    overflow: hidden;
+}
+.steps,
+.steps section{
+    display: flex;
+}
+.steps{
+    width: 100%;
+    justify-content: flex-end;  
+    border-radius: 4px;
+    padding-bottom: 20px;
+    border-bottom: 1px #e5e5e5 solid;
+}
+.steps section{
+    width: 200px;
+    padding: 5px 10px;
+    color: #777;
+    background: #fafafa;
+    border: 1px #dfdfdf solid;
+    position: relative;
+    cursor: pointer;
+}
+.steps .step-1:before{
+    content: "";
+    position: absolute;
+    border-top: 8px transparent solid;
+    border-bottom: 8px transparent solid;
+    border-left: 10px #4d87e2 solid;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -10px;
+    z-index: 10;
+}
+.steps .step-1:after{
+    content: "";
+    position: absolute;
+    border-top: 9px transparent solid;
+    border-bottom: 9px transparent solid;
+    border-left: 11px #fff solid;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -12px;
+    z-index: 9;
+}
+.steps .active-step{
+    color: #fff;
+    background: #4d87e2;
+}
+.steps section:first-child{
+    border-right: 1px #fff solid;
+}
+.steps section:last-child{
+    border-left: 0;
+    padding-left: 20px;
+}
+.steps b{
+    font-size: 2.4rem;
+    display: inline-block;
+    margin-right: 5px;
+}
+.steps span{
+    font-size: .9rem;
+    font-weight: bold;
+}
+.steps ant{
+    font-weight: normal;
+    font-size: .8rem;
+}
+.content{
+    display: none;
+}
+.active-content{
+    display: block;
+}
+.sect,
+.carga,
+.em-risco,
+.SPAN,
+.more-info .already,
+.about-vehicle > div{
+    display: flex;
+    justify-content: space-between;    
+}
+.sect td:first-child label{
+    margin-left: 0 !important;
+}
+.ant-check input{
+    display: none;
+}
+.ant-check label{
+    cursor: pointer;
+    display: inline-block;
+    line-height: 2.5rem;
+    margin-left: 5%;
+    padding: 0 10px;
+    min-width: 120px;
+    border: 2px #eee solid;
+    position: relative;
+    background: #fdfdfd;
+    text-align: center;
+    font-size: .9rem;
+    font-weight: bold;
+    color: #555;
+}
+.ant-check input:checked + label{
+    border: 2px #3181FF solid !important;
+    background: #fff !important;
+    color: #111 !important;
+}
+.ant-check input:checked + label:after{
+    font-weight: bold;
+    font-size: .7rem;
+    content: "\2713";
+    position: absolute;
+    background: #4d87e2;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    line-height: .9rem;
+    color: #fff;
+    top: -5px;
+    right: -5px;
+}
+
+.proposit textArea{
+    width: 100%;
+    height: 90px;
+}
+.em-risco span{
+    display: inline-block;
+}
+.em-risco input:first-child{
+    border-right: none !important;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    
+}
+.em-risco input:last-child{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.em-risco > input{
+    border: none !important;
+    background: #fafafa;
+    margin-left: 20px;
+}
+.carga .addItemTable{
+    padding: 0 25px;
+    font-size: .95rem;
+}
+
+.add-vehicle{
+    width: 400px;
+    flex-shrink: 0;
+    font-size: .95rem;
+}
+.add-vehicle p{
+    width: 80%;
+}
+.add-vehicle .MB{
+    margin-bottom: 10px;    
+}
+.add-vehicle [type=text]{
+    width: 100%;
+}
+.add-vehicle [type=button]{
+    padding: 12px;
+    width: 80%;
+    margin-bottom: 0 !important;
+}
+
+.more-info{
+    font-size: .96rem;
+}
+.more-info section{
+    width: 100%;
+    background: #fafafa;
+    border-bottom: 1px #eee solid;
+    padding:20px;
+}
+.more-info .areaNome,
+.more-info  textArea{
+    margin-bottom: 0 !important
+}
+.more-info h4{
+    margin: 10px 20px;
+    
+}
+.more-info .already,
+.steps section{
+    align-items: center;
+}
+.cargaAAC{
+    margin-bottom: 15px !important;
+}
+.mercad .SPAN{
+    margin-top: 10px;
+}
+.mercad [type=checkbox]{
+   
+    margin-right: 5px;
+}
+.mercad textArea{
+    height: 100px;
+}

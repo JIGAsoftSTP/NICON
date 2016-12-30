@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <h:outputStylesheet library="Styles" name="seguroRoubo.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="roubo.js" />
+    </h:head>
+
+    <h:body>
+        <h:form id="forma">
+
+            <p:remoteCommand name="addTable" actionListener="#{rouboBean.addTable()}"  />
+            <p:growl  sticky="false" life="10000" id="growl-error" showDetail="false" />
+            <div class="K-seguros seguroRouboCabecalho cabecalhoSegurosMulti">
+                <span>
+                    Nº de apólice
+                    <h:inputText 
+                        class="apolice rouboApolice apolice"
+                        id="apolice" value="#{rouboBean.roubo.numeroApolice}"/>
+                </span>
+                <span>
+                    Nº de registro
+                    <h:inputText 
+                        class="rouboNumeroRegistro" 
+                        id="rouboRegistro"
+                        value="#{rouboBean.roubo.numeroRegistro}">
+                    </h:inputText>
+                </span>
+                <span>
+                    Moeda
+                    <h:selectOneMenu value="#{rouboBean.roubo.moeda}" id="rouboMoeda" class="moedaRoubo">
+                        <f:selectItems  value="#{rouboBean.moeda}" itemLabel="#{m.value}" var="m" itemValue="#{m.id}"/>
+                    </h:selectOneMenu>
+                </span>
+            </div>
+
+
+
+
+            <div class="geralRoubo formularioSeguro">
+                <h1>Propriedades a serem seguradas</h1>
+                <div class="propriedades">
+                    <div class="formatInput"  id="rouboTabela" >
+                        <nav class="input-2">
+                            <h:outputLabel value="Quantidade"/>
+                            <h:inputText id="quantidade"
+                                         class=" input-total isNumeric rouboQuantidade rouboNumero" 
+                                         value="#{rouboBean.roubo.quantidade}">
+                            </h:inputText>
+                        </nav>
+                        <nav class="input-2">
+                            <h:outputLabel value="Valor"/>
+                            <h:inputText class=" input-total isNumeric rouboValor rouboNumero" value="#{rouboBean.roubo.valor}">
+                            </h:inputText>
+                        </nav>
+                        <nav class="input-total">
+                            <h:outputLabel value="Modelo"/>
+                            <h:inputText class="input-total textModRoub rouboModelo" value="#{rouboBean.roubo.modelo}"/>
+
+                            <h:outputLabel value="Descrição" />
+                            <h:inputTextarea class="input-total textDescRoub rouboDescricao" value="#{rouboBean.roubo.descricao}">
+                            </h:inputTextarea>
+                        </nav>
+                        <h:commandButton class="addItemTable btAddRoub rouboAdicionar" value="Adicionar">
+                            <p:ajax process="forma" onstart="mostrarProcessamentoRoubo()"  oncomplete="fecharProcessamentoRoubo()"/>
+                        </h:commandButton>
+                    </div>
+
+                    <p:dataTable id="tabelaRoubo"
+                                 class="tableCarg" 
+                                 emptyMessage=""
+                                 value="#{rouboBean.info}"
+                                 rowKey="#{roubo}"
+                                 var="roubo"
+                                 selection="#{rouboBean.rouboInfo}"
+                                 selectionMode="single"
+                                 >
+                        <p:column>
+
+                            <f:facet name="header">
+                                Quantidade
+                            </f:facet>
+                            <h:outputText value="#{roubo.quantidade}"/>      
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                Valor
+                            </f:facet>
+                            <h:outputText value="#{roubo.valor}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                Modelo
+                            </f:facet>
+                            <h:outputText value="#{roubo.modelo}"/>      
+                        </p:column>
+                        <p:ajax event="rowSelect" process="@this" />
+                        <p:column headerText="Ações" width="80">
+
+                            <h:outputLabel class="actionTable icon-info" title="Mais informações" >
+                                <p:ajax event="click"  process="@this" listener="#{rouboBean.moreInfo()}" />
+                            </h:outputLabel>
+                            <h:outputLabel class="actionTable icon-cancel-circle" title="Remover linha"   >
+                                <p:ajax event="click"  process="@this" listener="#{rouboBean.remove()}" />
+                            </h:outputLabel>
+                            <h:outputLabel class="actionTable icon-bin" title="Limpar tabela">
+                                <p:ajax event="click"  process="@this" listener="#{rouboBean.removeAll()}" />
+                            </h:outputLabel>
+                        </p:column>
+                    </p:dataTable>
+
+                </div>
+
+                <h1>Sobre o edifício</h1>
+                <div class="formatInput">
+                    <div class="info">
+
+                        <section>
+                            <nav class="input-3-1" id="painelEdificio">
+                                <label>Tipo de Edifício</label>
+                                <h:selectOneRadio value="#{rouboBean.roubo.tipoEdificio}"  class="tipoEdificio">
+                                    <f:selectItem itemLabel="Fábrica" itemValue="63;" />
+                                    <f:selectItem itemLabel="Armazém" itemValue="64;"/>
+                                    <f:selectItem itemLabel="Loja" itemValue="65;"/>
+                                    <f:selectItem itemLabel="Outro" itemValue="66;"/>
+                                    <p:ajax update="tipoEdEspecificar" listener="#{rouboBean.ativarDesativarCampo(null)}" process="@this"/>
+                                </h:selectOneRadio>
+                            </nav>
+                            <h:inputText class="input-3-1 textModRoub rouboTipoEdificioEspecificar" 
+                                         pt:placeholder="Especifique"
+                                         id="tipoEdEspecificar"
+                                         disabled="#{rouboBean.ativarDesativar}"
+                                         title="Especifique"
+                                         value="#{rouboBean.roubo.tipoEdificioEspecifique}"/>
+                        </section>
+                        <section>
+                            <nav class="input-2-0">
+                                <p>
+                                    <h:outputLabel value="Tempo de ocupação"/>
+                                    <h:inputText class="TempoOcupacao" 
+                                                 size="10"  id="t"
+                                                 value="#{rouboBean.roubo.tempoOcupacao}"/>
+                                </p>
+                                <p>
+                                    <h:outputLabel value="Data inspeção"/>
+                                    <h:inputText class="DataInspecao"
+                                                 value="#{rouboBean.roubo.datatInspecao}"/>
+                                </p>
+                            </nav>
+                            <h:inputText class=" input-3-1 enderecoEdificio"
+                                         pt:placeholder="Endereço do edifício"
+                                         id="ll"
+                                         value="#{rouboBean.roubo.enderecoEdificio}"/>
+                        </section>
+                        <h4>Mais informações</h4>
+                        <section>
+                            <nav class="input-3-1">
+                                <h:outputLabel value="Os edifícios são ocupados durante a noite?"/>
+                                <h:selectOneRadio value="#{listaRespostas.getResposta(140).resposta}" class="edificioOcupadoNoite">
+                                    <f:selectItem itemLabel="Sim" itemValue="Y"/>
+                                    <f:selectItem itemLabel="Não" itemValue="N"/>
+                                    <p:ajax event="click" process="@this" />
+                                </h:selectOneRadio>
+                            </nav>
+                            <nav class="input-3-1">
+                                <h:outputLabel value="Existe um zelador ou guarda?"/>
+                                <h:selectOneRadio value="#{listaRespostas.getResposta(141).resposta}" class="zelador">
+                                    <f:selectItem itemLabel="Sim" itemValue="Y"/>
+                                    <f:selectItem itemLabel="Não" itemValue="N"/>
+                                    <p:ajax event="click" process="@this" />
+                                </h:selectOneRadio>
+                            </nav>
+                        </section>
+                        <section>
+                            <nav class="input-3-1">
+                                <h:outputLabel value="É o único dono do edifício?"/>
+                                <h:selectOneRadio value="#{listaRespostas.getResposta(142).resposta}" class="donoEdificio">
+                                    <f:selectItem itemLabel="Sim" itemValue="Y"/>
+                                    <f:selectItem itemLabel="Não" itemValue="N"/>
+                                    <p:ajax event="click" process="@this" />
+                                </h:selectOneRadio>
+                            </nav>
+                            <nav class="input-3-1" id="painelLista1Roubo">
+                                <h:outputLabel value="Alarme antirroubo instalado?"/>
+                                <h:selectOneRadio value="#{listaRespostas.getResposta(143).resposta}" class="alarmeInstalado">
+                                    <f:selectItem itemLabel="Sim" itemValue="Y"/>
+                                    <f:selectItem itemLabel="Não" itemValue="N"/>
+                                    <p:ajax  process="@this" update="alarmeDescricao" listener="#{listaRespostas.getResposta(143).validarSelecaoCaso1()}"/>
+                                </h:selectOneRadio>
+                                <h:inputText class=" input-4 textModRoub rouboAlarme"
+                                             id="alarmeDescricao"
+                                             pt:placeholder="Tipo" 
+                                             title="Tipo"
+                                             disabled="#{listaRespostas.getResposta(143).validar}"
+                                             value="#{listaRespostas.getResposta(143).obj}"/>
+                            </nav>
+
+                        </section>
+                        <section>
+                            <nav class="input-3-1" id="painelLista3Roubo">
+                                <h:outputLabel value="Já sofreu assaltos?"/>
+                                <h:selectOneRadio value="#{listaRespostas.getResposta(147).resposta}" class="assaltos">
+                                    <f:selectItem itemLabel="Sim" itemValue="Y"/>
+                                    <f:selectItem itemLabel="Não" itemValue="N"/>
+                                    <p:ajax update="assaltoPerdas MedidasAssalto" process="@this" listener="#{listaRespostas.getResposta(147).validarSelecaoCaso1()}"/>
+                                </h:selectOneRadio>
+                            </nav>
+                            <nav class="input-3-1">
+                                <h:outputLabel value="Faz registro de mercadorias recebidas e vendidas"/>
+                                <h:selectOneRadio value="#{listaRespostas.getResposta(145).resposta}" class="mercadorias">
+                                    <f:selectItem itemLabel="Sim" itemValue="Y"/>
+                                    <f:selectItem itemLabel="Não" itemValue="N"/>
+                                    <p:ajax event="click" process="@this" />
+                                </h:selectOneRadio>
+                            </nav>
+                        </section>
+                        <section>
+                            <nav class="input-3-1">
+                                <h:outputLabel value="Bens guardados num cofre após o expediente "/>
+                                <h:selectOneRadio value="#{listaRespostas.getResposta(144).resposta}" class="bens">
+                                    <f:selectItem itemLabel="Sim" itemValue="Y"/>
+                                    <f:selectItem itemLabel="Não" itemValue="N"/>
+                                    <p:ajax event="click" process="@this" />
+                                </h:selectOneRadio>
+                            </nav>
+                            <nav class="input-3-1">
+                                <h:inputText class=" input-3 isNumeric cofreValor rouboNumero" 
+                                             pt:placeholder="Valor"
+                                             value="#{rouboBean.roubo.valorCofre}">                            
+                                </h:inputText>
+                                <h:inputText class=" input-3 cofreMarca"
+                                             pt:placeholder="Marca do cofre" 
+                                             value="#{rouboBean.roubo.marcaCofre}">
+                                </h:inputText>
+                                <p>
+                                    <p:calendar class="  cofreDataAq" value="#{rouboBean.roubo.dataAquisicao}"
+                                                pattern="dd-MM-yyyy"
+                                                readonlyInput="true"
+                                                mindate="#{rouboBean.roubo.minDate}"
+                                                maxdate="#{rouboBean.roubo.maxDate}"
+                                                id="dataAqRoubo"
+                                                navigator="true"
+                                                pt:placeholder="Data de aquisição">
+
+                                    </p:calendar>
+                                </p>
+                            </nav>
+                        </section>
+                        <section>
+                            <nav class="input-3-1">
+                                <h:outputLabel value="Descrição das perdas sofridas"/>
+                                <h:inputTextarea id="assaltoPerdas"
+                                                 class="input-total rouboPerda"
+                                                 value="#{listaRespostas.getResposta(147).obj}"
+                                                 disabled="#{listaRespostas.getResposta(147).validar}"/>
+                            </nav>
+                            <nav class="input-3-1">
+                                <h:outputLabel value="Medidas tomadas para evitar futuros assaltos"/>
+                                <h:inputTextarea id="MedidasAssalto"
+                                                 class="input-total rouboMedidaT"
+                                                 value="#{listaRespostas.getResposta(147).obj}"
+                                                 disabled="#{listaRespostas.getResposta(147).validar}"/>
+                            </nav>
+                        </section>
+                    </div>
+                </div>
+                <p:remoteCommand  actionListener="#{rouboBean.continuar(risco)}" name="rouboInfo"  />
+                <div class="label2" align="center"></div>
+                <h:panelGrid columns="2" cellpadding="5" style="width: 20%; margin-top: 15px; float: right; margin-right: 3%;" id="painelRoubo"> 
+                </h:panelGrid>
+            </div>
+            <h:form id="rouboBotao">
+                <div class="PrNx">
+                    <h:commandButton value="Anterior" class="btPrevious btBack" >
+                        <p:ajax />
+                    </h:commandButton>
+                    <h:commandButton value="Seguinte" class="rouboContinuar btRight btNext"  > 
+                        <p:ajax process="@this"  onstart="mostrarProcessamentoRoubo()" oncomplete="fecharProcessamentoRoubo()"/>
+                    </h:commandButton> 
+                </div>  
+                <div class="processamento modalProcess">
+                    <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+                </div>
+            </h:form> 
+
+            <div class="modalPage mp-infoTable">
+                <div class="modalFrame">                                            
+                    <div class="modalContainer">
+                        <p><b>Mais Informações</b></p>
+                        <h:form id="rouboMoreInfo">
+                            <p>Quantidade: <h:outputText value="#{rouboBean.roubo.quantidade}" class="maisInfo" /></p>   
+                            <p>
+                                Valor <h:outputText value="#{rouboBean.roubo.valor}" class="maisInfo"  />
+                            </p>   
+                            <p>
+                                Modelo: <h:outputText id="marcaInfo" value="#{rouboBean.roubo.modelo}" class="maisInfo"  />
+                            </p>   
+                            <p>
+                                Descrição: <h:outputText value="#{rouboBean.roubo.descricao}" class="maisInfo" />
+                            </p>   
+                        </h:form>
+                        <div class="closeModalFrame moreData" >X</div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </h:body>
+    <ui:debug/>
+</html>

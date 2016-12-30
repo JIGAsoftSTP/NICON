@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+         xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">    
+    <h:head>
+        <h:outputStylesheet library="Styles" name="addClientCSS.css" />
+        <h:outputStylesheet library="Styles" name="clientes.css" />
+        <h:outputScript library="js" name="scriptAddCliente.js" /> 
+    </h:head>  
+    
+    <h:form class="formAddClient" id="addClienteformulario" >
+         <div class="modalPage mp-messages clienteR">
+
+                <div class="modalFrame">                                            
+                    <div class="modalContainer">
+                        <h3><h:outputText value="Adicionar Novo Cliente" class="titulo"></h:outputText></h3>
+                        <p>
+                            <h:outputText  value="Cliente registrado com sucesso!" ></h:outputText>
+                        </p>
+                        <div class="divButtons">
+                            <h:commandButton class="mf-bt-ok newCliendAdded" value="OK" >
+                            </h:commandButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      
+        <p:growl id="cliGrowl" sticky="false" life="10000"     />
+            <div class="titled"><label class="titled">Cliente</label> </div>           
+            <hr/>
+            <section class="adjustLeft">                
+                <label>Tipo de cliente:</label>
+                  <h:outputLabel value="#{clienteBean.cliente.tipoCliente}"
+                                 style="display: none;" class="clienteT"
+                                 id="clienteTipo"/>
+                  <h:selectOneRadio class="adjustmentForced radioTipoCliente" id="tipoCli"
+                                  value="#{clienteBean.cliente.tipoCliente}">                            
+                        <f:selectItem itemValue="Singular" itemLabel="Singular" class="sing" id="singu" />
+                        <f:selectItem itemValue="Coletivo" itemLabel="Coletivo" class="colet" id="coletivoCli"/> 
+                        <p:ajax process="@this" 
+                                update="clienteTipo tipoCliente" 
+                                oncomplete="limparInfoCliente()"/>
+                </h:selectOneRadio>                                                                            
+            </section>
+            <section class="adjustRight">
+                <label>Número do cliente: </label> 
+                <h:outputLabel id="numeroCliente" class="clientNumber">#{clienteBean.cliente.numero}</h:outputLabel>
+            </section>
+            <div class="titled"><label class="titled">Informações do cliente <h:outputLabel id="tipoCliente" class="titled tipoClienteS"
+                                                    value="#{clienteBean.cliente.tipoCliente}" /></label> </div>
+            <hr/>
+            <!--Informações pessoa singular-->     
+                <div class="singular">
+                        <label>Documento</label>  
+                        <h:selectOneMenu value="#{clienteBean.cliente.documento}"  id="documentoCliente"
+                                         class="clienteDoc clienteInfo">
+                            <f:selectItem itemLabel="(Selecione)" itemValue=""/>
+                            <f:selectItems value="#{clienteBean.documentos}" var="doc" itemLabel="#{doc.value}" itemValue="#{doc.id}" />
+                        </h:selectOneMenu>
+                        <label>Número doc.</label>  
+                        <h:inputText value="#{clienteBean.cliente.numeroDocumento}" 
+                                     id="clienteS" class="clienteNumero">
+                        </h:inputText>
+                        <label>Nome</label>  
+                        <h:inputText  value="#{clienteBean.cliente.nomeS}"
+                                      id="clienteNomeS" class="NomeSingular">
+                        </h:inputText>
+                        <label>Apelido</label>  
+                        <h:inputText value="#{clienteBean.cliente.apelido}"
+                                             maxlength="60"
+                                     id="clienteApelido" class="ApelidoCliente">
+                        </h:inputText>
+                        <label >NIF</label>  
+                        <h:inputText value="#{clienteBean.cliente.nifS}"
+                                     id="clienteNifS" maxlength="9" class="NifSingular clienteSONUMERO editable" >  
+                        </h:inputText> 
+                        <label>D. Nascimento</label>  
+                        <p:calendar  class="dataNascCliente calend" 
+                                     navigator="true" yearRange="c-190:c+190"
+                                    pattern="dd-MM-yyyy"
+                                    
+                                    readonlyInput="true"
+                                    id="clienteDataNasc"
+                                    maxdate="#{dataBean.maior18}"
+                                     value="#{clienteBean.cliente.dataNascimento}">
+                        </p:calendar>
+                        <label>Sexo</label>  
+                        <h:selectOneMenu value="#{clienteBean.cliente.sexo}"
+                                         tabindex="2" class="sexoCliente editable clienteInfo" id="clienteSexo">
+                            <f:selectItem itemValue="" itemLabel="(Selecione)"/>
+                            <f:selectItems value="#{clienteBean.sexos}" var="sexo" itemLabel="#{sexo.value}" itemValue="#{sexo.id}" />       
+                        </h:selectOneMenu>
+                        <label>Estado Civil</label>  
+                        <h:selectOneMenu value="#{clienteBean.cliente.estadoCivil}" id="clienteEstadoCivil"
+                                         class="EstadoCliente editable clienteInfo">
+                            <f:selectItem itemLabel="(Selecione)" itemValue=""/>
+                             <f:selectItems value="#{clienteBean.estadoCivis}" var="estado" itemLabel="#{estado.value}" itemValue="#{estado.id}" />
+                        </h:selectOneMenu>
+                        <label>Morada</label>  
+                        <h:inputText  value="#{clienteBean.cliente.morada}"
+                                      id="clienteMorada" class="moradaCliente editable">
+                        </h:inputText>
+                        <label>Nacionalidade</label>                         
+                        <h:selectOneMenu value="#{clienteBean.cliente.nacionalidade}" id="nacionalidadeCliente"
+                                         class="nacionalidadeCliente editable clienteInfo">
+                            <f:selectItem itemLabel="(Selecione)" itemValue=""/>
+                             <f:selectItems value="#{clienteBean.paises}" var="pais" itemLabel="#{pais.value}" itemValue="#{pais.id}" />
+                        </h:selectOneMenu >                     
+                        <label>Profissão</label>  
+                        <h:inputText value="#{clienteBean.cliente.profissao}"
+                                     id="clienteProfissao" class="profissaoCliente editable">
+                        </h:inputText>
+                        <label>Local Trabalho</label>  
+                        <h:inputText value="#{clienteBean.cliente.localTrabalho}"
+                                     id="clienteLocalT" class="localTCliente editable" >  
+                        </h:inputText>
+                    <div class="contacts">
+                        <label>Telefone(s)</label> 
+                        <h:inputText class="telefText clienteSONUMERO telefoneS editable"  
+                                     id="telefS" 
+                                     value="#{clienteBean.cliente.telefoneS}">
+                        </h:inputText>
+                        <h:inputText class="telefText clienteSONUMERO telemovelS editable" 
+                                     id="telemS"
+                                     value="#{clienteBean.cliente.telemovelS}">
+                        </h:inputText>
+                        <label >Email</label>  
+                        <h:inputText  value="#{clienteBean.cliente.emailS}" id="emailCliS"
+                                      class="clienteEmailS editable" > 
+                            <p:ajax process="@this"
+                                    event="blur"
+                                    listener="#{clienteBean.validarEmail()}"
+                                    oncomplete="ValidarEmail(xhr, status, args)"/>
+                            <p:ajax process="@this"
+                                    event="change"
+                                    listener="#{clienteBean.verificarEmail()}"
+                                    oncomplete="verificarEmail(xhr, status, args)"/>
+                        </h:inputText>
+                    </div>
+                </div>
+            <!--Informações pessoa Coletiva-->
+            <div class="coletivo">
+                        <label>Nome</label>  
+                        <h:inputText value="#{clienteBean.cliente.nomeC}"
+                                     id="clienteNomeC" class="nomeColetivo coletivoInfo">
+                        </h:inputText>
+                        <label class="dir">NIF</label>  
+                        <h:inputText maxlength="9" value="#{clienteBean.cliente.nifC}"
+                                     id="clienteNifC" class="nifColetivo clienteSONUMERO">
+                        </h:inputText>
+                        <label>País</label>  
+                        <h:selectOneMenu value="#{clienteBean.cliente.pais}"  id="paisCliente"
+                                         class="paisCliente clienteInfo">
+                            <f:selectItem itemLabel="(Selecione)" />
+                              <f:selectItems value="#{clienteBean.paises}" var="pais" itemLabel="#{pais.value}" itemValue="#{pais.id}" />
+                        </h:selectOneMenu>
+                        <label class="dir">Responsavel</label>                                      
+                        <h:inputText value="#{clienteBean.cliente.responsavel}"
+                                     id="clienteResponsavel"
+                                     class="clienteSite clienteResponsavel editable">
+                        </h:inputText>
+                        <label>Localização</label>  
+                        <h:inputText value="#{clienteBean.cliente.localizacao}" id="localizacaoCliente"
+                                         class="localizacao editable">
+                        </h:inputText>
+                        <label class="dir">Funçao</label>  
+                        <h:inputText value="#{clienteBean.cliente.função}"  id="funcaoCliente" class="funcaoCliente editable"/>
+                        <label >Razão Social</label>  
+                        <h:inputText value="#{clienteBean.cliente.razaoSocial}"
+                                     id="clienteRazao" class="razaoSocialCliente editable">
+                        </h:inputText>
+                        <div class="spacing"></div>
+
+                    <div class="contacts">
+                        <label>Telefone(s)</label> 
+                        <h:inputText class="telefText clienteSONUMERO telefoneColetivo editable"
+                                     value="#{clienteBean.cliente.telefoneC}">
+                        </h:inputText>
+                        <h:inputText class="telefText clienteSONUMERO telemovelColetivo editable"
+                                  value="#{clienteBean.cliente.telemovelC}" >
+                        </h:inputText>
+                        <label >Email</label>  
+                        <h:inputText value="#{clienteBean.cliente.emailC}"
+                                     id="clienteEmailC"
+                                     class="emailCCli editable"> 
+                        </h:inputText>
+                   
+                    </div>
+            </div>
+            <div class="buttons">                
+                <h:commandButton value="Guardar"   id="bt" class="clienteGuardar clienteGestao" action="#{clienteBean.dadosEnviados()}" >                 
+                    <p:ajax process="addClienteformulario" onstart="mostrarProcesso()" oncomplete="fecharProcesso()"  />
+                </h:commandButton>    
+                <h:commandButton value="Limpar" class="clearAll clienteLimpar" >
+                    <p:ajax />
+                </h:commandButton>
+                <h:commandButton value="Cancelar" class="cancelAll" onclick="fechar()" >  
+                     <p:ajax />
+                </h:commandButton>
+            </div>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+           </div>
+
+        </h:form>
+   
+    <script> 
+        
+            $('.sing').attr(':checked', true);
+            $( "input" ).on( "click", function() {       
+               if ($(this).is(':checked')){
+                if($(this).val() === 'Singular') {
+                $(".coletivo").hide($(".coletivo").fadeOut(00));
+                $( '.singular' ).show( "slide" );             
+                 }
+                 else{
+                     $(".singular").hide($(".singular").fadeOut(00));
+                     $(".coletivo").show("slide");
+                 }
+            }   
+            });  
+     
+    </script>
+    <style>
+        .nomeColetivo,.nifColetivo,.clienteNumero:disabled{
+            background: #ffffff;
+        }
+          .ui-inputfield{
+                border-radius: 0;
+                box-shadow: none !important;
+                font: 14px sans-serif;
+                padding: 5px;
+                margin-top: 1px;
+                border-radius: 3px;
+                width: 90%;
+                margin-left: 2%;
+            }
+            .ui-inputfield:hover{
+                border-radius: 0;
+                box-shadow: 0px 0px 0px 0px;
+            }
+            .ui-inputfield:focus{
+                border-radius: 0;
+                box-shadow: 0px 0px 0px 0px;
+            }
+            .ui-datepicker{
+                border: 1px #4682b4 solid;
+                box-shadow: 0px 0px 0px 0px;
+                font-size: 12px;
+            }
+            .ui-datepicker .ui-datepicker-header {
+                position: relative;
+                padding: .1em 0;
+                background: #4682b4;
+                color: white;
+                text-shadow: 0px 0px 0px 0px;
+                font-weight: 100;
+
+            }
+
+            .ui-datepicker .ui-datepicker-prev,
+            .ui-datepicker .ui-datepicker-next {
+                position: absolute;
+                top: 2px;
+                width: 1.8em;
+                height: 1.8em;
+                background:white;
+            }
+            
+        .ui-growl-item-container {
+            background:rgba(0,0,0,0.5);
+   
+        }
+        .ui-growl-title {
+            font: 14px cambria;
+        }
+        .ui-growl-message p {
+/*            font: 12px sans-serif;
+            text-align: left;*/
+        }
+        .ui-growl-image-error{
+   
+        }
+        .ui-growl-icon-close {
+            background: white;
+        }
+    </style> 
+</html>

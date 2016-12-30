@@ -1,0 +1,319 @@
+/* 
+    Created on : 2/abr/2016, 14:56:08
+    Author     : Grinalda Soares
+*/
+.contentSinistro{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background: #F7F7F7;
+	width: 100%;
+	height: auto;
+	padding: 10px 90px;
+	position: absolute;
+	box-sizing: border-box;
+}
+.contentSinistro div{
+	display: flex;
+	width: 100%;
+	background: #fff;
+	padding: 10px;
+}
+.contentSinistro .contentBody{
+	display: flex;
+	flex-direction: column;	
+}
+.contentSinistro div article{
+	display: flex;	
+	width: 100%;
+}
+.contentSinistro div section{
+	display: flex;
+	flex-direction: column;
+	padding: 0 5px;
+}
+#sinistro h3, #sinistro h4{
+	color: #1F4E79;
+	padding: 5px;
+}
+#sinistro h3{
+	width: 98%;
+	margin-bottom: 10px;
+	border-bottom: 2px solid #ddd;
+	font-size: 18px;
+}
+#sinistro h4{
+	margin: 5px 0;
+	font-size: 18px;
+}
+#sinistro label{
+	color: #7e7e7e;
+	font: 16px arial;
+	margin: 3px;
+	padding-top: 5px;
+	font-weight: 700;
+}
+#sinistro input[type=text], #sinistro select, #sinistro textarea{
+	padding: 9px;
+	font: 14px arial;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	color: #7F7F7F;
+	width: 92%;
+/*	box-shadow: 0 0 0 0.3px #bbb;*/
+}
+#sinistro input[type=text]:hover, #sinistro input[type=text]:focus, 
+select:hover, select:focus, textarea:focus
+{
+	box-shadow: 0 0 5px -1.3px #01A3DF;
+}
+input[type=radio]{
+	margin: 10px;
+}
+#sinistro select{
+	width: 100%;
+}
+#sinistro textarea{
+	height: 90px;
+/*	width: 89%;*/
+}
+#sinistro input[type=submit]{
+	font-size: 16px;
+	cursor: pointer;
+	font-weight: bold;
+	border-radius: 3px;
+}
+.contentSinistro .contentBody aside{
+	text-align: center;
+	border-bottom: 3px solid #4682B4;
+	background: #fff;
+	color: #4682B4;
+	padding: 5px 0;
+        width: auto;    
+        margin-right: 5%;
+	font-size: 16px;
+	cursor: pointer;
+	font-weight: bold;
+        display: block;
+}
+.contentBody aside:hover{
+    color: #03A7DA;
+    border-bottom: 3px solid #03A7DA;
+}
+.SectionMaior{
+    width: 100%;
+}
+.areaSegMenor{
+    width: 35%;
+}
+.areaContrato{
+    width: 63.5%;
+}
+.areaData{
+    width: 20%;
+}
+.areaHora{
+    width: 11%;
+}
+.areaMedidas{
+    width: 46%;
+}
+.areaLocal{
+    width: 33%;
+}
+.areaEndereco{
+     width: 43%;
+}
+.areaNarracao{
+    width: 90%;
+    margin-left: -1.5%;
+}
+.areaRecuperacao{
+     width: 33.5%;
+     margin-left: -0.9%;
+}
+.areaInspecao{
+    width: 67%;
+    margin-left: -2%;
+}
+.areaNome{
+    width: 83%;
+}
+.areaEnderecoInteresado{
+    width: 107%;
+}
+.areaNomeInteresado{
+    width: 50%;
+}
+.btAddSinistro{
+    margin-left: -10px;
+    border: 1px solid #ccc;
+    padding: 6px 10px;
+}
+.tableSinistro{
+    margin-top: 10px;
+    height: 100px;
+    overflow: scroll;
+    width: 85%;
+}
+.tableSinistro div{
+    padding: 0;
+}
+
+.areaSave{
+    padding: 10px;
+    display: flex;
+    alig-itemns: center;
+    justify-content: center;
+}
+.btSaveSinistro{
+    border: none;
+    background: #4BBCEA;
+    padding: 10px 30px;
+    color: #fff;
+}
+.btSaveSinistro:hover{
+    background: #2DAEE0;
+}
+
+/*-------------área Modal------------*/
+
+.modalFrameSin{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+/*    display: flex;*/
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    background: rgba(0,0,0,0.6);
+    overflow: auto;
+    display: none;
+}
+.modalContainerSin{
+    background: #fff;
+    border-radius: 3px;  
+    overflow: auto;
+    width: 80%;
+}
+.BobyModalSin{
+     padding: 20px 50px;
+}
+.areaTitle{
+    display: flex;
+    justify-content: space-between;
+}
+.areaTitle h5{
+    padding: 20px;
+    font-size: 25px;
+    color: #555;
+    text-align: center;
+    font-weight: normal;
+}
+.areaTitle .CloseModalSin{
+    margin: 5px;
+    padding: 10px;
+    background: #E04343;
+    color: #fff;
+    font-weight: bold;
+    display: block;
+    height: 35px;
+    width: 35px;
+    text-align: center;
+    cursor: pointer;
+}
+.areaTitle .CloseModalSin:hover{
+    background: #ED4E4D;
+}
+.BobyModalSin p{
+     padding: 10px;
+     color: #4D87E2;
+     font-size: 20px;
+}
+
+.areaTableSin .ui-datatable table{
+    width: 1000px;
+}
+.areaTableSin .ui-datatable table .icon-checkmark, .icon-info{
+    cursor: pointer;
+}
+.modalContainerSin div article{
+	display: flex;
+        justify-content: space-between;
+	width: 100%;
+}
+
+
+.modalContainerSin .areaSearch{
+	padding: 10px;
+	width: 35%;
+        display: flex;
+}
+.modalContainerSin .areaSearch [type=text]{
+	width: 100%;
+	border-radius: 3px;
+	border-top-right-radius: inherit;
+	border-bottom-right-radius: initial;
+}
+.modalContainerSin .areaSearch label:hover
+{
+	box-shadow: 0 0 5px -1.3px #01A3DF;
+}
+.modalContainerSin .areaSearch label{
+	cursor: pointer; 
+        padding: 10px; 
+        border: 1px solid #ddd;
+        margin-left: -1px; 
+        background: #eee;
+        display: block; height: 100%; 
+        margin-top: 0px;
+}
+
+
+/*------------------Modal Mais Informações--------------*/
+
+.areaEstado{
+    display: flex;
+}
+.menuSin{
+    display: flex;  
+}
+.menuSin nav{
+   padding: 10px;
+   padding-left: 0;
+   margin: 5px;
+   cursor: pointer;
+   color: #222;
+}
+.menuSin nav:hover{
+    color: #01A3DF;
+}
+.activo{
+    border-bottom: 4px solid #01A3DF;
+}
+.activo:hover{
+    color: #222 !important;
+}
+article{
+    display: flex;
+}
+article label{
+    font-weight: normal;
+    color: #222;
+    margin: 6px;
+}
+.titleSinModal{
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.inactive{
+    display: none;
+}
+.topSin{
+    padding-top: 10px;
+}
+.narracao{
+    height: 105px !important;
+}

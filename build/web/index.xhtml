@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <h:outputStylesheet library="Styles" name="geralStyle.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="jQuery2.js" />
+        <h:outputScript library="js" name="script_Geral.js" />
+        <title>NICON Seguros | Login</title>        
+    </h:head>
+    <h:body>
+     
+        <h:form class="formLogin">
+           
+            <div class="cabec">
+                <h:graphicImage url="/Images/logoApp.png"/>
+            </div>
+            <h1>Login</h1>
+            <div class="msgError">
+                <h:outputText id="l" value="#{login.mensagem}" escape="false" rendered="#{not empty login.mensagem}" />
+            </div>
+            <h:inputText  pt:placeholder="Nome de utilizador" class="txt" value="#{login.funcionarioLogado.nomeAcesso}" id="LoginNome" required="true"/>
+            <h:inputSecret  pt:placeholder="Senha" value="#{login.funcionarioLogado.senha}" id="LoginSenha" required="true"/>
+            <h:commandButton value="Entrar" class="bt" action="#{login.acessarAplicacao}">
+            </h:commandButton>
+           
+               <ui:debug/>
+               <a href="redirect/error-404.xhtml"></a>
+        </h:form>
+        
+        <h:form id="ativarUser">
+            <div class="modalPage mp-editPassword">
+                <div class="modalFrame">                                            
+                    <div class="modalContainer">
+                        <h3>Seja bem vindo <h:outputLabel value="#{login.funcionarioLogado.nomeCompleto}"></h:outputLabel></h3>
+                        <p>Por razões de segurança, é obrigatório que altere sua  senha atual para obter acesso ao sistema.</p>
+                        <p>
+                            Senha
+                            <h:inputSecret value="#{login.funcionario.pwd}" id="ativarSenha" class="ativarUsenha"/>
+                        </p>
+                        <p>
+                            Confirme a senha
+                            <h:inputSecret value="#{login.funcionario.confirmarSenha}" id="ativarConfirmarSenha" class="ativarConf"/>
+                            <h:outputLabel  class="infoError" />
+                        </p>
+                        
+                        <div class="divButtons">
+                            <h:commandButton class="mf-bt-ok" value="Editar" action="#{login.ativarUtilizador()}">
+                                <f:ajax execute="ativarSenha ativarConfirmarSenha" />
+                            </h:commandButton>
+                            <h:commandButton class="mf-bt-ko cancelar" value="Cancelar"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        
+    </h:body>
+    
+    <style>
+        
+        /* 
+            Created on : Aug 8, 2015, 10:02:47 PM
+            Author     : junio
+        */
+        body{
+            background: url(Images/bgLogin.jpg) no-repeat;   
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .formLogin h1{
+            font-size: 24px;
+            color: #666666;
+            text-align: center;
+            margin-top: 40px;
+        }
+        .formLogin{
+            width: 320px;
+            background: #ffffff;
+            padding: 15px 20px;
+            
+        }
+        .formLogin  > input{
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            text-indent: 12px;
+            border: 1px #ccc solid;
+            margin: 12px 0;
+            font-size: 15px;
+            border-radius: 4px;
+            color: #444;
+        }
+
+        .bt{
+            background: #4d87e2;    
+            border: none;
+            font-weight: bold;
+            color: #fff !important;
+            font-size: 1.2rem;   
+            transition: all .6s ease;
+        }
+        .bt:hover{
+            background: steelblue;
+            cursor: pointer;
+            transition: all .6s ease;
+        }
+        .msgError{
+            font: 12px sans-serif;
+            color: red;
+            border: none;  
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            height: 10px;
+        }
+        .cabec{
+            position: relative;
+            max-height: 90px;
+            width: 120px;
+            margin: auto;
+        }
+        .cabec img{
+            max-width: 100%; 
+        }
+        .infoError{
+            font-size: 13px;
+            color: red;
+        }
+    </style>
+</html>
+

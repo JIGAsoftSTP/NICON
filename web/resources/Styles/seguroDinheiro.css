@@ -1,0 +1,70 @@
+.formDinheiro h4{
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.firstPart{
+    padding: 0 20px;
+    background: #fdfdfd;
+}
+.firstPart label{
+    display: inline-block;   
+    min-width: 500px;
+    line-height: 37px;
+}
+.firstPart section{
+    
+    border-bottom: 1px #dedede solid;
+    padding-top: 10px;
+    transition: all .4s ease;
+    font-size: .98em;
+    color: #555;
+}
+.aboutTill{
+    display: none;
+    padding: 40px 20px 20px 20px; 
+    background: #fdfdfd;
+}
+.aboutTill h4{
+    margin-bottom: 20px;
+}
+.aboutTill > div{
+    display: flex;
+    justify-content: space-between;
+}
+.aboutTill .aboutForm{
+    width: 380px;
+    margin-right: 30px;
+    flex-grow: 0;
+}
+.aboutTill .tillTable{
+    flex-grow: 1;
+    max-width: 700px;
+}
+.aboutTill .dinheiroAdd{
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 0 !important;
+}
+
+.infoComplement > section{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: .98em;
+    padding: 15px;
+    padding-left: 25px;
+    background: #fdfdfd;
+    color: #777;
+    border-bottom: 1px #f0f0f0 solid;
+}
+.infoComplement > section > label{
+    display: inline-block;
+    min-width: 500px;
+}
+.infoComplement > section > input[type=text]{
+    width: 20%;
+}
+
+.infoComplement input[type=radio]{
+    margin-left: 30px;
+}

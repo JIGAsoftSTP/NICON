@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>FeedBack</title>
+        <h:outputStylesheet library="Styles" name="geralStyle.css"></h:outputStylesheet>
+        <h:outputStylesheet library="Styles" name="fonts.css"></h:outputStylesheet>
+    </h:head>
+    <h:body>
+        <h:form id="formEmail" class="formFeedBack" >
+            <p:growl id="growlFeedBack" showDetail="false" life="10000"/> 
+            <div class="header">
+            <h1>Feedback</h1>
+            <label class="lab"><i class="icon-undo2"></i> Voltar à página anterior</label>
+            </div>
+            <p:growl id="gEmail" life="10000" />
+            <div class="master5 default-JIGA">
+                <div class="admi5">
+                    <p>
+                        Nome
+                        <h:inputText required="true" class="mensagemNome feedBackText" value="#{feedBackBean.feedBack.nome}" />
+                    </p>
+                    <p>
+                        Email de resposta
+                        <h:inputText  class="mensagemEmail feedBackText" value="#{feedBackBean.feedBack.emailResposta}" required="true" ></h:inputText>
+                    </p>
+                    <p>
+                        Assunto
+                        <h:selectOneMenu required="true"  class="mensagemAssunto feedBackText" value="#{feedBackBean.feedBack.assunto}">
+                            <f:selectItem itemValue="" itemLabel="(Selecione o assunto)"/>
+                            <f:selectItem itemValue="Sugestões" itemLabel="Sugestões"/>
+                            <f:selectItem itemValue="Erros" itemLabel="Erros"/>
+                            <f:selectItem itemValue="Mau funcionamento" itemLabel="Mau funcionamento"/>
+                            <f:selectItem itemValue="Apoio" itemLabel="Apoio"/>
+                            <f:selectItem itemValue="Outro" itemLabel="Outro"/>
+                        </h:selectOneMenu> 
+                    </p>
+                    <p>
+                        Mensagem
+                        <h:inputTextarea required="true" class="mensagemInfo feedBackText" value="#{feedBackBean.feedBack.mensagem}"/>
+                    </p>
+                    <h:commandButton value="Enviar" class="mensagemEnviar" action="#{feedBackBean.validData()}">
+                        <p:ajax  process="@form" />
+                    </h:commandButton>
+                </div>
+                <div class="info5">
+                    <p>Em caso de qualquer dúvida ou necessidade em nos contactar, não exite.<br/>
+                        Preencha o formulário ao lado e teremos muito gosto em prestar-vos assistência
+                        assim que seja possivel.
+                        <br/><br/>Contamos com a sua colaboração para melhorarmos os nossos serviços e juntos crescermos rumo ao sucesso e desenvolvimento de São Tomé e Príncipe.<br/><br/><span>A equipa da JIGAsoft STP</span></p>
+                </div>
+            </div>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+        </h:form>
+    </h:body>
+    <style>
+        body,
+        .header,
+        .master5{
+            display: flex;
+            justify-content: space-between;
+            
+        }
+        body{
+            background: #f5f5f5;
+            color: #444;
+            
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header{
+            margin: 20px 0;
+        }
+        .header label{
+            color: #4d87e2;
+            cursor: pointer;
+            
+        }
+        #formEmail{
+            width: 80%;
+            margin: auto;
+            font-size: .95rem;
+            margin-top: 40px;
+            background: #fff;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            flex-grow: 1;
+            padding: 10px 90px;
+            margin-bottom: 0;
+        }
+        h1{
+            font-weight: lighter;
+            color: #777;
+            
+        }
+        
+        .admi5{
+            width: 60%;
+        }
+        .admi5 p{
+            margin: 10px 0;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #444;
+        }
+        .admi5 p input,
+        .admi5 p select,
+        .admi5 p textArea{
+            width: 100%;
+        }
+        .admi5 p textArea{
+            height: 150px;
+        }
+        .mensagemEnviar{
+            border: none;
+            border-radius: 3px;
+            padding: 10px 25px;
+            background: #4682b4;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .info5{
+            width: 30%;
+        }
+        .info5 p{
+            margin-top: 20px;
+            line-height: 2em;
+            padding-right: 25px;
+        }
+        .info5 p span{
+            font-weight: bold !important;
+        }
+    </style>
+    <script>
+        $('.lab').click(function(){
+            window.history.back();
+        });
+        
+        $(".feedBackText").click(function(e)
+        {
+           $(this).css("border",""); 
+           $(this).css("box-shadow",""); 
+        });
+        $(".mensagemEnviar").click(function ()
+        {
+            var valido = true;
+            if($(".mensagemInfo").val()==="")
+            {
+                $(".mensagemInfo").css("border","1px solid #B03535");
+                $(".mensagemInfo").css("box-shadow","0 0 5px -1px #B03535");
+                valido = false;
+            }
+            $(".admi5 [type=text], select").each(function ()
+            {
+               if($(this).val()==="")
+               {
+                   $(this).css("border","1px solid #B03535");
+                   $(this).css("box-shadow","0 0 5px -1px #B03535");
+                   valido = false;
+               }
+            });
+            return false;
+        });
+        function emailInvalido()
+        {
+            $(".mensagemEmail").focus();
+        }
+        function messageSent()
+        {
+          $(".feedBackText").val(""); 
+        }
+    </script>
+</html>
+

@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        
+    </h:head>
+    <h:body>
+        <h:form id="empresaReg" enctype="multipart/form-data" class="empresaReg">
+            <div class="empresaReg default-JIGA">
+                <p:growl id="growl" showDetail="false"  />
+
+                <div class="divImages">
+                    <div>
+                        <h:graphicImage library="img" id="empLogo" value="#{empresaBean.logotipoFile}" />
+                        <h:inputFile class="adicionar" id="logoFile" value="#{empresaBean.logotipoEmpresa}">
+                            <f:ajax event="change" listener="#{empresaBean.handleFileUpload('empLogo')}" execute="@this" />
+                        </h:inputFile>
+                        <label for="empresaReg:logoFile">Adicionar logotipo</label>
+                    </div>
+
+                    <div>
+                        <h:graphicImage library="img" id="empCabe" value="#{empresaBean.cabecalhoFile}" />
+                        <h:inputFile id="cabeFile"  value="#{empresaBean.cabecalhoEmpresa}">
+                            <f:ajax event="change" listener="#{empresaBean.handleFileUpload('empCabe')}" execute="@this" />
+                        </h:inputFile>
+                        <label for="empresaReg:cabeFile">Adicionar cabeçalho</label>
+                    </div>
+
+                    <div>
+                        <h:graphicImage library="img" id="empRoda" value="#{empresaBean.rodapeFile}" />
+                        <h:inputFile id="rodaFile" value="#{empresaBean.rodapeEmpresa}">
+                            <f:ajax event="change" listener="#{empresaBean.handleFileUpload('empRoda')}" execute="@this" />
+                        </h:inputFile>
+                        <label for="empresaReg:rodaFile">Adicionar rodapé</label>
+                    </div>
+                </div>    
+                <div class="informations">
+                    <h3>Dados da empresa</h3>
+                    <div>
+                        <p>
+                            <h:outputLabel value="Nome"/>
+                            <h:inputText styleClass="inputTextEmpresa"  id="nomeE" value="#{empresaBean.nomeEmpresa}" binding="#{empresaBean.nomeEmpresaH}"/>
+                        </p>
+                        <p>
+                            <h:outputLabel value="Gerente"/>
+                            <h:inputText styleClass="inputTextEmpresa"  id="gerente" value="#{empresaBean.nomeGerente}" binding="#{empresaBean.nomeGerenteH}"/>
+                        </p>
+                        <p>
+                            <h:outputLabel value="NIF"/>
+                            <h:inputText styleClass="inputTextEmpresa"  id="nif" maxlength="9" value="#{empresaBean.nifEmpresa}" binding="#{empresaBean.nifEmpresaH}"/>
+                        </p>
+                        <p>
+                            <h:outputLabel value="Razão Social"/>
+                            <h:inputText styleClass="inputTextEmpresa"  id="razao" value="#{empresaBean.razaoSocial}" binding="#{empresaBean.razaoSocialH}"/>
+                        </p>
+                        <p>
+                            <h:outputLabel value="Morada"/>
+                            <h:inputText styleClass="inputTextEmpresa" id="morada" value="#{empresaBean.localizacao}" binding="#{empresaBean.localizacaoH}"/>
+                        </p>
+                    </div>
+                    <div>
+                        <p>
+                            <h:outputLabel value="Telefone"/>
+                            <h:inputText styleClass="inputTextEmpresa" 
+                                         id="telefone" value="#{empresaBean.telefoneEmpresa}" binding="#{empresaBean.telefoneEmpresaH}"/>
+                        </p>
+                        <p>
+                            <h:outputLabel value="Email"/>
+                            <h:inputText styleClass="inputTextEmpresa" id="email" value="#{empresaBean.emailEmpresa}" binding="#{empresaBean.emailEmpresaH}"/>
+                        </p>
+                        <p>
+                            <h:outputLabel value="Capital social"/>
+                            <h:inputText styleClass="inputTextEmpresa" id="capitalSocial" value="#{empresaBean.capitalSocial}" binding="#{empresaBean.capitalSocialH}"/>
+                        </p>
+                        <p>
+                            <h:outputLabel value="Código postal" />
+                            <h:inputText styleClass="inputTextEmpresa" id="codigoPostal" maxlength="5" value="#{empresaBean.codigoPostal}" binding="#{empresaBean.codigoPostalH}"/>
+                        </p>
+                        <p>
+                            <h:outputLabel value="Data da Criação"/>
+                            <p:calendar class="inputTextEmpresa calendar"  id="dataCriacao"  value="#{empresaBean.dataInaguracao}" binding="#{empresaBean.dataInaguracaoH}"
+                                        pattern="dd-MM-yyyy"  navigator="true"/>
+                        </p>
+                    </div>
+                    <h3>Dados adicionais</h3>
+                    <div>
+                        <p>
+                            <h:outputLabel value="Facebook"/>
+                            <h:inputText styleClass="inputTextEmpresa"  id="facebook" value="#{empresaBean.facebookEmpresa}" binding="#{empresaBean.facebookEmpresaH}"/>
+                        </p>
+                        <p>
+                            <h:outputLabel value="Twitter"/>
+                            <h:inputText styleClass="inputTextEmpresa"  id="twitter" value="#{empresaBean.twitterEmpresa}" binding="#{empresaBean.twitterEmpresaH}"/>
+                        </p>
+                    </div>
+                    <div>
+                        <p>
+                            <label>Sobre a empresa</label>
+                            <h:inputTextarea class="inputTextareaEmpresa" id="sobre" value="#{empresaBean.sobreEmpresa}" binding="#{empresaBean.sobreEmpresaH}"/>
+                        </p>
+                    </div>
+                </div>
+                    <div class="divButtons">
+                        <h:commandButton value="Guardar" class="mf-bt-ok" action="#{empresaBean.registarEmpresa()}">
+                            <p:ajax onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()"
+                                process="@this nomeE gerente nif razao morada telefone email capitalSocial codigoPostal dataCriacao facebook twitter sobre"
+                                    update="@form"/>
+                        </h:commandButton>
+                        <h:commandButton value="Cancelar" class="mf-bt-ko" action="#{empresaBean.resetDados()}">
+                            <f:ajax execute="@form" render="@form growl"/>
+                        </h:commandButton>
+                    </div>
+                   
+            </div>
+        </h:form>
+        <h:form>
+        <div class="processamento modalProcess">
+            <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+        </div>
+        </h:form>
+    </h:body>
+</html>
+

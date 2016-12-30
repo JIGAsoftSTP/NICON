@@ -1,0 +1,107 @@
+.cobertType div{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    border-bottom: 1px #ddd solid;
+    font-weight: bold;
+}
+.cobertType h1{
+    text-align: center;
+}
+.cobertType [type=radio]{
+    margin-right: 5px;
+}
+.cobertType > div label{
+    display: inline-block;
+    padding-right: 20px;
+}
+nav .hasDatepicker{
+    width: 100% !important;
+}
+.cobertType tr{
+    display: inline-block;
+}
+.formularioSeguro h4{
+    margin-top: 20px;
+}
+.formularioSeguro > section{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: .98em;
+    padding: 10px 0;
+    color: #777;
+    border-bottom: 1px #f0f0f0 solid;
+    padding: 20px;
+    width: 100% !important;
+    background: #fcfcfc;
+}
+.formularioSeguro > section:last-child{
+    border-bottom: 1px #ddd solid !important;
+}
+.formularioSeguro > section input{
+    margin-bottom: 0 !important;
+}
+.formularioSeguro > section nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 45%;
+}
+.cobertura2 nav{
+    border-radius: 3px;
+}
+.cobertura2 .txtTaxa {
+    min-width: 37px;
+}
+.cobertura2 nav input{
+    margin-bottom: 0 !important;
+}
+.cobertura2 nav input:focus{
+    border: 1px #4285F4 solid !important;
+    border-radius: 0 !important;
+}
+.cobertura2 nav input:first-child{
+    border-right: 1px #ddd solid !important;
+}
+.cobertura2 nav input:last-child{
+    text-align: center;
+}
+.addItemTable{
+    padding: 15px 20px;
+    margin-top: 15px;
+}
+.infoTotalTable{
+    margin-top: 10px;
+}
+.infoTotalTable nav,
+.infoTotalTable div{
+    color: #555;
+    border-bottom: 1px #eee solid;
+    padding: 20px 0 5px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.infoTotalTable div{
+    background: #fcfcfc;
+    border-top: 1px #eee solid;
+}
+.infoTotalTable nav:last-child{
+    background: #fcfcfc;
+    font-size: 1.2rem;
+    color: #222;
+}
+.infoTotalTable nav b{
+    font-size: .9em;  
+}
+.infoTotalTable nav label,
+.infoTotalTable div label:nth-child(2){
+    display: inline-block;
+    min-width: 300px;
+    text-align: right;
+}
+.infoTotalTable nav label:first-child{
+    text-align: left;
+}

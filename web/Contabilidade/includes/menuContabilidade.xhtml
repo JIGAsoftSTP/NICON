@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+    </h:head>
+    <header id="CT-MENU-SC" class="menu-secundario CT-MENU">
+        <h:outputStylesheet library="Styles" name="contabilidade.css"></h:outputStylesheet>
+        <h:outputStylesheet library="Styles" name="salario.css"></h:outputStylesheet>
+        <div>
+            <ul class="menuContabilidade">
+                <c:if test="#{!sessionUtil.dadosUtilizador.justRelatorio}">
+                    <li><a id="CT-MENU-PGTO-RCBTO" href="../Contabilidade/Pgtos_Rcbtos.xhtml"> Pgtos &amp; Rcbtos</a></li>
+                    <c:if test="#{!sessionUtil.dadosUtilizador.idDepartamento.equals('3')}">
+                        <li><a id="CT-MENU-CONTAS" href="../Contabilidade/Gestao_conta.xhtml">Contas</a></li> 
+                        <li><a id="CT-MENU-MOVIMENTACOES" href="../Contabilidade/Movimentacoes.xhtml">Movimentações</a></li>
+                        <li ><a id="CT-MENU-TAXA-IMPOSTOS"   href="../Contabilidade/Taxas_e_Impostos.xhtml">Taxas &amp; Impostos </a></li>
+                        <li><a id="CT-MENU-SALARIO"  href="../Contabilidade/Salario.xhtml">Salário</a></li>
+                    </c:if>
+                </c:if>
+                <c:if test="#{!sessionUtil.dadosUtilizador.idDepartamento.equals('3')}">
+                    <li><a id="CT-MENU-RELATORIO"  href="../Contabilidade/Relatorio.xhtml">Relatórios</a></li>
+                </c:if>
+                <a class="notifications"><i class="icon-bell"><h:outputLabel class="totalNotif" /></i>
+                    </a>
+                
+                  <p:socket channel="/notify" onMessage="handleMessage"  >
+                  </p:socket>
+                <h:form id="formNotification">
+                    <p:remoteCommand name="notification" actionListener="#{contabilidade.notificationPayment()}" update="formNotification" />
+                    <section class="list-notification">
+                        <section>
+                            <c:forEach items="#{contabilidade.pagamentoSolicitados}" var="pagamento">
+                                <nav>
+                                    <span>
+                                        <b><h:outputLabel value="Número de Sinistro"></h:outputLabel></b>
+                                        <b><h:outputLabel value="#{pagamento.numeroSinistro}"></h:outputLabel></b>    
+                                    </span>
+                                    <span >
+                                        <small>Enviado por <h:outputText value="#{pagamento.utilizador}"></h:outputText></small>
+                                        <small><h:outputText value="#{pagamento.dataRegistro}"></h:outputText></small>                                
+                                    </span>
+                                    <span>
+                                    <small>
+                                        <b><h:outputLabel value="Mais Informações" class="moreInformation" >
+                                                <p:ajax event="click" onstart="cliqueMaisInfo()" process="@this" 
+                                                        listener="#{contabilidade.solicitarPagamentoMaisInfo(pagamento)}" />
+                                        </h:outputLabel></b>
+                                        <h:outputLabel  class="actionTable icon-info" style="color: #2E9BDC;" >
+                                            <p:ajax event="click" listener="#{contabilidade.solicitarPagamentoMaisInfo(pagamento)}" />
+                                        </h:outputLabel>
+                                    </small>           
+                                    <small>
+                                            <b><h:outputLabel value="Efetuar Pagamento" class="moreInformation">
+                                                <p:ajax event="click" onstart="requestPayment()" process="@this"
+                                                        listener="#{contabilidade.solicitarPagamento(pagamento)}" />
+                                            </h:outputLabel></b>
+                                        <h:outputLabel style="color: #2E9BDC;" class="actionTable icon-coin-euro regPayment" >
+                                            <p:ajax event="click" onstart="requestPayment()" process="@this"
+                                                    listener="#{contabilidade.solicitarPagamento(pagamento)}" />
+                                        </h:outputLabel>
+
+                                    </small>                       
+                                    </span>
+                                </nav>
+                             </c:forEach>
+                        
+                        </section>
+                   </section> 
+                </h:form>
+            </ul>
+        </div>
+    </header>
+    
+         <div class="modalPage mp-infoTable maisInfoSolicitarPagamento">
+            <div class="modalFrame">                                            
+                <div class="modalContainer">
+                    <p><h3>Solicitação de Pagamento</h3></p>
+                    <p> 
+                        <h:outputLabel value="Beneficiario:" class="negrito" /> <h:outputText class="maisInfo benef" style="margin-left: 2px;" />
+                    </p>   
+                    <p> 
+                        <h:outputLabel value="Número de Pagamento:" class="negrito" /> <h:outputText class="maisInfo idPagamento" style="margin-left: 2px;" />
+                    </p>   
+                    <p>
+                        <h:outputLabel value="Número de Sinistro:" class="negrito" /> <h:outputText class="maisInfo numeroSinistro" style="margin-left: 2px;" />
+                    </p>   
+                    <p>
+                        <h:outputLabel value="Apolice:" class="negrito" /> <h:outputText  class="maisInfo pagamentoApolice" style="margin-left: 2px;" />
+                    </p>   
+                    <p>
+                        <h:outputLabel value="Nota Débito:" class="negrito" /> <h:outputText  class="maisInfo pagamentoNotaDebito" style="margin-left: 2px;" />
+                    </p>   
+                    <p>
+                        <h:outputLabel value="Valor de Pagamento:" class="negrito" /> <h:outputText class="maisInfo solicitarPagamentoValor" style="margin-left: 2px;" />
+                    </p> 
+                    <p>
+                        <h:outputLabel value="Utilizador:" class="negrito" /> <h:outputText class="maisInfo pagamentoUtilizador" style="margin-left: 2px;" />
+                    </p> 
+                    <p>
+                        <h:outputLabel value="Data de Pagamento:" class="negrito" /> <h:outputText class="maisInfo solicitarPagamentoDataPagamento" style="margin-left: 2px;"  />
+                    </p> 
+                    <p>
+                        <h:outputLabel value="Data de Registro:" class="negrito" /> <h:outputText class="maisInfo solicitarPagamentoDataRegistro" style="margin-left: 2px;"  />
+                    </p>
+                    <div class="closeModalFrame moreData" >X</div>
+                </div>
+            </div>
+        </div>
+    
+    <script>
+        function handleMessage()
+        {
+            notification([{}]);           
+        }
+        
+        function cliqueMaisInfo()
+        {
+            console.log("mais informações solicitação pagamento");
+        }
+        function requestPayment()
+        {
+            console.log("efetuar pagamento");
+        }
+    </script>
+</html>
+

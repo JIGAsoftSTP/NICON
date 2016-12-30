@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <h:outputStylesheet library="Styles" name="fonts.css"></h:outputStylesheet>
+        <h:outputStylesheet library="Styles" name="addSeguroCSS.css"></h:outputStylesheet>
+        <h:outputStylesheet library="Styles" name="geralSeguros.css"/> 
+        <h:outputStylesheet library="Styles" name="geralStyle.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="scriptAddSeguro.js" />
+        <h:outputScript library="js" name="script_Geral.js" />
+        <title>NICON Seguros | Seguros</title>        
+    </h:head>
+    <h:body id="MENU-GC">
+    
+        <div class="bodyAddSeguroGeral">
+            <h:form>
+                <h:outputLabel class="securyType" value="#{seguroBean.nomeSeguro}" style="font-weight: bold;"/>
+            </h:form>
+            <div id="divIncludeStep1" class="divInclude">
+                <ui:include src="includes/addSeguro.xhtml"/>
+                <div class="PrNx">
+                    <h:form>
+                        <h:commandButton value="Cancelar" action="#{clienteBean.novoContrato()}" class="btPrevious" >
+                            <p:ajax process="@this" update="@none" />
+                        </h:commandButton>
+                        <h:commandButton value="Continuar" class="btNext btContinue">
+                            <p:ajax process="@this" update="@none" />
+                        </h:commandButton>
+                        <h:outputLabel class="msn-erro seguroS" style="margin-left: 570px; display: none;" ></h:outputLabel>
+                    </h:form>
+                </div>
+            </div>
+            <div id="divIncludeStep2" class="divInclude">
+                <c:if test="#{contratoBean.selectSeguros[0].equalsIgnoreCase('GPA')}">
+                    <ui:include src="includes/seguroAPG.xhtml"/>
+                </c:if>
+                <c:if test="#{contratoBean.selectSeguros[0].equalsIgnoreCase('MV')}">
+                    <ui:include src="includes/seguroAutomovel.xhtml"/>
+                </c:if>
+                <c:if test="#{contratoBean.selectSeguros[0].equalsIgnoreCase('DI')}">
+                    <ui:include src="includes/seguroRoubo.xhtml"/>
+                </c:if>
+                <c:if test="#{contratoBean.selectSeguros[0].equalsIgnoreCase('TIN')}">
+                    <ui:include src="includes/seguroViagem.xhtml"/>
+                </c:if>
+                <c:if test="#{contratoBean.selectSeguros[0].equalsIgnoreCase('NHI')}">
+                    <ui:include src="includes/seguroMaritimo.xhtml"/>
+                </c:if>
+                <c:if test="#{contratoBean.selectSeguros[0].equalsIgnoreCase('FR')}">
+                    <ui:include src="includes/seguroIncendio.xhtml"/>
+                </c:if>
+                <c:if test="#{contratoBean.selectSeguros[0].equalsIgnoreCase('MAC')}">
+                     <ui:include src="includes/seguroCM.xhtml"/>
+                </c:if>
+                  <c:if test="#{contratoBean.selectSeguros[0].equalsIgnoreCase('DH')}">
+                      <ui:include src="includes/seguroDinheiro.xhtml"/>
+                </c:if>
+                <c:if test="#{contratoBean.selectSeguros[0].equalsIgnoreCase('RP')}">
+                     <ui:include src="includes/seguroRP.xhtml"/>
+                </c:if>
+                <c:if test="#{contratoBean.selectSeguros[0].equalsIgnoreCase('MR')}">
+                    <ui:include src="includes/seguroMultiriscos.xhtml"/>
+                </c:if>
+            </div>
+        </div>
+</h:body >
+    <script>
+        $('.btContinue').add( '.btBack' ).click(function (){
+             $( '#divIncludeStep1').add( '#divIncludeStep2' ).toggle('fade');              
+            return false;            
+        });
+        
+        function continuar()
+        {
+            $('#divIncludeStep1').css("display","none");
+            $('#divIncludeStep2').css("display","block");
+            return false;
+        }
+        
+        function backAndcontine()
+        {
+            $('#divIncludeStep1').css("display","none");
+            $('#divIncludeStep2').css("display","block");
+            return false;
+        }
+        
+    </script>
+</html>
+

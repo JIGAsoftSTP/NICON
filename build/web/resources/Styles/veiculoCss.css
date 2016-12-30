@@ -1,0 +1,184 @@
+/* 
+    Created on : 13/jun/2016, 12:40:00
+    Author     : Grinalda Soares
+*/
+.pageModal{
+        background: rgba(0,0,0,.5);
+        position:fixed;
+        width: 100%;
+        height: 100vh;
+        left:0; 
+        top:0;
+        z-index: 10;
+        display: flex;
+	justify-content: center;
+	align-items: center;
+        transition: top 1s;
+    }
+.modalFrame12{
+        border-radius: 3px;
+        padding: 30px 5px;
+        margin: 1% auto;
+        width: 40%;
+        height: auto;
+        background: #fff;
+        padding: 30px 20px !important;
+        
+    }
+    .closeModalFrameV{
+        color: red;
+        float: right;
+        cursor: pointer;
+        font-weight: bolder;
+    }
+    .modalFrame12 h3{
+        border-bottom: 1px #ddd solid;
+        padding: 1%;
+        margin-bottom: 3%;
+        color: #444;
+    }
+    .fecharModalV{
+/*        display: none;*/
+        transition: all 1s;
+        top: 100%;
+    }
+    select[size] {
+        color: #444;
+        width: 100%;
+        border: 1px #ddd solid;
+        font-size: .95em;
+        padding: 7px;
+    }
+    .tamanha{
+        width: 50%;
+    }
+    .tTitulo{
+        font-weight: bold;
+        font-family: 'arial', 'sans-serif';
+        font-size: .95em;
+    }
+    .btom input{
+        margin: 0!important;
+    }
+    .addArtigoV{
+        background: #32CD32;
+        border: none;
+        color: #fff;
+        padding: 16px 10px;
+        font: bold 16px arial, sans-serif;
+        border-radius: 4px;
+        float: right;
+        cursor: pointer;
+        margin-right:2%;
+    }
+    .btSaveV{
+        margin-top: 5px;
+        width: 98%!important;
+    }
+    .inline{
+        display: flex;
+    }
+    .inline .pMaior{
+        width: 100%;
+    }
+    .inline .pMenor{
+        width: 100%;
+        margin-left: 10px;
+    }
+    .categoriaArtigo{
+        width: 100%;
+    }
+    .areaTableV{
+        margin-top: 30px;
+    }
+    .contentVeiculo{
+       padding: 20px 80px;
+    }
+    .formV article{
+        display: flex;
+    }
+    .formV article section{
+        display: flex;
+        flex-direction: column;
+        margin: 2px 5px;
+        width: 100%;
+    }
+    .formV{
+        display: flex;
+        flex-direction: column;
+    }
+    .formV [type=text], textarea{
+        border: 1px solid #ccc;
+        padding: 8px;
+        font-size: .9em;
+        border-radius: 3px;
+        width: 100%;
+    }
+    .formV label{
+        font-size: .9em;
+        color: #333;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+    .areaButtonsV{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .areaSearchV{
+         width: 30%;
+         display: flex;
+    }
+    .areaSearchV span{
+         width: 50%;
+    }
+    .areaSearchV input, .areaSearchV label{
+        margin: 0 !important;  
+        box-shadow: 0 0 10px -2px #eee inset;
+    }
+    .areaSearchV input:focus, .areaSearchV label:hover{
+        box-shadow: 0 0 10px -2px #03A7DA !important;
+    }
+    .areaSearchV input{
+        border-right: none !important;
+        margin-left: 5px !important;
+        padding: 8px;
+        color: #333;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+        width: 100% !important;
+    }
+    .areaSearchV label{
+        border: 1px solid #ccc;
+        border-left: none;
+        background: #eee;
+        color: #666;
+        padding: 9px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        cursor: pointer;
+    }
+    
+    .areaExportar{
+        display: flex;
+        justify-content: center;
+	align-items: center;
+    }
+    .areaExportar i{
+        margin: 10px;
+        font-size: 30px;
+        cursor: pointer;
+    }
+    .areaExportar .icon-file-excel{
+        color: #199A4F;
+    }
+    .areaExportar .icon-file-pdf{
+        color: red;
+    }
+    .areaExportar h4{
+        color: #333;
+        margin-left: 15px;
+    }

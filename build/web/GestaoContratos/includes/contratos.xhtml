@@ -1,0 +1,567 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <h:outputStylesheet library="Styles" name="GC_Contratos.css"></h:outputStylesheet>
+        <h:outputStylesheet library="Styles" name="withLateral.css"></h:outputStylesheet>
+        <h:outputStylesheet library="Styles" name="resseguro.css"></h:outputStylesheet>
+        <h:outputStylesheet library="Styles" name="veiculoCss.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="Resseguro.js" />
+        <h:outputScript library="js" name="withLateral.js" />
+    </h:head>
+    <h:body>
+        <h:form id="resist" class="lateral-menu-content-page">
+
+            <div class="menu-lateral">
+                <i class="icon-menu hide-show-lateral"></i>
+                <div class="sectionsMenu section1">
+                    <h2 class="activeMenu"></h2>
+                    <ul class="multi-menu-lateral">
+                        <section>                            
+                            <li class="header-menu active-header-menu">Contratos</li>
+                            <div class="active-section">
+                                <li class="active-item-menu">
+                                    <h:outputLabel value="Automóvel" class="contratoTipoSeguro">
+                                        <p:ajax  event="click"  onstart="$('.modalProcess').show()"  oncomplete="$('.modalProcess').hide()"
+                                                 listener="#{pesquisa.setTipoPesquisa('MV')}" update="GestaoSeguroContrato_ListaContratos" />
+                                    </h:outputLabel> 
+                                </li>
+                                <li >
+                                    <h:outputLabel value="Viagem" class="contratoTipoSeguro">
+                                        <p:ajax event="click" onstart="$('.modalProcess').show()"  oncomplete="$('.modalProcess').hide()"
+                                                listener="#{pesquisa.setTipoPesquisa('TIN')}" update="GestaoSeguroContrato_ListaContratos" />
+                                    </h:outputLabel>
+                                </li>
+                                <li >
+                                    <h:outputLabel value="Incêndio" class="contratoTipoSeguro">
+                                        <p:ajax event="click" onstart="$('.modalProcess').show()"  oncomplete="$('.modalProcess').hide()"
+                                                listener="#{pesquisa.setTipoPesquisa('FR')}" update="GestaoSeguroContrato_ListaContratos" />
+                                    </h:outputLabel>
+                                </li>
+                                <li >
+                                    <h:outputLabel value="Resp. Pública" class="contratoTipoSeguro">
+                                        <p:ajax event="click" onstart="$('.modalProcess').show()" listener="#{pesquisa.setTipoPesquisa('RP')}"
+                                                oncomplete="$('.modalProcess').hide()" update="GestaoSeguroContrato_ListaContratos" />
+                                    </h:outputLabel>
+                                </li>
+                                <li >
+                                    <h:outputLabel value="Marítimo" class="contratoTipoSeguro">
+                                        <p:ajax event="click" onstart="$('.modalProcess').show()"
+                                                listener="#{pesquisa.setTipoPesquisa('NHI')}"  oncomplete="$('.modalProcess').hide()"
+                                                update="GestaoSeguroContrato_ListaContratos" />
+                                    </h:outputLabel> 
+                                </li>
+                                <li >
+                                    <h:outputLabel value="Acidente Para Grupos" class="contratoTipoSeguro">
+                                        <p:ajax event="click" onstart="$('.modalProcess').show()"
+                                                listener="#{pesquisa.setTipoPesquisa('GPA')}" oncomplete="$('.modalProcess').hide()"
+                                                update="GestaoSeguroContrato_ListaContratos" />
+                                    </h:outputLabel> 
+                                </li>
+                                <li >
+                                    <h:outputLabel value="Carga Marítima" class="contratoTipoSeguro">
+                                        <p:ajax event="click" onstart="$('.modalProcess').show()"  
+                                                listener="#{pesquisa.setTipoPesquisa('MAC')}" oncomplete="$('.modalProcess').hide()"
+                                                update="GestaoSeguroContrato_ListaContratos" />
+                                    </h:outputLabel>
+                                </li>
+                                <li >
+                                    <h:outputLabel value="Roubo" class="contratoTipoSeguro">
+                                        <p:ajax event="click"  onstart="$('.modalProcess').show()"  
+                                                listener="#{pesquisa.setTipoPesquisa('DI')}"  oncomplete="$('.modalProcess').hide()"
+                                                update="GestaoSeguroContrato_ListaContratos" />
+                                    </h:outputLabel>
+                                </li>
+                                <li >
+                                    <h:outputLabel value="Dinheiro" class="contratoTipoSeguro">
+                                        <p:ajax event="click" onstart="$('.modalProcess').show()"  oncomplete="$('.modalProcess').hide()"
+                                                listener="#{pesquisa.setTipoPesquisa('DH')}" update="GestaoSeguroContrato_ListaContratos" />
+                                    </h:outputLabel>
+                                </li>
+                                <li >
+                                    <h:outputLabel value="Multi-Riscos" class="contratoTipoSeguro">
+                                        <p:ajax event="click" onstart="$('.modalProcess').show()"  oncomplete="$('.modalProcess').hide()"
+                                                listener="#{pesquisa.setTipoPesquisa('MR')}" update="GestaoSeguroContrato_ListaContratos" />
+                                    </h:outputLabel>
+                                </li>
+                            </div>
+                        </section>
+                        <section>                            
+                            <li class="header-menu">Prémio</li>
+                            <div>
+                                <li>
+                                    <h:outputLabel value="Todos pagos">
+                                        <p:ajax event="click" onstart="$('.modalProcess').show()"  oncomplete="$('.modalProcess').hide()"
+                                                listener="#{pesquisa.setTipoPesquisa('TPAGOS')}" update="GestaoSeguroContrato_ListaContratos" />
+                                    </h:outputLabel>
+                                </li>
+                                <li>
+                                    <h:outputLabel value="Gold">
+                                        <p:ajax event="click" onstart="$('.modalProcess').show()"  oncomplete="$('.modalProcess').hide()"
+                                                listener="#{pesquisa.setTipoPesquisa('GOLD')}" update="GestaoSeguroContrato_ListaContratos" />
+                                    </h:outputLabel>
+                                </li>
+                                <li>
+                                    <h:outputLabel value="Mais caro">
+                                        <p:ajax event="click" onstart="$('.modalProcess').show()"  oncomplete="$('.modalProcess').hide()"
+                                                listener="#{pesquisa.setTipoPesquisa('MCARO')}" update="GestaoSeguroContrato_ListaContratos" />
+                                    </h:outputLabel>
+                                </li>
+                                <li>
+                                    <h:outputLabel value="Com pagamentos em atraso">
+                                        <p:ajax event="click" onstart="$('.modalProcess').show()"  oncomplete="$('.modalProcess').hide()"
+                                                listener="#{pesquisa.setTipoPesquisa('ATRASADO')}" update="GestaoSeguroContrato_ListaContratos" />
+                                    </h:outputLabel>
+                                </li>
+                            </div>
+                        </section>
+                        <section>                            
+                            <li class="header-menu">
+                                <h:outputLabel value="Anulados">
+                                    <p:ajax event="click" onstart="$('.modalProcess').show()"  oncomplete="$('.modalProcess').hide()"
+                                            listener="#{pesquisa.setTipoPesquisa('ANULADOS')}" update="GestaoSeguroContrato_ListaContratos" />
+                                </h:outputLabel>
+                            </li>
+                        </section>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-lateral">
+                <div class="divSearch">
+                    <h1>Seguro Automóvel</h1>
+                    <div class="searchMaster">
+                        <h:selectOneMenu 
+                            class="textClient"  
+                            id="GestaoSeguroContrato_ComboBox" 
+                            value="#{pesquisa.selectdColuna}" >
+                            <f:selectItem itemLabel="Apolice" itemValue="APOLICE" />
+                            <f:selectItem itemLabel="Seguro" itemValue="SEGURO" />
+                            <f:selectItem itemLabel="Cliente" itemValue="CLIENTE" />
+                        </h:selectOneMenu>
+
+
+
+                        <h:inputText pt:placeholder="Faça sua pesquisa aqui..." 
+                                     class="textClient contratoValorPesquisa"  
+                                     id="GestaoSeguroContrato_CaixaPesquisa"
+                                     value="#{pesquisa.chavePesquisa}">
+                        </h:inputText> 
+
+                        <h:commandButton id="btSearch" class="searchBt icon-search" action="#{pesquisa.pesquisarCampo()}">
+                            <f:ajax
+                                render="GestaoSeguroContrato_ListaContratos" 
+                                execute="GestaoSeguroContrato_ComboBox GestaoSeguroContrato_CaixaPesquisa "/>
+                        </h:commandButton>
+                        <label for="resist:btSearch" class="icon-search"></label>
+                    </div>
+                </div>
+
+                <div  class="but">
+                    <h:commandButton value="Adicionar Resseguro" class="bt buttons botaoContrato btRess contratoAnuladoOcultarBotao" action="#{pesquisa.adicionarResseguro()}">
+                        <p:ajax process="@this"   />
+                    </h:commandButton>
+                    <ui:remove>
+                        <h:commandButton value="Adicionar Cosseguro" class="bt buttons botaoContrato"/>                         
+                    </ui:remove>
+                    <h:commandButton value="Anular" class="bt1 buttons botaoContrato contratoAnuladoOcultarBotao" action="#{pesquisa.anularContrato()}">
+                        <f:ajax execute="@this" />
+                    </h:commandButton>
+                    <h:commandButton value="Suspender" class="bt1 buttons botaoContrato suspend contratoAnuladoOcultarBotao" action="#{pesquisa.suspenderContrato()}" >
+                        <f:ajax execute="@this" />
+                    </h:commandButton>
+                    <h:commandButton value="Alterar data Inicio" class="bt buttons botaoContrato contratoAnuladoOcultarBotao"  action="#{pesquisa.alterarDataInicioContrato()}">
+                        <f:ajax execute="@this" />
+                    </h:commandButton>
+                </div> 
+
+                <p:dataTable
+                    id="GestaoSeguroContrato_ListaContratos" value="#{pesquisa.listDadosContratos}" var="contrato"
+                    scrollable="true" selection="#{pesquisa.dadosContrato}" selectionMode="single" rowKey="#{contrato}"
+                    scrollHeight="380">
+                    <p:ajax event="rowSelect" process="@this" />
+                    <p:ajax event="rowDblselect"
+                            process="@this"
+                            listener="#{pesquisa.reDoDucument()}" onstart="mostrarPU()" oncomplete="fecharPU(),imprimir(xhr, status, args)" />
+                    <p:column headerText="APOLICE">
+                        #{contrato.apolice}
+                    </p:column>
+                    <p:column headerText="SEGURO" width="80">
+                        #{contrato.seguro}
+                    </p:column>
+                    <p:column headerText="N.DÉBITO" width="140">
+                        #{contrato.notaDebito}
+                    </p:column>
+                    <p:column headerText="CLIENTE">
+                        #{contrato.cliente}
+                    </p:column>
+                    <p:column headerText="DATA INICIO" width="125">
+                        #{contrato.dataInicio}
+                    </p:column>
+                    <p:column headerText="DATA FIM" width="125">
+                        #{contrato.dataFim}
+                    </p:column>
+                    <p:column headerText="DATA CONTRATO" width="125">
+                        #{contrato.dataContrato}
+                    </p:column>
+                    <p:column  width="50">
+                        <h:outputLabel class="actionTable icon-info" title="Mais informações">
+                            <p:ajax event="click" process="@this" listener="#{pesquisa.moreInfo(contrato)}" />
+                        </h:outputLabel>               
+                    </p:column>
+                </p:dataTable>
+                <nav class="total-found">Total encontrado:<h:outputLabel id="contratoTotalRegistro" class="totalRegistro" /></nav>
+            </div> 
+
+
+
+            <p:growl id="GestaoContratoGrowl" showDetail="false"  life="10000" autoUpdate="false"/>
+            <div class="modalPage mp-contratos-1" >
+                <div class="modalFrame">                                            
+                    <div class="modalContainer">
+                        <h3><h:outputText  class="contratoTitulo"></h:outputText></h3>
+                        <p>
+                            Identificação
+                            <h:outputLabel value="#{pesquisa.idContrato}" id="contratoId"/>
+                        </p>
+                        <span class="period-date">
+                            <p>
+                                Data Inicio
+                                <p:calendar id="dataIniSup" value="#{pesquisa.dataInicioSu}" class="contratoData"
+                                            mindate="#{pesquisa.dataMinima}" pattern="dd-MM-yyyy" >
+                                    <p:ajax event="dateSelect" listener="#{pesquisa.atualizarDataFim()}" />
+                                </p:calendar>
+                            </p>
+                            <p>
+                                Data Fim
+                                <p:calendar id="dataFimSup" value="#{pesquisa.dataFimSu}"  class="contratoDataFIM"
+                                            pattern="dd-MM-yyyy" mindate="#{pesquisa.dataInicioSu}" />
+                            </p>
+                        </span>
+                        <p>
+                            Justificação
+                            <h:inputTextarea  value="#{pesquisa.justificacao}" id="contratoJustificacao" >
+                            </h:inputTextarea>
+                        </p>
+                        <div class="divButtons">
+                            <h:commandButton value="Guardar" class="mf-bt-ok" action="#{pesquisa.operacao()}" >
+                                <p:ajax process="@this contratoJustificacao dataIniSup dataFimSup"  />
+                            </h:commandButton>
+                            <h:commandButton value="Cancelar" class="mf-bt-ko" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modalPage mp-contratos-2" style="display: none;">
+                <div class="modalFrame">                                            
+                    <div class="modalContainer">
+                        <h3><h:outputText value="Title here!" class="titulo"></h:outputText></h3>
+                        <nav>
+                            <p>
+                                Seguro
+                                <h:outputLabel value=" Seguro here!"/>
+                            </p>
+                            <p>
+                                Nº Apólice
+                                <h:outputLabel value=" Apolice here!"/>
+                            </p>
+                        </nav>
+                        <p>
+                            <h:outputText value="Tipo de Resseguro ou Cosseguro"></h:outputText>                            
+                            <h:outputLabel value=" Cosseguro ou Resseguro here!"/>
+                        </p>
+                        <p>
+                            Empresa responsável
+                            <h:outputLabel value=" Empresa here!"/>
+                        </p>
+                        <p>
+                            Valor a ceder
+                            <h:inputText/>
+                        </p>
+                        <p>
+                            Detalhes
+                            <h:inputTextarea />
+                        </p>
+                        <div class="divButtons">
+                            <h:commandButton value="Guardar" class="mf-bt-ok"/>
+                            <h:commandButton value="Cancelar" class="mf-bt-ko" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+
+            <div class="modalPage mp-infoTable">
+                <div class="modalFrame">                                            
+                    <div class="modalContainer">
+                        <p><b>Informações acerca do contrato</b></p>
+                        <h:panelGroup id="contractMoreInfo">
+                            <p><h:outputLabel value="Apolice" class="textoNegrito" />   
+                                #{pesquisa.dadosContrato.apolice}       
+                            </p>   
+                            <p><h:outputLabel value="Nota de Débito" class="textoNegrito" />   
+                                #{pesquisa.dadosContrato.notaDebito}       
+                            </p>   
+                            <p><h:outputLabel value="Seguro" class="textoNegrito" />     
+                                #{pesquisa.dadosContrato.seguro}
+                            </p>   
+                            <p><h:outputLabel value="Cliente" class="textoNegrito" />   
+                                #{pesquisa.dadosContrato.cliente}
+                            </p>   
+                            <p><h:outputLabel value="Data" class="textoNegrito" />    
+                                #{pesquisa.dadosContrato.data}
+                            </p>  
+                            <p><h:outputLabel value="Data Inicio" class="textoNegrito" />  
+                                #{pesquisa.dadosContrato.dataInicio}
+                            </p>    
+                            <p><h:outputLabel value="Data Fim" class="textoNegrito" />    
+                                #{pesquisa.dadosContrato.dataFim}
+                            </p>     
+                            <p><h:outputLabel value="Data Contrato" class="textoNegrito" />  
+                                #{pesquisa.dadosContrato.dataContrato}
+                            </p>     
+                            <p><h:outputLabel value="Limite de Responsabilidade" class="textoNegrito" />   
+                                #{pesquisa.dadosContrato.limiteResponsabilidade}
+                            </p>         
+                            <p><h:outputLabel value="Prémio Bruto" class="textoNegrito" />   
+                                #{pesquisa.dadosContrato.premioBruto}
+                            </p>         
+                            <p><h:outputLabel value="Prémio Líquido" class="textoNegrito" />  
+                                #{pesquisa.dadosContrato.premioLiquido}
+                            </p>          
+                            <p><h:outputLabel value="Estado" class="textoNegrito" />  
+                                #{pesquisa.dadosContrato.estado}
+                            </p>          
+                        </h:panelGroup>
+                        <div class="closeModalFrame moreData" >X</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="Resseguro">
+
+            </div>
+
+
+
+
+
+            <div class="modalPage nota-credit" >
+                <div class="modalFrame">                                            
+                    <div class="modalContainer">
+                        <p>
+                            <h:outputLabel class="notaCreditoSeguro"
+                                           style="display: block; text-align: center"/>
+                        </p>
+                        <p>
+                            Segurado:
+                            <h:outputLabel class="notaCreditoSegurado" />
+                        </p>
+                        <div class="-top">
+                            <p>
+                                Apólice
+                                <h:outputLabel class="notaCreditoApolice" />
+                            </p>
+                            <p style="text-align: right">
+                                Periodo
+                                <h:outputLabel class="notaCreditoPeriodo"  />
+                            </p>
+                        </div>
+                        <div class="to-pr fieldsCreditNote">
+                            <p>
+                                Número de registro
+                                <h:inputText  value="#{pesquisa.notaDebito.numRegistro}" id="creditNoteRegistrationNumber" required="true"/>
+                            </p>
+                            <p>
+                                Beneficiário
+                                <h:inputText  value="#{pesquisa.notaDebito.beneficiario}" id="creditNoteBeneficiary" required="true" />
+                            </p>
+                            <p>
+                                Endereço de entrega
+                                <h:inputText  value="#{pesquisa.notaDebito.enderecoEntrega}" id="creditNoteSenderAddress" required="true" />
+                            </p>
+                            <p>
+                                Descrição
+                                <h:inputTextarea  value="#{pesquisa.notaDebito.descricao}" class="creditNoteDesc" id="creditNoteDesc" required="true"/>
+                            </p>
+                            <div class="-bottom">
+                            <p>
+                                Premio Grosso
+                                <h:inputText  value="#{pesquisa.notaDebito.premioGrosso}" 
+                                              id="creditNoteGrossPremium" class="formatValue double" >
+                                    <p:ajax process="@this creditNoteDeduction" event="keyup" listener="#{pesquisa.calcularTotalNotaCredito()}" />
+                                </h:inputText>
+                            </p>
+                            <p style="margin-left: 20px;">
+                                Dedução
+                                <h:inputText  value="#{pesquisa.notaDebito.valorDeducao}"  id="creditNoteDeduction" class="formatValue double" >
+                                    <p:ajax process="@this creditNoteGrossPremium" event="keyup" listener="#{pesquisa.calcularTotalNotaCredito()}" />
+                                </h:inputText>
+                            </p>
+                                
+                            </div>
+                            <p style="font-size: 1.2rem">
+                                Total dever: 
+                                <h:outputLabel  class="notaDebitoTotal" />
+                            </p>
+                        </div>
+
+
+                        <div class="divButtons">
+                            <h:commandButton value="Concluir" class="mf-bt-ok concluirNotaCredito" action="#{pesquisa.creditNoteReg()}">
+                                <p:ajax  oncomplete="$('.modalProcess').hide()"
+                                    process="@this creditNoteRegistrationNumber creditNoteBeneficiary creditNoteSenderAddress creditNoteDesc creditNoteGrossPremium creditNoteDeduction" />
+                            </h:commandButton>
+                            <h:commandButton value="Cancelar" class="mf-bt-ko" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </h:form>   
+        <ui:include src="addResseg.xhtml"/>
+    </h:body>
+
+    <style>
+        .textoNegrito{
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .nota-credit .modalContainer{
+            max-width: 480px;
+        }
+        .nota-credit p{
+            width: 100%;
+            margin: 0;
+            margin-bottom: 15px;
+        }
+        .-top, .-bottom{
+            display: flex;
+            justify-content: space-between;
+        }
+        .resseguroModal{
+            z-index: 5;
+        }
+    </style>
+    <script>
+        adicionarRes();
+        $(".concluirNotaCredito").click(function(e)
+        {
+            var valido = true;
+            if($(".creditNoteDesc").val() === '')
+            {
+                $(".creditNoteDesc").css("border", "1px solid red");
+                valido = false;
+            }
+             $('.fieldsCreditNote [type=text]').each(function()
+             {
+                if($(this).val() === '')
+                {
+                    $(this).css("border", "1px solid red");
+                    valido = false;
+                }
+             });
+             if(valido === true)
+                 $(".modalProcess").show();
+         
+        });
+        $(".contratoValorPesquisa").keypress(function (e)
+        {
+            if (e.keyCode === 13)
+                $(".icon-search").trigger("click");
+        });
+        
+        function limparCamposNotaDebito()
+        {
+            $(".creditNoteDesc").val("");
+            $(".notaDebitoTotal").html("");
+            $(".creditNoteDesc").css("border", "");
+             $('.fieldsCreditNote [type=text]').each(function()
+             {
+                 $(this).val("");
+             });
+        }
+        function mostrarPU()
+        {
+            $(".processamento").show();
+        }
+        function fecharPU()
+        {
+            $(".processamento").hide();
+        }
+        $('.menu-lateral div label').click(function () {
+            if ($(this).closest('div').prev().html() === 'Contratos')
+                $('.divSearch h1').html('Seguro ' + $(this).html());
+            else
+                $('.divSearch h1').html('Prémio ' + $(this).html());
+
+
+        });
+        
+        function adicionarRes()
+        {
+            $(".resseguroModal h3").html("Adicionar Resseguro");
+            $(".valorDeducao").attr("disabled", false);
+            $(".resseguroTipoFA").attr("disabled", true);
+            $(".resseguroMoeda").attr("disabled", true);
+            $(".premioGrosso").attr("disabled", true);
+            $(".resseguroCliente").attr("disabled", true);
+            $(".resseguroTipoSeguro").attr("disabled", true);
+            $(".resseguroNotaDebito").attr("disabled", true);
+            $(".top [type=text], select").each(function ()
+            {
+                $(this).attr("disabled", true); 
+            });
+            $(".resseguroTipoFA").attr("disabled", false);
+            $(".resseguroPR").attr("disabled", false);
+            $(".resseguroPR1").attr("disabled", true);
+        }
+
+        function imprimir(xhr, status, args)
+        {
+            if (args.seguro === 'viagem')
+            {
+                window.open(args.imprimir1);
+                window.open(args.imprimir2);
+            } else if (args.seguro === 'veiculo')
+            {
+                window.open(args.imprimir1);
+                window.open(args.imprimir2);
+                window.open(args.imprimir3);
+            } else if (args.seguro === 'acidente para grupos')
+            {
+                window.open(args.imprimir1);
+                window.open(args.imprimir2);
+            } else if (args.seguro === 'maritimo')
+            {
+                window.open(args.imprimir1);
+                window.open(args.imprimir2);
+                window.open(args.imprimir3);
+            } else if (args.seguro === 'roubo')
+            {
+                window.open(args.imprimir1);
+                window.open(args.imprimir2);
+            } else if (args.seguro === 'incendio')
+            {
+                window.open(args.imprimir1);
+                window.open(args.imprimir2);
+            } else if (args.seguro === 'carga maritima')
+            {
+                window.open(args.imprimir1);
+                window.open(args.imprimir2);
+                window.open(args.imprimir3);
+            }
+        }
+    </script>
+</html>

@@ -1,0 +1,168 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 21, 2016, 1:31:11 PM
+    Author     : Junior
+*/
+.formularioSeguro{
+    color: #444;
+}
+.formularioSeguro input[type=text],
+.formularioSeguro select,
+.formularioSeguro textarea{
+    padding: 10px 6px;
+    border: 1px #d0d0d0 solid;
+    color: #333;
+    font-size: 14px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    transition: all .4s ease;
+}
+.formularioSeguro input[type=text]:focus,
+.formularioSeguro select:focus
+.formularioSeguro .ui-inputfield:focus,
+.formularioSeguro textarea:focus{
+    border: 1px #4285F4 solid;
+    box-shadow: 0 0 5px 0 #4285F4 !important;
+    transition: all .4s ease;
+}
+.formularioSeguro h1,
+.formularioSeguro h3{
+    padding: 10px 0;
+    margin-top: 20px;
+    color: #4285F4;
+    font-weight: lighter;
+    
+    background: #fff;
+}
+.formularioSeguro h1{
+    font-size: 1.3em;
+}
+.formularioSeguro h4{
+    color: #555;
+    
+}
+.formularioSeguro input[type=submit],
+.formularioSeguro input[type=button]{
+    border: none;
+    font-weight: bold;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+.formularioSeguro .addItemTable{
+    background: #32CD32;
+    color: #fff;
+    font-size: 16px;
+    transition: all .4s ease;
+}
+.formularioSeguro .addItemTable:hover{
+    background: #10E955;
+    transition: all .4s ease;
+}
+.formularioSeguro .addInput{
+    background: #FFF;
+    border: #DDD;
+}
+.formularioSeguro .isNumeric{
+    text-align: right;
+}
+.formularioSeguro input[type=radio]{
+    margin-left: 10px;
+}
+.formularioSeguro .formatInput{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.formularioSeguro .box-arrow{
+    padding: 5px;
+    padding-top: 15px;
+    position: relative;
+    margin-top: 13px;
+}
+.formularioSeguro .box-arrow:before{
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 10px transparent solid;
+    border-right: 0px transparent solid;
+    position: absolute;
+    top: -12px;
+    left: 10px;
+}
+.formularioSeguro .box-arrow:after{
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 11px transparent solid;
+    border-right: 1px transparent solid;
+    position: absolute;
+    top: -13px;
+    left: 9px;
+}
+.formatInput .input-total{
+    width: 100%;
+    resize: none;
+}
+.formatInput .input-2{
+    width: 49%;
+}
+
+/*caso especial aplicado no seguro de Incendio*/
+.formatInput .input-2-0{
+    width: 46.5%;
+}
+/*caso especial aplicado no seguro de Dinheiro*/
+.formatInput .input-2-1{
+    width: 55%;
+}
+/*caso especial aplicado no seguro de APG*/
+.formatInput .input-2-2{
+    width: 80%;
+}
+/*caso especial aplicado no seguro de APG*/
+.formatInput .input-2-3{
+    width: 20%;
+}
+/*caso especial aplicado no seguro de Marítimo*/
+.formatInput .input-3-1{
+    width: 45%;
+}
+/*caso especial aplicado no seguro de RP*/
+.formatInput .input-3-2{
+    width: 65.5%;
+}
+/*caso especial aplicado no seguro de RP*/
+.formatInput .input-3-3{
+    width: 40%;
+}
+.formatInput .input-3{
+    width: 31%;
+}
+
+.formatInput .input-4{
+    width: 23.5%;
+}
+.formatInput .input-4-1{
+    width: 25%;
+}
+.formatInput .input-5{
+    width: 19%;
+}
+.formatInput .input-6{
+    width: 15.5%;
+}
+.formatInput .input-7{
+    width: 12%;
+}
+.formatInput .input-8{
+    width: 8%;
+    min-width: 60px;
+}
+/*caso especial aplicado no seguro de Marítimo*/
+.formatInput .input-8-1{
+    width: 9%;
+}

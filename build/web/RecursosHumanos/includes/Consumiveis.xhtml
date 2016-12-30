@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <h:outputScript library="js" name="Administracao.js" />
+    </h:head>
+
+    <h:body>
+        <h:form  class="empresaReg" id="formArticleTable">
+            <h:commandButton value="Registrar Artigo" class="addArtigo"/>
+            <div class="empresaReg">
+                <div>
+                    <p:dataTable value="#{administracaoBean.listArticles}" var="article" rowKey="#{article}"
+                                 emptyMessage="Nenhum artigo encontrado"
+                                 id="artigoTabela" selectionMode="single" selection="#{administracaoBean.artigoSelecionado}"
+                                 scrollable="true" scrollHeight="385" >
+                        <p:ajax event="rowSelect" process="@this" />
+                        <p:column headerText="Código">
+                            #{article.codigo}
+                        </p:column> 
+                        <p:column headerText="Categoria">
+                            #{article.categoria}
+                        </p:column> 
+                        <p:column headerText="Consumível">
+                            #{article.consumivel}
+                        </p:column>
+                        <p:column headerText="Quantidade">
+                            #{article.quantidade}
+                        </p:column>
+                        <p:column headerText="Registro">
+                            #{article.registro}
+                        </p:column>
+                        <p:column headerText="Estado">
+                            #{article.estado}
+                        </p:column>
+                        <p:column headerText="Açõoes">
+                            <h:outputLabel class="actionTable icon-box-add" title="Adicionar Artigo ao Stock">
+                                <p:ajax event="click"  onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()" 
+                                        listener="#{administracaoBean.changeQuantity('Adicionar Artigo ao Stock',article)}" />
+                            </h:outputLabel>
+                            <h:outputLabel class="actionTable icon-box-remove" title="Retirar Artigo do Stock">
+                                <p:ajax event="click"  onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()" 
+                                        listener="#{administracaoBean.changeQuantity('Retirar Artigo do Stock',article)}" />
+                            </h:outputLabel>
+                            <h:outputLabel class="actionTable icon-pencil" title="Editar artigo">
+                                <p:ajax event="click"  onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()" 
+                                        listener="#{administracaoBean.changeQuantity('Editar Artigo do Stock',article)}" />
+                            </h:outputLabel>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+        </h:form>
+
+        <div class="pageModal">
+            <div class="modalFrame12">
+                <h3>Adicionar Novo Artigo</h3>
+                <h:form class="formArtigo" id="articleForm">
+                    <p:remoteCommand actionListener="#{administracaoBean.operation()}" name="article" />
+                    <p:growl id="articleGrowl" showDetail="false" life="10000" />
+                    <p>
+                        <h:outputLabel value="Nome do Artigo" />
+                        <h:inputText styleClass="inputTextEmpresa" id="articleName"
+                                     value="#{administracaoBean.artigo.nomeArtigo}"  class="artigoNome articleNA"/>
+                    </p>
+                    <div class="inline">
+                        <p class="pMaior">
+                            <h:outputLabel value="Categoria" />
+                            <p:autoComplete value="#{administracaoBean.artigo.categoria}" maxResults="12" var="categoria" id="articleCategory" class="categoriaArtigo"
+                                            completeMethod="#{administracaoBean.completarListaCategoria}" itemLabel="#{categoria}" itemValue="#{categoria}">
+                            <p:ajax update="@none" process="@this" />
+                            </p:autoComplete>
+
+                        </p>
+                        <p class="pMenor">
+                            <h:outputLabel value="Quantidade"/>
+                            <h:inputText styleClass="inputTextEmpresa" class="numeroInterio artigoQuantidade articleChangeNameDisabled"  id="articleQ"
+                                         value="#{administracaoBean.artigo.quantidade}"/>
+                        </p>
+                    </div>
+
+                    <p>
+                        <h:outputLabel value="Funcioário Responsável" />
+                        <h:selectOneMenu   value="#{administracaoBean.artigo.funcionarioResponsavel}"  id="articleEmployeer" class="artigoFuncionario articleChangeNameDisabled">
+                            <f:selectItem itemLabel="(Selecione)" />
+                            <f:selectItems value="#{administracaoBean.funcionarios}" 
+                                           var="func" itemLabel="#{func.value}" itemValue="#{func.id}" />
+                        </h:selectOneMenu>
+                    </p>
+                    <p>
+                        <h:outputLabel value="Fornecedor"/>
+                        <h:inputText value="#{administracaoBean.artigo.fornecedor}"  id="articleProvider" class="artigoFornecedor articleChangeNameDisabled" />
+
+                    </p>
+                    <p class="informations">
+                        <h:outputLabel value="Observações"/>
+                        <h:inputTextarea value="#{administracaoBean.artigo.descricao}" id="articleObs"
+                                         required="true" class="artigoObs articleChangeNameDisabled" />                           
+                    </p>
+
+                    <div class="divButtons btom" style="margin: 0!important">
+                        <h:commandButton value="Adicionar Artigo" class="addArtigo2 addArticle" >
+                        </h:commandButton>
+                    </div>
+                </h:form>
+                <div class="closeModalFrame fechar">X</div>
+            </div>
+        </div>
+        <h:form>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+        </h:form>
+    </h:body>
+    <script>
+        $(document).ready(function ()
+        {
+            $(".fechar").click(function ()
+            {
+                $(".pageModal").fadeOut();
+            });
+        });
+    </script>
+    <style>
+        .modalFrame12{
+            border-radius: 3px;
+            width: 35%;
+            margin: 1% auto;
+            position: absolute;
+            background: #fff;
+            padding:10px 20px;
+            top: 0; bottom: 0;
+            right: 0; left: 0;
+        }
+        .modalFrame12 h3{
+            border-bottom: 1px #ddd solid;
+            padding: 1%;
+            margin-bottom: 3%;
+            color: #444;
+        }
+        .pageModal{
+            background: rgba(0,0,0,.5);
+            position:fixed;
+            width: 100%;
+            height: 100vh;
+            left:0; top:0;
+            z-index: 10;
+            display: none;
+        }
+        select[size] {
+            color: #444;
+            width: 100%;
+            border: 1px #ddd solid;
+            font-size: .95em;
+            padding: 10px;
+        }
+        .tamanha{
+            width: 50%;
+        }
+        .tTitulo{
+            font-weight: bold;
+            font-family: 'arial', 'sans-serif';
+            font-size: .95em;
+        }
+        .btom input{
+            margin: 0!important;
+        }
+        .addArtigo{
+            width: 20%!important;
+            background: #32CD32;
+            border: none;
+            color: #fff;
+            padding: 16px 10px;
+            font: bold 16px arial, sans-serif;
+            border-radius: 4px;
+            float: right;
+            cursor: pointer;
+            margin-right:2%;
+        }
+        .addArtigo2{
+            background: #32CD32;
+            border: none;
+            color: #fff!important;
+            padding: 16px 10px!important;
+            font: bold 16px arial, sans-serif;
+            border-radius: 4px;
+            float: right;
+            cursor: pointer;
+            margin-right:2%;
+        }
+        .inline{
+            display: flex;
+        }
+        .inline .pMaior{
+            width: 100%;
+        }
+        .inline .pMenor{
+            width: 100%;
+            margin-left: 10px;
+        }
+        .categoriaArtigo{
+            width: 100%;
+        }
+    </style>
+</html>
+

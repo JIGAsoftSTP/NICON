@@ -1,0 +1,321 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Movimentações</title>
+        <h:outputStylesheet library="Styles" name="movimentacaoCSS.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="movimentacao.js" />
+    </h:head>
+    <h:body>
+        <h:form id="movimentacao">
+           <div class="modalPage mp-infoTable modalCreditInfo">
+            <div class="modalFrame">                                            
+                <div class="modalContainer">
+                    <h:panelGroup id="maisInforL" >
+                        <p:dataTable value="#{admCont.creditInfo}" var="CR" rowKey="#{CR}" scrollable="true" scrollHeight="100"
+                                     selectionMode="single" style="width: 400px;" >
+                            <p:column headerText="CONTA">
+                                #{CR.conta}
+                            </p:column>
+                            <p:column headerText="VALOR DÉBITO">
+                                #{CR.valorD}
+                            </p:column>
+                            <p:column headerText="VALOR CRÉDITO">
+                                #{CR.valorC}
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGroup>
+                    <div class="closeModalFrame" >X</div>
+                </div>
+            </div>
+        </div>
+            <p:growl id="movimentacaoGrowl" showDetail="false" />
+            <div class="geralMov">
+                <div class="menuMovm">
+                    <section class="MN-Lancamento">
+                        <a class="active">Lançamento</a> 
+                    </section>
+                    <section class="MN-Cheque">
+                        <a>Cheque</a>
+                    </section>
+                </div>
+                <div class="ContentMov">
+                    <div class="DV-lancamento ativo" id="MOV">
+                        <article>
+                            <h2>Gestão de Lançamentos</h2>
+                            <label class="btLancamento" id="btlanc"><i class="icon-download3"></i> Novo Lançamento</label>
+                        </article>
+                        <div class="areaTableMov">
+                            <div class="filtroMov">
+                                <h:outputLabel class="active"><i class="icon-checkmark"></i> Todos
+                                    <p:ajax event="click" listener="#{admCont.setTypeSearch(1)}" process="@this" />
+                                </h:outputLabel>
+                                <h:outputLabel > Documento
+                                    <p:ajax event="click" listener="#{admCont.setTypeSearch(2)}" process="@this" />
+                                </h:outputLabel>
+                                <h:outputLabel> Lançamento
+                                     <p:ajax event="click" listener="#{admCont.setTypeSearch(3)}" process="@this" />
+                                </h:outputLabel>
+                                <article class="areaPesquisar">
+                                    <h:inputText pt:placeholder="Pesquisar por..." value="#{admCont.search}" id="launchSearch" >
+            
+                                    </h:inputText>
+                                    <i class="icon-search checkSearchIcon" title="Pesquisar"></i>
+                                </article>
+                            </div>
+                            <p:dataTable class="tabbleMov" value="#{admCont.listaLancamentos}" id="tableLaunch" 
+                                         var="launch" selectionMode="single" rowKey="#{launch}">
+                                <p:column headerText="CÓDIGO" width="100">
+                                    #{launch.codigo}
+                                </p:column>
+                                <p:column headerText="OPERAÇÃO" width="120">
+                                    #{launch.typeOperationDesc}
+                                </p:column>
+                                <p:column headerText="TIPO">
+                                    #{launch.tipo}
+                                </p:column>
+                                <p:column headerText="VALOR">
+                                    #{launch.valor}
+                                </p:column>
+                                <p:column headerText="COLABORADOR">
+                                    #{launch.colaborador}
+                                </p:column>
+                                <p:column headerText="DATA DE REGISTRO">
+                                    #{launch.dataRegistro}
+                                </p:column>
+                                <p:column  width="50">
+                                    <h:outputLabel class="actionTable icon-info" title="Mais Informações" >
+                                        <p:ajax event="click" listener="#{admCont.creditMoreInfo(launch)}" />
+                                   </h:outputLabel>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                        <div class="areaLancamento" id="lanc">
+                            <div class="bodyMov">
+                                <article class="esconder">
+                                    <i class="icon-arrow-right2" id="iconLanc"></i>
+                                    <h2 class="btNemLanc">Novo Lançamento</h2>
+                                </article>
+                                <article>
+                                    <section>
+                                        <label>Nº Sequência</label>
+                                        <h:inputText value="#{admCont.creditoDebito.sequenceNum}" id="launchSequenceNum" class="sequenceLaunchNum" readonly="true"></h:inputText>
+                                    </section>
+                                    <section>
+                                        <label>Data</label>
+                                        <p:calendar value="#{admCont.creditoDebito.data}" pattern="dd-MM-yyyy" id="dataLancamento" required="true"></p:calendar>
+                                    </section>
+                                </article>
+                                <section class="sectionMenor">
+                                    <label>Tipo de Lançamento</label>
+                                    <h:selectOneMenu class="typeLaunch" value="#{admCont.creditoDebito.typeLaunch}" id="launchType" required="true">
+                                        <f:selectItem itemLabel="(Selecione)" />
+                                        <f:selectItems value="#{admCont.typeMoviment}" var="mov" itemLabel="#{mov.value}" itemValue="#{mov.id}" />
+                                    </h:selectOneMenu>
+                                </section>
+                                <article>
+                                    <section>
+                                        <h3>Documento de Origem</h3>
+                                        <article>
+                                            <section>
+                                            <label>Nº Documento</label>
+                                            <h:inputText value="#{admCont.creditoDebito.numeroDucumento}" class="numDocLaunch launchAddTable" id="launchDoc" required="true">
+                                            </h:inputText>
+                                            </section>
+                                            <section>
+                                                <label>Data</label>
+                                                <p:calendar value="#{admCont.creditoDebito.dataDocumento}" id="dataEDocumento" required="true"
+                                                            pattern="dd-MM-yyyy"></p:calendar>
+                                            </section> 
+                                        </article>
+                                        <section class="sectionMenor">
+                                            <label>Descrição</label>
+                                            <h:inputTextarea value="#{admCont.creditoDebito.desc}" id="launchDescDoc" class="launchAddTable creditDesc">
+                                            </h:inputTextarea>
+                                        </section> 
+                                    </section>
+                                </article>
+                                <article class="menor">
+                                    <label>Tipo de Operação</label>
+                                    <h:selectOneRadio value="#{admCont.creditoDebito.typeOperation}" id="launchTypeOp">
+                                        <f:selectItem itemLabel="Débito" itemValue="1"></f:selectItem>
+                                        <f:selectItem itemLabel="Crédito" itemValue="2"></f:selectItem>
+                                    </h:selectOneRadio>
+                                </article>
+                                <article>
+                                    <section>
+                                        <label>Conta</label>
+                                        <h:inputText class="inConta launchAddTable" value="#{admCont.creditoDebito.conta}" id="launchAccount" required="true"></h:inputText>
+                                        <div class="drop">
+                                            <div class="content-Drop">
+                                                <div class="left-drop">
+                                                    <article class="title">
+                                                        <h4>Conta</h4>
+                                                        <h4>Descrição </h4> 
+                                                        <h4></h4>
+                                                    </article>
+                                                    <div class="list">
+                                                        <c:forEach items="#{admCont.contaList}" var="account">
+                                                            <article>
+                                                                <p>#{account.id}</p> 
+                                                               <p >#{account.value}</p>                                                          
+                                                           </article>
+                                                        </c:forEach>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section> 
+                                    <section>
+                                        <label>Descrição Conta</label>
+                                        <h:inputText class="accountDesc launchAddTable" readonly="true" id="launchAccountDesc" value="#{admCont.creditoDebito.accountDesc}"></h:inputText>
+                                    </section> 
+                                </article>
+                                <section class="sectionMenor">
+                                    <label>Descrição do Movimento</label>
+                                    <h:inputTextarea class="movimentLaunchDesc launchAddTable" required="true"
+                                                     value="#{admCont.creditoDebito.movimentoDesc}" id="launchDescMov"> </h:inputTextarea>
+                                </section> 
+                                <article>
+                                    <section>
+                                        <label>Moeda</label>
+                                        <h:selectOneMenu class="launchCoin" value="#{admCont.creditoDebito.moeda}" id="coinLaunch" required="true">
+                                            <f:selectItem itemLabel="(Selecione)"/>
+                                            <f:selectItems value="#{admCont.listaMoedas}" var="moeda" itemLabel="#{moeda.value}" itemValue="#{moeda.id}"/>
+                                            <p:ajax event="change" process="@this" />
+                                        </h:selectOneMenu>
+                                    </section> 
+                                    <section>
+                                        <label>Valor</label>
+                                        <h:inputText class="launchValue formatValue double launchAddTable" required="true"
+                                                     value="#{admCont.creditoDebito.valor}" id="valueLaunch"></h:inputText>
+                                    </section> 
+                                </article>
+                                <article class="areaBT">
+                                    <h:commandButton value="Adicionar" class="btAddtoTable" action="#{admCont.launchAddTable()}">
+                                        <p:ajax process="@this dataLancamento 
+                                                launchType launchDoc dataEDocumento launchDescDoc launchTypeOp launchAccount launchDescMov valueLaunch" />
+                                    </h:commandButton>
+                                </article> 
+                                <p class="seeTable">Mostrar Tabela</p>
+                                <article class="areaTableConta yes">
+                                    <p:dataTable class="tabbleConta" value="#{admCont.listaCreditos}" scrollHeight="250" id="launchTable"
+                                                 var="credito" selectionMode="single" rowKey="#{credito}">
+                                        <p:column headerText="CONTA" width="250">
+                                         #{credito.accountDesc}
+                                       </p:column>
+                                       <p:column headerText="VALOR">
+                                         #{credito.valor}
+                                       </p:column>
+                                       <p:column headerText="TIPO DE OPERAÇÃO">
+                                         #{credito.typeOperationDesc}
+                                       </p:column>
+                                        <p:column width="100">
+                                            <h:outputLabel class="actionTable icon-cross" title="Remover linha">
+                                                <p:ajax event="click" process="@this" listener="#{admCont.removeCredit(credito)}" />
+                                            </h:outputLabel>
+                                                <h:outputLabel class="actionTable icon-bin" title="Limpar tabela">
+                                                    <p:ajax event="click" process="@this" listener="#{admCont.removeAllFromTable()}" />
+                                            </h:outputLabel>
+                                            <h:outputLabel class="actionTable icon-pencil" title="Editar informações do segurado">
+                                                <p:ajax  process="@this" event="click" listener="#{admCont.editCredit(credito)}" />
+                                            </h:outputLabel>
+                                        </p:column>
+                                   </p:dataTable>  
+                                </article>
+                                <article class="areaBT">
+                                    <h:commandButton value="Salvar" class="btSaveMov" action="#{admCont.regLaunch()}">
+                                        <p:ajax process="@this" onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()" />
+                                    </h:commandButton>
+                                    <h:commandButton value="Cancelar" class="btCancel"></h:commandButton>
+                                </article>
+                            </div> 
+                            
+                        </div>
+                    </div>
+                    <div class="DV-cheque" id="MOV">
+                        <div class="bodyCheque">
+                            <article>
+                                <h2>Gestão de Cheques</h2>
+                                <label class="btLancamento" id="btcheq"><i class="icon-download3"></i> Novo Cheque</label>
+                            </article>
+                            <article class="areaPesquisar" id="serchCheque">
+                                <h:inputText pt:placeholder="Pesquisar por..." value="#{admCont.search}" class="checkSearch">
+                                    <p:ajax process="@this" event="keyup" listener="#{admCont.searchCheck()}" />
+                                </h:inputText>
+                                <i class="icon-search checkSearchIcon" title="Pesquisar"></i>
+                            </article>
+                            <div class="areaTableMov">
+                                <p:dataTable class="tabbleMov" value="#{admCont.chequeList}" var="check" id="checkTable" scrollHeight="450"
+                                             selectionMode="single" rowKey="#{check}">
+                                    <p:column headerText="CONTA">
+                                        #{check.banco}
+                                    </p:column>
+                                    <p:column headerText="NIB">
+                                        #{check.numBancoConta}
+                                    </p:column>
+                                    <p:column headerText="SEQUÊNCIA INICIO">
+                                        #{check.inicio}
+                                    </p:column>
+                                    <p:column headerText="SEQUÊNCIA FIM">
+                                         #{check.fim}
+                                    </p:column>
+                                    <p:column headerText="TOTAL CHEQUES">
+                                         #{check.total}
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <div class="areaLancamento" id="cheq">
+                                <div class="bodyMov">
+                                    <article class="esconder">
+                                        <i class="icon-arrow-right2 newCheck" id="IconCheq"></i>
+                                        <h2 class="btNemLanc">Novo Cheque</h2>
+                                    </article>
+                                    <section class="regCheque">
+                                        <label>Conta</label>
+                                        <h:selectOneMenu value="#{admCont.cheque.banco}" required="true" id="checkAccount">
+                                            <f:selectItem itemLabel="(Selecione)"  />
+                                             <f:selectItems value="#{admCont.contaList}" var="lb" itemLabel="#{lb.value}" itemValue="#{lb.id}" />
+                                            <p:ajax event="change" process="@this" listener="#{admCont.loadListaChequeBank()}"  />
+                                        </h:selectOneMenu>
+                                        <label>Sequência Início</label>
+                                        <h:inputText value="#{admCont.cheque.inicio}" class="justIntiger checkStart CalTotalCheque"
+                                                     maxlength="7" required="true" id="checkStartSequence" >
+                                        </h:inputText>
+                                        <label>Sequência Fim</label>
+                                        <h:inputText value="#{admCont.cheque.fim}" class="justIntiger checkEnd CalTotalCheque"
+                                                     maxlength="7" required="true" id="checkEtartSequence">
+                                        </h:inputText>
+                                        <label>Total</label>
+                                        <h:inputText value="#{admCont.cheque.total}" id="totalCheck"
+                                                     class="totalCh justIntiger" readonly="true" required="true"/>
+                                    </section>
+                                    <article class="areaBT">
+                                        <h:commandButton value="Salvar" class="btSaveMov checkRegButton"  action="#{admCont.regMovDebCreChe(3)}">
+                                            <p:ajax process="@this checkAccount checkStartSequence checkEtartSequence totalCheck" />
+                                        </h:commandButton>
+                                    </article>
+                                </div>   
+                            </div>
+                        
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+        </h:form>
+        <h:form>
+             <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+        </h:form>
+    </h:body>
+    
+</html>

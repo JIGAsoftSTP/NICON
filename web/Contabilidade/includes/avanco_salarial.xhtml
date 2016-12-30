@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <div class="modalPage mp-salario mp-avanco modalAvancoSalarial">
+            <div class="modalFrame">                                            
+                <div class="modalContainer default-JIGA avancoSalarial">
+                    <h:form id="formAvancoSalarial">
+                        <p:growl id="avancoSalarialGrowl" showDetail="false" />
+                        <h3></h3>
+                        <p>
+                            Funcionário
+                            <h:selectOneMenu id="avancoSalarialFunc" value="#{salarioBean.salarial.funcionario}" 
+                                             class="avancoSalarialFuncionario avancoSalarialCampo">
+                                <f:selectItem itemLabel="(Selecione)"  />
+                                <f:selectItems value="#{salarioBean.funcList}" var="fu" itemLabel="#{fu.value}" itemValue="#{fu.id}" />
+                                <p:ajax event="change" listener="#{salarioBean.avancoSalarioFuncionario()}" process="@this avancoSalarialValores" />
+                            </h:selectOneMenu>
+                        </p>
+                        <section>
+                            <p>
+                                Nº Documento
+                                <h:inputText id="avancoSalarialNumDocumento" value="#{salarioBean.salarial.numDoc}" required="true" 
+                                             class="avancoSalarialNumDoc avancoSalarialCampo" />
+                            </p>
+                            <p>
+                                Valor
+                                <h:inputText id="avancoSalarialValores" value="#{salarioBean.salarial.valor}" class="justNumeric avancoSalarialValor avancoSalarialCampo"  >
+                                    <p:ajax event="blur" listener="#{salarioBean.avancoSalarioFuncionario()}" process="@this avancoSalarialFunc" />
+                                </h:inputText>
+                                             
+                            </p>
+                            <p>
+                                Data
+                                <p:calendar id="avancoSalarialDate" value="#{salarioBean.salarial.data}" pattern="dd-MM-yyyy" required="true"
+                                            class="date avancoSalarialData avancoSalarialCampo"></p:calendar>
+                            </p>
+                        </section>
+                        <p>
+                            Observação
+                            <h:inputTextarea value="#{salarioBean.salarial.ojs}"  id="avancoSalarialObs" class="avancoSalarialCampo" ></h:inputTextarea>
+                        </p>
+                        <p class="areaButtonTaxa">
+                            <h:commandButton class="regAvancoSalarial" value="Guardar" action="#{salarioBean.regAvancoSalarial()}">
+                                <p:ajax  oncomplete="$('.processamento').hide()"
+                                        process="@this avancoSalarialFunc avancoSalarialNumDocumento avancoSalarialValores avancoSalarialDate avancoSalarialObs" />
+                            </h:commandButton>
+                        </p>
+                    </h:form>
+                    <div class="closeModalFrame" >X</div>
+                </div>
+            </div>
+        </div>
+         
+        <div class="areaTable">
+            <h:commandButton value="+ Adicionar" class="abrir" type="button"/>
+            <p:dataTable scrollable="true" selectionMode="single" rowKey="" scrollHeight="350" var="ls" value="#{salarioBean.listaAvancoSalarial}" id="avancoTable" >
+                <p:column headerText="Data">
+                    <h:outputLabel value="#{ls.dataView}" />
+                </p:column>
+                <p:column headerText="Valor" > 
+                    <h:outputLabel value="#{ls.valor}" />
+                </p:column>
+                <p:column headerText="Funcionário">
+                    <h:outputLabel value="#{ls.funcionario}" />
+                </p:column>
+                <p:column  >
+                    <h:outputLabel class="icon-info" title="Mais informações">
+                        <p:ajax event="click"
+                                listener="#{salarioBean.avancoSalarialMoreInfo(ls)}" onstart="$('.processamento').show()" oncomplete="$('.processamento').hide()" />
+                    </h:outputLabel>
+                    <h:outputLabel class="icon-cancel-circle" title="Desativar Avanço Salarial">
+                        <p:ajax event="click" listener="#{salarioBean.avancoSalarial(ls)}" oncomplete="$('.desativarAvancoSalarialModal').fadeIn()" />
+                    </h:outputLabel>
+                </p:column>
+            </p:dataTable>
+        </div>
+         <div class="mi-values">
+                <section>
+                    <h:outputText  value="Valor:"/>
+                    <b><h:outputText  class="firstField"/></b>
+                </section>
+                <span class="close-mi-values">X</span>
+          </div>
+          <h:form>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+        </h:form> 
+        
+        <div class="modalPage mp-infoTable avancoSalarialmodalMaisInfo" >
+        <div class="modalFrame">                                            
+          <div class="modalContainer">
+            <p><b>Mais Informações</b></p>
+           <h:form id="avancoSalarialMaisInfo">
+               <p ><h:outputLabel value="Funcionário" class="negrito" /><h:outputText  value="#{salarioBean.salarial.funcionario}" style="margin-left: 84px;"/></p>   
+             <p>
+                 <h:outputLabel value="Data" class="negrito" /> <h:outputText value="#{salarioBean.salarial.dataView}" style="margin-left: 134px;"  />
+             </p>   
+             <p>
+                 <h:outputLabel value="Valor" class="negrito" />  <h:outputText value="#{salarioBean.salarial.valor}" style="margin-left: 133px;" />
+             </p>   
+             <p>
+                 <h:outputLabel value="Número Documento" class="negrito" />  <h:outputText   value="#{salarioBean.salarial.numDoc}" style="margin-left: 30px;"  />
+             </p>   
+             <p>
+                 <h:outputLabel value="Observação" class="negrito" />  <h:outputText  value="#{salarioBean.salarial.ojs}" style="margin-left: 85px;"   />
+             </p>   
+             <p>
+                 <h:outputLabel value="Registro" class="negrito" /> <h:outputText value="#{salarioBean.salarial.registro}" style="margin-left: 108px;"  />
+             </p>   
+             <p>
+                 <h:outputLabel value="Estado" class="negrito" /> <h:outputText value="#{salarioBean.salarial.estado}"  style="margin-left: 120px;"  />
+             </p>   
+            </h:form>
+            <div class="closeModalFrame moreData" >X</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modalPage mp-messages desativarAvancoSalarialModal">
+                <div class="modalFrame">                                            
+                    <div class="modalContainer">
+                        <h3><h:outputText value="Avanço Salarial" class="titulo"></h:outputText></h3>
+                        <p>
+                            <h:outputText value="Deseja realmente desativar este avanço salarial?" class="mensagemApresentada"></h:outputText>
+                        </p>
+                        <div class="divButtons">
+                            <h:commandButton class="mf-bt-ok" value="Sim" action="#{salarioBean.desativarAvancoSalarial()}" >
+                                <p:ajax onstart="$('.desativarAvancoSalarialModal').hide(),$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()" />
+                            </h:commandButton>
+                            <h:commandButton class="mf-bt-ko" value="Cancelar">
+                                <p:ajax process="@none"/>
+                            </h:commandButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+ 
+    </h:body>
+    <script>
+        $('.abrir').click(function () {
+            $(".avancoSalarial h3").html("Adicionar Avanço Salarial");
+            $('.mp-avanco').fadeIn(400);
+        });
+        $(".regAvancoSalarial").click(function ()
+        {
+            var valido = true;
+            if($(".avancoSalarialFuncionario").val()==="")
+            {
+                valido = false;
+                $(".avancoSalarialFuncionario").css("border","1px solid red");
+            }
+            $(".avancoSalarial [type=text]").each(function ()
+            {
+                if($(this).val() === "")
+                {
+                    $(this).css("border", "1px solid red");
+                    valido = false;
+                }
+            });
+            if(valido === true)
+                $(".modalProcess").show();
+        });
+        
+    </script>
+</html>
+

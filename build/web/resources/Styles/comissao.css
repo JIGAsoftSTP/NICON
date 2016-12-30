@@ -1,0 +1,73 @@
+/* 
+    Created on : 30/mai/2016, 16:04:55
+    Author     : Grinalda Soares
+*/
+
+.contentCom{           
+    padding: 20px;
+    display: flex;
+    background: #eee;
+    width: 100%;
+}
+.contentBodyCom{
+    padding: 30px;
+    width: 30%;
+    background: #FFF;
+}
+.contentBodyCom section{
+    display: flex;
+    flex-direction: column;
+}
+.contentBodyCom [type=text],select{
+    padding: 7px;
+    color: #333;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    width: 98%;
+    margin: 0 5px;
+}
+.contentBodyCom label{
+   color: #333;
+   font-weight: bolder;
+   font-size: 16px;
+   margin: 8px;
+}
+.contentBodyCom h3{
+   color: #666;
+   font-weight: bolder;
+   font-size: 20px;
+   margin: 8px 5PX;
+   padding: 5px 0;
+   border-bottom: 2px solid #ccc;
+}
+.contentBodyCom input[type=submit]{
+    width: 98%;
+    padding: 10px 0;
+    color: #fff;
+    background: #3991ee;
+    border: none;
+    font: 14px arial;
+    border-radius: 3px;
+    font-weight: bold;
+    margin: 10px;
+    cursor: pointer;
+}
+.areaTableCom{
+    width: 70%;
+}
+.table{
+    background: #FFF;
+    margin-left: 10px;
+    height: 470px;
+}
+.comissao.export{
+    background: #fff;
+    margin: 0;
+    margin-left: 10px;
+    padding: .7rem 1rem 1.5rem 1rem;
+}
+.export .divSearch{
+    margin: 0;
+    width: 50%;
+}

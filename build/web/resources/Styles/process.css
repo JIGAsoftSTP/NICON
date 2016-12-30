@@ -1,0 +1,124 @@
+
+/* 
+    Created on : Jun 17, 2016, 2:13:59 PM
+    Author     : Xpert 2016
+*/
+.mp-process h3{
+    margin-bottom: 2rem;
+    display: inline-block;
+}
+.mp-process .period{
+    display: inline-block;
+    margin-left: 10%;
+}
+.mp-process .period select{
+    min-width: 150px;
+    margin-left: 1rem;
+}
+.mp-process .modalContainer{
+    max-width: 1200px;
+    font-size: .9rem;
+}
+.div-total-modal{
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+}
+.div-total-modal h4{
+    font-size: 1rem;
+    color: #4285F4;
+}
+.div-total-modal span{
+    font-weight: bold;
+}
+.div-total-modal .left-side{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+.left-side .fisrt{
+    font-size: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.div-total-modal nav{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.fisrt select{
+    min-width: 350px; 
+    margin-bottom: 0 !important;
+}
+.fisrt.f2{
+    background: #fafafa;
+    padding: 1rem;
+    font-size: .9rem;
+    border: 1px #eee solid;
+}
+.fisrt span{
+    color: #00C853;
+}
+.div-total-modal input,
+.div-total-modal select{
+}
+.div-total-modal section{
+    width: 32%;
+    background: #f9f9f9;
+    padding: 1rem;
+    border: 1px #eee solid;
+
+}
+.div-total-modal nav{
+    margin-top: 1rem;
+}
+.right-side{
+    display: flex;
+    justify-content: space-between;
+}
+.right-side .tableSalario{
+    width: 66%;
+    margin: 0 !important;
+}
+.right-side section{
+    width: 32%;
+    flex-shrink: 0;
+}
+.fisrt .labts,
+.bts2:after{
+    display: inline-block;
+    border: none;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 1.4rem;
+    width: 40px;
+    line-height: 40px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+.bts1{
+    background: #32AF00;
+    margin-right: .6rem;
+}
+.bts2:after{
+    content: "\2713";
+    background: #4285F4;
+    font-size: 1.2rem;
+}
+/*.fisrt .btAddSalario{
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    background: #32AF00;
+    color: #fff;
+    font-size: .9rem;
+    padding: .7rem 1.5rem;
+}*/
+.right-side .more-down{
+    margin-top: 2rem;
+}

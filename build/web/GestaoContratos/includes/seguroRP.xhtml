@@ -1,0 +1,305 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <h:outputStylesheet library="Styles" name="seguroRP.css"></h:outputStylesheet>
+        <h:outputStylesheet library="Styles" name="geralStyle.css"></h:outputStylesheet>
+        <h:outputStylesheet library="Styles" name="geralSeguros.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="seguroRP.js" />
+    </h:head>
+    <h:body>
+        <h:form id="responsabilidadeForm" >
+            <p:remoteCommand actionListener="#{responsabilidadePublicaBean.seguinte()}" name="respDados" />
+            <p:growl id="RespPublicaInfo" showDetail="false" life="10000"/>
+            <!--<h:form id="respFormHeader">-->
+            <div class="K-seguros">
+                <span>
+                    Nº de apólice
+                    <h:inputText value="#{responsabilidadePublicaBean.rp.numeroApolice}" 
+                                 class="apoliceRespPublica apolice">
+                    </h:inputText>
+                </span>
+                <span>
+                    Nº de registro
+                    <h:inputText value="#{responsabilidadePublicaBean.rp.numeroRegistro}"
+                                 class="RespPublicaNumRegistro" 
+                                 id="ResPublicanNumeroRegistro">
+       
+                    </h:inputText>
+                </span>
+                <span>
+                    Moeda
+                    <h:selectOneMenu value="#{responsabilidadePublicaBean.rp.moeda}" id="rpMoeda" class="respMoeda">
+                        <f:selectItems  value="#{veiculoBean.moeda}" 
+                                        itemLabel="#{m.value}"
+                                        var="m" itemValue="#{m.id}"/>
+                    </h:selectOneMenu>
+                </span>
+
+            </div>
+            <!--</h:form>-->
+            <div class="formularioSeguro">
+
+                <h1>Cobertura</h1>
+                <!--<h:form id="respCoverForm">-->
+                <div class="ant-check formatInput">
+                    <nav class="input-5">
+                        <h:selectManyCheckbox value="#{responsabilidadePublicaBean.incendioExplosao.coberturas}" class="respIncendioCob">
+                            <f:selectItem itemLabel="Incêndio / Explosão" itemValue="true"/>                            
+                        </h:selectManyCheckbox>
+
+                        <h:inputText pt:placeholder="Valor" class="input-total incendioCobValor justNumeric"
+                                     value="#{responsabilidadePublicaBean.incendioExplosao.cobreValor}"/>
+                    </nav>
+                    <nav class="input-5">
+                        <h:selectManyCheckbox value="#{responsabilidadePublicaBean.intoxicacaoAlimentar.coberturas}" class="respIntoxicacaoCob" >
+                            <f:selectItem itemLabel="Intoxicação Alimentar" itemValue="true"/>
+                        </h:selectManyCheckbox>
+
+                        <h:inputText pt:placeholder="Valor"  class="input-total intoxicacaoCobValor justNumeric" 
+                                     value="#{responsabilidadePublicaBean.intoxicacaoAlimentar.cobreValor}"/>
+                    </nav>
+                    <nav class="input-2">
+                        <h:selectManyCheckbox value="#{responsabilidadePublicaBean.outro.coberturas}" class="respOutroCob">
+                            <f:selectItem itemLabel="Outro" itemValue="true"/>
+                        </h:selectManyCheckbox>
+                        <nav class="input-total another">
+                            <h:inputText pt:placeholder="Especifique" class="specify input-3-2 outroCobDetalhes" 
+                                         value="#{responsabilidadePublicaBean.outro.cobreDetalhes}"/>
+                            <h:inputText pt:placeholder="Valor" class="input-3 outroCobValor justNumeric"  
+                                         value="#{responsabilidadePublicaBean.outro.cobreValor}" />                            
+                        </nav>
+                    </nav>
+                </div>
+                <!--</h:form>-->
+                <h1>Limite de Idemnização</h1>
+                <div class="limit formatInput">
+                    <nav class="input-3-3">
+                        <h4>Cada acidente</h4>
+                        <section class="input-2-1">
+                            <h:inputText pt:placeholder="Valor" value="#{responsabilidadePublicaBean.acidente.cobreValor}" class="respAcidenteValor justNumeric" id="respAcidenteValue" />
+                            <h:inputText  pt:placeholder="Taxa" class="input-8 respAcidenteTaxa"  id="respAcidenteTaxa"
+                                          value="#{responsabilidadePublicaBean.acidente.cobreTaxa}">
+                                <p:ajax process="@this respAcidenteValue" event="keyup" listener="#{responsabilidadePublicaBean.calcularPremio()}" />
+                            </h:inputText>
+                        </section>
+                        <span>
+                            Prémio: 
+                            <h:outputLabel value="#{responsabilidadePublicaBean.acidente.cobrePremioFormatado}" id="respAcidentePremio"/>
+                        </span>
+                    </nav>
+                    <nav class="input-3-1">
+                        <h4>Cada Periodo do Seguro</h4>
+                        <section class="input-2-1">
+                            <h:inputText pt:placeholder="Valor" value="#{responsabilidadePublicaBean.periodoSeguro.cobreValor}" class="respPeriodoValor justNumeric" id="respPeriodoValue"/>
+                            <h:inputText  pt:placeholder="Taxa" class="input-8 respPeriodoTaxa"  id="respPeriodoTaxa"
+                                          value="#{responsabilidadePublicaBean.periodoSeguro.cobreTaxa}">
+                                <p:ajax process="@this respPeriodoValue" event="keyup" listener="#{responsabilidadePublicaBean.calcularPremio()}" />
+                            </h:inputText>
+                        </section>
+                        <span>
+                            Prémio: 
+                            <h:outputLabel value="#{responsabilidadePublicaBean.periodoSeguro.cobrePremioFormatado}" id="respPeriodoPremio"/>
+                        </span>
+                    </nav>
+                </div>
+                <h1>Esquema do edifício ou contrato</h1>
+                <div class="esquema">  
+                    <h:form id="responsabilidadeFormTable" class="respAddTable"> 
+                        <div class="formatInput respInputtable">
+                            <p>
+                                Empregado
+                                <h:inputText class="input-total rspEmpregadoCampo respLimpar" value="#{responsabilidadePublicaBean.rp.empregado}" id="respEmpregado"/>
+                            </p>
+                            <p>
+                                Profissão
+                                <h:inputText class="input-total respLimpar" value="#{responsabilidadePublicaBean.rp.profissao}" id="respProfissao"/>
+                            </p>
+                            <p>
+                                Endereço do edifício
+                                <h:inputText class="input-total respLimpar" value="#{responsabilidadePublicaBean.rp.endereco}" id="respEnderecoEdificio"/>
+                            </p>
+                            <h:commandButton value="Adicionar" class="addItemTable" action="#{responsabilidadePublicaBean.addTable()}">
+                                <p:ajax process="responsabilidadeFormTable"  onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()"  />
+                            </h:commandButton>
+                        </div>
+                    </h:form> 
+                    <p:dataTable scrollable="true" scrollHeight="230" id="respTable"  emptyMessage=""
+                                 value="#{responsabilidadePublicaBean.info}" var="info" rowKey="#{info}"
+                                 selectionMode="single" selection="#{responsabilidadePublicaBean.rpSelected}">
+                        <p:ajax event="rowSelect" process="@this" />
+                        <p:column headerText="Empregado" width="100">
+                            <h:outputText value="#{info.empregado}"/>      
+                        </p:column>
+                        <p:column  headerText="Profissão" width="80">
+                            <h:outputText value="#{info.profissao}"/>
+                        </p:column>
+                        <p:column headerText="Endereço" width="90">
+                            <h:outputText value="#{info.endereco}"/>
+                        </p:column>
+                        <p:column headerText="Ações" width="40">
+
+                            <h:outputLabel class="actionTable icon-cancel-circle" title="Remover linha"   >
+                                <p:ajax process="@this" event="click" listener="#{responsabilidadePublicaBean.removeFromTable(info)}" />
+                            </h:outputLabel>
+                            <h:outputLabel class="actionTable icon-bin" title="Limpar tabela">
+                                <p:ajax process="@this" event="click" listener="#{responsabilidadePublicaBean.limparTudo()}" />
+                            </h:outputLabel>
+                        </p:column>
+                    </p:dataTable>
+
+                </div>
+
+                <h1>Informações adicionais</h1>
+                <div class="formatInput more-info">
+                    <span>
+                        <h4>Salário</h4>
+                        <h4 class="input-3-1">Estado do edifício</h4>
+                    </span>
+                    <section class="sec-1">
+                        <nav  class="input-3-1">
+                            <p class="input-2">
+                                Sub-Empreteiros
+                                <h:inputText class="input-total respSubEmpreiteiros justNumeric" value="#{responsabilidadePublicaBean.rp.salarioSubempreiteiros}"/>                                 
+                            </p>
+                            <p class="input-2">
+                                Diretores e colaboradores
+                                <h:inputText  class="input-total respDiretor justNumeric" value="#{responsabilidadePublicaBean.rp.salarioDiretorColaborador}"/> 
+
+                            </p>
+                        </nav>
+                        <nav class="input-3-1">
+                            <p>
+                                <h:selectOneRadio  value="#{responsabilidadePublicaBean.rp.estadoEdificio}" class="respEstadoEdificio" id="respStateBuilding"> 
+                                    <f:selectItem itemLabel="Bom estado" itemValue="61" />
+                                    <f:selectItem itemLabel="Mau estado" itemValue="60"/>
+                                </h:selectOneRadio>
+
+                            </p>
+                        </nav>
+                    </section>
+                    <h4>Possui:</h4>
+                    <section>
+                        <nav>
+                            Veículo não movido a motor
+                            <h:selectOneRadio  value="#{listaRespostas.getResposta(128).resposta}" >
+                                <f:selectItem itemValue="Y" itemLabel="Sim" />
+                                <f:selectItem itemValue="N" itemLabel="Não" />  
+                                <p:ajax listener="#{listaRespostas.getResposta(128).validarSelecaoCaso1()}"
+                                        update="respPublicaEspe1" />
+                            </h:selectOneRadio>
+                        </nav>
+                        <h:inputText class="input-3-1 otherInfoResp" id="respPublicaEspe1" value="#{listaRespostas.getResposta(128).obj}" 
+                                     pt:placeholder="Especifique"  disabled="#{listaRespostas.getResposta(128).validar}" >
+                            <p:ajax event="blur" process="@this" />
+                        </h:inputText>
+                    </section>
+                    <section>
+                        <nav>
+                            Guindaste ou Grua
+                            <h:selectOneRadio value="#{listaRespostas.getResposta(129).resposta}" >
+                                <f:selectItem itemValue="Y" itemLabel="Sim" />
+                                <f:selectItem itemValue="N" itemLabel="Não" />   
+                                <p:ajax listener="#{listaRespostas.getResposta(129).validarSelecaoCaso1()}"
+                                        update="respPublicaEsp2"/>
+                            </h:selectOneRadio>
+                        </nav>
+                        <h:inputText class="input-3-1 otherInfoResp" pt:placeholder="Especifique" value="#{listaRespostas.getResposta(129).obj}"
+                                     id="respPublicaEsp2"
+                                     disabled="#{listaRespostas.getResposta(129).validar}">
+                            <p:ajax event="blur" process="@this" />
+                        </h:inputText>
+                    </section>
+                    <section>
+                        <nav>
+                            Seguro contra explosão
+                            <h:selectOneRadio value="#{listaRespostas.getResposta(130).resposta}">
+                                <f:selectItem itemValue="Y" itemLabel="Sim" />
+                                <f:selectItem itemValue="N" itemLabel="Não" />   
+                                <p:ajax listener="#{listaRespostas.getResposta(130).validarSelecaoCaso1()}"
+                                        update="respPublicaEsp3"/>
+                            </h:selectOneRadio>
+                        </nav>
+                        <h:inputText class="input-3-1 otherInfoResp" id="respPublicaEsp3"
+                                     value="#{listaRespostas.getResposta(130).obj}"
+                                     pt:placeholder="Especifique" disabled="#{listaRespostas.getResposta(130).validar}" >
+                            <p:ajax event="blur" process="@this" />
+                        </h:inputText>
+                    </section> 
+                    <h4>Questões</h4>
+                    <section>
+                        <nav>
+                            Realizam inspeções?
+                            <h:selectOneRadio value="#{listaRespostas.getResposta(131).resposta}">
+                                <f:selectItem itemValue="Y" itemLabel="Sim" />
+                                <f:selectItem itemValue="N" itemLabel="Não" />   
+                                <p:ajax listener="#{listaRespostas.getResposta(131).validarSelecaoCaso1()}"
+                                        update="respPublicaEsp4"/>
+                            </h:selectOneRadio>
+                        </nav>
+                        <h:inputText id="respPublicaEsp4" value="#{listaRespostas.getResposta(131).obj}"
+                                     class="input-3-1 otherInfoResp" pt:placeholder="Por" disabled="#{listaRespostas.getResposta(131).validar}" >
+                            <p:ajax event="blur" process="@this" />
+                        </h:inputText>
+                    </section> 
+                    <section>
+                        <nav>
+                            Possui veículo sem licença de circulação? 	
+
+                            <h:selectOneRadio value="#{listaRespostas.getResposta(208).resposta}" >
+                                <f:selectItem itemValue="Y" itemLabel="Sim" />
+                                <f:selectItem itemValue="N" itemLabel="Não" />   
+                                <p:ajax listener="#{listaRespostas.getResposta(208).validarSelecaoCaso1()}"
+                                        update="respPublicaEsp5"/>
+                            </h:selectOneRadio>
+                        </nav>
+                        <h:inputText class="input-3-1 otherInfoResp" id="respPublicaEsp5" value="#{listaRespostas.getResposta(208).obj}"
+                                     pt:placeholder="Especifique" disabled="#{listaRespostas.getResposta(208).validar}" >
+                            <p:ajax event="blur" process="@this" />
+                        </h:inputText>
+                    </section>
+                    <section>
+                        <nav>
+                            Utilizam ácidos?	
+                            <h:selectOneRadio value="#{listaRespostas.getResposta(207).resposta}" >
+                                <f:selectItem itemValue="Y" itemLabel="Sim" />
+                                <f:selectItem itemValue="N" itemLabel="Não" />  
+                                <p:ajax listener="#{listaRespostas.getResposta(207).validarSelecaoCaso1()}"
+                                        update="respPublicaEsp6"/>
+                            </h:selectOneRadio>
+                        </nav>
+                        <h:inputText class="input-3-1 otherInfoResp" id="respPublicaEsp6" value="#{listaRespostas.getResposta(207).obj}"
+                                     pt:placeholder="Tipos de ácidos" disabled="#{listaRespostas.getResposta(207).validar}" >
+                            <p:ajax event="blur" process="@this" />
+                        </h:inputText>
+                    </section>
+                    <h4>Reclamações</h4>
+                    <section>
+                        <nav class="input-2">
+                            Reclamações feitas nos últimos 3 anos
+                            <h:inputTextarea class="input-total" value="#{listaRespostas.getResposta(209).obj}" />
+                        </nav>
+                    </section>
+                </div>
+                <div class="PrNx">
+                    <h:form>
+                        <h:commandButton value="Anterior" class="btPrevious">
+                        </h:commandButton>
+                        <h:commandButton value="Seguinte" class="btNext respNext" type="button"  >
+                            <f:ajax execute="@this" />
+                        </h:commandButton>
+                    </h:form>
+                </div>
+            </div>
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+        </h:form>      
+    </h:body>
+
+</html>
+

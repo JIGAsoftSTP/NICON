@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <h:outputStylesheet library="Styles" name="geralStyle.css"></h:outputStylesheet>
+        <h:outputStylesheet library="Styles" name="geralSeguros.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="script_Geral.js" />
+        <title>NICON Seguros | Seguros</title>        
+    </h:head>
+    <h:body id="ID_paginaNovo_Seguro">
+        <h:form id="contratoCon" >
+            <div class="processamento modalProcess">
+                <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
+            </div>
+            <div class="modalPage mp-messages apoliceModal">
+                <div class="modalFrame">                                            
+                    <div class="modalContainer">
+                        <h3><h:outputText value="#{contratoBean.nomeSeguro}" class="titulo"></h:outputText></h3>
+                        <p>
+                            <h:outputText value="#{contratoBean.mensagem}"   id="info" class="apoliceRegistrado"></h:outputText>
+                        </p>
+                        <div class="divButtons">
+                            <h:commandButton class="mf-bt-ok" value="OK" action="#{contratoBean.redirect()}">
+                            </h:commandButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+        <div class="modalPage mp-modo-pgto modalidadePagamento" id="ModPag" >
+            <div class="modalFrame">                                            
+                <div class="modalContainer">
+                    <h2>Modalidade de pagamento</h2>
+                    <h:form id="pagamentoForm">
+                        <nav class="title-2">
+                            <p>
+                                Tipo de Seguro: 
+                                <h:outputLabel value="#{contratoBean.nomeSeguro}"/> 
+                            </p>
+                            <p>
+                                Apólice: 
+                                <h:outputLabel value="#{contratoBean.dadosForPagamento(null)[0]}"/>
+                            </p>
+                        </nav>
+                        <div class="formularioSeguro">
+
+                            <div class="formatInput">
+
+                                <p class="p-1">
+                                    Cliente: 
+                                    <b><h:outputLabel value="#{contratoBean.dadosForPagamento(null)[1]}"/></b>
+
+                                </p>
+                                <p>
+                                    Tipo de Pagamento
+                                    <h:selectOneMenu required="true" id="pagamentoTipoPagamento" class="input-total" value="#{contratoBean.modeloPagamento.tipoPagamento}">
+                                        <f:selectItems value="#{contratoBean.listaTipoPagamento}" var="tp" itemValue="#{tp.id}" itemLabel="#{tp.value}" />
+                                        <p:ajax event="change" listener="#{contratoBean.constroListaPagamento()}" process="pagamentoPrestacao pagamentoPrazo pagamentoTipoPagamento" />
+                                    </h:selectOneMenu>
+                                </p>
+                                <nav>
+                                    <p class="input-2">
+                                        Nº de Prestações
+                                        <h:inputText required="true" class="numeroAC pagamentoPrestacao input-total" id="pagamentoPrestacao" value="#{contratoBean.modeloPagamento.prestacao}" >
+                                            <p:ajax event="keyup" listener="#{contratoBean.constroListaPagamento()}" onstart="validarPestacao();" process="pagamentoPrestacao pagamentoPrazo pagamentoTipoPagamento" />
+                                        </h:inputText>
+                                    </p>
+                                    <p class="input-2">
+                                        Prazo
+                                        <h:inputText required="true" class="numeroAC pagamentoPrazo input-total" id="pagamentoPrazo" value="#{contratoBean.modeloPagamento.prazo}" >
+                                            <p:ajax event="keyup" listener="#{contratoBean.constroListaPagamento()}" process="pagamentoPrestacao pagamentoPrazo pagamentoTipoPagamento" />
+                                        </h:inputText>
+                                    </p>
+                                </nav>
+                            </div >
+                            <p:dataTable id="pagamentoTable" class="TabModPag" emptyMessage=" "
+                                         value="#{contratoBean.listaModeloPagamento}" var="mp"
+                                         scrollable="true" scrollHeight="138">
+                                <p:column headerText="Data Limite Pag" width="70">
+                                    <h:outputLabel value="#{mp.dataPagamentoLimiteView}" />
+                                </p:column>
+                                <p:column headerText="Valor a pagar" width="100">
+                                    <h:outputLabel value="#{mp.valorPagametoVeiw}" />
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </h:form>
+
+                    <div class="divButtons">
+                        <h:form id="apoliceT">
+                            <!--hideModalPagemento() hideModalPagemento() -->
+                            <h:commandButton value="Concluir" class=" mf-bt-ok"  
+                                             action="#{contratoBean.beforeRegContrato()}">
+                                <p:ajax process="@form"   
+                                        onstart=" hideModalPagemento(),mostrarP1()"
+                                        oncomplete="fecharP1(),impressao(xhr, status, args)">
+                                </p:ajax>
+                            </h:commandButton>
+                            <h:commandButton value="Simulação" class=" mf-bt-ok"  
+                                             action="#{contratoBean.simulate()}">
+                                <p:ajax process="@form"  onstart="$('.processamento').show()" 
+                                        oncomplete="impressao(xhr, status, args),$('.processamento').hide()">
+                                </p:ajax>
+                            </h:commandButton>
+                            <h:commandButton class="mf-bt-ko" value="Cancelar">
+                            </h:commandButton>
+                        </h:form>
+                    </div>
+                </div> 
+            </div>
+        </div>
+
+        <div class="bodyAddSeguroGeral">
+            <div id="divIncludeStep3"  class="divInclude">
+                <ui:include src="includes/apolice.xhtml"/>
+            </div>
+
+        </div>
+
+
+
+
+    </h:body>
+</html>
+
+

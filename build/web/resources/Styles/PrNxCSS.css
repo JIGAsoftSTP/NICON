@@ -1,0 +1,56 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 31, 2015, 11:07:56 AM
+    Author     : Junior
+*/
+.PrNx .btPrevious, .PrNx .btNext{
+    border: none;
+    background: #0066ff;
+    color: #fff;
+    padding: 8px 18px;
+    font: bold 16px arial, sans-serif;
+    border-radius: 4px;
+    margin-left: 12px;           
+    cursor: pointer;        
+}
+.PrNx{
+    float: right;
+    display: table;
+    margin: 20px 0;
+}
+.PrNx .btNext:hover{
+    background: #4d87e2;
+    transition: all .6s ease;
+}
+.PrNx .btNext:disabled{
+    background: #F7F8F9;
+    color: #666;
+    border: 1px #e2e2e2 solid;
+    transition: all .6s ease;
+}
+.PrNx .btPrevious{
+    border: 1px #ddd solid;
+    background: #ddd;
+    color: #444;
+}
+.PrNx .btPrevious:hover{
+    border: 1px #e2e2e2 solid;
+    background: #f0f0f0;
+    transition: all .6s ease;
+}
+.clienteGuardar:disabled{
+    background: #F7F8F9;
+    color: #666;
+    border: 1px #e2e2e2 solid;
+    transition: all .6s ease;
+}
+.clearAll:disabled{
+    background: #F7F8F9;
+    color: #666;
+    border: 1px #e2e2e2 solid;
+    transition: all .6s ease;
+}

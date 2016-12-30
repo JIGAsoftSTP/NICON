@@ -1,0 +1,362 @@
+
+.show-new-pgto-rcbto,
+.pgtos_rcbtos i,
+.show-hide-table,
+.search_pgto_rcbto label{
+    cursor: pointer;
+}
+
+.pgtos_rcbtos i,
+.show-hide-table,
+.search_pgto_rcbto,
+.MI-pgto-rcbto i,
+.SH-pgto{
+    font-size: 1.3em;
+}
+.pgtos_rcbtos{
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+}
+.pgtos_rcbtos > section{
+    width: 100%;
+    padding: 5px 20px;
+    
+    position: relative;
+    transition: all .5s ease;
+
+}
+.pgtos_rcbtos .payments{
+    border-right: 1px #ddd solid;
+    width: 100%;
+}
+
+
+/*#########   NEW PAYMENT  ########*/
+
+.payments .newPayment{
+    height: 100%;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    left: -200%;
+    max-width: 520px;
+    box-shadow: 10px 0 15px -10px rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    overflow: auto;
+    transition: all 1s ease;
+}
+.newPayment nav{
+    margin-top: 10px;
+}
+.navOne,
+.navTwo,
+.header-pgto-rcbto,
+.search_pgto_rcbto,
+.MI-pgto,
+.MI-rcbto,
+.finish-pgto-rcbto{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navOne {
+    margin-bottom: 20px;
+}
+.navOne h2{
+    font-weight: normal;
+}
+.navTwo{
+    background: #f9f9f9;
+    border: 1px #ddd solid;
+    margin-bottom: 10px;
+}
+.navTwo p{
+    position: relative;
+}
+.navTwo .firstP{
+    border-right: 1px #ddd solid;
+}
+.navTwo select{
+    width: 100%;
+    line-height: 2.5em;
+    margin-bottom: 0 ;
+    font-size: 1.05rem;
+    border: none;
+    background: #f9f9f9;
+    appearance: none;
+    -moz-appearance: none; 
+    -webkit-appearance: none;
+}
+.arrowSelect{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -3px;
+    border-left: 6px transparent solid;
+    border-right: 6px transparent solid;
+    border-top: 10px rgba(0,0,0,.8) solid;
+}
+
+.account-payment span{
+    display: flex;
+    border: 1px #ddd solid;
+    border-radius: 3px;
+    align-items: center; 
+    position: relative;
+}
+.account-payment input{
+    border: none !important;
+    margin-bottom: 0 !important;
+    flex-grow: 1;
+}
+.account-payment i{
+    margin: 0 10px;
+    cursor: default;
+}
+.account-payment  section{
+    font-size: .9em;
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    padding: 8px;
+    background: rgba(0,0,0,.8);
+    color: #fdfdfd;
+    z-index: 1;
+    border-radius: 3px;
+    display: none;
+}
+.account-payment  section:after{
+    content: "";
+    position: absolute;
+    right: 16px;
+    top: 100%;
+    border-left: 6px transparent solid;
+    border-right: 6px transparent solid;
+    border-top: 10px rgba(0,0,0,.8) solid;
+    z-index: 1;
+}
+
+#info-account-payment:hover + section{
+    display: block;
+}
+
+
+/*###### show table with first info on add Payment ######*/
+
+.details-1{
+    position: relative;
+    overflow: hidden;
+    border-bottom: 2px #ddd solid;
+    margin-bottom: 20px;
+}
+
+#div-table-details-1{
+    padding: 10px;
+    position: absolute;
+    left: 0;
+    bottom: -100%;
+    z-index: 1;
+    background: #fafafa;
+    transition: all .5s ease;
+    border: 1px #ddd solid;
+    border-bottom: 0;
+    
+}
+.hide-table{
+    display: block;
+    width: 100%;
+    text-align: right;
+    margin-bottom: 10px;
+}
+#check-table-details-1,
+#show-hide-new-payment,
+#show-hide-new-receivent{
+    display: none;
+}
+#check-table-details-1:checked ~ #div-table-details-1{
+    bottom: 0;
+    transition: all .5s ease;
+}
+.finish-pgto-rcbto{
+    margin-top: 10px;
+    width: 100%;
+}
+.finish-pgto-rcbto input{
+    padding: 12px 20px;
+    font-size: 1rem;
+    background: #0066ff;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+#show-hide-new-payment:checked ~ .newPayment{
+    left: 0;
+    transition: all .5s ease;
+}
+.hide-new-payment{ 
+    color: #555;
+    font-size: 1.07rem;
+}
+
+/*#########   NEW RECEIVENT  ########*/
+
+.receivents .newReceivent{
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    right: -200%;
+    max-width: 450px;
+    box-shadow: -10px 0 15px -10px rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    overflow: auto;
+    transition: all 1s ease;
+}
+
+
+/*#show-hide-new-receivent:checked ~ .newReceivent{
+    right: 0;
+    transition: all .5s ease;
+}*/
+
+.infoReceivent{
+    margin-top: 1rem;
+    padding: 20px 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px #eee solid;
+    color: #0066ff;
+}
+.infoReceivent p{
+    margin-top: 20px;
+}
+.infoReceivent p label,
+.addPayment{
+    font-weight: bold;
+    display: inline-block;
+    min-width: 130px;
+    font-size: .9rem;
+    color: #333;
+}
+.addPayment nav{
+    margin-top: 10px;
+}
+.newReceivent .finish-pgto-rcbto{
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    width: 50%;
+}
+
+
+.header-pgto-rcbto{
+    width: 100%;
+    margin: 1rem 0 2rem 0;
+}
+
+.header-pgto-rcbto h1{
+    color: #0066ff;
+    font-weight: normal;
+    font-size: 1.5rem;
+}
+.header-pgto-rcbto i{
+    font-size: 1rem;
+}
+ .show-new-pgto-rcbto{
+    display: block;
+    text-align: center;
+    padding: 10px 15px;
+    max-width: 190px;
+    font-weight: bold;
+    background: #0066ff;
+    color: #fff;
+    border-radius: 4px;
+}
+.search_pgto_rcbto{
+    width: 100%;
+    max-width: 380px;
+    border: 1px #ddd solid;
+}
+.search_pgto_rcbto input{
+    border: none;
+    flex-grow: 1;
+    line-height: 2.3rem;
+    font-size: .9rem;
+    text-indent: 8px;
+}
+.search_pgto_rcbto label{
+    display: block;
+    line-height: 2.3rem;
+    background: #eee;
+    padding: 0 15px;
+}
+.more-info-pgto,
+.more-info-rcbto{
+    height: 300px;
+    padding: 10px;
+    background: #f9f9f9;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-top: 1px #ddd solid;
+    display: none;
+    overflow: auto;
+}
+.more-info-pgto h4,
+.more-info-rcbto h4{
+    color: #4285F4;
+    
+}
+.more-info-pgto p,
+.more-info-rcbto p{
+    padding: 10px 0;
+    margin-top: 5px ;
+    background: #fff;
+    border-bottom: 1px #eee solid;
+    border-left: 3px #4285F4 solid;
+    padding-left: 15px;
+}
+.more-info-pgto label{
+    display: inline-block;
+    min-width: 160px;
+}
+.minimize-me{
+    width: 20% !important;
+    transition: all .5s ease;
+}
+.minimize-me .to-minimize{
+    display: none !important;
+}
+
+/*##########################################*/
+.table-2-receivents{
+    margin-top: 20px;
+}
+
+.div-tgl{
+    margin: 5px 0 .5rem 0;
+/*    display: flex;
+    justify-content: center;*/
+    width: 100%;
+}
+
+.toggle-1{
+    display: inline-block;
+    margin: auto;
+    border-radius: 2px;
+}
+.toggle-1 label{
+    display: inline-block;
+    border: 1px #ddd solid;
+    padding: 9px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all .3s;
+}
+.toggle-1 .active{
+    border: 1px #00b9a3 solid;
+    background: #00b9a3;
+    color: #fff;
+}

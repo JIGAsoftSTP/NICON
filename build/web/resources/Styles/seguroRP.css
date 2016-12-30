@@ -1,0 +1,77 @@
+.ant-check .another,
+.limit nav,
+.esquema,
+.more-info section,
+.more-info section nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.ant-check,
+.limit{
+    background: #fafafa;
+    padding: 20px;
+}
+.limit nav{
+    flex-wrap: wrap;
+}
+.limit h4{
+    width: 100%;
+    margin-bottom: 10px;
+}
+.limit label{
+    font-size: 1.1rem;
+}
+.ant-check input,
+.limit input,
+.more-info input{
+    margin-bottom: 0 !important;
+}
+.limit input:first-child{
+    border-right: none !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important; 
+}
+.limit input:last-child{
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important; 
+}
+.esquema p{
+    width: 100%;
+    margin-bottom: 6px;
+}
+.esquema .formatInput{
+    width: 350px;
+    margin-right: 50px;
+    flex-shrink: 0;
+}
+.addItemTable{
+    margin-top: 10px;
+    font-size: .95rem;
+    padding: 10px 20px;
+    margin-bottom: 0 !important;
+}
+.more-info section{
+    padding: 15px 20px;
+    background: #fafafa;
+    border-bottom: 1px #eee solid;
+    font-size: .95rem;
+}
+.more-info section,
+.more-info nav{
+    flex-wrap: wrap;
+    width: 100%;
+}
+.more-info nav{
+    width: 50%;
+}
+.more-info h4{
+    width: 100%;
+    margin: 10px 20px;
+}
+.more-info span{
+    display: block;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
