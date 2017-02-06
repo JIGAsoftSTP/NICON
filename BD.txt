@@ -1,3 +1,4 @@
 jdbc:oracle:thin:@KADAFI:1521:XE;SEGUROS;1234
 jdbc:oracle:thin:@PROJECTO:1521:XE;SEGUROS;1234
 jdbc:oracle:thin:@192.168.2.99:1521:XE;SEGUROS;1234
+jdbc:oracle:thin:@192.168.43.172:1521:XE;SEGUROS;1234
