@@ -183,21 +183,18 @@
                                                               id="beneficiarioPagamento" value="#{contabilidade.pagamento.beneficiario}"/>
                                 </nav>
                                 <p>
-                                    Tipo de movimento
-                                    <div class="div-tgl">
-                                    <span class="toggle-1">
-                                        <h:outputLabel value="Débito" class="active paymentTypeOperation"  >
-                                            <p:ajax event="click" process="@this" listener="#{contabilidade.setTypeOperationPayment(1)}"  />
-                                        </h:outputLabel> 
-                                        <h:outputLabel value="Crédito" class="paymentTypeOperation"   >
-                                              <p:ajax event="click" process="@this" listener="#{contabilidade.setTypeOperationPayment(2)}" />
-                                        </h:outputLabel>
-                                    </span>
-                                </div>
-                                </p>
+                                <article class="areaChecks div-tgl">
+                                    Retenção da Fonte 
+                                    <h:selectBooleanCheckbox id="pay-rentfonte" class="pay-rentfonte" value="#{contabilidade.pagamento.hasRetencion}" >
+                                        <p:ajax process="@this" />
+                                    </h:selectBooleanCheckbox>
+                                    <label for="recebimentoForm:pay-rentfonte"></label>
+                                </article>
+                                    
+                               </p>
                                 
                                 <nav class="input-2 account-payment">
-                                    Conta a Debitar/Creditar
+                                    Conta <!--a Debitar/Creditar-->
                                     <span  class="input-total">
                                         <p:autoComplete class="input-2-2 numeroInterio pagamentoContaPagamento" 
                                                         value="#{contabilidade.pagamento.contaPagamento}" var="listaContas"
@@ -228,7 +225,10 @@
                                             </p>   
                                             <p>
                                                 Valor: <h:outputText  class="maisInfo valorPagamento" />
-                                            </p>   
+                                            </p>  
+                                            <p>
+                                                Retensao: <h:outputText  class="maisInfo retensaoView" />
+                                            </p>
                                             <p>
                                                 Descrição de Pagamento: <h:outputText class="maisInfo descPagamento"  />
                                             </p> 
@@ -270,10 +270,12 @@
                                         <p:column headerText="Valor" width="100">
                                             #{payment.valorFormatado}
                                         </p:column>
-                                        <p:column headerText="Tipo Operação" width="100">
-                                            #{payment.tyOperationDesc}
+<!--                                        <p:column headerText="Tipo Operação" width="100">
+                                            {payment.tyOperationDesc}
+                                        </p:column>-->
+                                        <p:column headerText="Rentensao" width="100">
+                                            #{(payment.hasRetencion) ? "Sim" : "Nao" }
                                         </p:column>
-
                                         <p:column headerText="Ações" width="100">
 
                                             <h:outputLabel class="actionTable icon-cross" title="Remover linha">

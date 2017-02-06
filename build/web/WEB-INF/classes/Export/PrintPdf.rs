@@ -1,2 +1,0 @@
-Export.PrintPdf
-Export.PDFPrintPage

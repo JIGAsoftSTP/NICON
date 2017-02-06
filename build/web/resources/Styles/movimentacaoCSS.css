@@ -159,7 +159,7 @@
     cursor: pointer;
 }
 
-.bodyMov input[type=text],select, textarea{
+.bodyMov input[type=text],.bodyMov select, .bodyMov textarea{
     padding: 9px;
     font: 14px arial;
     border: 1px solid #ccc;
@@ -171,7 +171,7 @@ select:hover, select:focus,
 textarea:hover, textarea:focus{
     box-shadow: 0 0 6px -1px #0088cc;
 }
-.bodyMov input[type=text],textarea{
+.bodyMov input[type=text],.bodyMov textarea{
     width: 95%;
 }
 .bodyMov select{
@@ -296,7 +296,7 @@ textarea:hover, textarea:focus{
 }
 .in{
     visibility: visible;
-    margin-top: 0.5rem;
+    margin-top: 4.5rem;
     margin-right: 1rem;
 }
 .drop .content-Drop{

@@ -256,7 +256,9 @@ function pagamentoEnviarDados()
                        {name:'tipoPagamento',value: $(".tipoPagamento").val()} ,
                         {name:'contaPagamento', value:$(contaPagamento).val()},
                         {name:'pagamentoValor', value:$(".pagamentoValor").val()},
-                        {name:'pagamentoDesc', value:$(".pagamentoDesc").val()}]);
+                        {name:'pagamentoDesc', value:$(".pagamentoDesc").val()},
+                        {name:'payHasRentFonte', value:$(".pay-rentfonte").is(':checked')}
+                    ]);
 }
 
 function dadosPagamentoRegistrar()
@@ -275,6 +277,7 @@ function limparAdicionar()
 {
     $(contaPagamento).val("");
     $(".pagamentoLimparTabela").val("");
+    setHasRetensao(false);
 }
 
 function pagamentoMoreInfo(numDoc,beneficiario, contaPagamento, valor, descricao)
@@ -422,4 +425,9 @@ function solicitarPagamento(beneficiario, valor, dataPagamento, idPagamento)
 function contaPagamentoValor(valor)
 {
     $(contaPagamento).val(valor);
+}
+
+function setHasRetensao(bool){
+    var r = document.getElementsByClassName('pay-rentfonte');
+    r[0].checked = bool;
 }
