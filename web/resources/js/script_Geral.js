@@ -71,6 +71,12 @@ $(document).ready(function() {
     {
          $(".changePass").fadeOut();
     });
+    
+   $('body').on('click','.xpert-alert .close',  function(event) {
+    $('.xpert-alert').removeClass('show');
+    });
+
+
     $(".editarSenha").click(function ()
     {
         var senhaAtual =  $(".senhaAtualFuncionario").val();
@@ -109,6 +115,7 @@ $(document).ready(function() {
             $(this).val("");
    });
  
+
    $(".justIntiger").keyup(function (e)
     {
         e.preventDefault();
@@ -135,16 +142,20 @@ $(document).ready(function() {
         return false;
     });
     $('.mi-values').width( $('.mi-values').parent().width());
+    /**
+     * estava em commentario por pq tinha error
+     */
     var divPos = {};
     var offset = $('.mi-values').parent().offset();
     $(document).mousemove(function(e){
-        
-        divPos = {
-            left: e.pageX - offset.left,
-            top: e.pageY - offset.top
-        };
-        var position = $('.mi-values').parent().height() - divPos.top;
-        if(position < 0) $('.mi-values').addClass('show');
+        if (offset !== undefined) {
+            divPos = {
+                left: e.pageX - offset.left,
+                top: e.pageY - offset.top
+            };
+            var position = $('.mi-values').parent().height() - divPos.top;
+            if (position < 0) $('.mi-values').addClass('show');
+        }
     });
     $('.close-mi-values').click(function (){
         $('.mi-values').removeClass('show');
@@ -270,4 +281,16 @@ function unformatted(nStr)
         return parseFloat(num.replace(/\s/g , '').replace(/,/g, '.'));
     else
         return 0;
+}
+
+ function callXpertAlert(txt, type, time) {
+    $('.xpert-alert').remove();
+    $('body').append('<div class="xpert-alert ' + type + '"><i class="icon-' + type + '"></i><span class="txt">' + txt + '</span> <span class="close">X</span></div>')
+
+    setTimeout(function () {
+        $('.xpert-alert').addClass('show');
+    }, 200);
+    setTimeout(function () {
+        $('.xpert-alert').removeClass('show');
+    }, time);
 }

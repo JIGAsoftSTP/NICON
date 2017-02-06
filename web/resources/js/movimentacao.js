@@ -2,24 +2,30 @@ var realNumCheque = "";
 var valid;
 var dataLancamento = "input:text[name='movimentacao:dataLancamento_input']";
 var dataDocumento = "input:text[name='movimentacao:dataEDocumento_input']";
+var launchAccount = "input:text[name='movimentacao:launchAccount_input']";
+
 $(document).ready(function (e){
-    
+   
     $(".closeModalFrame").click(function()
     {
       $(".modalCreditInfo").fadeOut();
 
     });
+ 
     $(".btAddtoTable").click(function(e)
     {
         e.preventDefault();
         fieldsNewLaunch();
     });
-    $(".list article p").click(function()
-    {
-       $('.inConta').val($(this).closest("article").find("p:eq(0)").text());
-       $('.accountDesc').val($(this).closest("article").find("p:eq(1)").text());
-       
+    
+     $(".list").on('click','article',function () {
+         $('.inConta').val($(this).closest("article").find("p:eq(0)").text());
+         $('.accountDesc').val($(this).closest("article").find("p:eq(1)").text());
     });
+    $(".launchFieldSearch").keyup(function (e) {
+         $(".launchSearchList").trigger("click"); 
+    });
+
     $("input:text, select").focus(function()
     {
        $(this).css("border", ""); 
@@ -164,7 +170,8 @@ $(document).ready(function (e){
         $(".totalCh").val(realNumCheque);
     });
 });
-
+var listFiltered = [];
+ var list;
 function testeVasio(variavel)
 {
     var teste=true;
@@ -275,7 +282,6 @@ function checkFields(op)
 
 }
 
-
 function fieldsNewLaunch()
 {
     if($(dataLancamento).val() === "")
@@ -294,8 +300,10 @@ function fieldsNewLaunch()
         $(dataDocumento).css("border", "1px solid red");
     else
         $(dataDocumento).css("border", "");
-    if($(".accountDesc").val() ==="")
-        $(".inConta").focus();
+    if($(launchAccount).val() ==="")
+        $(launchAccount).css("border", "1px solid red");
+    else
+         $(launchAccount).css("border", "");
     if($(".movimentLaunchDesc").val() === "")
         $(".movimentLaunchDesc").css("border","1px solid red");
     else
@@ -312,6 +320,7 @@ function fieldsNewLaunch()
     else
         $(".launchValue").css("border",""); 
     
+    
 }
 
 function creditAdded(op)
@@ -321,6 +330,7 @@ function creditAdded(op)
           $(dataDocumento).val("");
         $(".launchAddTable").css("border", ""); 
         $(".launchAddTable").val("");
+         $(launchAccount).val("");
     }
     else
     {
@@ -330,6 +340,7 @@ function creditAdded(op)
         $(".launchAddTable").val("");
         $(".launchCoin").val("");
         $(".typeLaunch").val("");
+        $(launchAccount).val("");
     }
   
 }
@@ -340,3 +351,5 @@ function moedaAtivarDesativar(state)
         $('.launchCoin').attr('disabled', false);
     else $('.launchCoin').attr('disabled', true);
 }
+
+

@@ -4,7 +4,6 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
@@ -20,13 +19,13 @@
                     <h:panelGroup id="maisInforL" >
                         <p:dataTable value="#{admCont.creditInfo}" var="CR" rowKey="#{CR}" scrollable="true" scrollHeight="100"
                                      selectionMode="single" style="width: 400px;" >
-                            <p:column headerText="CONTA">
+                            <p:column headerText="Conta">
                                 #{CR.conta}
                             </p:column>
-                            <p:column headerText="VALOR DÉBITO">
+                            <p:column headerText="Valor Débito">
                                 #{CR.valorD}
                             </p:column>
-                            <p:column headerText="VALOR CRÉDITO">
+                            <p:column headerText="Valor Crédito">
                                 #{CR.valorC}
                             </p:column>
                         </p:dataTable>
@@ -54,16 +53,20 @@
                         <div class="areaTableMov">
                             <div class="filtroMov">
                                 <h:outputLabel class="active"><i class="icon-checkmark"></i> Todos
-                                    <p:ajax event="click" listener="#{admCont.setTypeSearch(1)}" process="@this" />
+                                         <p:ajax event="click"  process="@none" />
                                 </h:outputLabel>
                                 <h:outputLabel > Documento
-                                    <p:ajax event="click" listener="#{admCont.setTypeSearch(2)}" process="@this" />
+                                    <p:ajax event="click"  process="@none" />
                                 </h:outputLabel>
                                 <h:outputLabel> Lançamento
-                                     <p:ajax event="click" listener="#{admCont.setTypeSearch(3)}" process="@this" />
+                                     <p:ajax event="click" process="@none" />
+                                </h:outputLabel>
+                                <h:outputLabel class="launchSearchList" style="display: none;">
+                                    <p:ajax process="@this launchSearch" listener="#{admCont.searchLaunch()}"  event="click" />
                                 </h:outputLabel>
                                 <article class="areaPesquisar">
-                                    <h:inputText pt:placeholder="Pesquisar por..." value="#{admCont.search}" id="launchSearch" >
+                                    <h:inputText pt:placeholder="Pesquisar por..." value="#{admCont.search}" class="launchFieldSearch"
+                                                 id="launchSearch" >
             
                                     </h:inputText>
                                     <i class="icon-search checkSearchIcon" title="Pesquisar"></i>
@@ -71,22 +74,22 @@
                             </div>
                             <p:dataTable class="tabbleMov" value="#{admCont.listaLancamentos}" id="tableLaunch" 
                                          var="launch" selectionMode="single" rowKey="#{launch}">
-                                <p:column headerText="CÓDIGO" width="100">
+                                <p:column headerText="Código" width="100">
                                     #{launch.codigo}
                                 </p:column>
-                                <p:column headerText="OPERAÇÃO" width="120">
+                                <p:column headerText="Operação" width="120">
                                     #{launch.typeOperationDesc}
                                 </p:column>
-                                <p:column headerText="TIPO">
+                                <p:column headerText="Tipo">
                                     #{launch.tipo}
                                 </p:column>
-                                <p:column headerText="VALOR">
+                                <p:column headerText="Valor">
                                     #{launch.valor}
                                 </p:column>
-                                <p:column headerText="COLABORADOR">
+                                <p:column headerText="Colaborador">
                                     #{launch.colaborador}
                                 </p:column>
-                                <p:column headerText="DATA DE REGISTRO">
+                                <p:column headerText="Data de Registo">
                                     #{launch.dataRegistro}
                                 </p:column>
                                 <p:column  width="50">
@@ -151,30 +154,40 @@
                                 <article>
                                     <section>
                                         <label>Conta</label>
-                                        <h:inputText class="inConta launchAddTable" value="#{admCont.creditoDebito.conta}" id="launchAccount" required="true"></h:inputText>
+                                        <p:autoComplete class="launchAddTable idV" value="#{admCont.creditoDebito.conta}" var="listaContas"
+                                                        id="launchAccount" required="true" 
+                                                        itemLabel="#{listaContas}" itemValue="#{listaContas}"  maxResults="12"
+                                                        completeMethod="#{admCont.completarListaConta}">
+                                            <p:ajax update="@none" process="@this" event="itemSelect" 
+                                                    listener="#{admCont.selectAccount()}" />
+                                        </p:autoComplete>
                                         <div class="drop">
+                                          
                                             <div class="content-Drop">
                                                 <div class="left-drop">
                                                     <article class="title">
                                                         <h4>Conta</h4>
                                                         <h4>Descrição </h4> 
-                                                        <h4></h4>
+                                                        <h4 ></h4>
                                                     </article>
-                                                    <div class="list">
-                                                        <c:forEach items="#{admCont.contaList}" var="account">
-                                                            <article>
-                                                                <p>#{account.id}</p> 
-                                                               <p >#{account.value}</p>                                                          
-                                                           </article>
-                                                        </c:forEach>
-                                                    </div>
+                                                        <div class="list">
+                                                            <h:panelGroup  id="listLaunchAccount">
+                                                                <c:forEach items="#{admCont.contaList}" var="account"  >
+                                                                    <article  >   
+                                                                        <p >#{account.numRaiz} </p>
+                                                                        <p> #{account.designacao} </p>
+                                                                   </article>
+                                                                </c:forEach>   
+                                                            </h:panelGroup>    
+                                                        </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </section> 
                                     <section>
                                         <label>Descrição Conta</label>
-                                        <h:inputText class="accountDesc launchAddTable" readonly="true" id="launchAccountDesc" value="#{admCont.creditoDebito.accountDesc}"></h:inputText>
+                                        <h:inputText class="accountDesc launchAddTable" readonly="true" id="launchAccountDesc" 
+                                                     value="#{admCont.creditoDebito.accountDesc}"></h:inputText>
                                     </section> 
                                 </article>
                                 <section class="sectionMenor">
@@ -281,7 +294,7 @@
                                         <label>Conta</label>
                                         <h:selectOneMenu value="#{admCont.cheque.banco}" required="true" id="checkAccount">
                                             <f:selectItem itemLabel="(Selecione)"  />
-                                             <f:selectItems value="#{admCont.contaList}" var="lb" itemLabel="#{lb.value}" itemValue="#{lb.id}" />
+                                            <f:selectItems value="#{admCont.listaChequesConta}" var="lb" itemLabel="#{lb.value}" itemValue="#{lb.id}" />
                                             <p:ajax event="change" process="@this" listener="#{admCont.loadListaChequeBank()}"  />
                                         </h:selectOneMenu>
                                         <label>Sequência Início</label>

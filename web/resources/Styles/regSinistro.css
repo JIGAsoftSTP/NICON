@@ -238,7 +238,9 @@ input[type=radio]{
 }
 .areaTableSin .ui-datatable table .icon-checkmark, .icon-info{
     cursor: pointer;
+    padding: .5rem;
 }
+
 .modalContainerSin div article{
 	display: flex;
         justify-content: space-between;
@@ -256,6 +258,8 @@ input[type=radio]{
 	border-radius: 3px;
 	border-top-right-radius: inherit;
 	border-bottom-right-radius: initial;
+        border: 1px solid #ccc;
+        padding-left: 5px;
 }
 .modalContainerSin .areaSearch label:hover
 {

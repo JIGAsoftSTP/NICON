@@ -11,7 +11,6 @@ $(document).ready(function (e)
         var paginaAtual = window.location.href;
         var contem ="GestSeg_Relatorios.xhtml";
         $('.titleSelected').html(actual);
-        
         action(actual === 'Crescente' || actual === 'Produção');
          if(paginaAtual.indexOf(contem) !==-1)
          {
