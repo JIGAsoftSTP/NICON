@@ -208,14 +208,25 @@ public class Call
      */
     public static ResultSet selectFrom (String tableView, String colummns, Object ... paramns)
     {
-        Conexao c= new Conexao();
-        if(c.getCon()==null) return  null;
-        colummns = (colummns==null || colummns.length()==0)? "*" : colummns;
-        ResultSet rs = Call.executeQuere("SELECT "+colummns+ " FROM "+tableView, paramns).resultSet;
+        ResultSet rs = null;
+        try {
+            Conexao c = new Conexao();
+            if (c.getCon() == null) { return null; }
+            colummns = (colummns == null || colummns.length() == 0) ? "*" : colummns;
+            rs = Call.executeQuere("SELECT " + colummns + " FROM " + tableView, paramns).resultSet;
+        } catch (Exception e) {}
         return rs;
     }
     
-    
+    /**
+     * 
+     * @param tableName
+     * @param columns
+     * @param valueQuere
+     * @param whereColumns
+     * @param parans
+     * @return 
+     */
     public static ResultSet selectFiltredFrom (String tableName, String columns, String valueQuere, String [] whereColumns, Object ... parans)
     {
         tableName = tableName + " WHERE";

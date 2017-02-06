@@ -1,24 +1,21 @@
 package dao;
 
-import Export.GenericExcel;
-import Export.GenericPDFs;
-import bean.DataTableControl;
 import conexao.Call;
-import enumeracao.TipoPesquisa;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lib.Moeda;
 import modelo.Cheque;
 import modelo.ComoBox;
 import modelo.Conta;
 import modelo.CreditoDebito;
-import modelo.Funcionario;
 import modelo.Pagamento;
 import modelo.Prestacao;
 import modelo.Recebimento;
@@ -36,184 +33,30 @@ public class ContabilidadeDao implements Serializable {
     private ResultSet rs;
     private List<Conta> contas = new ArrayList<>();
 
-    public Object registrarConta(Conta conta) 
-    {
-        String functionName = "FUNC_REG_CONTACONTABIL";
-        String functionContaPagamento = "PACK_CONTA.func_reg_accountpayment";
-        Object result = null;
-        if (SessionUtil.obterValor(Funcionario.SESSION_NAME) != null) {
-            int idUser = Integer.valueOf(SessionUtil.getUserlogado().getId().toString());
-            if (conta.getTipoConta().equals("banco")) {
-                result = Call.callSampleFunction(functionName, Types.VARCHAR,
-                        idUser,
-                        Integer.valueOf(conta.getBanco()),
-                        3,
-                        conta.getNumConta(),
-                        Integer.valueOf(conta.getMoeda()),
-                        conta.getConta(),
-                        Integer.valueOf(conta.getTipoContaMovimento())
+    public String registarConta(Conta conta) 
+    {      
+        Object result = Call.callSampleFunction("FUNC_REG_ACCOUNT", Types.VARCHAR, 
+                Integer.valueOf(SessionUtil.getUserlogado().getId()+""),
+                Integer.valueOf(conta.getNumConta().substring(conta.getNumConta().length()-1, conta.getNumConta().length())),
+                conta.getDesignacao(),
+                Integer.valueOf(conta.getIdAccount()));
+        return result.toString();
+    }
+    
+    public String regDesdobrarConta(Conta conta){
+        Object result = Call.callSampleFunction("FUNC_DESDOBRA_ACCOUNT", Types.VARCHAR, 
+               Integer.valueOf(SessionUtil.getUserlogado().getId()+""),
+                Integer.valueOf(conta.getIdAccount()),
+                 Integer.valueOf(conta.getNumConta().substring(conta.getNumConta().length()-1, conta.getNumConta().length())),
+                   conta.getDesignacao()
                 );
-            } else {
-                result = Call.callSampleFunction(functionContaPagamento, Types.VARCHAR,
-                        idUser,
-                        Long.valueOf(conta.getNumContaPagamento()),
-                        conta.getDesignacao()
-                );
-            }
-        }
-        return result;
+        return result+"";
     }
 
     public ResultSet accountReport() {
         String tipoConta = "TIPO CONTA";
         ResultSet rs = Call.selectFrom("VER_CONTA_CONTABIL WHERE \"" + tipoConta + "\"='Conta Banco'", "*");
         return rs;
-    }
-
-    public List<Conta> relatorioContas(String campoPesquisa, String valorPesquisa, String tipoContaS, boolean export, int type) {
-        String sql;
-        String campoConta = "COD";
-        String descricao = "DESC";
-        String tipoConta = "TIPO CONTA";
-        System.out.println("tipo de conta " + tipoContaS + "\nCampo a pesquisar " + campoPesquisa);
-        if ((valorPesquisa == null || valorPesquisa.equals("")) || (campoPesquisa == null || campoPesquisa.equals(""))) {
-            if (tipoContaS.equals("Conta Pagamento")) {
-                rs = Call.selectFrom("VER_CONTA_PAYMENT", "*");
-                if (!export) {
-                    dados("pagamento");
-                }
-            } else if (tipoContaS.equals("Conta Banco")) {
-                rs = Call.selectFrom("VER_CONTA_CONTABIL WHERE \"" + tipoConta + "\"='Conta Banco'", "*");
-                if (!export) {
-                    dados("banco");
-                }
-            } else {
-                rs = Call.selectFrom("VER_ALL_ACCOUNT", "*");
-                if (!export) {
-                    dados("todas");
-                }
-            }
-        } else {
-            if (tipoContaS.equals("Conta Pagamento")) {
-                System.out.println("entrou conta pagamento");
-                sql = "VER_CONTA_PAYMENT WHERE UPPER(\"" + campoConta + "\") LIKE UPPER('%" + valorPesquisa + "%') "
-                        + "OR UPPER(\"" + descricao + "\") LIKE UPPER('%" + valorPesquisa + "%')";
-                rs = Call.selectFrom(sql, "*");
-                if (!export) {
-                    dados("pagamento");
-                }
-            } else if (tipoContaS.equals("Conta Banco")) {
-                rs = Call.selectFrom("VER_CONTA_CONTABIL WHERE UPPER(\"" + campoPesquisa + "\") LIKE UPPER('%" + valorPesquisa + "%') AND \"" + tipoConta + "\"='Conta Banco'", "*");
-                if (!export) {
-                    dados("banco");
-                }
-            } else {
-                rs = Call.selectFrom("VER_ALL_ACCOUNT WHERE UPPER(\"" + campoPesquisa + "\") LIKE UPPER('%" + valorPesquisa + "%')", "*");
-                if (!export) {
-                    dados("todas");
-                }
-            }
-            DataTableControl control;
-            if (export && tipoContaS.equals("Conta Pagamento")) {
-                control = new DataTableControl("id55", "clienteff.fjfjf");
-                control.prepareModel(rs, DataTableControl.ShowMode.HIDE, "ID");
-                control.renameColumn("COD", "Conta");
-                control.renameColumn("DESC", "Descrição");
-                if (export && type == 1) {
-                    GenericPDFs.createDoc(SessionUtil.getUserlogado().getNomeAcesso(), tipoContaS, tipoContaS, control, GenericPDFs.OrientacaoPagina.VERTICAL, -1);
-                } else if (export && type == 2) {
-                    GenericExcel.createDoc(SessionUtil.getUserlogado().getNomeAcesso(), tipoContaS, tipoContaS, control, -1);
-                }
-            } else if (export) {
-                control = new DataTableControl("id55", "clienteff.fjfjf");
-                control.prepareModel(rs, DataTableControl.ShowMode.HIDE, "ESTADO", "ID");
-                control.renameColumn("DEBITO", "Valor Débito".toUpperCase());
-                control.renameColumn("CREDITO", "Valor Crédito".toUpperCase());
-                //            control.renameColumn("SALDO", "CONTACTO");
-                control.renameColumn("NUMERO BANCARIO", "Número Bancário".toUpperCase());
-                control.renameColumn("DESCRICAO", "CONTA");
-
-                if (export && type == 1) {
-                    GenericPDFs.createDoc(SessionUtil.getUserlogado().getNomeAcesso(), tipoContaS, tipoContaS, control, GenericPDFs.OrientacaoPagina.HORIZONTAL, -1);
-                } else if (export && type == 2) {
-                    GenericExcel.createDoc(SessionUtil.getUserlogado().getNomeAcesso(), tipoContaS, tipoContaS, control, -1);
-                }
-            }
-
-            try {
-                rs.close();
-            } catch (Exception e) {
-            }
-
-        }
-
-        return contas;
-    }
-
-    public void dados(String tipoConta) {
-        if (tipoConta.equals("banco")) {
-            try {
-                if (rs != null) {
-                    while (rs.next()) {
-                        Conta conta = new Conta();
-                        conta.setIdAccount(Integer.valueOf(rs.getString("ID")));
-                        conta.setConta(rs.getString("DESCRICAO"));
-                        conta.setBanco(rs.getString("BANCO"));
-                        conta.setTipoContaMovimento(rs.getString("TIPO MOVIMENTO"));
-                        conta.setMoeda(rs.getString("MOEDA"));
-                        conta.setNumConta(rs.getString("NUMERO BANCARIO"));
-                        conta.setSaldo(rs.getString("SALDO"));
-                        conta.setCredito(rs.getString("CREDITO"));
-                        conta.setDebito(rs.getString("DEBITO"));
-                        conta.setEstado(rs.getString("ESTADO"));
-                        conta.setRegistro(rs.getString("REGISTRO"));
-                        contas.add(conta);
-                    }
-                    rs.close();
-                }
-
-            } catch (SQLException ex) {
-                Logger.getLogger(ContabilidadeDao.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else if (tipoConta.equals("pagamento")) {
-            try {
-                if (rs != null) {
-                    while (rs.next()) {
-                        Conta conta = new Conta();
-                        conta.setIdAccount(Integer.valueOf(rs.getString("ID")));
-                        conta.setConta(rs.getString("COD"));
-                        conta.setDesignacao(rs.getString("DESC"));
-                        conta.setCredito(rs.getString("CREDITO"));
-                        contas.add(conta);
-                    }
-                    rs.close();
-                }
-
-            } catch (SQLException ex) {
-                Logger.getLogger(ContabilidadeDao.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } else {
-            try {
-                if (rs != null) {
-                    while (rs.next()) {
-                        Conta conta = new Conta();
-                        conta.setIdAccount(Integer.valueOf(rs.getString("ID")));
-                        conta.setConta(rs.getString("DESC"));
-                        conta.setTipoConta(rs.getString("TIPO CONTA"));
-                        conta.setDesignacao(rs.getString("DESC"));
-                        conta.setTipoContaMovimento(rs.getString("TIPO CONTA BANCO"));
-                        conta.setNumConta(rs.getString("COD"));
-                        conta.setTipo(rs.getString("TP"));
-                        contas.add(conta);
-                    }
-                    rs.close();
-                }
-
-            } catch (SQLException ex) {
-                Logger.getLogger(ContabilidadeDao.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
     }
 
     public List<Recebimento> contratoClienteContabilidade(String quantidaRegistro, String filtro) 
@@ -310,7 +153,8 @@ public class ContabilidadeDao implements Serializable {
                 Float.valueOf(prestacao.getValorSF()),
                 ((prestacao.getNumDoc() == null || prestacao.getNumDoc().equals("")) ? null : prestacao.getNumDoc()),
                 Integer.valueOf(prestacao.getFormaPagamento()),
-                Integer.valueOf(prestacao.getConta())
+                Integer.valueOf(prestacao.getConta()),
+                prestacao.getStdValor()
         );
         return resp;
     }
@@ -378,12 +222,13 @@ public class ContabilidadeDao implements Serializable {
     public List<String> contas() {
         List<String> accounts = new ArrayList<>();
         ResultSet resultSet;
-        resultSet = Call.selectFrom("VER_CONTA_PAYMENT", "*");
+//        resultSet = Call.selectFrom("VER_CONTA_PAYMENT", "*");
+        resultSet = Call.selectFrom("VER_ACCOUNT where STATE = 1", "*");
         
         if (resultSet != null) {
             try {
                 while (resultSet.next()) {
-                    accounts.add(resultSet.getString("COD"));
+                    accounts.add(resultSet.getString("NUMBER"));
                 }
                 resultSet.close();
             } catch (SQLException ex) {
@@ -397,7 +242,8 @@ public class ContabilidadeDao implements Serializable {
         ResultSet rs;
         boolean valido = true;
         String id = null;
-        rs = Call.selectFrom("VER_CONTA_PAYMENT WHERE COD=?", "ID", contaPagamento);
+//        rs = Call.selectFrom("VER_CONTA_PAYMENT WHERE COD=?", "ID", contaPagamento);
+        rs = Call.selectFrom("VER_ACCOUNT WHERE STATE = 1 and \"NUMBER\"=?", "ID", contaPagamento);
         if (rs != null) {
             try {
                 while (rs.next()) {
@@ -452,7 +298,8 @@ public class ContabilidadeDao implements Serializable {
                 quantidade,
                 Double.valueOf(pagamento.getValor()),
                 pagamento.getDescricaoPagamento(),
-                pagamento.getTypeMoviment().getId()
+                pagamento.getTypeMoviment().getId(),
+                ((!pagamento.isHasRetencion()) ? 0 : 1)
         );
         return resp;
     }
@@ -506,7 +353,7 @@ public class ContabilidadeDao implements Serializable {
                         Pagamento pagamento = new Pagamento();
                         pagamento.setIdPagamento(rs.getString("ID"));
                         pagamento.setCodigo(rs.getString("CODIGO"));
-                        pagamento.setContaBanco(rs.getString("CONTA BANCO"));
+                        pagamento.setContaBanco(rs.getString("CONTA"));
                         pagamento.setValor(rs.getString("VALOR"));
                         pagamento.setPagamento(rs.getString("PAGAMENTO"));
                         pagamento.setTipoPagamento(rs.getString("MODO PAGAMENTO"));
@@ -552,11 +399,12 @@ public class ContabilidadeDao implements Serializable {
     public String infoConta(String codigo) {
         String descricao = null;
         ResultSet rs;
-        rs = Call.selectFrom("VER_CONTA_PAYMENT WHERE COD=?", "*", codigo);
+//        rs = Call.selectFrom("VER_CONTA_PAYMENT WHERE COD=?", "*", codigo);
+        rs = Call.selectFrom("VER_ACCOUNT where STATE = 1 and \"NUMBER\"=?", "*", codigo);
         if (rs != null) {
             try {
                 while (rs.next()) {
-                    descricao = rs.getString("DESC");
+                    descricao = rs.getString("DESCRISION");
                 }
                 rs.close();
             } catch (SQLException ex) {
@@ -780,17 +628,13 @@ public class ContabilidadeDao implements Serializable {
 
     }
     
-    public List<CreditoDebito> launchs(String search, int typeSearch)
+    public List<CreditoDebito> launchs(String search)
     {
          ResultSet rs;
          List<CreditoDebito> listaLancamentos = new ArrayList<>();
-         String numDoc = "MUMERO DOCUMENTO";
          System.out.println("pesquisa "+search);
          if(search != null && !search.equals("")) 
-         {
-             System.out.println("tipo S "+typeSearch);
-                rs = Call.selectFrom("VER_OPERACOES WHERE UPPER(CODIGO) LIKE UPPER('%" + search + "%')", "*");  
-         }
+               rs = Call.selectFrom("VER_OPERACOES WHERE UPPER(CODIGO) LIKE UPPER('%" + search + "%') OR UPPER(TIPO) LIKE UPPER('%" + search + "%')", "*");  
          else rs = Call.selectFrom("VER_OPERACOES", "*");
         
          if(rs != null)
@@ -899,15 +743,14 @@ public class ContabilidadeDao implements Serializable {
         return rs;
      }
 
-    public Object updateAccount(Conta conta) {
+    public String updateAccount(Conta conta) {
         String functionName = "PACK_CONTA.funcUpdateAccount";
         Object result = Call.callSampleFunction(functionName, Types.VARCHAR,
                 conta.getIdAccount(),
-                (conta.getDesignacao() == null || conta.getDesignacao().equals("")) ? 'B' : 'P',
-                (conta.getDesignacao() == null || conta.getDesignacao().equals("")) ? conta.getNumConta() : conta.getDesignacao(),
-                (conta.getTipoContaMovimento() == null || conta.getTipoContaMovimento().equals("")) ? null : Integer.valueOf(conta.getTipoContaMovimento()),
-                (conta.getBanco() == null || conta.getBanco().equals("")) ? null : Integer.valueOf(conta.getBanco()));
-        return result;
+                Integer.valueOf(SessionUtil.getUserlogado().getId()+""),
+               conta.getDesignacao()
+            );
+        return result+"";
     }
 
     public String anularPagamento(int idPayment, String obs) {
@@ -955,7 +798,7 @@ public class ContabilidadeDao implements Serializable {
                 idLaunch, 
                 idUser,
                 creditoDebito.getTypeOperation(),
-                Integer.valueOf(creditoDebito.getConta()),
+                Integer.valueOf(getAccountInfo("id", creditoDebito.getConta())),
                 creditoDebito.getMoeda(),
                 creditoDebito.getNumeroDucumento(),
                 ((creditoDebito.getDesc() != null && !creditoDebito.getDesc().equals("")) ? creditoDebito.getDesc() : null),
@@ -974,14 +817,18 @@ public class ContabilidadeDao implements Serializable {
     
     public List<ComoBox> bankAccounts()
     {
-        ResultSet rs = Call.selectFrom("VER_ALL_ACCOUNT WHERE TP='B'", "*");
+//        ResultSet rs = Call.selectFrom("VER_ALL_ACCOUNT WHERE TP='B'", "*");
+        /**
+         * por perguntar
+         */
+        rs = Call.selectFrom("VER_ACCOUNTBANK", "*");
         List<ComoBox> list = new ArrayList<>();
         if(rs != null)
         {
             try {
                 while(rs.next())
                 {
-                    ComoBox cb = new ComoBox(rs.getString("ID"), rs.getString("DESC"), rs.getDouble("SALDO SF"));
+                    ComoBox cb = new ComoBox(rs.getString("ID ACCOUNT"), rs.getString("NAME"), rs.getDouble("SALDO"));
                     list.add(cb);
                 }
                 rs.close();
@@ -991,4 +838,186 @@ public class ContabilidadeDao implements Serializable {
         }
         return list; 
     }
+    
+
+    public List<Conta> listaContaRaiz(int typeOp, String value){
+         List<Conta> list = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date d = new Date();
+        String ano = dateFormat.format(d);
+        int anoAtual = Integer.valueOf(ano.substring(6, 10));
+        ResultSet rs;
+        String fieldNumber ="NUMBER", fieldDescription = "DESCRISION", fieldMov = "STATE OBS";
+        
+        if(typeOp == 1)
+             rs = Call.selectFrom("VER_ACCOUNT", "*");
+        else{
+          if("".equals(value))
+                  rs = Call.selectFrom("VER_ACCOUNT", "*");
+          else{
+               String sql = "VER_ACCOUNT WHERE UPPER(\"" + fieldNumber + "\") LIKE UPPER('%" + value + "%') "
+                + "OR UPPER(\"" + fieldDescription + "\") LIKE UPPER('%" + value + "%') OR UPPER(\"" + fieldMov + "\") LIKE UPPER('%" + value + "%')"
+                       ;
+                rs = Call.selectFrom(sql, "*");
+              
+            }  
+        }
+        
+         if(rs != null){
+             try {
+                 while(rs.next()){
+                    if(rs.getInt("YEAR") == anoAtual){
+                        Conta c = new Conta();
+                        c.setIdAccount(rs.getInt("ID"));
+                        c.setNumRaiz(rs.getString("NUMBER"));
+                        c.setDesignacao(rs.getString("DESCRISION"));
+                        c.setTipoConta(rs.getString("TYPE"));
+                        c.setObs(rs.getString("STATE OBS"));
+                        c.setNivel(rs.getString("LEVEL"));
+                        c.setCredito(rs.getString("CREDITO"));
+                        c.setCredito(Moeda.format(Double.valueOf(c.getCredito())));
+                        c.setDebito(rs.getString("DEBITO"));
+                        c.setDebito(Moeda.format(Double.valueOf(c.getDebito())));
+                        c.setSaldo(rs.getString("SALDO"));
+                        c.setSaldo(Moeda.format(Double.valueOf(c.getSaldo())));
+                        c.setEstado(rs.getInt("STATE"));
+                        list.add(c);
+                   }
+                 }
+                rs.close();
+             } catch (SQLException ex) {
+                 Logger.getLogger(ContabilidadeDao.class.getName()).log(Level.SEVERE, null, ex);
+             }
+       
+         }
+         return list;
+    }
+    
+   public String getAccountInfo(String field, String account)
+   {
+       for(Conta c: listaContaRaiz(1, null) )
+       {
+           if(field.equals("desc"))
+           {
+                if(account.trim().equals(c.getNumRaiz()))
+                    return c.getDesignacao();
+           }
+           else
+           {
+                if(account.trim().equals(c.getNumRaiz()))
+                    return c.getIdAccount()+"";
+           }
+       }
+       return null;
+   }
+    
+   public List<ComoBox> listOperationValue(String operationCode)
+   {
+       List<ComoBox> list = new ArrayList<>();
+        rs = Call.selectFrom("T_OPERATIONVALUE WHERE OPRVAL_OPR_COD=?", "*", operationCode);
+       
+       if(rs != null)
+       {
+           try
+           {
+               while(rs.next())
+               {
+                   ComoBox cb = new ComoBox(rs.getString("OPRVAL_COD"), rs.getString("OPRVAL_NAME"));
+                   list.add(cb);
+               }
+               rs.close();
+           }
+           catch (SQLException ex) {
+               Logger.getLogger(ContabilidadeDao.class.getName()).log(Level.SEVERE, null, ex);
+           }
+       }
+       return list;
+   }
+   public List<ComoBox> listOperationDef(String operationCode)
+   {
+       List<ComoBox> list = new ArrayList<>();
+       rs = Call.selectFrom("T_OPERATIONDEFINICAO WHERE OPRDEF_GROUP_COD=?", "*", operationCode);
+       
+       if(rs != null)
+       {
+           try
+           {
+               while(rs.next())
+               {
+                   ComoBox cb = new ComoBox(rs.getString("OPRDEF_COD"), rs.getString("OPRDEF_DESC"));
+                   list.add(cb);
+               }
+               rs.close();
+           }
+           catch (SQLException ex) {
+               Logger.getLogger(ContabilidadeDao.class.getName()).log(Level.SEVERE, null, ex);
+           }
+       }
+       return list;
+   }
+   
+   public String regOperation(Conta conta, String definitionCode)
+   {
+       int idUser = Integer.valueOf(SessionUtil.getUserlogado().getId().toString());
+       Object result = Call.callSampleFunction("FUNC_REG_OPERATION_ACCOUNT", Types.VARCHAR,
+               idUser,
+               conta.getIdAccount(),
+               conta.getAccountOperationValue(),
+               Integer.valueOf(conta.getTipoContaMovimento()),
+               definitionCode
+            );
+       return result+"";
+   }
+   
+   public List<Conta> listaOperacoes()
+   {
+       List<Conta> list = new ArrayList<>();
+       rs = Call.selectFrom("VER_OPERATION_ACCOUNT", "*");
+       
+       if(rs != null)
+       {
+           try 
+           {
+               while(rs.next())
+               {
+                   Conta c = new Conta();
+                   c.setTipoContaMovimento(rs.getString("TYPEMOVIMENT"));
+                   c.setConta(rs.getString("ACCOUNT"));
+                   c.setDesignacao(rs.getString("GROUP_NAME"));
+                   c.setObs(rs.getString("AFETAVEL_DESC"));
+                   c.setValue(rs.getString("VALUE_NAME"));
+                   list.add(c);
+               }
+               rs.close();
+           }
+            catch (SQLException ex) {
+               Logger.getLogger(ContabilidadeDao.class.getName()).log(Level.SEVERE, null, ex);
+           }
+       }
+       return list;
+   }
+   
+   public List<String> launchAccounts()
+   {
+        List<String> list = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date d = new Date();
+        String ano = dateFormat.format(d);
+        int anoAtual = Integer.valueOf(ano.substring(6, 10));
+       rs = Call.selectFrom("VER_ACCOUNT", "*");
+       
+        if(rs != null){
+             try {
+                 while(rs.next()){
+                    if(rs.getInt("YEAR") == anoAtual){
+                        list.add(rs.getString("NUMBER"));
+                   }
+                 }
+                rs.close();
+             } catch (SQLException ex) {
+                 Logger.getLogger(ContabilidadeDao.class.getName()).log(Level.SEVERE, null, ex);
+             }    
+         }
+         return list;  
+   }
 }

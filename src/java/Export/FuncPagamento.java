@@ -29,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.ResultSet;
+import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class FuncPagamento {
             DESCRICAOPAGAMENTO = "DESCRICAO PAGAMENTO", VALORPAGAMENTO = "VALOR PAGAMENTO",
             NUMERODACONTABANCO = "NUMERO DA CONTA BANCO", TITULOCONTAPAGAMENTO = "TITULO CONTA PAGAMENTO",
             DESCRICAOCONTABANCO = "DESCRICAO CONTA BANCO", MOEDA = "MOEDA", SIGLA = "SIGLA",
-            REGISTRO = "REGISTRO", QUANTIDADE = "QUANTIDADE", CODIGOCONTAPAGAMENTO = "CODIGO CONTA PAGAMENTO";
+            REGISTRO = "REGISTRO", QUANTIDADE = "QUANTIDADE", CODIGOCONTAPAGAMENTO = "CODIGO CONTA PAGAMENTO", RETENCAOFONTE = "RETENCAO_FONTE";
 
     public String criarDoc(String user, String numPagamento, String nomeUser, int i) {
         String re = ((i == 2) ? folhaPagamento(numPagamento, user, nomeUser, i) : pequenoPagamento(numPagamento, user, nomeUser, i));
@@ -197,6 +198,15 @@ public class FuncPagamento {
                 pDetalhesPagamento.add(new Paragraph("Valor Pagamento", fontCorpoNG));
                 pDetalhesPagamento.add(new Phrase("Valor Numerico: ", fontCorpoN));
                 pDetalhesPagamento.add(new Phrase(toMoeda(hashMap.get(VALORPAGAMENTO), toString(hashMap.get(SIGLA))) + "\n", fontCorpo));
+                System.err.println(toString(hashMap.get(RETENCAOFONTE))+" hfhfh retensao");
+                if(toString(hashMap.get(RETENCAOFONTE)).trim().equals("1")){
+                   double ret = getValorImportRetensao();
+                   pDetalhesPagamento.add(new Phrase("Valor Retensao Fonte: ", fontCorpoN));
+                   pDetalhesPagamento.add(new Phrase(toMoeda(ret, "%") + "\n", fontCorpo));
+                   pDetalhesPagamento.add(new Phrase("Valor Retido: ", fontCorpoN));
+                   double valret =toDouble(hashMap.get(VALORPAGAMENTO))*ret;
+                   pDetalhesPagamento.add(new Phrase( toMoeda(valret, toString(hashMap.get(SIGLA)))+ "\n", fontCorpo));
+                }
 
                 JTextPane jtp = new JTextPane();
                 Double valor = Double.valueOf((hashMap.get(VALORPAGAMENTO) + ""));
@@ -882,6 +892,15 @@ public class FuncPagamento {
                 pDetalhesPagamento.add(new Paragraph("Valor Pagamento", fontCorpoNG));
                 pDetalhesPagamento.add(new Phrase("Valor Numerico: ", fontCorpoN));
                 pDetalhesPagamento.add(new Phrase(toMoeda(hashMap.get(VALORPAGAMENTO), toString(hashMap.get(SIGLA))) + "\n", fontCorpo));
+                System.err.println(toString(hashMap.get(RETENCAOFONTE))+" hfhfh retensao");
+                if(toString(hashMap.get(RETENCAOFONTE)).trim().equals("1")){
+                   double ret = getValorImportRetensao();
+                   pDetalhesPagamento.add(new Phrase("Valor Retensao Fonte: ", fontCorpoN));
+                   pDetalhesPagamento.add(new Phrase(toMoeda(ret, "%") + "\n", fontCorpo));
+                   pDetalhesPagamento.add(new Phrase("Valor Retido: ", fontCorpoN));
+                   double valret =toDouble(hashMap.get(VALORPAGAMENTO))*ret;
+                   pDetalhesPagamento.add(new Phrase( toMoeda(valret, toString(hashMap.get(SIGLA)))+ "\n", fontCorpo));
+                }
 
                 JTextPane jtp = new JTextPane();
                 Double valor = Double.valueOf((hashMap.get(VALORPAGAMENTO) + ""));
@@ -1053,5 +1072,11 @@ public class FuncPagamento {
             Call.forEchaResultSet(act, rs);
         }
         
+    }
+    
+    public static Double getValorImportRetensao() {
+        Object re = Call.callSampleFunction("FUNC_GET_IMPOSTO_TAXA_VALOR", Types.FLOAT, "RETENCAO");
+        Double ret = ((re != null) ? Double.valueOf(re.toString()) : 0);
+        return ret;
     }
 }

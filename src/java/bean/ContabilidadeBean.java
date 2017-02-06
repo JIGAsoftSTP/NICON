@@ -70,8 +70,8 @@ public class ContabilidadeBean implements Serializable
     {
         contratoContabilidade = cd.contratoClienteContabilidade("metade", null);
         formaPagamento = ComoBox.loadCombo("VER_TIPO_PAGAMENTO", "ID", "PAGAMENTO");
-        contas = ComoBox.loadCombo("VER_CONTABOX", "ID", "CONTA");
-        contasBanco =  cd.bankAccounts();
+        contas = cd.bankAccounts();/**ComoBox.loadCombo("VER_CONTABOX", "ID", "CONTA");*/
+        contasBanco = contas;
         tipoPagamento = ComoBox.loadCombo("T_MODPAYMENT", "MPAY_ID", "MPAY_DESC");
         listaContas = cd.contas();
         pagamento.setIdPagamento(cd.proximoCodigoPagamento(2));
@@ -80,6 +80,7 @@ public class ContabilidadeBean implements Serializable
         
         pagamentoSolicitados = SinistroDao.listaPagamentosSolicitados();
         RequestContext.getCurrentInstance().execute("$('.totalNotif').html('"+((pagamentoSolicitados.isEmpty())? "": pagamentoSolicitados.size()) +"')");
+//   
     }
     
     public Recebimento getRecebimento()
@@ -274,6 +275,7 @@ public class ContabilidadeBean implements Serializable
             {
                 double cumpra = Moeda.valorCompra(recebimentoSelecionado.getIdMoeda(), recebimentoSelecionado.getDataApolice());
                 double valor = (Double.valueOf(prestacao.getValorSF()) * cumpra);
+                prestacao.setStdValor(valor);
                 prestacao.setValorSTD(Moeda.format(valor)+" STD");
             }
             else
@@ -411,6 +413,7 @@ public class ContabilidadeBean implements Serializable
        sumTotalDebitoCredito();
        RequestContext.getCurrentInstance().execute("$('.pagamentoNumDoc').val('"+p.getNumDoc()+"'),$('.pagamentoBeneficiario').val('"+p.getBeneficiario()+"')");
        RequestContext.getCurrentInstance().execute("$('.pagamentoValor').val('"+p.getValor()+"')");
+       RequestContext.getCurrentInstance().execute("setHasRetensao("+p.isHasRetencion()+")");
        pagamento.setDescricaoPagamento(p.getDescricaoPagamento());  
        Validacao.atualizar("recebimentoForm", "paymentDesc", "pagamentoTabela");
    }
@@ -431,6 +434,7 @@ public class ContabilidadeBean implements Serializable
        pagamento.setBeneficiario(facesContext.getExternalContext().getRequestParameterMap().get("beneficiário"));
        pagamento.setContaPagamento(facesContext.getExternalContext().getRequestParameterMap().get("contaPagamento"));
        pagamento.setValor(facesContext.getExternalContext().getRequestParameterMap().get("pagamentoValor"));
+       pagamento.setHasRetencion(Boolean.valueOf(facesContext.getExternalContext().getRequestParameterMap().get("payHasRentFonte")));
        pagamento.setValor(Validacao.unformat(pagamento.getValor()));
        System.out.println("valor "+pagamento.getValor());
        pagamento.setDescricaoPagamento(facesContext.getExternalContext().getRequestParameterMap().get("pagamentoDesc"));
@@ -560,7 +564,8 @@ public class ContabilidadeBean implements Serializable
        RequestContext.getCurrentInstance().execute("$('.benefagamento').html('"+pagamento.getBeneficiario()+"')");
        RequestContext.getCurrentInstance().execute("$('.contaPayment').html('"+pagamento.getContaPagamento()+"')");
        RequestContext.getCurrentInstance().execute("$('.valorPagamento').html('"+pagamento.getValorFormatado()+"')");
-       RequestContext.getCurrentInstance().execute("$('.descPagamento').html('"+pagamento.getDescricaoPagamento()+"')");    
+       RequestContext.getCurrentInstance().execute("$('.descPagamento').html('"+pagamento.getDescricaoPagamento()+"')");   
+       RequestContext.getCurrentInstance().execute("$('.retensaoView').html('"+((pagamento.isHasRetencion()) ? "Sim" : "Nao")+"')");   
    }
    
    public void proximoNumeroPagamento()
@@ -692,7 +697,7 @@ public class ContabilidadeBean implements Serializable
         pagamento.setIdPagamento(cd.proximoCodigoPagamento(Integer.valueOf(pagamento.getTipoPagamento())));
         Validacao.atualizar("recebimentoForm", "pagamentoTabela", "numeroPagamento", "pagamentoValorTotal");
         RequestContext.getCurrentInstance().execute("pagamentoEfetuado()");
-        contasBanco = ComoBox.loadCombo("VER_CONTABOX", "ID", "CONTA");
+//        contasBanco = ComoBox.loadCombo("VER_CONTABOX", "ID", "CONTA");
         pagamento.setContaBanco("");
         Validacao.AtualizarCompoente("recebimentoForm", "tipoContaBanco");
         pagamento.setTipoPagamento("2");
@@ -721,7 +726,7 @@ public class ContabilidadeBean implements Serializable
         pagamento.setIdPagamento(cd.proximoCodigoPagamento(Integer.valueOf(pagamento.getTipoPagamento())));
         Validacao.atualizar("recebimentoForm", "pagamentoTabela", "numeroPagamento", "pagamentoValorTotal");
         RequestContext.getCurrentInstance().execute("pagamentoEfetuado()");
-        contasBanco = ComoBox.loadCombo("VER_CONTABOX", "ID", "CONTA");
+//        contasBanco = ComoBox.loadCombo("VER_CONTABOX", "ID", "CONTA");
         pagamento.setContaBanco("");
         Validacao.AtualizarCompoente("recebimentoForm", "tipoContaBanco");
         pagamento.setTipoPagamento("2");
@@ -771,12 +776,12 @@ public class ContabilidadeBean implements Serializable
    
    public void contaCarregar()
    {
-       if(pagamento.getTipoPagamento().equals("1"))
-            contasBanco = ComoBox.loadCombo("VER_CONTA_CAIXA","ID", "CONTA");
-       else
-       {
-           contasBanco = ComoBox.loadCombo("VER_CONTABOX", "ID", "CONTA");
-       }
+//       if(pagamento.getTipoPagamento().equals("1"))
+//            contasBanco = ComoBox.loadCombo("VER_CONTA_CAIXA","ID", "CONTA");
+//       else
+//       {
+//           contasBanco = ComoBox.loadCombo("VER_CONTABOX", "ID", "CONTA");
+//       }
        Validacao.AtualizarCompoente("recebimentoForm", "tipoContaBanco");
    }
 

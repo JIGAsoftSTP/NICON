@@ -12,10 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import mensagem.Mensagem;
 import mensagem.Message;
 import modelo.Cheque;
 import modelo.ComoBox;
+import modelo.Conta;
 import modelo.CreditoDebito;
 import modelo.Movimento;
 import org.primefaces.context.RequestContext;
@@ -35,24 +37,28 @@ public class MovimentoConta implements Serializable {
     private Cheque cheque;
     private ArrayList<Cheque> chequeList;
 //    private ArrayList<ComoBox> bankList;
-    private ArrayList<ComoBox> contaList;
+    private List<Conta> contaList = new ArrayList<>();
     private ArrayList<Cheque> cheques = new ArrayList<>();
     private String search;
     private ContabilidadeDao contabilidadeDao = new ContabilidadeDao();
     private List<CreditoDebito> listaCreditos = new ArrayList<>();
     private List<CreditoDebito> listaLancamentos = new ArrayList<>();
     private List<CreditoDebito> creditInfo = new ArrayList<>();
+    private List<ComoBox> listaChequesConta = new ArrayList<>();
+    private List<String> launchAccounts = new ArrayList<>();
     private final ArrayList<ComoBox> listaMoedas;
     private final ArrayList<ComoBox> typeMoviment;
     
     public MovimentoConta() 
     {
-        contaList = ComoBox.loadAllDados("VER_ALL_ACCOUNT WHERE TP IN ('B', 'P')", "ID", "DESC");
+        contaList = contabilidadeDao.listaContaRaiz(1, null);
+        listaChequesConta = ComoBox.loadAllDados("VER_ACCOUNTBANK", "ID", "NUMBER");
         RequestContext.getCurrentInstance().execute("$('.sequenceLaunchNum').val('"+contabilidadeDao.launchSeuquenceNumber()+"')");
         chequeList = contabilidadeDao.listaCheques(null);
         listaMoedas = ComoBox.loadCombo("VER_MOEDA", "ID", "SIGLA");
         typeMoviment = ComoBox.loadCombo("VER_TYPE_LANCAMENTO", "ID","LANCAMENTO");
-        listaLancamentos = contabilidadeDao.launchs(null, 1);
+        listaLancamentos = contabilidadeDao.launchs(null);
+       launchAccounts = contabilidadeDao.launchAccounts();
     }
 
     public Movimento getMovimento() {
@@ -61,6 +67,14 @@ public class MovimentoConta implements Serializable {
 
     public void setMovimento(Movimento movimento) {
         this.movimento = movimento;
+    }
+
+    public List<Conta> getContaList() {
+        return contaList;
+    }
+
+    public List<ComoBox> getListaChequesConta() {
+        return listaChequesConta;
     }
 
     public ArrayList<ComoBox> getListaMoedas() {
@@ -108,13 +122,6 @@ public class MovimentoConta implements Serializable {
     }
 
 
-    public ArrayList<ComoBox> getContaList() {
-        return (contaList == null) ? contaList = new ArrayList<>() : contaList;
-    }
-
-    public void setContaList(ArrayList<ComoBox> contaList) {
-        this.contaList = contaList;
-    }
 
     public void regMovDebCreChe(int i) 
     {
@@ -127,7 +134,7 @@ public class MovimentoConta implements Serializable {
                 String[] re = resultDB(o);
                 if (re != null & re[0].equals("true")) 
                 {
-                    Mensagem.addInfoMsg("Sequência de cheque registrado com sucesso.");
+                    Mensagem.addInfoMsg("Sequência de cheque registrado com sucesso!");
                     Validacao.AtualizarCompoente("movimentacao", "movimentacaoGrowl");
                     RequestContext.getCurrentInstance().execute("checkFields('registered');");
                     chequeList = contabilidadeDao.listaCheques(null);
@@ -149,14 +156,19 @@ public class MovimentoConta implements Serializable {
     }
 
     public void loadListaChequeBank() {
-        ContabilidadeDao cd = new ContabilidadeDao();
         if (cheque.getBanco() != null && !cheque.getBanco().equals("")) {
-       //     this.chequeList = cd.chequesConta(Integer.valueOf(cheque.getBanco()), nomeConta());
-            Object o = ContabilidadeDao.getNumContaBank(Integer.valueOf(cheque.getBanco()));
-            this.cheque.setNumBancoConta((o == null) ? "" : o.toString());
+            for(ComoBox c: listaChequesConta)
+            {
+                if(cheque.getBanco().equals(c.getId()))
+                {
+                    this.cheque.setNumBancoConta(c.getValue());
+                    break;
+                }
+            }
         }
     }
-
+    
+ 
     public String[] resultDB(Object o) {
         if (o != null) {
             return o.toString().split(";");
@@ -165,16 +177,6 @@ public class MovimentoConta implements Serializable {
         }
     }
 
-    public String nomeConta() {
-        String nomeConta = null;
-        for (ComoBox cb : this.contaList) {
-            if (cheque.getBanco().equals(cb.getId())) {
-                nomeConta = cb.getValue();
-                break;
-            }
-        }
-        return nomeConta;
-    }
     
     public void searchCheck()
     {
@@ -182,19 +184,27 @@ public class MovimentoConta implements Serializable {
         chequeList = cd.listaCheques(search);
         Validacao.AtualizarCompoente("movimentacao", "checkTable");
     }
-    
+
     public void launchAddTable()
     {
-        if(creditoDebito.getMoeda() != -1)
+        if(creditoDebito.getMoeda() != -1 && !creditoDebito.getConta().equals(""))
         {
-            creditoDebito.setAccountDesc(Validacao.comboNome(contaList, creditoDebito.getConta()));
-            this.listaCreditos.add(new CreditoDebito(creditoDebito));
-            RequestContext.getCurrentInstance().execute("creditAdded('add')");
-            Validacao.atualizar("movimentacao", "launchTable");
-            if(listaCreditos.size() == 1)
-                RequestContext.getCurrentInstance().execute("moedaAtivarDesativar('desativar')"); 
+            if(creditoDebito.getTypeLaunch() == 2 && this.listaCreditos.size() == 1)
+                  Message.addWarningMsg("Não pode adicionar mais dados na tabela!", "movimentacao", "movimentacaoGrowl");
+            else
+            {
+                creditoDebito.setAccountDesc(contabilidadeDao.getAccountInfo("desc", creditoDebito.getConta()));
+                this.listaCreditos.add(new CreditoDebito(creditoDebito));
+                creditoDebito.setConta("");
+                RequestContext.getCurrentInstance().execute("creditAdded('add')");
+                Validacao.atualizar("movimentacao", "launchTable");
+                if(listaCreditos.size() == 1)
+                    RequestContext.getCurrentInstance().execute("moedaAtivarDesativar('desativar')"); 
+            }
         }
     }
+    
+
     
     public void editCredit(CreditoDebito cd)
     {
@@ -217,6 +227,7 @@ public class MovimentoConta implements Serializable {
         short debito = -1, credito = -1;
         if(!listaCreditos.isEmpty())
         {
+            if(creditoDebito.getTypeLaunch() == 2) return true;
             for(CreditoDebito cd: listaCreditos)
            {
                if(cd.getTypeOperation() == 1)
@@ -242,7 +253,7 @@ public class MovimentoConta implements Serializable {
         }
         else
         {
-            Message.addWarningMsg("Adicione informações do lançamento na tabela", "movimentacao", "movimentacaoGrowl");
+            Message.addWarningMsg("Adicione informações na tabela!", "movimentacao", "movimentacaoGrowl");
             return false;
         }
        
@@ -251,6 +262,8 @@ public class MovimentoConta implements Serializable {
     private boolean validateSumTypeOperation()
     {
         double debitoSum = 0, creditSum = 0;
+        
+        if(creditoDebito.getTypeLaunch() == 2) return true;
         for(CreditoDebito cd: listaCreditos)
         {
             if(cd.getTypeOperation() == 1)
@@ -262,7 +275,7 @@ public class MovimentoConta implements Serializable {
             return true;
         else
         {
-            Message.addErrorMsg("O somatório de Débito(s) e Crédito(s) não são iguais.", "movimentacao", "movimentacaoGrowl");
+            Message.addErrorMsg("O somatório de Débito(s) e Crédito(s) não são iguais!", "movimentacao", "movimentacaoGrowl");
             return false;
         }
     }
@@ -287,10 +300,10 @@ public class MovimentoConta implements Serializable {
                         result = contabilidadeDao.endLaunch(id);
                         if(result.split(";")[0].equals("true"))
                         {
-                            Message.addInfoMsg("Lançamento registrado com sucesso", "movimentacao", "movimentacaoGrowl");
+                            Message.addInfoMsg("Lançamento registado com sucesso!", "movimentacao", "movimentacaoGrowl");
                             RequestContext.getCurrentInstance().execute("$('.sequenceLaunchNum').val('"+contabilidadeDao.launchSeuquenceNumber()+"')");
                             listaCreditos.clear();
-                            listaLancamentos = contabilidadeDao.launchs(null, 1);
+                            listaLancamentos = contabilidadeDao.launchs(null);
                             Validacao.atualizar("movimentacao", "launchTable", "tableLaunch");
                             RequestContext.getCurrentInstance().execute("creditAdded('register')");
                             creditoDebito.setMoeda(-1);
@@ -321,7 +334,7 @@ public class MovimentoConta implements Serializable {
     }
     public void searchLaunch()
     {
-        listaLancamentos = contabilidadeDao.launchs(search, creditoDebito.getTipoPesquisa().getType());
+        listaLancamentos = contabilidadeDao.launchs(search);
         Validacao.atualizar("movimentacao", "tableLaunch");
     }
     public void removeCredit(CreditoDebito cd)
@@ -367,4 +380,76 @@ public class MovimentoConta implements Serializable {
         Validacao.atualizar("movimentacao", "maisInforL");
         RequestContext.getCurrentInstance().execute("$('.modalCreditInfo').fadeIn()");
     }
+    
+    public void searchAccountLaunch(){
+        contaList = contabilidadeDao.listaContaRaiz(2, creditoDebito.getConta());
+        Validacao.atualizar("movimentacao", "listLaunchAccount");
+    }
+    
+   public String getAccountInfo(String field, String account)
+   {
+       String value = null;
+       for(Conta c: this.contaList)
+       {
+           if(field.equals("desc"))
+           {
+               System.out.println("conta "+account+"\n raiz "+c.getNumRaiz());
+                if(account.equals(c.getNumRaiz())){
+                    value = c.getDesignacao();
+                    break;
+                }
+           }
+           else
+           {
+                if(account.equals(c.getNumRaiz()))
+                {
+                    value = c.getIdAccount()+"";
+                    break;
+                }
+           }
+       }
+       return value;
+   }
+
+    public List<String> getLaunchAccounts() {
+        return launchAccounts;
+    }
+   
+   public static ArrayList<String> likeStart(List<String> list, String like)
+    {
+        if(like == null || list == null) return null;
+        ArrayList<String> likeList = new ArrayList<>();
+        if(like.length() == 0)
+        {
+            likeList.addAll(list);
+            return likeList;
+        }
+        String aux;
+        for(String s: list)
+        {
+            aux = s;
+            if(s.length() >= like.length())
+            {
+                s=s.substring(0, like.length());
+                if(s.toUpperCase().contains(like.toUpperCase()))
+                {
+                    likeList.add(aux);
+                }
+            }
+            
+        }
+        
+        return likeList;
+    }
+    public List<String>completarListaConta(String info)
+   {    
+       launchAccounts.set(0, info);
+       return likeStart(launchAccounts, info);   
+   }
+   
+    public void selectAccount()
+    {
+        RequestContext.getCurrentInstance().execute("$('.accountDesc').val('"+contabilidadeDao.getAccountInfo("desc",creditoDebito.getConta())+"')");
+    }
+    
 }

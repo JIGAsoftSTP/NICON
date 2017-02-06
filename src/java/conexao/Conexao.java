@@ -24,7 +24,7 @@ import javax.swing.Timer;
 public final class Conexao {
 
     /**
-     * <br/> O endereco local dos servico oracle.
+     * <br> O endereco local dos servico oracle.
      */
     public static int i = 0;
     private static Timer timerTry = null;
@@ -60,7 +60,7 @@ public final class Conexao {
             
             System.err.println(caminhoBD +" Caminho");
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            Conexao.conexao = DriverManager.getConnection(caminhoBD,nomeBD,senhaBd);
+            Conexao.conexao = DriverManager.getConnection(caminhoBD, nomeBD, senhaBd);
             EstadoConnexao.isValid = true;
            System.out.println("Conectado");
                 

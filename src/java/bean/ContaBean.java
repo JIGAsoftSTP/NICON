@@ -3,12 +3,10 @@ package bean;
 import dao.ContabilidadeDao;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import mensagem.Mensagem;
 import mensagem.Message;
 import modelo.ComoBox;
 import modelo.Conta;
@@ -24,284 +22,290 @@ import validacao.Validacao;
 @ViewScoped
 public class ContaBean implements Serializable
 {
-    private static final long serialVersionUID = 1L;
-    private List<ComoBox> listaMovimentos = new ArrayList<>();
-    private List<ComoBox> bancos = new ArrayList<>();
-    private List<ComoBox> moedas = new ArrayList<>();
+    private static final long SERIAL_VERSIONUID = 1L;
     private Conta conta = new Conta();
-    private List<Conta> contas = new ArrayList<>();
-    private List<ComoBox> listFieldSearch = new ArrayList<>();
+    private int selectedAccount = -1;
     private final ContabilidadeDao contabilidadeDao = new ContabilidadeDao();
-    private Conta contaSelecionada = new Conta();
-    private String tipoConta = "Conta Banco";
-    private String editarConta = "registrar";
+    private List<Conta> listAccounts = new ArrayList<>();
+    private List<ComoBox> listTypeOperations = new ArrayList<>();
+    private List<ComoBox> listOperationValue = new ArrayList<>();
+    private List<ComoBox> listOperationDefinition = new ArrayList<>();
+    private List<ComoBox> listTypeMov = new ArrayList<>();
+    private List<String> listSelectedInsurances = new ArrayList<>();
+    private List<Conta> listAccountsOriginal = new ArrayList<>();
+    private List<Conta> listOperations = new ArrayList<>();
+    
+    private int operation = 1; // 1- registar conta e 2- registar desdobramento da conta 
+    private int tamanhoConta;
+    private String search, multiInsuranceField;
 
     
     public ContaBean()
     {  
+        listAccounts = contabilidadeDao.listaContaRaiz(1, null);    
+        listAccountsOriginal = listAccounts;  
+        listTypeOperations = ComoBox.loadAllDados("T_OPERATIONGROUP", "OPRGROUP_COD", "OPRGROUP_DESC");
+        listTypeMov = ComoBox.loadAllDados("T_TYPEMOVIMENTO", "TMOV_ID", "TMOV_OPERACTION");
+        listOperations = contabilidadeDao.listaOperacoes();
     }
     
-    @PostConstruct
-    public void init()
-    {
-       this.contas = contabilidadeDao.relatorioContas(null, null,conta.getTipo(), false, 0);  
-        moedas = ComoBox.loadCombo("VER_MOEDA", "ID", "SIGLA");
-        listaMovimentos = ComoBox.loadCombo("VER_TIPOCONTA", "ID", "TIPO");
-        bancos = ComoBox.loadCombo("VER_BANK", "ID","SIGLA");
-        listFieldSearch.add(new ComoBox("DESCRICAO", "Conta"));
-        listFieldSearch.add(new ComoBox("BANCO", "Banco"));
-        listFieldSearch.add(new ComoBox("TIPO MOVIMENTO", "Tipo Movimento"));
-        listFieldSearch.add(new ComoBox("MOEDA", "Moeda"));
-        listFieldSearch.add(new ComoBox("NUMERO BANCARIO", "Número Bancário"));
-    }
-    
-    public List<ComoBox> getListaMovimentos() {
-        return listaMovimentos;
-    }
-
-    public List<ComoBox> getListFieldSearch() {
-        return listFieldSearch;
-    }
-    
-    public Conta getContaSelecionada() {
-        return contaSelecionada;
-    }
-
-    public void setContaSelecionada(Conta contaSelecionada) {
-        this.contaSelecionada = contaSelecionada;
-    }
-
-    
-    public List<ComoBox> getBancos() {
-        return bancos;
-    }
-
-    public List<ComoBox> getMoedas() {
-        return moedas;
-    }
-
-    public List<Conta> getContas() {
-        return contas;
+    public List<Conta> getListAccounts() {
+        return listAccounts;
     }
 
     public Conta getConta() {
         return (conta == null) ? conta = new Conta() : conta;
     }
 
+    public List<ComoBox> getListTypeMov() {
+        return listTypeMov;
+    }
+
     public void setConta(Conta conta) {
         this.conta = conta;
     }
-    
-    public void operacao()
-    {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        editarConta = facesContext.getExternalContext().getRequestParameterMap().get("operation");
+
+    public List<Conta> getListOperations() {
+        return listOperations;
     }
-    public void manageAccount()
+
+    public String getSearch() {
+        return search;
+    }
+
+    public List<ComoBox> getListOperationDefinition() {
+        return listOperationDefinition;
+    }
+
+    public List<ComoBox> getListOperationValue() {
+        return listOperationValue;
+    }
+
+    public List<ComoBox> getListTypeOperations() {
+        return listTypeOperations;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
+
+
+    public void regConta()
     {
-        System.out.println("editar conta "+editarConta);
-        if(editarConta.equals("registrar"))
+        if(operation == 1){
+           
+            if(conta.getNumConta().length() == tamanhoConta){
+                String result = contabilidadeDao.registarConta(conta);
+                if(result.split(";")[0].equals("false")){
+                    if(result.split(";")[1].equals("GIJA001001")){
+                       conta.setNumConta(conta.getNumConta().substring(0, conta.getNumConta().length()-1));
+                        RequestContext.getCurrentInstance().execute("$('.contaNum').val('"+conta.getNumConta()+"'), desdobrarConta()");
+                        operation = 2;
+                    }
+                    else Message.addErrorMsg(result.split(";")[1], "GestConta", "accountGrowl");
+                }
+                else{
+                    Message.addInfoMsg("Conta registada com sucesso!", "GestConta", "accountGrowl");
+                    RequestContext.getCurrentInstance().execute("accountRegistered()");
+                    operation = 1;
+                    listAccounts = contabilidadeDao.listaContaRaiz(1, null);
+                    validacao.Validacao.atualizar("accountTableForm", "accountTable");
+                    validacao.Validacao.atualizar("GestConta", "contaR");
+                            
+                }   
+            }
+        }
+        else{
+            String result = contabilidadeDao.regDesdobrarConta(conta);
+            if(result.split(";")[0].equals("true")){
+               RequestContext.getCurrentInstance().execute("accountRegistered()");
+                Message.addInfoMsg("Conta registada com sucesso!", "GestConta", "accountGrowl");
+                operation =1;
+                listAccounts = contabilidadeDao.listaContaRaiz(1, null);
+                  validacao.Validacao.atualizar("accountTableForm", "accountTable");
+                    validacao.Validacao.atualizar("GestConta", "contaR");
+            }
+            else Message.addErrorMsg(result.split(";")[1], "GestConta", "accountGrowl");
+        }
+    }
+    
+    public void determineClassTypeLevel(){
+        char raiz;
+        System.out.println("dddddd");
+        if(conta.getIdAccount() != -1){
+          
+            for(Conta c : listAccounts){
+                if(c.getIdAccount() == conta.getIdAccount()){
+                    raiz = c.getNumRaiz().charAt(0);
+                    conta.setNumClasse(raiz+"");
+                    conta.setNivel(c.getNivel());
+                    conta.setTipoConta(c.getTipoConta());
+                    conta.setNumConta(c.getNumRaiz());
+                    tamanhoConta = conta.getNumConta().length()+1;
+                    RequestContext.getCurrentInstance().execute("$('.contaNum').val('"+conta.getNumConta()+"'),$('.contaClasse').html('"+conta.getNumClasse()+"'),"
+                            + "$('.contaNivel').html('"+conta.getNivel()+"'),$('.contaTipo').html('"+conta.getTipoConta()+"'),activeNumberAccount()");
+                    if(c.getEstado() == 1)
+                        Message.addInfoMsg("Esta Conta é Movimentável. Se continuar terá que desdobrá-la!", "GestConta", "accountGrowl");
+                    break;
+                }
+            }
+            
+        }
+        else
+            RequestContext.getCurrentInstance().execute("$('.accountField').val(''),$('.accountFieldLabel').html('')");
+    }
+    
+    public void update(Conta c){
+        selectedAccount = c.getIdAccount();
+        char raiz;
+        conta.setIdAccount(c.getIdAccount());
+        raiz = c.getNumRaiz().charAt(0);
+        conta.setNumClasse(raiz+"");
+        conta.setNivel(c.getNivel());
+        conta.setTipoConta(c.getTipoConta());
+        conta.setNumConta(c.getNumRaiz());
+        conta.setDesignacao(c.getDesignacao());
+        validacao.Validacao.atualizar("GestConta", "contaDesignacao");
+          RequestContext.getCurrentInstance().execute("$('.contaRaiz').val('"+conta.getIdAccount()+"'),$('.contaNum').val('"+conta.getNumConta()+"'),$('.contaClasse').html('"+conta.getNumClasse()+"'),"
+                            + "$('.contaNivel').html('"+conta.getNivel()+"'),$('.contaTipo').html('"+conta.getTipoConta()+"'),updateAccount(1)");
+    }
+    
+    public void accountOperation(){
+        if(selectedAccount == -1)
             regConta();
         else
-            updateAccount();
+        {
+            String result = contabilidadeDao.updateAccount(conta);
+            if(result.split(";")[0].equals("true")){
+                    Message.addInfoMsg("Conta atualizada com sucesso", "GestConta", "accountGrowl");
+                    selectedAccount = -1;
+                          RequestContext.getCurrentInstance().execute("accountRegistered()");
+                listAccounts = contabilidadeDao.listaContaRaiz(1, null);
+                validacao.Validacao.atualizar("accountTableForm", "accountTable");
+            }
+            else Message.addInfoMsg(result.split(";")[1], "GestConta", "accountGrowl");
+        }
     }
     
-    private boolean validarAtualizacaoConta()
-    {
-        if(tipoConta.equals("Conta Banco"))
-        {
-            if((conta.getConta() != null && !conta.getConta().equals("")) &&
-           (conta.getTipoContaMovimento() != null && !conta.getTipoContaMovimento().equals("")) &&
-            (conta.getBanco() != null && !conta.getBanco().equals("")))
-            {
-                return true;
-            }
-        }
-        else if(tipoConta.equals("Conta Pagamento"))
-        {
-            if(conta.getDesignacao() != null && !conta.getDesignacao().equals(""))
-                return true;
-        }
-        return false;
+    public void addNewAccount(){
+        if(selectedAccount ==-1)
+                RequestContext.getCurrentInstance().execute("accountRegistered()");
+        else{
+            selectedAccount = -1;
+            RequestContext.getCurrentInstance().execute("updateAccount(2)");
+        }     
     }
-    private void updateAccount()
-    {
-        if(validarAtualizacaoConta() == true)
-        {
-             Object result = contabilidadeDao.updateAccount(conta);
-            if(result != null)
-            {
-                if(result.toString().split(";")[0].equals("true"))
-                {
-                    this.contas.clear();
-                    this.contas = contabilidadeDao.relatorioContas(null, null,tipoConta, false, 0);  
-                    Validacao.AtualizarCompoente("accountTableForm", "accountTable");
-                    Mensagem.addInfoMsg("Conta atualizado com sucesso");
-                    RequestContext.getCurrentInstance().update("contaGrowl:growlConta");
-                    RequestContext.getCurrentInstance().execute("registradoConta()");
-                    RequestContext.getCurrentInstance().execute("$('.modalProcess').hide()");
-                }
-                else
-                {
-                    Message.addErrorMsg(result.toString().split(";")[1], "contaGrowl", "growlConta");
-                }
-                  
-            }        
-        }
+    
+    public void searchAccount(int type){
+       if(type == 1){
+          listAccounts = contabilidadeDao.listaContaRaiz(2, search);
+           Validacao.atualizar("accountTableForm", "accountTable"); 
+       }
+       else{
+           if(search.equals("")){
+               listAccounts = listAccountsOriginal;
+               Validacao.atualizar("accountTableForm", "accountTable"); 
+           }
+       } 
     }
-    private void regConta()
+    
+    public void determineOperationValue()
     {
-        Object result = null;
-        String [] info = null;
-        if(conta.getTipoConta().equals("banco"))
-        {  
-            if((conta.getConta()!= null && !conta.getConta().equals("")) &&
-              (conta.getTipoContaMovimento()!= null && !conta.getTipoContaMovimento().equals("")) &&
-              (conta.getBanco()!= null && !conta.getBanco().equals("")) &&
-              (conta.getNumConta()!= null && !conta.getNumConta().equals("")) &&
-               (conta.getMoeda()!=null && !conta.getMoeda().equals(""))  )  
+        RequestContext.getCurrentInstance().execute("$('.MultipleSelectInput').val('')");
+        listOperationValue = contabilidadeDao.listOperationValue(conta.getTypeOperation());
+        listOperationDefinition = contabilidadeDao.listOperationDef(conta.getTypeOperation());
+        Validacao.atualizar("GestConta", "accountOpValue", "accountInsurance");   
+    }
+    
+    public void determineIns(String insurance)
+    {
+        multiInsuranceField = "";
+        if(conta.getOperationInsurance().equals("true"))
+        {
+            if(insurance.equalsIgnoreCase("all"))
             {
-                if(conta.getNumConta().length() == 11)
+                listSelectedInsurances.clear();
+                conta.setOperationInsurance("true");
+                listOperationDefinition.forEach((ComoBox cb) -> 
                 {
-                    result = contabilidadeDao.registrarConta(conta);
-                    info = result.toString().split(";");
-                }
-                else
-                    Message.addWarningMsg("Número de conta deve ter onze(11) digitos!", "contaGrowl", "growlConta");
+                    if(!cb.getId().equalsIgnoreCase(insurance))
+                        listSelectedInsurances.add(cb.getId());
+                });
+                Validacao.atualizar("GestConta", "accountInsurance");
             }
+            else
+                listSelectedInsurances.add(insurance);  
         }
         else
         {
-            if((conta.getDesignacao()!=null && !conta.getDesignacao().equals("")) && (conta.getNumContaPagamento()!=null && !conta.getNumContaPagamento().equals("")))
+           if(insurance.equalsIgnoreCase("all"))
             {
-                result = contabilidadeDao.registrarConta(conta);
-                info = result.toString().split(";");
+                listSelectedInsurances.clear();
+                conta.setOperationInsurance("false");
+                Validacao.atualizar("GestConta", "accountInsurance");
             }
+           else
+           {
+                conta.setOperationInsurance("false");
+                 Validacao.atualizar("GestConta", "accountInsuranceALL");
+                for(String ins: listSelectedInsurances)
+                {
+                    if(insurance.equals(ins))
+                    {
+                        listSelectedInsurances.remove(ins);
+                        break;
+                    }
+                }
+           }
         }
-        if(info != null)
+        if(listSelectedInsurances.isEmpty())
+            RequestContext.getCurrentInstance().execute("$('.MultipleSelectInput').val('')");
+        else
         {
-            if(info[0].equals("true"))
-            {
-                this.contas.clear();
-                 this.contas = contabilidadeDao.relatorioContas(null, null,tipoConta, false, 0);  
-                 Validacao.AtualizarCompoente("accountTableForm", "accountTable");
-                Mensagem.addInfoMsg("Nova conta registrado com sucesso");
-                RequestContext.getCurrentInstance().update("contaGrowl:growlConta");
-                RequestContext.getCurrentInstance().execute("registradoConta()");
-                RequestContext.getCurrentInstance().execute("$('.modalProcess').hide()");
-            }
+            listSelectedInsurances.forEach((value) -> {
+              
+                if(multiInsuranceField.equals(""))
+                   multiInsuranceField =value;
+               else
+                   multiInsuranceField +=";"+value; 
+            });
+            
+            RequestContext.getCurrentInstance().execute("$('.MultipleSelectInput').val('"+multiInsuranceField+"')");
+        }
+    }
+    public void selectAccountOperation(Conta c)
+    {
+        selectedAccount = c.getIdAccount();
+    }
+    public void regOperation()
+    {
+         String result = "";
+        if(!listOperationDefinition.isEmpty() && listSelectedInsurances.isEmpty())
+            Message.addWarningMsg("Selecione Seguro(s)!", "GestConta", "accountGrowl");
+        else
+        {
+            conta.setIdAccount(selectedAccount);
+            if(listSelectedInsurances.isEmpty())
+                result = contabilidadeDao.regOperation(conta, "DEFAULT");
             else
             {
-                Mensagem.addErrorMsg(info[1]);
-                RequestContext.getCurrentInstance().update("contaGrowl:growlConta");
+                for (String ins : listSelectedInsurances) 
+                    result = contabilidadeDao.regOperation(conta, ins);
             }
-               
-        }
-    }
-
-    public String getTipoConta() {
-        return tipoConta;
-    }
-    
-    public void searchAccount()
-    {
-        String valorPesquisa, campoPesquisa, tipoPesquisa;
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        campoPesquisa = facesContext.getExternalContext().getRequestParameterMap().get("campoPesquisa");
-        valorPesquisa = facesContext.getExternalContext().getRequestParameterMap().get("valorPesquisa");
-        tipoConta = facesContext.getExternalContext().getRequestParameterMap().get("conta");
-        tipoPesquisa = facesContext.getExternalContext().getRequestParameterMap().get("tipoPesquisa");
-        String tipoContaS;
-        getConta().setEstado(tipoConta);
-       
-        
-        if(tipoPesquisa != null)
-        {
-            this.contas.clear();
-            switch (tipoPesquisa) 
+            if(result.split(";")[0].equals("true"))
             {
-                case "Por conta":
-                    listFieldSearch.clear();
-                    if(tipoConta.equals("Conta Banco"))
-                    {
-                        listFieldSearch.add(new ComoBox("DESCRICAO", "Conta"));
-                        listFieldSearch.add(new ComoBox("BANCO", "Banco"));
-                        listFieldSearch.add(new ComoBox("TIPO MOVIMENTO", "Tipo Movimento"));
-                        listFieldSearch.add(new ComoBox("MOEDA", "Moeda"));
-                        listFieldSearch.add(new ComoBox("NUMERO BANCARIO", "Número Bancário"));
-                    }
-                    else if(tipoConta.equals("Conta Pagamento"))
-                    {
-                        listFieldSearch.add(new ComoBox("COD", "Conta"));
-                        listFieldSearch.add(new ComoBox("DESC", "Descrição"));
-                    }
-                    else
-                    {   
-                        listFieldSearch.add(new ComoBox("COD", "Número Conta"));
-                        listFieldSearch.add(new ComoBox("DESC", "Descrição"));
-                        listFieldSearch.add(new ComoBox("TIPO CONTA", "Tipo Conta"));
-                    }
-                    this.contas = contabilidadeDao.relatorioContas(null, null,tipoConta,false,0);
-                    break;
-                case "ExportPDF":
-                    contabilidadeDao.relatorioContas(campoPesquisa, valorPesquisa, tipoConta,true,1);
-                    break;
-                case "ExportExel":
-                    contabilidadeDao.relatorioContas(campoPesquisa, valorPesquisa, tipoConta,true,2);
-                    break;
-                default:
-                    this.contas = contabilidadeDao.relatorioContas(campoPesquisa, valorPesquisa, tipoConta,false,0);
-                    break;
+                selectedAccount = -1;
+                Message.addInfoMsg("Operação registrada com sucesso!", "GestConta", "accountGrowl");
+                RequestContext.getCurrentInstance().execute("$('.MultipleSelectInput').val('')");
+                RequestContext.getCurrentInstance().execute("accountOperationRegistered()");
+                listAccounts = contabilidadeDao.listaContaRaiz(1, null);
+                validacao.Validacao.atualizar("accountTableForm", "accountTable");
+                listSelectedInsurances.clear();
+                conta.setOperationInsurance("false");
+                Validacao.atualizar("GestConta", "accountInsurance");
             }
-            if(!tipoPesquisa.equals("ExportPDF") && !tipoPesquisa.equals("ExportExel"))
-                Validacao.atualizar("accountTableForm", "accountTable","campoFiltro"); 
+            else
+                Message.addErrorMsg(result.split(";")[1], "GestConta", "accountGrowl");
         }
-    }
-
- 
-    public void moreInfo(Conta contaS)
-    {
-        Conta c = new Conta(contaS);
-        this.conta = c;
-   
-        RequestContext.getCurrentInstance().update("accountMoreInfo");
-        RequestContext.getCurrentInstance().execute("accountInfo()");
-    }
-    
-    public void editarConta(Conta conta)
-    {
-        this.conta = new Conta(conta);
-        editarConta = "editar";
-        if(tipoConta.equalsIgnoreCase("Conta Banco"))
-            RequestContext.getCurrentInstance().execute("atualizarContaBanco('"+this.conta.getConta()+"','"+getId("tipo movimento", this.conta.getTipoContaMovimento())+"','"+getId("banco", this.conta.getBanco())+"','"+this.conta.getNumConta()+"','"+getId("moeda", this.conta.getMoeda())+"')");
-        else 
-             RequestContext.getCurrentInstance().execute("atualizarContaPagamento('"+this.conta.getConta()+"','"+this.conta.getDesignacao()+"')");
-        
-        RequestContext.getCurrentInstance().execute("$('.Modalframe').css('display','flex')");
-    }
-    
-    private String getId(String campo, String valor)
-    {
-        switch (campo) {
-            case "moeda":
-                for(ComoBox comoBox : moedas)
-                {
-                    if(comoBox.getValue().equals(valor))
-                        return comoBox.getId();
-                }   break;
-            case "tipo movimento":
-                for(ComoBox comoBox : this.listaMovimentos)
-                {
-                    if(comoBox.getValue().equals(valor))
-                        return comoBox.getId();
-                }   break;
-            default:
-                for(ComoBox comoBox : this.bancos)
-                {
-                    if(comoBox.getValue().equals(valor))
-                        return comoBox.getId();
-                }   break;
-        }
-        return null;
     }
 }

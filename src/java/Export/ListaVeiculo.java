@@ -214,24 +214,16 @@ public class ListaVeiculo {
     }
 
     public static String getList(int i) {
-        if (i == 0) {
-            return "MATRICULA";
-        } else if (i == 1) {
-            return "MARCA";
-        } else if (i == 2) {
-            return "MODELO";
-        } else if (i == 3) {
-            return "Nº MOTOR";
-        } else if (i == 4) {
-            return "Nº CHASSI";
-        } else if (i == 5) {
-            return "ANO FRABRICO";
-        } else if (i == 6) {
-            return "ANO CAMPRA";
-        } else {
-            return "CAPACIDADE";
+        switch (i) {
+            case 0: return "MATRICULA";
+            case 1: return "MARCA";
+            case 2: return "MODELO";
+            case 3: return "Nº MOTOR";
+            case 4: return "Nº CHASSI";
+            case 5: return "ANO FRABRICO";
+            case 6: return "ANO CAMPRA";
+            default: return "CAPACIDADE";
         }
-
     }
 
     public static void criarDocExcel(List<Veiculo> ls, String user) {
@@ -382,51 +374,58 @@ public class ListaVeiculo {
 
             Row r = s.createRow(linha);
             Cell c = r.createCell(2);
-            CreateCell(c, r, s, csTitulo, linha, linha + 3, ConfigDoc.Empresa.NOME, 1, 22);
+            CreateCellM(c, r, s, csTitulo, linha, linha + 3, ConfigDoc.Empresa.NOME, 1, 22);
             linha += 4;
 
             r = s.createRow(linha);
-            CreateCell(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.ENDERECO, 1, 22);
+            CreateCellM(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.ENDERECO, 1, 22);
             linha++;
 
             r = s.createRow(linha);
-            CreateCell(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.CAIXAPOSTAL, 1, 22);
+            CreateCellM(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.CAIXAPOSTAL, 1, 22);
             linha++;
 
             r = s.createRow(linha);
-            CreateCell(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.TELEFAX + " " + ConfigDoc.Empresa.EMAIL, 1, 22);
+            CreateCellM(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.TELEFAX + " " + ConfigDoc.Empresa.EMAIL, 1, 22);
             linha++;
 
             r = s.createRow(linha);
-            CreateCell(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.SOCIEDADE, 1, 22);
+            CreateCellM(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.SOCIEDADE, 1, 22);
             linha += 3;
 
             r = s.createRow(linha);
 
-            CreateCell(c, r, s, csTituloT, linha, linha, "Lista de Veiculos".toUpperCase(), 1, 22);
+            CreateCellM(c, r, s, csTituloT, linha, linha, "Lista de Veiculos".toUpperCase(), 1, 22);
             linha += 2;
 
+            
             csCorpoTabela.setFillBackgroundColor(HSSFColor.BLUE.index);
-            CreateCell(c, r, s, csTituloTabela, linha, linha, getList(0), 1, 3);
-            CreateCell(c, r, s, csTituloTabela, linha, linha, getList(1), 4, 6);
-            CreateCell(c, r, s, csTituloTabela, linha, linha, getList(2), 7, 9);
-            CreateCell(c, r, s, csTituloTabela, linha, linha, getList(3), 10, 12);
-            CreateCell(c, r, s, csTituloTabela, linha, linha, getList(4), 13, 15);
-            CreateCell(c, r, s, csTituloTabela, linha, linha, getList(5), 16, 18);
-            CreateCell(c, r, s, csTituloTabela, linha, linha, getList(6), 19, 21);
-            CreateCell(c, r, s, csTituloTabela, linha, linha, getList(7), 22, 24);
-
+            r = s.createRow(linha);
+            CreateCell(c, r, s, csTituloTabela, linha, linha, getList(0), 1, 8);
+            CreateCell(c, r, s, csTituloTabela, linha, linha, getList(1), 2, 18);
+            CreateCell(c, r, s, csTituloTabela, linha, linha, getList(2), 3, 18);
+            CreateCell(c, r, s, csTituloTabela, linha, linha, getList(3), 4, 18);
+            CreateCell(c, r, s, csTituloTabela, linha, linha, getList(4), 5, 18);
+            CreateCell(c, r, s, csTituloTabela, linha, linha, getList(5), 6, 10);
+            CreateCell(c, r, s, csTituloTabela, linha, linha, getList(6), 7, 10);
+            CreateCell(c, r, s, csTituloTabela, linha, linha, getList(7), 8, 8);
+            linha++;
+            
             for (int i = 0; i < ls.size(); i++) {
                 r = s.createRow(linha);
                 csCorpoTabelaL.setFillBackgroundColor(((i % 2) == 0) ? HSSFColor.WHITE.index : HSSFColor.GREY_25_PERCENT.index);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, ls.get(i).getNumeroMatricula(), 1, 3);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, ls.get(i).getMarca(), 4, 6);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, ls.get(i).getModelo(), 7, 9);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, ls.get(i).getNumMotor(), 10, 12);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, ls.get(i).getChassi(), 13, 15);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, ls.get(i).getAnoFabrico(), 16, 18);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, ls.get(i).getAnoCompra(), 19, 21);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, ls.get(i).getCapacidade(), 22, 24);
+                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, ls.get(i).getNumeroMatricula(), 1, 8);
+                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, ls.get(i).getMarca(), 2, 18);
+                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, ls.get(i).getModelo(), 3, 18);
+                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, ls.get(i).getNumMotor(), 4, 18);
+                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, ls.get(i).getChassi(), 5, 18);
+                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, 
+                        (ls.get(i).getAnoFabrico() == null || ls.get(i).getAnoFabrico().equals("") )
+                                ? "" : Integer.valueOf(ls.get(i).getAnoFabrico()), 6, 10);
+                CreateCell(c, r, s, csCorpoTabelaL, linha, linha,
+                        (ls.get(i).getAnoCompra() == null || ls.get(i).getAnoCompra().equals(""))
+                                ? "" : Integer.valueOf(ls.get(i).getAnoCompra()), 7, 10);
+                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, Integer.valueOf(ls.get(i).getCapacidade()), 8, 8);
 
                 linha++;
             }
@@ -444,8 +443,7 @@ public class ListaVeiculo {
         }
     }
 
-    public static void CreateCell(Cell c, Row r, Sheet s, CellStyle cs, int colinaI, int colinaF, String valorS, int linhaI, int linhaF) {
-
+    public static void CreateCellM(Cell c, Row r, Sheet s, CellStyle cs, int colinaI, int colinaF, String valorS, int linhaI, int linhaF) {
         c = r.createCell(linhaI);
         c.setCellStyle(cs);
         c.setCellValue(valorS);
@@ -454,5 +452,13 @@ public class ListaVeiculo {
             c = r.createCell(e);
             c.setCellStyle(cs);
         }
+    }
+    
+     public static void CreateCell(Cell c, Row r, Sheet s, CellStyle cs, int colinaI, int colinaF, Object valorS, int linhaI, int linhaF) {
+        c = r.createCell(linhaI);
+        c.setCellStyle(cs);
+        if(valorS instanceof Integer) c.setCellValue((Integer)valorS);
+        else c.setCellValue((String)valorS);
+        s.setColumnWidth(linhaI, linhaF*500);
     }
 }

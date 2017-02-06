@@ -13,6 +13,7 @@ public class Prestacao implements Serializable
     private String valorSF;
     private String valorPagoSF;
     private String valor;
+    private Double stdValor;
     private String valorPagoPrestacao;
     private String estadoPrestacao;
     private String numDoc;
@@ -110,6 +111,14 @@ public class Prestacao implements Serializable
 
     public void setEstadoPrestacao(String estadoPrestacao) {
         this.estadoPrestacao = estadoPrestacao;
+    }
+
+    public Double getStdValor() {
+        return stdValor;
+    }
+
+    public void setStdValor(Double stdValor) {
+        this.stdValor = stdValor;
     }
 
     @Override

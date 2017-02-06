@@ -5,7 +5,6 @@
  */
 package Export;
 
-import static Export.GenericExcel.CreateCell;
 import conexao.Call;
 import dao.ViagemDao;
 import java.io.File;
@@ -32,6 +31,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.primefaces.context.RequestContext;
+import static Export.GenericExcel.createCell;
+import static Export.GenericExcel.createCellM;
 
 /**
  *
@@ -82,27 +83,27 @@ public class ExporOnlyViagemExcel implements Serializable
         
         Row r = s.createRow(linha);
         Cell c = r.createCell(2);
-        CreateCell(c, r, s, csTitulo, linha, linha + 3, ConfigDoc.Empresa.NOME, 1, 22);
+        createCellM(c, r, s, csTitulo, linha, linha + 3, ConfigDoc.Empresa.NOME, 1, 22);
         linha += 4;
 
         r = s.createRow(linha);
-        CreateCell(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.ENDERECO, 1, 22);
+        createCellM(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.ENDERECO, 1, 22);
         linha++;
 
         r = s.createRow(linha);
-        CreateCell(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.CAIXAPOSTAL, 1, 22);
+        createCellM(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.CAIXAPOSTAL, 1, 22);
         linha++;
 
         r = s.createRow(linha);
-        CreateCell(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.TELEFAX + " " + ConfigDoc.Empresa.EMAIL, 1, 22);
+        createCellM(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.TELEFAX + " " + ConfigDoc.Empresa.EMAIL, 1, 22);
         linha++;
 
         r = s.createRow(linha);
-        CreateCell(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.SOCIEDADE, 1, 22);
+        createCellM(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.SOCIEDADE, 1, 22);
         linha += 3;
         
         r = s.createRow(linha);
-        CreateCell(c, r, s, csTituloTabelaNBorder, linha, linha, "TOTAL PREMIUM COLLECTED ON TRAVEL INSURANCE AND TAXES FOR "+titile, 1, 10);
+        createCellM(c, r, s, csTituloTabelaNBorder, linha, linha, "TOTAL PREMIUM COLLECTED ON TRAVEL INSURANCE AND TAXES FOR "+titile, 1, 10);
         linha += 2;
     }
 
@@ -268,21 +269,23 @@ public class ExporOnlyViagemExcel implements Serializable
             Row r = s.createRow(linha);
             Cell c = r.createCell(2);
             
-            for (int j = 0; j < 13; j++)
-            { 
-                if(j == 0) { CreateCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 1, 1); }
-                else if(j == 1) { CreateCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 2, 3); }
-                else if(j == 2) { CreateCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 4, 5 ); }
-                else if(j == 3) { CreateCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 6, 7); }
-                else if(j == 4) { CreateCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 8, 9); }
-                else if(j == 5) { CreateCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 10, 10); }
-                else if(j == 6) { CreateCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 11, 14); }
-                else if(j == 7) { CreateCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 15, 16); }
-                else if(j == 8) { CreateCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 17, 18); }
-                else if(j == 9) { CreateCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 19,20); }
-                else if(j == 10) { CreateCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 21, 22); }
-                else if(j == 11) { CreateCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 23, 24); }
-                else if(j == 12) { CreateCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 25, 27); }
+            for (int j = 0; j < 13; j++){ 
+                switch (j){
+                    case 0: createCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 1, 4); break;
+                    case 1: createCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 2, 6); break;
+                    case 2: createCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 3, 8); break;
+                    case 3: createCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 4, 6); break;
+                    case 4: createCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 5, 6); break;
+                    case 5: createCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 6, 4); break;
+                    case 6: createCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 7, 25); break;
+                    case 7: createCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 8, 10); break;
+                    case 8: createCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 9, 10); break;
+                    case 9: createCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 10, 8); break;
+                    case 10: createCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 11, 8); break;
+                    case 11: createCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 12, 8); break;
+                    case 12: createCell(c, r, s, csTituloTabela, linha, linha, funcaoTitulo(j), 13, 8); break;
+                    default: break;
+                }
             }
             i = 1;
             
@@ -292,35 +295,35 @@ public class ExporOnlyViagemExcel implements Serializable
                 r = s.createRow(linha);
                 c = r.createCell(2);
                 
-                CreateCell(c, r, s, csCorpoTabela, linha, linha, (i + ""), 1, 1);
-                
-                 CreateCell(c, r, s, csCorpoTabela, linha, linha, toString(hashMap.get(DATA)), 2, 3);
-                 
-                 CreateCell(c, r, s, csCorpoTabela, linha, linha, toString(hashMap.get(NUMEROAPOLICE)), 4, 5);
-                 
-                 CreateCell(c, r, s, csCorpoTabela, linha, linha, ConfigDoc.toFormat( toString(hashMap.get(INICIO)), "dd-MM-yyyy", "yyyy-MM-dd"), 6, 7);
-                 
-                 CreateCell(c, r, s, csCorpoTabela, linha, linha,ConfigDoc.toFormat( toString(hashMap.get(FIM)), "dd-MM-yyyy", "yyyy-MM-dd"), 8, 9);
-                 
-                 CreateCell(c, r, s, csCorpoTabela, linha, linha, toString(hashMap.get(DIAS)), 10, 10);
-                 
-                 CreateCell(c, r, s, csCorpoTabelaL, linha, linha, toString(hashMap.get(CLIENTE)), 11, 14);
-                 
-                 CreateCell(c, r, s, csCorpoTabela, linha, linha, toString(hashMap.get(RECIBO)), 15, 16);
-                 
-                 CreateCell(c, r, s, csCorpoTabelaR, linha, linha, toString(hashMap.get(PREMIO)), 17, 18);
-                 
-                 totalComissao += toFloat(toString(hashMap.get(COMISSAO)));
-                 CreateCell(c, r, s, csCorpoTabelaR, linha, linha, ConfigDoc.toMoeda(toString(hashMap.get(COMISSAO)), ""), 19, 20);
-                 
-                 totalConsumo += toFloat(toString(hashMap.get(CONSUMO)));
-                 CreateCell(c, r, s, csCorpoTabelaR, linha, linha, ConfigDoc.toMoeda(toString(hashMap.get(CONSUMO)), ""), 21, 22);   
+                createCell(c, r, s, csCorpoTabela, linha, linha, (i + ""), 1, 4);
+
+                createCell(c, r, s, csCorpoTabela, linha, linha, toString(hashMap.get(DATA)), 2, 6);
+
+                createCell(c, r, s, csCorpoTabela, linha, linha, toString(hashMap.get(NUMEROAPOLICE)), 3, 7);
+
+                createCell(c, r, s, csCorpoTabela, linha, linha, ConfigDoc.toFormat(toString(hashMap.get(INICIO)), "dd-MM-yyyy", "yyyy-MM-dd"), 4, 6);
+
+                createCell(c, r, s, csCorpoTabela, linha, linha, ConfigDoc.toFormat(toString(hashMap.get(FIM)), "dd-MM-yyyy", "yyyy-MM-dd"), 5, 6);
+
+                createCell(c, r, s, csCorpoTabela, linha, linha, toString(hashMap.get(DIAS)), 6, 4);
+
+                createCell(c, r, s, csCorpoTabelaL, linha, linha, toString(hashMap.get(CLIENTE)), 7, 20);
+
+                createCell(c, r, s, csCorpoTabela, linha, linha, toString(hashMap.get(RECIBO)), 8, 10);
+
+                createCell(c, r, s, csCorpoTabelaR, linha, linha, toString(hashMap.get(PREMIO)), 9, 10);
+
+                totalComissao += toFloat(toString(hashMap.get(COMISSAO)));
+                createCell(c, r, s, csCorpoTabelaR, linha, linha, ConfigDoc.toMoeda(toString(hashMap.get(COMISSAO)), ""), 10, 8);
+
+                totalConsumo += toFloat(toString(hashMap.get(CONSUMO)));
+                createCell(c, r, s, csCorpoTabelaR, linha, linha, ConfigDoc.toMoeda(toString(hashMap.get(CONSUMO)), ""), 11, 8);
 
                 totalSelo += toFloat(toString(hashMap.get(SELO)));
-                CreateCell(c, r, s, csCorpoTabelaR, linha, linha, ConfigDoc.toMoeda(toString(hashMap.get(SELO)), ""), 23, 24);
+                createCell(c, r, s, csCorpoTabelaR, linha, linha, ConfigDoc.toMoeda(toString(hashMap.get(SELO)), ""), 12, 8);
 
                 totalTotal += toFloat(toString(hashMap.get(TOTAL)));
-                CreateCell(c, r, s, csCorpoTabelaR, linha, linha, ConfigDoc.toMoeda(toString(hashMap.get(TOTAL)), ""), 25, 27);
+                createCell(c, r, s, csCorpoTabelaR, linha, linha, ConfigDoc.toMoeda(toString(hashMap.get(TOTAL)), ""), 13, 8);
                 
                 i++;
             }
@@ -333,30 +336,30 @@ public class ExporOnlyViagemExcel implements Serializable
         
          Row r = s.createRow(linha);
          Cell c = r.createCell(2);
+     
+        createCellM(c, r, s, cellStyle, linha, linha, " ", 1, 2);  
         
-        CreateCell(c, r, s, cellStyle, linha, linha, " ", 1, 3);  
+        createCell(c, r, s, cellStyle, linha, linha, " ", 3, 7);
         
-        CreateCell(c, r, s, cellStyle, linha, linha, " ", 4, 5);
+        createCell(c, r, s, cellStyle, linha, linha, " ", 4, 6);
         
-        CreateCell(c, r, s, cellStyle, linha, linha, " ", 6, 7);
+        createCell(c, r, s, cellStyle, linha, linha, " ", 5, 6);
         
-        CreateCell(c, r, s, cellStyle, linha, linha, " ", 8, 9);
+        createCell(c, r, s, cellStyle, linha, linha, " ", 6, 4);
         
-        CreateCell(c, r, s, cellStyle, linha, linha, " ", 10, 10);
+        createCell(c, r, s, cellStyle, linha, linha, " ", 7, 20);
         
-        CreateCell(c, r, s, cellStyle, linha, linha, " ", 11, 14);
-        
-        CreateCell(c, r, s, cellStyle, linha, linha, " ", 15, 16);
+        createCell(c, r, s, cellStyle, linha, linha, " ", 8, 10);
        
-        CreateCell(c, r, s, cellStyle, linha, linha,  ConfigDoc.toMoeda(totalPremio, ""), 17, 18);
+        createCell(c, r, s, cellStyle, linha, linha,  ConfigDoc.toMoeda(totalPremio, ""), 9, 10);
         
-        CreateCell(c, r, s, cellStyle, linha, linha,  ConfigDoc.toMoeda(totalComissao, ""), 19, 20);
+        createCell(c, r, s, cellStyle, linha, linha,  ConfigDoc.toMoeda(totalComissao, ""), 10, 8);
         
-        CreateCell(c, r, s, cellStyle, linha, linha,  ConfigDoc.toMoeda(totalConsumo, ""), 21, 22);
+        createCell(c, r, s, cellStyle, linha, linha,  ConfigDoc.toMoeda(totalConsumo, ""), 11, 8);
         
-        CreateCell(c, r, s, cellStyle, linha, linha,  ConfigDoc.toMoeda(totalSelo, ""), 23,24);
+        createCell(c, r, s, cellStyle, linha, linha,  ConfigDoc.toMoeda(totalSelo, ""), 12, 8);
         
-        CreateCell(c, r, s, cellStyle, linha, linha,  ConfigDoc.toMoeda(totalTotal, ""), 25, 27);
+        createCell(c, r, s, cellStyle, linha, linha,  ConfigDoc.toMoeda(totalTotal, ""), 13, 8);
     }
         
     private String funcaoTitulo(int i) {
@@ -388,7 +391,8 @@ public class ExporOnlyViagemExcel implements Serializable
     {
         hasList = new LinkedHashMap<>();
         ResultSet rs = ViagemDao.relatorioTravel(dataInicio, dataFim);
-        Consumer <HashMap<String, Object>> act  = (map)->
+        @SuppressWarnings("element-type-mismatch")
+        Consumer <HashMap<String, Object>> act  = (HashMap<String, Object> map)->
         {
             map.put(CONSUMO , ((toFloat(map.get(IMP_CONSUMO))/100) * toFloat(map.get(COMISSAO))));
             map.put(SELO , ((toFloat(map.get(IMP_SELO))/100) * toFloat(map.get(COMISSAO))));

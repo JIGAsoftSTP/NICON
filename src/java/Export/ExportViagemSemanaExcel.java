@@ -5,7 +5,6 @@
  */
 package Export;
 
-import static Export.GenericExcel.CreateCell;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import conexao.Call;
@@ -32,6 +31,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.primefaces.context.RequestContext;
+import static Export.GenericExcel.createCell;
+import static Export.GenericExcel.createCellM;
 
 /**
  *
@@ -204,45 +205,45 @@ public class ExportViagemSemanaExcel {
             
             Row r = s.createRow(linha);
             Cell c = r.createCell(2);
-            CreateCell(c, r, s, csTitulo, linha, linha + 3, ConfigDoc.Empresa.NOME, 1, 22);
+            createCellM(c, r, s, csTitulo, linha, linha + 3, ConfigDoc.Empresa.NOME, 1, 22);
             linha += 4;
 
             r = s.createRow(linha);
-            CreateCell(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.ENDERECO, 1, 22);
+            createCellM(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.ENDERECO, 1, 22);
             linha++;
 
             r = s.createRow(linha);
-            CreateCell(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.CAIXAPOSTAL, 1, 22);
+            createCellM(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.CAIXAPOSTAL, 1, 22);
             linha++;
 
             r = s.createRow(linha);
-            CreateCell(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.TELEFAX + " " + ConfigDoc.Empresa.EMAIL, 1, 22);
+            createCellM(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.TELEFAX + " " + ConfigDoc.Empresa.EMAIL, 1, 22);
             linha++;
 
             r = s.createRow(linha);
-            CreateCell(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.SOCIEDADE, 1, 22);
+            createCellM(c, r, s, csTituloP, linha, linha, ConfigDoc.Empresa.SOCIEDADE, 1, 22);
             linha += 3;
 
             r = s.createRow(linha);
-            CreateCell(c, r, s, csTituloTabelaNBorder, linha,  linha+1, "RELATORIO SEMANAL NO. " + "" + "\n" + ((dataInicio != null) ? sdfTitile.format(dataInicio) + " - " : "") + ((dateFim != null) ? sdfTitile.format(dateFim) : ""), 1, 10);
+            createCellM(c, r, s, csTituloTabelaNBorder, linha,  linha+1, "RELATORIO SEMANAL NO. " + "" + "\n" + ((dataInicio != null) ? sdfTitile.format(dataInicio) + " - " : "") + ((dateFim != null) ? sdfTitile.format(dateFim) : ""), 1, 10);
             linha += 3;
             
              r = s.createRow(linha);
              c = r.createCell(2);
              
-            CreateCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(0), 1, 1); 
-            CreateCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(1), 2, 3); 
-            CreateCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(2), 4, 4); 
-            CreateCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(3), 5, 5); 
-            CreateCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(4), 6, 7); 
-            CreateCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(5), 8, 10); 
-            CreateCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(6), 11, 11); 
-            CreateCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(7), 12, 12); 
-            CreateCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(8), 13, 14); 
-            CreateCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(9), 15, 16); 
-            CreateCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(10), 17, 18); 
-            CreateCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(11), 19, 20); 
-            CreateCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(12), 21, 22); 
+            createCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(0), 1, 4); //1
+            createCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(1), 2, 6); //2
+            createCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(2), 3, 6); //1
+            createCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(3), 4, 6); //1
+            createCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(4), 5, 6); //2
+            createCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(5), 6, 20); //3
+            createCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(6), 7, 4); //1
+            createCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(7), 8, 4); //1
+            createCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(8), 9, 8); //2
+            createCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(9), 10, 8); //1
+            createCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(10), 11, 6); //2
+            createCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(11), 12, 6); //2
+            createCell(c, r, s, csTituloTabela, linha,  linha+1, titileTable(12), 13, 6); //2
 
             dataViagem(dataInicio, dateFim);
             
@@ -255,22 +256,22 @@ public class ExportViagemSemanaExcel {
                 r = s.createRow(linha);
                 c = r.createCell(2);
                 
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(DATA)), 1, 1);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(NUMEROAPOLICE)), 2, 3);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, ConfigDoc.toFormat(toString(data.get(INICIO)), "dd-MM-yyyy", "yyyy-MM-dd"), 4, 4);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, ConfigDoc.toFormat(toString(data.get(FIM)), "dd-MM-yyyy", "yyyy-MM-dd"), 5, 5);
+                createCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(DATA)), 1, 4);
+                createCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(NUMEROAPOLICE)), 2, 6);
+                createCell(c, r, s, csCorpoTabelaL, linha, linha, ConfigDoc.toFormat(toString(data.get(INICIO)), "dd-MM-yyyy", "yyyy-MM-dd"), 3, 6);
+                createCell(c, r, s, csCorpoTabelaL, linha, linha, ConfigDoc.toFormat(toString(data.get(FIM)), "dd-MM-yyyy", "yyyy-MM-dd"), 4, 6);
                 
                 premiototal += toFloat(data.get(PREMIO));
-                CreateCell(c, r, s, csCorpoTabelaR, linha, linha, ConfigDoc.toMoeda(toFloat(data.get(PREMIO)), ""), 6, 7);
+                createCell(c, r, s, csCorpoTabelaR, linha, linha, ConfigDoc.toMoeda(toFloat(data.get(PREMIO)), ""), 5, 6);
                 
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(CLIENTE)), 8, 10);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(DATANASCIMENTO)), 11, 11);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(TELEFONE)), 12, 12);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(ENDERECO)), 13, 14);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(LOCALNASCIMENTO)), 15, 16);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(PAISDESTINO)), 17, 18);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(CIDADEDESTINO)), 19, 20);
-                CreateCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(ZONADESTINO)), 21, 22);
+                createCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(CLIENTE)), 6, 20);
+                createCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(DATANASCIMENTO)), 7, 4);
+                createCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(TELEFONE)), 8, 4);
+                createCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(ENDERECO)), 9, 8);
+                createCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(LOCALNASCIMENTO)), 10, 8);
+                createCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(PAISDESTINO)), 11, 6);
+                createCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(CIDADEDESTINO)), 12, 6);
+                createCell(c, r, s, csCorpoTabelaL, linha, linha, toString(data.get(ZONADESTINO)), 13, 6);
 
             }
             
@@ -278,11 +279,11 @@ public class ExportViagemSemanaExcel {
             r = s.createRow(linha);
             c = r.createCell(2);
                 
-            CreateCell(c, r, s, csRodapeTabela, linha, linha, "AL AMOUNT..........................................", 1, 5);
+            createCellM(c, r, s, csRodapeTabela, linha, linha, "AL AMOUNT..........................................", 1, 5);
             
-            CreateCell(c, r, s, csRodapeTabelaR, linha, linha, ConfigDoc.toMoeda(premiototal, ""), 6, 7);
+            createCellM(c, r, s, csRodapeTabelaR, linha, linha, ConfigDoc.toMoeda(premiototal, ""), 6, 7);
             
-            CreateCell(c, r, s, csRodapeTabela, linha, linha, " ", 8, 22);
+            createCellM(c, r, s, csRodapeTabela, linha, linha, " ", 8, 13);
            
             
            try (FileOutputStream out = new FileOutputStream(ff))   {  wb.write(out); }

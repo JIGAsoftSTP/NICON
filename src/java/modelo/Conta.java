@@ -7,24 +7,31 @@ import java.io.Serializable;
  *
  * @author Helcio Guadalupe
  */
-public class Conta
+public class Conta implements Serializable
 {
-    private String tipoConta = "banco";
+    private String tipoConta;
     private String banco;
     private int idAccount;
+    private String numRaiz;
+    private String nivel;
+    private String numClasse;
     private String designacao;
     private String conta;
     private String numConta;
     private String numContaPagamento;
     private String moeda;
-    private String tipoContaMovimento;
+    private String tipoContaMovimento = "1";
     private String saldo;
     private String registro;
-    private String estado = "Ativo";
+    private int estado;
     private String credito;
     private String debito;
-    private String tipo = "Conta Banco";
-    private String fieldSearch = "BANCO";
+    private String obs;
+    private String typeOperation;
+    private String operationInsurance;
+    private String accountOperationValue;
+    private String value;
+   
 
     public Conta()
     {
@@ -56,6 +63,62 @@ public class Conta
         this.tipoConta = tipoConta;
     }
 
+    public String getNumClasse() {
+        return numClasse;
+    }
+
+    public String getAccountOperationValue() {
+        return accountOperationValue;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public void setAccountOperationValue(String accountOperationValue) {
+        this.accountOperationValue = accountOperationValue;
+    }
+
+    public String getObs() {
+        return obs;
+    }
+
+    public void setObs(String obs) {
+        this.obs = obs;
+    }
+
+    public String getTypeOperation() {
+        return typeOperation;
+    }
+
+    public String getOperationInsurance() {
+        return operationInsurance;
+    }
+
+    public void setOperationInsurance(String operationInsurance) {
+        this.operationInsurance = operationInsurance;
+    }
+
+    public void setTypeOperation(String typeOperation) {
+        this.typeOperation = typeOperation;
+    }
+
+    public void setNumClasse(String numClasse) {
+        this.numClasse = numClasse;
+    }
+
+    public String getNumRaiz() {
+        return numRaiz;
+    }
+
+    public void setNumRaiz(String numRaiz) {
+        this.numRaiz = numRaiz;
+    }
+
     public int getIdAccount() {
         return idAccount;
     }
@@ -64,13 +127,6 @@ public class Conta
         this.idAccount = idAccount;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
 
     public String getSaldo() {
         return saldo;
@@ -84,6 +140,14 @@ public class Conta
         return credito;
     }
 
+    public String getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(String nivel) {
+        this.nivel = nivel;
+    }
+
     public void setCredito(String credito) {
         this.credito = credito;
     }
@@ -92,23 +156,15 @@ public class Conta
         return debito;
     }
 
-    public void setFieldSearch(String fieldSearch) {
-        this.fieldSearch = fieldSearch;
-    }
-
-    public String getFieldSearch() {
-        return fieldSearch;
-    }
-
     public void setDebito(String debito) {
         this.debito = debito;
     }
 
-    public String getEstado() {
+    public int getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(int estado) {
         this.estado = estado;
     }
 

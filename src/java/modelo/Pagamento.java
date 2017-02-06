@@ -40,6 +40,7 @@ public class Pagamento implements Serializable
     private String filtroPagamento = "todos";
     private double totalDebito;
     private double totalCredito;
+    private boolean hasRetencion = false;
     
     private String numeroSinistro;
     private String tyOperationDesc;
@@ -65,6 +66,7 @@ public class Pagamento implements Serializable
         this.totalCredito = pagamento.getTotalCredito();
         this.totalDebito = pagamento.getTotalDebito();
         this.tyOperationDesc = pagamento.getTyOperationDesc();
+        this.hasRetencion = pagamento.isHasRetencion();
     }
 
     public Pagamento()
@@ -339,6 +341,14 @@ public class Pagamento implements Serializable
 
     public HashMap<String, Object> getPagamentosSolicitados() {
         return pagamentosSolicitados;
+    }
+
+    public boolean isHasRetencion() {
+        return hasRetencion;
+    }
+
+    public void setHasRetencion(boolean hasRetencion) {
+        this.hasRetencion = hasRetencion;
     }
 
     @Override
