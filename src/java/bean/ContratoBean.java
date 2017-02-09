@@ -30,6 +30,8 @@ import dao.VeiculoDao;
 import dao.ViagemDao;
 import java.io.IOException;
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -1283,8 +1285,14 @@ public class ContratoBean implements Serializable {
             contrato.setSigla("EUR");
             contrato.setDataInicio(viagemBean.getViagem().getDataInicio());
             contrato.setDataFim(viagemBean.getViagem().getDataFim());
-            Object o = Call.selectFrom("VER_MOEDA where SIGLA = ?", "*", "EUR");
-            contrato.setMoeda(o.toString());
+            ResultSet o = Call.selectFrom("VER_MOEDA where SIGLA = ?", "*", "EUR");
+            if(o != null) {
+                try {
+                    o.next();
+                    contrato.setMoeda(o.getString("ID"));
+                } catch (SQLException ex)
+                { Logger.getLogger(ContratoBean.class.getName()).log(Level.SEVERE, null, ex); }
+            }
         }
     }
 
