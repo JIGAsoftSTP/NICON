@@ -38,6 +38,7 @@ public class Pagamento implements Serializable
     private String valorFormatado;
     private String solicitarPagamentoData;
     private String filtroPagamento = "todos";
+    private String idContaBanco;
     private double totalDebito;
     private double totalCredito;
     private boolean hasRetencion = false;
@@ -83,6 +84,14 @@ public class Pagamento implements Serializable
 
     public String getTyOperationDesc() {
         return tyOperationDesc;
+    }
+
+    public String getIdContaBanco() {
+        return idContaBanco;
+    }
+
+    public void setIdContaBanco(String idContaBanco) {
+        this.idContaBanco = idContaBanco;
     }
 
     public void setTyOperationDesc(String tyOperationDesc) {

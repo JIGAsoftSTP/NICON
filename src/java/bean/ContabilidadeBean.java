@@ -50,6 +50,7 @@ public class ContabilidadeBean implements Serializable
     private List<Pagamento> dadosPagamento = new ArrayList<>();
     private List<Pagamento> calculoValor = new ArrayList<>();
     private List<ComoBox> contasBanco = new ArrayList<>();
+    private List<ComoBox> listaContasRecebimentos = new ArrayList<>();
     private List<ComoBox> tipoPagamento = new ArrayList<>();
     private List<String> listaContas = new ArrayList<>();
     private List<Pagamento> listaPagamentos = new ArrayList<>();
@@ -68,6 +69,7 @@ public class ContabilidadeBean implements Serializable
     
     public ContabilidadeBean()
     {
+        listaContasRecebimentos = cd.getReceptAccounts();
         contratoContabilidade = cd.contratoClienteContabilidade("metade", null);
         formaPagamento = ComoBox.loadCombo("VER_TIPO_PAGAMENTO", "ID", "PAGAMENTO");
         contas = cd.bankAccounts();/**ComoBox.loadCombo("VER_CONTABOX", "ID", "CONTA");*/
@@ -119,6 +121,10 @@ public class ContabilidadeBean implements Serializable
     }
     public List<ComoBox> getTipoPagamento() {
         return tipoPagamento;
+    }
+
+    public List<ComoBox> getListaContasRecebimentos() {
+        return listaContasRecebimentos;
     }
 
     public List<ComoBox> getContas() {
@@ -308,7 +314,7 @@ public class ContabilidadeBean implements Serializable
                     if(result[0].equals("true"))
                     {
                         carregarPrestacoes();
-                        Mensagem.addInfoMsg("Recebimento registrado com sucesso!");
+                        Mensagem.addInfoMsg("Recebimento registado com sucesso!");
                         RequestContext.getCurrentInstance().execute("receiveCloseFrame()");
                         Validacao.AtualizarCompoente("recebimentoFormTabela", "growlPrestacao");
                         RequestContext.getCurrentInstance().execute("registradoAmortizacao()");
@@ -754,19 +760,7 @@ public class ContabilidadeBean implements Serializable
        pagamento.setDataPagamento(OperacaoData.stringFormatToDate(data, "dd-MM-yyyy"));
        
        if(dadosPagamento.size()>0)
-       {
-           if(pagamento.getFormaPagamento().equals("2"))
-           {
-               if(pagamento.getNumero().length() == 10)
-                    verificarSaldoContaBanco();
-               else
-                {
-                     RequestContext.getCurrentInstance().execute("$('.modalProcess').hide()");
-                     Message.addErrorMsg("Número de cheque deve ter dez(digitos)!", "recebimentoForm", "pagamentoGrowl");
-                }   
-           }
-           else verificarSaldoContaBanco();
-       }
+          verificarSaldoContaBanco();
        else
        {
             RequestContext.getCurrentInstance().execute("$('.modalProcess').hide()");

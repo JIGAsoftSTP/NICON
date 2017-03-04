@@ -98,7 +98,7 @@ public class ClienteI implements Serializable {
     }
 
     public String getPROFISSAOL_() {
-        return "PROFISSÃO: ".toUpperCase();
+        return "PROFISSÃO/OCUPAÇÃO/ÁREA DE ATIVIDADE: ".toUpperCase();
     }
 
     public String getLOCALTRABALHOL_() {

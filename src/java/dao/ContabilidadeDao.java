@@ -238,6 +238,7 @@ public class ContabilidadeDao implements Serializable {
         return accounts;
     }
 
+    
     public String validarContaPagamento(String contaPagamento) {
         ResultSet rs;
         boolean valido = true;
@@ -256,6 +257,24 @@ public class ContabilidadeDao implements Serializable {
         }
         return id;
     }
+    public static String loadAccountId(String contaPagamento) {
+        ResultSet rs;
+  
+        String id = null;
+        String field = "ID ACCOUNT";
+        rs = Call.selectFrom("VER_ACCOUNTBANK WHERE ID=?","*", contaPagamento);
+        if (rs != null) {
+            try {
+                while (rs.next()) {
+                    id = rs.getString(field);
+                }
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ContabilidadeDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return id;
+    }
 
     public String proximoCodigoPagamento(int idModoPagamento) {
         String functionName = "PACK_CONTA.nextPaymentCod";
@@ -265,15 +284,14 @@ public class ContabilidadeDao implements Serializable {
 
     public Object registrarPagamento(Pagamento p, int type, String cheque)
     {
-
         double valorTotal = p.getTotalDebito() - p.getTotalCredito();
-
         String functionName = "PACK_CONTA.func_reg_payemnt";
         int idUser = Integer.valueOf(SessionUtil.getUserlogado().getId().toString());
         
         Object resp = Call.callSampleFunction(functionName, Types.VARCHAR,
                 idUser,
-                Integer.valueOf(p.getContaBanco()),
+                    Integer.valueOf(loadAccountId(p.getContaBanco())),
+                     Integer.valueOf(p.getContaBanco()),
                 OperacaoData.toSQLDate(p.getDataPagamento()),
                 valorTotal,
                 Integer.valueOf(p.getTipoPagamento()),
@@ -836,8 +854,11 @@ public class ContabilidadeDao implements Serializable {
                 Logger.getLogger(ContabilidadeDao.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
         return list; 
     }
+    
+    
     
 
     public List<Conta> listaContaRaiz(int typeOp, String value){
@@ -1004,13 +1025,37 @@ public class ContabilidadeDao implements Serializable {
         Date d = new Date();
         String ano = dateFormat.format(d);
         int anoAtual = Integer.valueOf(ano.substring(6, 10));
-       rs = Call.selectFrom("VER_ACCOUNT", "*");
+       rs = Call.selectFrom("VER_ACCOUNT WHERE STATE=1", "*");
        
         if(rs != null){
              try {
                  while(rs.next()){
                     if(rs.getInt("YEAR") == anoAtual){
                         list.add(rs.getString("NUMBER"));
+                   }
+                 }
+                rs.close();
+             } catch (SQLException ex) {
+                 Logger.getLogger(ContabilidadeDao.class.getName()).log(Level.SEVERE, null, ex);
+             }    
+         }
+         return list;  
+   }
+   public List<ComoBox> getReceptAccounts()
+   {
+        List<ComoBox> list = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date d = new Date();
+        String ano = dateFormat.format(d);
+        int anoAtual = Integer.valueOf(ano.substring(6, 10));
+       rs = Call.selectFrom("VER_ACCOUNT WHERE STATE=1", "*");
+       
+        if(rs != null){
+             try {
+                 while(rs.next()){
+                    if(rs.getInt("YEAR") == anoAtual){
+                        ComoBox cb = new ComoBox(rs.getString("ID"), rs.getString("DESCRISION"));
+                        list.add(cb);
                    }
                  }
                 rs.close();

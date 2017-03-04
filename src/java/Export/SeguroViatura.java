@@ -172,7 +172,7 @@ public class SeguroViatura implements Serializable {
             pCl = new Paragraph();
             pCl.add(new Phrase(ci.getPROFISSAOL_(),fontCorpo));
             pCl.add(new Phrase(ci.getPROFISSAO_(),fontCorpoN));
-            pCl.add(new Phrase ("\nPROFISSION:",fontUK));
+            pCl.add(new Phrase ("\nPROFISSION/OCCUPATION/ACTIVITY AREA:",fontUK));
             PdfPCell cellProfissao = new PdfPCell(pCl);
             cellProfissao.setBorder(0);
             
