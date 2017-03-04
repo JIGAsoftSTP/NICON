@@ -547,7 +547,7 @@
                                     Conta
                                     <h:selectOneMenu class="input-total prestacaoConta prestacaoLimpar" id="prestacaoConta" value="#{contabilidade.prestacao.conta}">
                                         <f:selectItem itemLabel="(Selecione)" />
-                                        <f:selectItems value="#{contabilidade.contas}"
+                                        <f:selectItems value="#{contabilidade.listaContasRecebimentos}"
                                                        var="conta" itemLabel="#{conta.value}" itemValue="#{conta.id}" />
                                         <p:ajax event="mousemove" listener="#{contabilidade.descricaoConta()}" />
                                     </h:selectOneMenu>
