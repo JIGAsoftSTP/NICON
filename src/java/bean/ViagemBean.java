@@ -311,9 +311,10 @@ public class ViagemBean  implements  Serializable
                 viagem.setTotalSeguradoMoeda("Ilimitado");
                // calcularNC = listContractData.get(0).getValorNC()* infoPessoaSegurada.size();// determina o valor de de NC (Nicon comission)
                 calcularNC = listContractData.get(0).getNc();// determina o valor de de NC (Nicon comission)
-                calcularNC = calcularNC *2;
+                calcularNC = calcularNC * 2;
                 viagem.setNc(calcularNC);//valor de nc
-                valorPremio =listContractData.get(0).getValorPremio()*2;
+                System.out.println("valor de nc= "+listContractData.get(0).getNc());
+                valorPremio =listContractData.get(0).getValorPremio()* 2;
                 viagem.setValorPremio(valorPremio);
                 impostoCincoPorCento = listContractData.get(0).getValorImpostoCincoPorCento() *2;
                 impostoSeisPorCento = listContractData.get(0).getValorImpostoSeisPorCento() *2;
@@ -321,9 +322,10 @@ public class ViagemBean  implements  Serializable
                 viagem.setValorImpostoSeisPorCento(impostoSeisPorCento);
              //   calcularPremioBruto = viagem.getValorPremio()* infoPessoaSegurada.size();// DETERMINA O PREMIO BRUTO DESTE SEGURO
                 calcularPremioBruto = viagem.getValorPremio();// DETERMINA O PREMIO BRUTO DESTE SEGURO
-                viagem.setPremioBruto(String.valueOf(calcularPremioBruto*2));//atribui o valor de premio bruto deste seguro
+                viagem.setPremioBruto(String.valueOf(calcularPremioBruto));//atribui o valor de premio bruto deste seguro
                 viagem.setPremioBrutoMoeda(Moeda.format(calcularPremioBruto));
                 valor = calcularNC*(1+viagem.getValorImpostoCincoPorCento()+viagem.getValorImpostoSeisPorCento());
+                System.out.println("valor s "+valor);
                 valor = (float) arrendodamentoNCalculado(Float.toString(valor));
                 calculcarPremioLiquido = (float) (Moeda.arrendodamento(Double.toString(valor)) + calcularPremioBruto);
                 viagem.setPremioLiquido(Double.toString(calculcarPremioLiquido));

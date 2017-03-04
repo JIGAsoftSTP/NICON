@@ -828,7 +828,7 @@ public class ContabilidadeDao implements Serializable {
             try {
                 while(rs.next())
                 {
-                    ComoBox cb = new ComoBox(rs.getString("ID ACCOUNT"), rs.getString("NAME"), rs.getDouble("SALDO"));
+                    ComoBox cb = new ComoBox(rs.getString("ID"), rs.getString("NAME"), rs.getDouble("SALDO"));
                     list.add(cb);
                 }
                 rs.close();

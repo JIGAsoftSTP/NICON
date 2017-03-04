@@ -230,6 +230,7 @@ public class ContabilidadeBean implements Serializable
                     System.out.println("cheque carregado "+result);
                     numeroCheque = result.split(";")[1];
                     RequestContext.getCurrentInstance().execute("ativarDesativarCampoCheque('ativar')");
+                    RequestContext.getCurrentInstance().execute("$('.pagamentoNumero').val("+numeroCheque+")");
                 }
                 else
                 {

@@ -1297,12 +1297,16 @@ public class ContratoBean implements Serializable {
     }
 
     public void DadosAcidentePG() {
+       double premioLiquido;
         codigoSeguro = "GPA";
         imposto = "true1;true2".split(";");
         ativarDesativarCampoFranquia = true;
         taxaDesativado = true;
         if (SessionUtil.obterValor("GPA") != null) {
             acidentePGBean = ((AcidentePGBean) SessionUtil.obterValor("GPA"));
+            premioLiquido = Double.valueOf(acidentePGBean.getAcidentePG().getPremioLiquido()) * (1+ 0.056);
+            acidentePGBean.getAcidentePG().setPremioLiquido(premioLiquido+"");
+ 
             lr = ((ListaRespostas) SessionUtil.obterValor("respostas"));
             contrato.setTotalSegurado(acidentePGBean.getAcidentePG().getLimiteResponsabilidade());
             contrato.setPremioBruto(acidentePGBean.getAcidentePG().getPremioBruto());

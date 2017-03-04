@@ -193,7 +193,10 @@ public class VeiculoBean implements Serializable
        {
            case "42":
            {
-               if(veiculo.getLimiteResp() != null && veiculo.getLimiteResp().length()>0 && (veiculo.getValorAtual() != null && veiculo.getValorAtual().length()>0))
+               if(veiculo.getLimiteResp() != null && 
+                   veiculo.getLimiteResp().length()>0 &&
+                   (veiculo.getValorAtual() != null && 
+                   veiculo.getValorAtual().length()>0))
                {
                     taxa = Double.valueOf(veiculo.getLimiteResp())/100;
                    if(Double.valueOf(veiculo.getLimiteResp()) <= 100)
@@ -300,6 +303,7 @@ public class VeiculoBean implements Serializable
    {
        System.out.println(veiculo.toString());
        float percentagemRetirar = 100-(5+0.6f+2.5f);
+       float percentagemAdicionar = 100+(5+0.6f+2.5f);
        @SuppressWarnings("UnusedAssignment")
        double premioBruto = 0, premioLiquido = 0, limiteResponsabilidade = 0;
        if(veiculo.getTipoCobertura().equals("41"))
@@ -324,7 +328,8 @@ public class VeiculoBean implements Serializable
                      premioLiquido += Double.valueOf(veiculo1.getValorPremio());
                     limiteResponsabilidade += Double.valueOf(veiculo.getValorAtual());
                 }
-                premioBruto = (percentagemRetirar * premioLiquido)/100;
+                premioBruto = premioLiquido;
+                premioLiquido = (premioLiquido * 0.081)+premioLiquido;
                 veiculo.setPremioBruto(String.valueOf(premioBruto));
                 veiculo.setPremioBrutoMoeda(Moeda.format(premioBruto));
                 veiculo.setPremioLiquido(String.valueOf(premioLiquido));
