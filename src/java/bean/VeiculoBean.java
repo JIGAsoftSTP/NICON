@@ -298,7 +298,7 @@ public class VeiculoBean implements Serializable
                }
    }
 
-    @SuppressWarnings("ConvertToStringSwitch")
+     @SuppressWarnings("ConvertToStringSwitch")
    public void calcular()
    {
        System.out.println(veiculo.toString());

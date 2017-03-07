@@ -304,54 +304,41 @@ public class ViagemBean  implements  Serializable
         float calcularNC = 0, calcularPremioBruto = 0, valor = 0, calculcarPremioLiquido = 0, valorPremio = 0, impostoCincoPorCento = 0, impostoSeisPorCento = 0;
         if(viagem.getDataInicio() != null && viagem.getDataFim() != null)
         {
-            if(OperacaoData.DataNascimentoSuperior(viagem.getDataNasc()) >75 )
-            {
-                System.out.println("entrou idade superior\nNC= "+listContractData.get(0).getNc());
-                viagem.setTotalSegurado("Ilimitado");
-                viagem.setTotalSeguradoMoeda("Ilimitado");
-               // calcularNC = listContractData.get(0).getValorNC()* infoPessoaSegurada.size();// determina o valor de de NC (Nicon comission)
-                calcularNC = listContractData.get(0).getNc();// determina o valor de de NC (Nicon comission)
-                calcularNC = calcularNC * 2;
-                viagem.setNc(calcularNC);//valor de nc
-                System.out.println("valor de nc= "+listContractData.get(0).getNc());
-                valorPremio =listContractData.get(0).getValorPremio()* 2;
-                viagem.setValorPremio(valorPremio);
-                impostoCincoPorCento = listContractData.get(0).getValorImpostoCincoPorCento() *2;
-                impostoSeisPorCento = listContractData.get(0).getValorImpostoSeisPorCento() *2;
-                viagem.setValorImpostoCincoPorCento(impostoCincoPorCento);
-                viagem.setValorImpostoSeisPorCento(impostoSeisPorCento);
-             //   calcularPremioBruto = viagem.getValorPremio()* infoPessoaSegurada.size();// DETERMINA O PREMIO BRUTO DESTE SEGURO
-                calcularPremioBruto = viagem.getValorPremio();// DETERMINA O PREMIO BRUTO DESTE SEGURO
-                viagem.setPremioBruto(String.valueOf(calcularPremioBruto));//atribui o valor de premio bruto deste seguro
-                viagem.setPremioBrutoMoeda(Moeda.format(calcularPremioBruto));
-                valor = calcularNC*(1+viagem.getValorImpostoCincoPorCento()+viagem.getValorImpostoSeisPorCento());
-                System.out.println("valor s "+valor);
-                valor = (float) arrendodamentoNCalculado(Float.toString(valor));
-                calculcarPremioLiquido = (float) (Moeda.arrendodamento(Double.toString(valor)) + calcularPremioBruto);
-                viagem.setPremioLiquido(Double.toString(calculcarPremioLiquido));
-                viagem.setPremioLiquidoMoeda(Moeda.format(Moeda.arrendodamento(Double.toString(calculcarPremioLiquido))));   
-            }
-            else
-            {
-                viagem.setTotalSegurado("Ilimitado");
-                viagem.setTotalSeguradoMoeda("Ilimitado");
-//                calcularNC = listContractData.get(0).getNc()* infoPessoaSegurada.size();// determina o valor de de NC (Nicon comission)
-                calcularNC = listContractData.get(0).getNc();// determina o valor de de NC (Nicon comission)
-                viagem.setNc(calcularNC);//valor de nc
-//                calcularPremioBruto = listContractData.get(0).getValorPremio()* infoPessoaSegurada.size();// DETERMINA O PREMIO BRUTO DESTE SEGURO
-                calcularPremioBruto = listContractData.get(0).getValorPremio();// DETERMINA O PREMIO BRUTO DESTE SEGURO
-                viagem.setPremioBruto(String.valueOf(calcularPremioBruto));//atribui o valor de premio bruto deste seguro
-                viagem.setPremioBrutoMoeda(Moeda.format(calcularPremioBruto));
-                System.out.println("nc= "+listContractData.get(0).getNc()+"\n5% = "+listContractData.get(0).getValorImpostoCincoPorCento()+"\n6%= "+listContractData.get(0).getValorImpostoSeisPorCento());
-                valor = calcularNC*(1+listContractData.get(0).getValorImpostoCincoPorCento()+ listContractData.get(0).getValorImpostoSeisPorCento());
        
-                valor = (float) arrendodamentoNCalculado(Float.toString(valor));
-                calculcarPremioLiquido = (float) (Moeda.arrendodamento(Float.toString(valor)) + calcularPremioBruto);
-                viagem.setPremioLiquido(Double.toString(calculcarPremioLiquido));
-                viagem.setPremioLiquidoMoeda(Moeda.format(Moeda.arrendodamento(Double.toString(calculcarPremioLiquido))));     
-            }
+            viagem.setTotalSegurado("Ilimitado");
+            viagem.setTotalSeguradoMoeda("Ilimitado");
+//                calcularNC = listContractData.get(0).getNc()* infoPessoaSegurada.size();// determina o valor de de NC (Nicon comission)
+            calcularNC = listContractData.get(0).getNc();// determina o valor de de NC (Nicon comission)
+            viagem.setNc(calcularNC);//valor de nc
+//                calcularPremioBruto = listContractData.get(0).getValorPremio()* infoPessoaSegurada.size();// DETERMINA O PREMIO BRUTO DESTE SEGURO
+            calcularPremioBruto = listContractData.get(0).getValorPremio();// DETERMINA O PREMIO BRUTO DESTE SEGURO
+            viagem.setPremioBruto(String.valueOf(calcularPremioBruto));//atribui o valor de premio bruto deste seguro
+            viagem.setPremioBrutoMoeda(Moeda.format(calcularPremioBruto));
+            System.out.println("nc= "+listContractData.get(0).getNc()+"\n5% = "+listContractData.get(0).getValorImpostoCincoPorCento()+"\n6%= "+listContractData.get(0).getValorImpostoSeisPorCento());
+            valor = calcularNC*(1+listContractData.get(0).getValorImpostoCincoPorCento()+ listContractData.get(0).getValorImpostoSeisPorCento());
+
+            valor = (float) arrendodamentoNCalculado(Float.toString(valor));
+            calculcarPremioLiquido = (float) (Moeda.arrendodamento(Float.toString(valor)) + calcularPremioBruto);
+            viagem.setPremioLiquido(Double.toString(calculcarPremioLiquido));
+            viagem.setPremioLiquidoMoeda(Moeda.format(Moeda.arrendodamento(Double.toString(calculcarPremioLiquido))));     
+            
             viagem.setNc((float) Moeda.arrendodamento(ViagemBean.calNCWhit(Float.valueOf(viagem.getPremioLiquido()), Float.valueOf(viagem.getPremioBruto()))));
             viagem.setIdTaxa(listContractData.get(0).getIdTaxa());
+            
+            if(OperacaoData.DataNascimentoSuperior(viagem.getDataNasc()) >75 ) //se o segurado tiver idade superior a 75 anos, paga o dobro. 
+            {
+                calcularNC = viagem.getNc() *2;
+                calcularPremioBruto = Float.valueOf(viagem.getPremioBruto()) * 2;
+                calculcarPremioLiquido = Float.valueOf(viagem.getPremioLiquido()) * 2;
+                
+                viagem.setNc(calcularNC);
+                viagem.setPremioBruto(String.valueOf(calcularPremioBruto));
+                viagem.setPremioBrutoMoeda(Moeda.format(calcularPremioBruto));
+                viagem.setPremioLiquido(Double.toString(calculcarPremioLiquido));
+                viagem.setPremioLiquidoMoeda(Moeda.format(calculcarPremioLiquido));     
+            }
+                      
+            
             System.out.println("========VALORES VIAGEM=======");
             System.out.println("NC = "+viagem.getNc());
             System.out.println("Premio bruto = "+viagem.getPremioBruto());

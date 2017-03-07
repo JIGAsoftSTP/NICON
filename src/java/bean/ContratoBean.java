@@ -1408,11 +1408,13 @@ public class ContratoBean implements Serializable {
 
     public void DadosRoubo() {
         codigoSeguro = "DI";
+        double premioBruto, premioLiquido;
         taxaDesativado = false;
         imposto = "true1;true2;".split(";");
         ativarDesativarCampoFranquia = false;
         if (SessionUtil.obterValor("DI") != null) {
             rouboBean = ((RouboBean) SessionUtil.obterValor("DI"));
+            
             lr = ((ListaRespostas) SessionUtil.obterValor("respostas"));
             contrato.setTotalSeguradoMoeda(rouboBean.getRoubo().getLimiteRspFormatado());
             contrato.setTotalSegurado(rouboBean.getRoubo().getLimiteRsp());
@@ -1502,13 +1504,24 @@ public class ContratoBean implements Serializable {
 
     public void DadosMaritimo() {
         codigoSeguro = "NHI";
+        double premioBruto, premioLiquido;
         imposto = "true1;true2;true3".split(";");
         taxaDesativado = true;
         ativarDesativarCampoFranquia = false;
 
         if (SessionUtil.obterValor("NHI") != null) {
             System.out.println("entrou maritimo");
+            // premio bruto passa a ser o premio liquido do seguro
             maritimoBean = ((MaritimoBean) SessionUtil.obterValor("NHI"));
+            
+            premioBruto = Double.valueOf(maritimoBean.getMaritimo().getPremioLiquido());
+            maritimoBean.getMaritimo().setPremioBruto(nomeSeguro+"");
+            maritimoBean.getMaritimo().setPremioBrutoMoeda(Moeda.format(premioBruto));
+            
+            premioLiquido = Double.valueOf(maritimoBean.getMaritimo().getPremioLiquido()) * (1+ 0.056);
+            maritimoBean.getMaritimo().setPremioLiquido(premioLiquido+"");
+            maritimoBean.getMaritimo().setPremioLiquidoMoeda(Moeda.format(premioLiquido));
+            
             contrato.setTotalSegurado(maritimoBean.getMaritimo().getTotalSegurado());
             contrato.setPremioBruto(maritimoBean.getMaritimo().getPremioBruto());
             contrato.setPremioBrutoMoeda(maritimoBean.getMaritimo().getPremioBrutoMoeda());
@@ -1590,11 +1603,21 @@ public class ContratoBean implements Serializable {
 
     private void DadosCargaMaritima() {
         imposto = "true1;true2".split(";");
+        double premioBruto, premioLiquido;
         ativarDesativarCampoFranquia = true;
         taxaDesativado = true;
         codigoSeguro = "MAC";
         if (SessionUtil.obterValor("MAC") != null) {
             cargaMaritimaBean = ((CargaMaritimaBean) SessionUtil.obterValor("MAC"));
+            
+            premioBruto = Double.valueOf(cargaMaritimaBean.getCargaMaritima().getPremioLiquido());
+            cargaMaritimaBean.getCargaMaritima().setPremioBruto(premioBruto+"");
+            cargaMaritimaBean.getCargaMaritima().setPremioBrutoMoeda(Moeda.format(premioBruto));
+            
+            premioLiquido = Double.valueOf(cargaMaritimaBean.getCargaMaritima().getPremioLiquido()) * (1+ 0.056);
+            cargaMaritimaBean.getCargaMaritima().setPremioLiquido(premioLiquido+"");
+            cargaMaritimaBean.getCargaMaritima().setPremioLiquidoMoeda(Moeda.format(premioLiquido));
+            
             contrato.setTotalSegurado(cargaMaritimaBean.getCargaMaritima().getTotalSegurado());
             contrato.setPremioBruto(cargaMaritimaBean.getCargaMaritima().getPremioBruto());
             contrato.setPremioBrutoMoeda(cargaMaritimaBean.getCargaMaritima().getPremioBrutoMoeda());
@@ -1818,11 +1841,21 @@ public class ContratoBean implements Serializable {
 
     public void DadosIncendio() {
         codigoSeguro = "FR";
+        double premioBruto, premioLiquido;
         imposto = "true1;true2;".split(";");
         taxaDesativado = true;
         if (SessionUtil.obterValor("FR") != null) {
             lr = ((ListaRespostas) SessionUtil.obterValor("respostas"));
             incendioBean = ((IncendioBean) SessionUtil.obterValor("FR"));
+            
+            premioBruto = Double.valueOf(incendioBean.getIncendio().getPremioLiquido());
+            incendioBean.getIncendio().setPremioBruto(premioBruto+"");
+            incendioBean.getIncendio().setPremioBrutoFormatado(Moeda.format(premioBruto));
+            
+            premioLiquido = Double.valueOf(incendioBean.getIncendio().getPremioLiquido()) * (1+ 0.056);
+            incendioBean.getIncendio().setPremioLiquido(premioLiquido+"");
+            incendioBean.getIncendio().setPremioLiquidoFormatado(Moeda.format(premioLiquido));
+            
             contrato.setTotalSegurado(incendioBean.getIncendio().getTotalSegurado());
             contrato.setTotalSeguradoMoeda(incendioBean.getIncendio().getTotalSeguradoFormatado());
             contrato.setPremioBruto(incendioBean.getIncendio().getPremioBruto());
@@ -1921,6 +1954,7 @@ public class ContratoBean implements Serializable {
 
     public void DadosResponsabilidadePublica() {
         codigoSeguro = "RP";
+        double premioBruto, premioLiquido;
         if (SessionUtil.obterValor("respostas") != null) {
             lr = ((ListaRespostas) SessionUtil.obterValor("respostas"));
         }
@@ -1929,6 +1963,15 @@ public class ContratoBean implements Serializable {
             taxaDesativado = true;
             ativarDesativarCampoFranquia = false;
             responsabilidadePublicaBean = ((ResponsabilidadePublicaBean) SessionUtil.obterValor("RP"));
+            
+            premioBruto = Double.valueOf(responsabilidadePublicaBean.getRp().getPremioLiquido());
+            responsabilidadePublicaBean.getRp().setPremioBruto(premioBruto+"");
+            responsabilidadePublicaBean.getRp().setPremioBrutoMoeda(Moeda.format(premioBruto));
+            
+            premioLiquido = Double.valueOf(responsabilidadePublicaBean.getRp().getPremioLiquido()) * (1+ 0.056);
+           responsabilidadePublicaBean.getRp().setPremioLiquido(premioLiquido+"");
+           responsabilidadePublicaBean.getRp().setPremioLiquidoMoeda(Moeda.format(premioLiquido));
+           
             contrato.setSigla(Validacao.Sigla(responsabilidadePublicaBean.getRp().getMoeda()));
             contrato.setTotalSegurado(responsabilidadePublicaBean.getRp().getTotalSegurado());
             contrato.setTotalSeguradoMoeda(responsabilidadePublicaBean.getRp().getTotalSeguradoFormatado());
