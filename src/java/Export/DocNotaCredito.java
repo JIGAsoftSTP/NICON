@@ -250,7 +250,7 @@ public class DocNotaCredito implements Serializable {
             Phrase pCr = new Phrase("Cr: ", fontCabecalhoN);
             paragraphCorpoEndTitile.add(pCr);
             @SuppressWarnings("null")
-            Phrase pCrTex = new Phrase( user+"\n", fontCabecalhoS);
+            Phrase pCrTex = new Phrase( ((tnc == TypeNotaCredito.RESEGURO) ? resS.getCLIENTE() : map.get(BENEFICIARIO)+"\n"), fontCabecalhoS);
             paragraphCorpoEndTitile.add(pCrTex);
 
             Phrase pEndereco = new Phrase("Endereço: ".toUpperCase(), fontCabecalhoN);
@@ -321,13 +321,13 @@ public class DocNotaCredito implements Serializable {
             cellParticular.setBorderWidth(1);
             pTableNotaCredito.addCell(cellParticular);
 
-            cellPremioGrosso = new PdfPCell(new Phrase( (( TypeNotaCredito.RESEGURO == tnc ) ? Moeda.format(Double.valueOf(resS.getPREMIOGROSSO()))+"\n"+resS.getDEDUCAO()+"%" : Moeda.format(Double.valueOf(map.get(PREMIOGROSSO)+""))+"\n"+map.get(DECUCAO)+"%" ), fontCorpo));
+            cellPremioGrosso = new PdfPCell(new Phrase( (( TypeNotaCredito.RESEGURO == tnc ) ? Moeda.format(Double.valueOf(resS.getPREMIOGROSSO())) : Moeda.format(Double.valueOf(map.get(PREMIOGROSSO)+"")) ), fontCorpo));
             cellPremioGrosso.setBorderWidth(1);
             cellPremioGrosso.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             cellPremioGrosso.setPaddingTop(30f);
             pTableNotaCredito.addCell(cellPremioGrosso);
 
-            cellComissaoDedutivel = new PdfPCell(new Phrase( ( (TypeNotaCredito.RESEGURO == tnc)  ? resS.getDEDUCAO() : map.get(DECUCAO)+""), fontCorpo));
+            cellComissaoDedutivel = new PdfPCell(new Phrase( ( (TypeNotaCredito.RESEGURO == tnc)  ? resS.getDEDUCAO()+"%" : map.get(DECUCAO)+"%"), fontCorpo));
             cellComissaoDedutivel.setBorderWidth(1);
             cellComissaoDedutivel.setPaddingTop(30f);
             cellComissaoDedutivel.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
@@ -355,6 +355,7 @@ public class DocNotaCredito implements Serializable {
             pTableNotaCredito.addCell(cellNull);
             
             double cambio;
+            double totalSTD = 0;
             if(!((TypeNotaCredito.RESEGURO == tnc)  ? resS.getMOEDA() : map.get(SIGLADAMOEDA) ).equals("STD"))
             {
                 PdfPCell cellCambio = new PdfPCell(new Phrase("CAMBIO "+ ( (TypeNotaCredito.RESEGURO == tnc) ? resS.getMOEDA() : map.get(SIGLADAMOEDA)), fontCorpoN));
@@ -376,7 +377,7 @@ public class DocNotaCredito implements Serializable {
                 cellValorDobras.setColspan(3);
                 pTableNotaCredito.addCell(cellValorDobras);
 
-                double totalSTD = cambio * Double.valueOf( (TypeNotaCredito.RESEGURO == tnc) ? resS.getTOTAL() : map.get(TOTAL)+"" );
+                totalSTD = cambio * Double.valueOf( (TypeNotaCredito.RESEGURO == tnc) ? resS.getTOTAL() : map.get(TOTAL)+"" );
                 PdfPCell cellValorDobrasV = new PdfPCell(new Phrase(Moeda.format(totalSTD), fontCorpo));
                 cellValorDobrasV.setBorderWidth(1);
                 cellValorDobrasV.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
@@ -387,7 +388,7 @@ public class DocNotaCredito implements Serializable {
 
             paragraphCorpoEndTitile.add(pTableNotaCredito);
             JTextPane jtp = new JTextPane();
-            Moeda.EscreverEstenso( Double.valueOf( (TypeNotaCredito.RESEGURO == tnc) ? resS.getTOTAL() : map.get(TOTAL)+"" ), jtp, "Dobras");
+            Moeda.EscreverEstenso(totalSTD, jtp, "Dobras");
             paragraphCorpoEndTitile.add(new Phrase("POR EXTENSO: ", fontCorpoN));
             paragraphCorpoEndTitile.add(new Phrase(jtp.getText().toUpperCase()+"\n", fontCorpo));
 
