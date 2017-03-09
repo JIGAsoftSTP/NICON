@@ -141,7 +141,7 @@ public class DocNotaCredito implements Serializable {
             pCellDebNF.setHorizontalAlignment(Element.ALIGN_RIGHT);
             pCellDebNF.setBorder(0);
 
-            PdfPCell pCellDebN = new PdfPCell(new Phrase(idResseguro+"", fontCabecalhoS));
+            PdfPCell pCellDebN = new PdfPCell(new Phrase(( (TypeNotaCredito.RESEGURO == tnc) ? resS.getIDSEGURO() : map.get(ID)+"" ), fontCabecalhoS));
             pCellDebN.setHorizontalAlignment(Element.ALIGN_CENTER);
             pCellDebN.setBorder(0);
 
@@ -247,7 +247,7 @@ public class DocNotaCredito implements Serializable {
             if(tnc == TypeNotaCredito.RESEGURO)  {  listaDataEmpresas = DataReseguro.getDadosEmpresa(idResseguro); }
             else { ci = new ClienteI(map.get(IDCLIENTE)+""); }
 
-            Phrase pCr = new Phrase("Cr: ", fontCabecalhoN);
+            Phrase pCr = new Phrase("BENEFICIÁRIO: ", fontCabecalhoN);
             paragraphCorpoEndTitile.add(pCr);
             @SuppressWarnings("null")
             Phrase pCrTex = new Phrase( ((tnc == TypeNotaCredito.RESEGURO) ? resS.getCLIENTE() : map.get(BENEFICIARIO)+"\n"), fontCabecalhoS);
