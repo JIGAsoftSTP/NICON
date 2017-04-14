@@ -424,6 +424,7 @@ public class SinistroBean implements Serializable
 
     public void regPagamento()
     {
+//        System.err.println("fhfhfhfhfh Sinistro");
         pagamento.setValor(pagamento.getValor().replace(" ", ""));
         pagamento.setValor(pagamento.getValor().replace(",", "."));
         pagamento.setNumero(sinistroControl.getSelededRowMap().get("ID"));
@@ -433,11 +434,12 @@ public class SinistroBean implements Serializable
         { Message.addErrorMsg(rep[1], "contaForm", "mesagemP"); }
         else
         { 
-            envioNotificacaoPagamentoSolicitados();
             Message.addInfoMsg("Solicitação de pagamento registrado com sucesso!", "contaForm", "mesagemP");
             RequestContext.getCurrentInstance().execute("$('.modalPagamentoS').fadeOut()");
+            RequestContext.getCurrentInstance().execute("$('.processamento').hide()");
             RequestContext.getCurrentInstance().execute("$('.ContaPagF').find('input:text, textarea').val('')");
             pesquisaSinistro();
+            envioNotificacaoPagamentoSolicitados();
         }
       
         

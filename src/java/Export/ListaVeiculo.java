@@ -221,7 +221,7 @@ public class ListaVeiculo {
             case 3: return "Nº MOTOR";
             case 4: return "Nº CHASSI";
             case 5: return "ANO FRABRICO";
-            case 6: return "ANO CAMPRA";
+            case 6: return "ANO COMPRA";
             default: return "CAPACIDADE";
         }
     }

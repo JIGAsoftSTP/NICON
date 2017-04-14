@@ -51,7 +51,7 @@ public class MovimentoConta implements Serializable {
     
     public MovimentoConta() 
     {
-        contaList = contabilidadeDao.listaContaRaiz(1, null);
+        contaList = contabilidadeDao.listaContaRaiz(1, null, null);
         listaChequesConta = ComoBox.loadAllDados("VER_ACCOUNTBANK", "ID", "NUMBER");
         RequestContext.getCurrentInstance().execute("$('.sequenceLaunchNum').val('"+contabilidadeDao.launchSeuquenceNumber()+"')");
         chequeList = contabilidadeDao.listaCheques(null);
@@ -382,7 +382,7 @@ public class MovimentoConta implements Serializable {
     }
     
     public void searchAccountLaunch(){
-        contaList = contabilidadeDao.listaContaRaiz(2, creditoDebito.getConta());
+        contaList = contabilidadeDao.listaContaRaiz(2, creditoDebito.getConta(), null);
         Validacao.atualizar("movimentacao", "listLaunchAccount");
     }
     

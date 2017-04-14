@@ -175,14 +175,20 @@
                         
                     </article>
                     <article class="areaExports">
-                            <i class="icon-file-pdf"></i><h:outputLabel class="pdf" value="Exportar PDF">
+                        <i class="icon-file-pdf"></i><h:outputLabel class="pdf" onclick="$('.pdf-export').click()" value="Exportar PDF">
                             </h:outputLabel>
-                            <i class="icon-file-excel"></i><h:outputLabel class="excel" value="Exportar Exel">
+                            <i class="icon-file-excel"></i><h:outputLabel class="excel" onclick="$('.excel-export').click()" value="Exportar Exel">
                             </h:outputLabel>
                         </article>
                     <article class="AreaSearch">
                         <h:outputLabel class="labelTrigger">
                             <p:ajax event="click" process="@this searchAccount-field" listener="#{contaBean.searchAccount(1)}" />
+                        </h:outputLabel>
+                        <h:outputLabel class="pdf-export">
+                            <p:ajax event="click" process="@this searchAccount-field" onstart="$('.processamento').show()" listener="#{contaBean.searchAccountPrint(88)}" />
+                        </h:outputLabel>
+                        <h:outputLabel class="excel-export">
+                            <p:ajax event="click" process="@this searchAccount-field" onstart="$('.processamento').show()" listener="#{contaBean.searchAccountPrint(99)}" />
                         </h:outputLabel>
                         <h:inputText pt:placeholder="Pesquisar por..." value="#{contaBean.search}" class="searchAccount" id="searchAccount-field" >
                             <p:ajax event="keyup" process="@this" listener="#{contaBean.searchAccount(2)}" />

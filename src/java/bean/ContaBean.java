@@ -42,7 +42,7 @@ public class ContaBean implements Serializable
     
     public ContaBean()
     {  
-        listAccounts = contabilidadeDao.listaContaRaiz(1, null);    
+        listAccounts = contabilidadeDao.listaContaRaiz(1, null, null);    
         listAccountsOriginal = listAccounts;  
         listTypeOperations = ComoBox.loadAllDados("T_OPERATIONGROUP", "OPRGROUP_COD", "OPRGROUP_DESC");
         listTypeMov = ComoBox.loadAllDados("T_TYPEMOVIMENTO", "TMOV_ID", "TMOV_OPERACTION");
@@ -108,7 +108,7 @@ public class ContaBean implements Serializable
                     Message.addInfoMsg("Conta registada com sucesso!", "GestConta", "accountGrowl");
                     RequestContext.getCurrentInstance().execute("accountRegistered()");
                     operation = 1;
-                    listAccounts = contabilidadeDao.listaContaRaiz(1, null);
+                    listAccounts = contabilidadeDao.listaContaRaiz(1, null, null);
                     validacao.Validacao.atualizar("accountTableForm", "accountTable");
                     validacao.Validacao.atualizar("GestConta", "contaR");
                             
@@ -121,7 +121,7 @@ public class ContaBean implements Serializable
                RequestContext.getCurrentInstance().execute("accountRegistered()");
                 Message.addInfoMsg("Conta registada com sucesso!", "GestConta", "accountGrowl");
                 operation =1;
-                listAccounts = contabilidadeDao.listaContaRaiz(1, null);
+                listAccounts = contabilidadeDao.listaContaRaiz(1, null, null);
                   validacao.Validacao.atualizar("accountTableForm", "accountTable");
                     validacao.Validacao.atualizar("GestConta", "contaR");
             }
@@ -180,7 +180,7 @@ public class ContaBean implements Serializable
                     Message.addInfoMsg("Conta atualizada com sucesso", "GestConta", "accountGrowl");
                     selectedAccount = -1;
                           RequestContext.getCurrentInstance().execute("accountRegistered()");
-                listAccounts = contabilidadeDao.listaContaRaiz(1, null);
+                listAccounts = contabilidadeDao.listaContaRaiz(1, null, null);
                 validacao.Validacao.atualizar("accountTableForm", "accountTable");
             }
             else Message.addInfoMsg(result.split(";")[1], "GestConta", "accountGrowl");
@@ -196,9 +196,14 @@ public class ContaBean implements Serializable
         }     
     }
     
+    public void searchAccountPrint(Integer typePrint){
+        contabilidadeDao.listaContaRaiz(1, search, typePrint);
+        RequestContext.getCurrentInstance().execute("$('.processamento').hide();");
+    }
+    
     public void searchAccount(int type){
        if(type == 1){
-          listAccounts = contabilidadeDao.listaContaRaiz(2, search);
+          listAccounts = contabilidadeDao.listaContaRaiz(2, search, null);
            Validacao.atualizar("accountTableForm", "accountTable"); 
        }
        else{
@@ -298,7 +303,7 @@ public class ContaBean implements Serializable
                 Message.addInfoMsg("Operação registrada com sucesso!", "GestConta", "accountGrowl");
                 RequestContext.getCurrentInstance().execute("$('.MultipleSelectInput').val('')");
                 RequestContext.getCurrentInstance().execute("accountOperationRegistered()");
-                listAccounts = contabilidadeDao.listaContaRaiz(1, null);
+                listAccounts = contabilidadeDao.listaContaRaiz(1, null, null);
                 validacao.Validacao.atualizar("accountTableForm", "accountTable");
                 listSelectedInsurances.clear();
                 conta.setOperationInsurance("false");

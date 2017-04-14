@@ -38,23 +38,23 @@ $(function() {
             $(".contaNum").val(numConta);
        
     });
-    /**
-     * for do exel whit pesquisa
-     */
-    $(".excel").click(function (e)
-    {
-        e.preventDefault();
-        enviarDadosPesquisa('ExportExel'); 
-    });
+//    /**
+//     * for do exel whit pesquisa
+//     */
+//    $(".excel").click(function (e)
+//    {
+//        e.preventDefault();
+//        enviarDadosPesquisa('ExportExel'); 
+//    });
     
-    /**
-     * for do pdf whit pesquisa
-     */
-    $(".pdf").click(function (e)
-    {
-        e.preventDefault();
-        enviarDadosPesquisa('ExportPDF'); 
-    });
+//    /**
+//     * for do pdf whit pesquisa
+//     */
+//    $(".pdf").click(function (e)
+//    {
+//        e.preventDefault();
+//        enviarDadosPesquisa('ExportPDF'); 
+//    });
     
     $(".valorReal").keyup(function(e)
     {
@@ -63,10 +63,10 @@ $(function() {
             $(this).val("");
    });
     
-    $(".contaPesquisa").click(function (e)
-    {
-        enviarDadosPesquisa('Por conta');
-    });
+//    $(".contaPesquisa").click(function (e)
+//    {
+//        enviarDadosPesquisa('Por conta');
+//    });
 
     $(".CloseModalFrame").click(function (e)
      {

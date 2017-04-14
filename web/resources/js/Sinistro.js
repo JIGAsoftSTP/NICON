@@ -204,3 +204,18 @@ function sinistroRelatorio(seguro, testemunha)
     else  
         $(".sinistroVeiculo").hide();
 }
+
+function  validePagamento(){
+    var entrou = false;
+   $(".ContaPagF").find("input:text , textArea").each(function (e){
+        if( $(this).val()==="" )
+        { 
+            $(this).css("border","red solid 1px");
+            entrou = true;
+        }
+    });
+    if(!entrou){
+        $('.processamento').show();
+        $(".pReg").keyup();
+    }
+}

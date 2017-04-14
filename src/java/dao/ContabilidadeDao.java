@@ -1,5 +1,8 @@
 package dao;
 
+import Export.GenericExcel;
+import Export.GenericPDFs;
+import bean.DataTableControl;
 import conexao.Call;
 import java.io.Serializable;
 import java.sql.ResultSet;
@@ -11,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.context.FacesContext;
 import lib.Moeda;
 import modelo.Cheque;
 import modelo.ComoBox;
@@ -861,7 +865,7 @@ public class ContabilidadeDao implements Serializable {
     
     
 
-    public List<Conta> listaContaRaiz(int typeOp, String value){
+    public List<Conta> listaContaRaiz(int typeOp, String value,Integer typePrint){
          List<Conta> list = new ArrayList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date d = new Date();
@@ -884,7 +888,7 @@ public class ContabilidadeDao implements Serializable {
             }  
         }
         
-         if(rs != null){
+         if(rs != null && typePrint == null){
              try {
                  while(rs.next()){
                     if(rs.getInt("YEAR") == anoAtual){
@@ -911,12 +915,29 @@ public class ContabilidadeDao implements Serializable {
              }
        
          }
+         
+        if (typePrint != null) {
+            DataTableControl clienteControl = new DataTableControl("id55", "clienteff.fjfjf");
+            clienteControl.prepareModel(rs, DataTableControl.ShowMode.SHOW, "NUMBER","DESCRISION", "TYPE", "CREDITO", "DEBITO", "SALDO");
+            clienteControl.renameColumn("NUMBER", "Número");
+            clienteControl.renameColumn("TYPE", "Tipo");
+            clienteControl.renameColumn("CREDITO", "Crédito");
+            clienteControl.renameColumn("DEBITO", "Débito");
+            clienteControl.renameColumn("SALDO", "Saldo");
+            clienteControl.updFaces(FacesContext.getCurrentInstance());
+            if (typePrint == 88) {
+                GenericPDFs.createDoc(SessionUtil.getUserlogado().getNomeAcesso(), "Relatório de Conta", "Relatório de Conta", clienteControl, GenericPDFs.OrientacaoPagina.HORIZONTAL, -1);
+            } else {
+                GenericExcel.createDoc(SessionUtil.getUserlogado().getNomeAcesso(), "Relatório de Conta", "Relatório de Conta", clienteControl, -1);
+            }
+        }
+         
          return list;
     }
     
    public String getAccountInfo(String field, String account)
    {
-       for(Conta c: listaContaRaiz(1, null) )
+       for(Conta c: listaContaRaiz(1, null, null) )
        {
            if(field.equals("desc"))
            {
