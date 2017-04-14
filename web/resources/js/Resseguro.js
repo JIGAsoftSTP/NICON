@@ -157,3 +157,14 @@ function resseguroRegistrado()
     $('.resseguroTotal').val('');
     $('.resseguroParte2').val('');
 }
+
+
+function resseguroExcel (){
+    resseguroExportDOC([{name:'tipo', value: "2"}]);
+    $('.modalProcess').show();
+}
+
+function resseguroPdf(){
+    resseguroExportDOC([{name:'tipo', value : "1"}]);
+    $('.modalProcess').show();
+}

@@ -1152,6 +1152,22 @@ public class ContratoDao
         }
         return listaResseguros;
     }
+    
+    
+    public static ResultSet listagemRessegurosPrint(String pesquisa)
+    {
+        ResultSet resultSet;
+        String sql = "VER_RESEGUROS";
+        if(pesquisa  == null || pesquisa.equals(""))
+             resultSet = Call.selectFrom(sql, "*");
+        else
+        {
+            sql="VER_RESEGUROS WHERE UPPER(APOLICE) LIKE UPPER('%"+pesquisa+"%') OR UPPER(CLIENTE) LIKE UPPER('%"+pesquisa+"%') OR UPPER(MOEDA) LIKE UPPER('%"+pesquisa+"%')";
+            resultSet = Call.selectFrom(sql, "*");
+        }
+        return resultSet;
+    }
+    
     public static String registrarResponsabilidade(Resseguro resseguro, int id)
     {
         int idUser = Integer.valueOf(SessionUtil.getUserlogado().getId()+"");

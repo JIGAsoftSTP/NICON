@@ -45,8 +45,9 @@
                     </div> 
                     <div class="areaExportar">
                         <h4>Exportar para:</h4>
-                        <i class="icon-file-excel" title="Exel"></i>
-                        <i class="icon-file-pdf" title="PDF"></i>
+                        <i class="icon-file-excel" onclick="resseguroExcel()" title="Exel"></i>
+                        <i class="icon-file-pdf" onclick="resseguroPdf()" title="PDF"></i>
+                        <p:remoteCommand name="resseguroExportDOC" actionListener="#{resseguro.printDoc()}" process="@this" />
                     </div>
                     <h:commandButton value="Registrar Resseguro" class="addArtigoV"/>
                 </div>

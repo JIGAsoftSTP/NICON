@@ -9,6 +9,8 @@ import Export.ConfigDoc;
 import Export.DocNotaCredito;
 import Export.DocNotaDebito;
 import Export.DocOfReCoSeguro;
+import Export.GenericExcel;
+import Export.GenericPDFs;
 import dao.ContratoDao;
 import dao.SeguroDao;
 import java.io.Serializable;
@@ -463,6 +465,22 @@ public class ResseguroBean implements Serializable
         String reString = debito.docSeguros(Validacao.comboNome(listaSeguros, resseguro.getIdSeguro() + ""), resseguro.getApolice(), SessionUtil.getUserlogado().getNomeAcesso() + "", resseguro.getId() + "", " ", al, c, (String) ((Funcionario) SessionUtil.obterValor("utilizador")).getNomeAcesso(), c.getSigla(), ConfigDoc.Fontes.getDiretorio(), resseguro.getNotaDebito());
         RequestContext.getCurrentInstance().execute("openAllDocument('" + reString + "')");
         
+    }
+    
+    public void printDoc(){
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        int tipo = Integer.valueOf(facesContext.getExternalContext().getRequestParameterMap().get("tipo"));
+        DataTableControl clienteControl = new DataTableControl("id55", "reseguro.fjfjf");
+        clienteControl.prepareModel(ContratoDao.listagemRessegurosPrint(pesquisa), DataTableControl.ShowMode.SHOW, "APOLICE", "CLIENTE", "MOEDA", "INICIO", "FIM", "TIPO COBERTURA");
+        clienteControl.renameColumn("INICIO", "DATA INICIO");
+        clienteControl.renameColumn("FIM", "DATA FIM");
+        clienteControl.updFaces(FacesContext.getCurrentInstance());
+        if (tipo == 1) {
+            GenericPDFs.createDoc(SessionUtil.getUserlogado().getNomeAcesso(), "Relatório de Resseguros", "Relatório de Resseguros", clienteControl, GenericPDFs.OrientacaoPagina.HORIZONTAL, -1);
+        } else {
+            GenericExcel.createDoc(SessionUtil.getUserlogado().getNomeAcesso(), "Relatório de Resseguros", "Relatório de Resseguros", clienteControl, -1);
+        }
+        RequestContext.getCurrentInstance().execute("$('.modalProcess').hide()");
     }
 
 }
