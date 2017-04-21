@@ -47,8 +47,8 @@ public class SeguroViagem implements Serializable {
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh'.'mm'.'ss");
             SimpleDateFormat sdfPot = new SimpleDateFormat("dd/MM/yyyy");
 
-            Font fontCorpoN = FontFactory.getFont(Fontes.FONTB, BaseFont.WINANSI, BaseFont.EMBEDDED, 7.7f);
-            Font fontCorpo = FontFactory.getFont(Fontes.FONT, BaseFont.WINANSI, BaseFont.EMBEDDED, 7.7f);
+            Font fontCorpoN = FontFactory.getFont(Fontes.FONTB, BaseFont.WINANSI, BaseFont.EMBEDDED, 7.9f);
+            Font fontCorpo = FontFactory.getFont(Fontes.FONT, BaseFont.WINANSI, BaseFont.EMBEDDED, 7.9f);
 
 //            PdfPTable pTableLinha = new PdfPTable(1);
 //            pTableLinha.setWidthPercentage(95);
@@ -61,7 +61,7 @@ public class SeguroViagem implements Serializable {
 //            pTableLinha.addCell(linha);
             Document documento = new Document();
             documento.setPageSize(PageSize.A4);
-            documento.setMargins(20f, 20f, 128f, 5f);
+            documento.setMargins(20f, 20f, 138f, 5f);
             File ff = new File(arquivo + "/" + user + "/Seguro Viagem/");
             ff.mkdirs();
             String Ddata = sdf.format(new Date());

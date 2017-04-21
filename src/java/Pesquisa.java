@@ -534,7 +534,7 @@ public class Pesquisa implements Serializable {
     }
 
     public void reDoDocViagem(Object[] cO, ContratoDao cd)  {
-        ViagemBean viagemBean = new ViagemBean();
+        ViagemBean viagemBean = new ViagemBean(null);
         Object[] os = cd.loadDataContratoViagem(Integer.valueOf(dadosContrato.getId()), "TIN");
         
         Viagem v;

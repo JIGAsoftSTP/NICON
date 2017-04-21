@@ -37,7 +37,7 @@ public class ViagemBean  implements  Serializable
     private List<Viagem> infoPessoaSegurada = new ArrayList<>();
     private String msg;
     private List<ComoBox> paises = new ArrayList<>();
-    private final SeguroDao sd;
+    private SeguroDao sd = null;
     private List<ComoBox> listDocumentos = new ArrayList<>();
     private static final String PATTERN="dd/MM/yyyy";
     private String numPassaporte; //recebe o número de passaporte selecionado na tabela.
@@ -89,6 +89,10 @@ public class ViagemBean  implements  Serializable
              }
              RequestContext.getCurrentInstance().execute("backAndcontine()");
         }
+    }
+    
+    public ViagemBean(String dd){
+        this.sd = null;
     }
     
     public ClausulasBean getClausula() {
