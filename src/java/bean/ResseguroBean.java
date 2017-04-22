@@ -430,7 +430,7 @@ public class ResseguroBean implements Serializable
     private void notaDebitoImp( Resseguro  resseguro) throws NumberFormatException {
         ArrayList<String[]> al = new ArrayList();
         System.err.println(resseguro.getPremioGrosso());
-        String[] dados = (1 + ";" + Validacao.comboNome(listaSeguros, resseguro.getIdSeguro() + "") + "\n" + resseguro.getDescricao() + ";" + Moeda.format(Double.valueOf(resseguro.getPremioGrosso())) + ";" + Moeda.format(Double.valueOf(resseguro.getPremioGrosso()))).split(";");
+        String[] dados = (1 + ";" +  (hasDescripiton(resseguro.getDescricao()) ? "" : Validacao.comboNome(listaSeguros, resseguro.getIdSeguro() + "")+"\n")+ resseguro.getDescricao() + ";" + Moeda.format(Double.valueOf(resseguro.getPremioGrosso())) + ";" + Moeda.format(Double.valueOf(resseguro.getPremioGrosso()))).split(";");
         al.add(dados);
         DocNotaDebito debito = new DocNotaDebito();
         Contrato c = new Contrato();
@@ -481,6 +481,10 @@ public class ResseguroBean implements Serializable
             GenericExcel.createDoc(SessionUtil.getUserlogado().getNomeAcesso(), "Relatório de Resseguros", "Relatório de Resseguros", clienteControl, -1);
         }
         RequestContext.getCurrentInstance().execute("$('.modalProcess').hide()");
+    }
+    
+    public boolean hasDescripiton(String desc){
+        return !(desc == null || desc.isEmpty() || "".equals(desc));
     }
 
 }

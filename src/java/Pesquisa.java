@@ -516,7 +516,7 @@ public class Pesquisa implements Serializable {
 
         //------------
         String[] dados = null;
-        dados = (veiculoBean.getInfo().size() + ";" + "Seguro de Automovel\n" + c.getObservacao() + ";" + Moeda.format((Double.valueOf(((c.getPremioBruto() == null || c.getPremioBruto().isEmpty()) ? "0" : c.getPremioBruto())))) + ";" + c.getPremioBrutoMoeda()).split(";");
+        dados = (veiculoBean.getInfo().size() + ";" + (hasDescripiton(c.getObservacao()) ? "" : "Seguro de Automovel\n")+ c.getObservacao() + ";" + Moeda.format((Double.valueOf(((c.getPremioBruto() == null || c.getPremioBruto().isEmpty()) ? "0" : c.getPremioBruto())))) + ";" + c.getPremioBrutoMoeda()).split(";");
         al.add(dados);
         String reString = debito.docSeguros("Automovel", veiculoBean.getVeiculo().getNumeroApolice(), cO[4] + "", cO[3].toString(),
                 "FGA", al, c, (String) ((Funcionario) SessionUtil.obterValor("utilizador")).getNomeAcesso(), c.getSigla(), getDiretorio(), veiculoBean.getVeiculo().getNumeroRegistro());
@@ -599,7 +599,7 @@ public class Pesquisa implements Serializable {
         //------------
 //        c.setValorNC(Double.toString(Moeda.arrendodamento(ViagemBean.calNCWhit(Double.valueOf(c.getPremioLiquido()), Double.valueOf(c.getPremioBruto())))));
  
-        dados = (viagemBean.getInfoPessoaSegurada().size() + ";"+ "Seguro de Viagem\n"+c.getObservacao() + ";" +" "+ ";" + c.getPremioBrutoMoeda()).split(";");
+        dados = (viagemBean.getInfoPessoaSegurada().size() + ";"+ (hasDescripiton(c.getObservacao()) ? "" : "Seguro de Viagem\n") + c.getObservacao() + ";" +" "+ ";" + c.getPremioBrutoMoeda()).split(";");
         al.add(dados);
         String reString = debito.docSeguros("Viagem", viagemBean.getViagem().getNumApolice(), cO[4] + "", cO[3].toString(), "NC", al, c, (String) ((Funcionario) SessionUtil.obterValor("utilizador")).getNomeAcesso(), c.getSigla(), getDiretorio(), viagemBean.getViagem().getNumeroRegistro());
 
@@ -646,7 +646,7 @@ public class Pesquisa implements Serializable {
         acidentePGBean.setAcidentePG(pG);
         //------------
         String[] dados = null;
-        dados = (acidentePGBean.getInfo().size() + ";" + "Seguro de Acidente Para Grupo\n" + c.getObservacao() + ";" + c.getPremioBrutoMoeda() + ";" + c.getPremioBrutoMoeda()).split(";");
+        dados = (acidentePGBean.getInfo().size() + ";" + (hasDescripiton(c.getObservacao()) ? "" : "Seguro de Acidente Para Grupo\n")+ c.getObservacao() + ";" + c.getPremioBrutoMoeda() + ";" + c.getPremioBrutoMoeda()).split(";");
         al.add(dados);
         
         String reString = debito.docSeguros("Acidente Para Grupo", acidentePGBean.getAcidentePG().getNumeroApolice(), cO[4] + "", cO[3].toString(), " ", al, c, (String) ((Funcionario) SessionUtil.obterValor("utilizador")).getNomeAcesso(), c.getSigla(), getDiretorio(), acidentePGBean.getAcidentePG().getNumeroRegistro());
@@ -683,7 +683,7 @@ public class Pesquisa implements Serializable {
         String[] dados = null;
         System.out.println("entrou IN");
         //para criar Docomento de Nota de Credito
-        dados = (1 + ";" + "Seguro de Incendio\n" + c.getObservacao() + ";" + c.getPremioBrutoMoeda() + ";" + c.getPremioBrutoMoeda()).split(";");
+        dados = (1 + ";" +(hasDescripiton(c.getObservacao()) ? "" : "Seguro de Incendio\n")+ c.getObservacao() + ";" + c.getPremioBrutoMoeda() + ";" + c.getPremioBrutoMoeda()).split(";");
         al.add(dados);
 
         String reString = debito.docSeguros("Incendio", incendioBean.getIncendio().getNumeroApolice(), cO[4] + "", cO[3].toString(), " ", al, c, (String) ((Funcionario) SessionUtil.obterValor("utilizador")).getNomeAcesso(), c.getSigla(), getDiretorio(), incendioBean.getIncendio().getNumeroRegistro());
@@ -715,7 +715,7 @@ public class Pesquisa implements Serializable {
 
         //-----
         ArrayList<String[]> al = new ArrayList<>();
-        String[] dados = (1 + ";" + "Seguro Carga Maritiman\n" + c.getObservacao() + ";" + c.getPremioBrutoMoeda() + ";" + c.getPremioBrutoMoeda()).split(";");
+        String[] dados = (1 + ";" + (hasDescripiton(c.getObservacao()) ? "" : "Seguro Carga Maritima\n")+ c.getObservacao() + ";" + c.getPremioBrutoMoeda() + ";" + c.getPremioBrutoMoeda()).split(";");
         al.add(dados);
         String reString = debito.docSeguros("Carga Maritima", cargaMaritimaBean.getCargaMaritima().getNumerApolice(), cO[4] + "", cO[3].toString(), " ", al, c, (String) ((Funcionario) SessionUtil.obterValor("utilizador")).getNomeAcesso(), c.getSigla(), getDiretorio(), cargaMaritimaBean.getCargaMaritima().getNumeroRegistro());
 
@@ -758,7 +758,7 @@ public class Pesquisa implements Serializable {
         String[] dados = null;
         ArrayList<String[]> al = new ArrayList<>();
         //para criar Docomento de Nota de Credito
-        dados = (rouboBean.getInfo().size() + ";" + "Seguro de Roubo\n" + c.getObservacao() + ";" + c.getPremioBrutoMoeda() + ";" + c.getPremioBrutoMoeda()).split(";");
+        dados = (rouboBean.getInfo().size() + ";" +(hasDescripiton(c.getObservacao()) ? "" : "Seguro de Roubo\n") + c.getObservacao() + ";" + c.getPremioBrutoMoeda() + ";" + c.getPremioBrutoMoeda()).split(";");
         al.add(dados);
 
         String reString = debito.docSeguros("Roubo", rouboBean.getRoubo().getNumeroApolice(), cO[4] + "", cO[3].toString(), " ", al, c, (String) ((Funcionario) SessionUtil.obterValor("utilizador")).getNomeAcesso(), c.getSigla(), getDiretorio(), rouboBean.getRoubo().getNumeroRegistro());
@@ -787,7 +787,7 @@ public class Pesquisa implements Serializable {
         maritimoBean.setMaritimo(m);
 
         ArrayList<String[]> al = new ArrayList<>();
-        String[] dados = (1 + ";" + "Seguro Maritimo\n" + c.getObservacao() + ";" + c.getPremioBrutoMoeda() + ";" + c.getPremioBrutoMoeda()).split(";");
+        String[] dados = (1 + ";" + (hasDescripiton(c.getObservacao()) ? "" : "Seguro Maritimo\n")+ c.getObservacao() + ";" + c.getPremioBrutoMoeda() + ";" + c.getPremioBrutoMoeda()).split(";");
         al.add(dados);
         String reString = debito.docSeguros("Maritimo", maritimoBean.getMaritimo().getNumeroApolice(), cO[4] + "", cO[3].toString(), " ", al, c, (String) ((Funcionario) SessionUtil.obterValor("utilizador")).getNomeAcesso(), c.getSigla(), getDiretorio(), maritimoBean.getMaritimo().getNumeroRegistro());
 
@@ -960,6 +960,9 @@ public class Pesquisa implements Serializable {
         }
         return null;
     }
-   
     
+    public boolean hasDescripiton(String desc){
+        return !(desc == null || desc.isEmpty() || "".equals(desc));
+    }
+   
 }

@@ -5,8 +5,6 @@
  */
 package lib;
 
-import Export.DocNotaDebito;
-import static Export.ReciboPagamento.toString;
 import conexao.Call;
 import java.sql.ResultSet;
 import java.sql.SQLException;

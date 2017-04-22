@@ -427,7 +427,7 @@ public class ContratoBean implements Serializable {
                 String[] dados = null;
                 ArrayList<String[]> al = new ArrayList<>();
                 //para criar Docomento de Nota de Credito
-                dados = (rouboBean.getInfo().size() + ";" + "Seguro de Roubo\n" + contrato.getObservacao() + ";" + contrato.getPremioBrutoMoeda() + ";" + contrato.getPremioBrutoMoeda()).split(";");
+                dados = (rouboBean.getInfo().size() + ";" + (hasDescripiton(contrato.getObservacao()) ? "" : "Seguro de Roubo\n")  + contrato.getObservacao() + ";" + contrato.getPremioBrutoMoeda() + ";" + contrato.getPremioBrutoMoeda()).split(";");
                 al.add(dados);
                 RequestContext.getCurrentInstance().addCallbackParam("seguro", "roubo");
                 String reString = debito.docSeguros("Roubo", rouboBean.getRoubo().getNumeroApolice(), SessionUtil.getUserlogado().getNomeAcesso(), session.getAttribute("CodigoCliente").toString(), " ", al, contrato, (String) ((Funcionario) SessionUtil.obterValor("utilizador")).getNomeAcesso(), contrato.getSigla(), getDiretorio(), rouboBean.getRoubo().getNumeroRegistro());
@@ -498,7 +498,7 @@ public class ContratoBean implements Serializable {
             String[] dados = null;
               RequestContext.getCurrentInstance().addCallbackParam("seguro", "acidente para grupo");
             //para criar Docomento de Nota de Credito
-            dados = (acidentePGBean.getInfo().size() + ";" + "Seguro de Acidente Para Grupo\n" + contrato.getObservacao() + ";" + contrato.getPremioBrutoMoeda() + ";" + contrato.getPremioBrutoMoeda()).split(";");
+            dados = (acidentePGBean.getInfo().size() + ";" + (hasDescripiton(contrato.getObservacao()) ? "" : "Seguro de Acidente Para Grupo\n")+ contrato.getObservacao() + ";" + contrato.getPremioBrutoMoeda() + ";" + contrato.getPremioBrutoMoeda()).split(";");
             al.add(dados);
 
             String reString = debito.docSeguros("Acidente Para Grupo",
@@ -559,7 +559,7 @@ public class ContratoBean implements Serializable {
             String[] dados = null;
 
             //para criar Docomento de Nota de Credito
-            dados = (1 + ";" + "Seguro de Incendio\n" + contrato.getObservacao() + ";" + contrato.getPremioBrutoMoeda() + ";" + contrato.getPremioBrutoMoeda()).split(";");
+            dados = (1 + ";" + (hasDescripiton(contrato.getObservacao()) ? "" : "Seguro de Incendio\n")+ contrato.getObservacao() + ";" + contrato.getPremioBrutoMoeda() + ";" + contrato.getPremioBrutoMoeda()).split(";");
             al.add(dados);
 
             String reString = debito.docSeguros("Incendio", incendioBean.getIncendio().getNumeroApolice(), SessionUtil.getUserlogado().getNivelAcesso(), session.getAttribute("CodigoCliente").toString(), " ", al, contrato, (String) ((Funcionario) SessionUtil.obterValor("utilizador")).getNomeAcesso(), contrato.getSigla(), getDiretorio(), incendioBean.getIncendio().getNumeroRegistro());
@@ -621,7 +621,7 @@ public class ContratoBean implements Serializable {
 
             //------------
             String[] dados = null;
-            dados = (veiculoBean.getInfo().size() + ";" + "Seguro de Automovel\n" + contrato.getObservacao() + ";" + Moeda.format((Double.valueOf((contrato.getPremioBruto() == null || contrato.getPremioBrutoMoeda().isEmpty()) ? "0" : contrato.getPremioBruto())) / veiculoBean.getInfo().size()) + ";" + contrato.getPremioBrutoMoeda()).split(";");
+            dados = (veiculoBean.getInfo().size() + ";"+ (hasDescripiton(contrato.getObservacao()) ? "" : "Seguro de Automovel\n") + contrato.getObservacao() + ";" + Moeda.format((Double.valueOf((contrato.getPremioBruto() == null || contrato.getPremioBrutoMoeda().isEmpty()) ? "0" : contrato.getPremioBruto())) / veiculoBean.getInfo().size()) + ";" + contrato.getPremioBrutoMoeda()).split(";");
             al.add(dados);
 
             String reString = debito.docSeguros("Automovel",
@@ -739,7 +739,7 @@ public class ContratoBean implements Serializable {
             //------------
             dados = new String[4];
             
-            dados = (viagemBean.getInfoPessoaSegurada().size() + ";" + "Seguro de Viagem\n" + contrato.getObservacao() + ";" +" "+ ";" + getContrato().getPremioBrutoMoeda()).split(";");
+            dados = (viagemBean.getInfoPessoaSegurada().size() + ";" + (hasDescripiton(contrato.getObservacao()) ? "" : "Seguro de Viagem\n")+ contrato.getObservacao() + ";" +" "+ ";" + getContrato().getPremioBrutoMoeda()).split(";");
             al.add(dados);
             String reString = debito.docSeguros("Viagem", viagemBean.getViagem().getNumApolice(), SessionUtil.getUserlogado().getNomeAcesso(), session.getAttribute("CodigoCliente").toString(), "NC", al, contrato, (String) ((Funcionario) SessionUtil.obterValor("utilizador")).getNomeAcesso(), contrato.getSigla(), getDiretorio(), viagemBean.getViagem().getNumeroRegistro());
 
@@ -778,7 +778,7 @@ public class ContratoBean implements Serializable {
         System.out.println("resultado da funcção " + resultado);
         if (resultado != null || MarcaDAgua.isSimulation) {
             ArrayList<String[]> al = new ArrayList<>();
-            String[] dados = (1 + ";" + "Seguro Maritimo\n" + contrato.getObservacao() + ";" + contrato.getPremioBrutoMoeda() + ";" + contrato.getPremioBrutoMoeda()).split(";");
+            String[] dados = (1 + ";" + (hasDescripiton(contrato.getObservacao()) ? "" : "Seguro Maritimo\n") + contrato.getObservacao() + ";" + contrato.getPremioBrutoMoeda() + ";" + contrato.getPremioBrutoMoeda()).split(";");
             al.add(dados);
             String reString = debito.docSeguros("Maritimo", maritimoBean.getMaritimo().getNumeroApolice(), SessionUtil.getUserlogado().getNomeAcesso(), session.getAttribute("CodigoCliente").toString(), " ", al, contrato, (String) ((Funcionario) SessionUtil.obterValor("utilizador")).getNomeAcesso(), contrato.getSigla(), getDiretorio(), maritimoBean.getMaritimo().getNumeroRegistro());
 
@@ -837,7 +837,7 @@ public class ContratoBean implements Serializable {
             String[] dados = null;
 
             //para criar Docomento de Nota de Credito
-            dados = (1 + ";" + "Seguro Dinheiro\n" + contrato.getObservacao() + ";" + contrato.getPremioBrutoMoeda() + ";" + contrato.getPremioBrutoMoeda()).split(";");
+            dados = (1 + ";" +(hasDescripiton(contrato.getObservacao()) ? "" : "Seguro Dinheiro\n")+ contrato.getObservacao() + ";" + contrato.getPremioBrutoMoeda() + ";" + contrato.getPremioBrutoMoeda()).split(";");
             al.add(dados);
             RequestContext.getCurrentInstance().addCallbackParam("seguro", "dinheiro");
             String reString = debito.docSeguros("Dinheiro", dinheiroBean.getDinheiro().getNumApolice(), SessionUtil.getUserlogado().getNivelAcesso(), session.getAttribute("CodigoCliente").toString(), " ", al, contrato, (String) ((Funcionario) SessionUtil.obterValor("utilizador")).getNomeAcesso(), contrato.getSigla(), getDiretorio(), dinheiroBean.getDinheiro().getNumeroRegistro());
@@ -1459,7 +1459,7 @@ public class ContratoBean implements Serializable {
             String[] dados = null;
 
             //para criar Docomento de Nota de Credito
-            dados = (1 + ";" + "Seguro de Responsabilidade Publica\n" + contrato.getObservacao() + ";" + contrato.getPremioBrutoMoeda() + ";" + contrato.getPremioBrutoMoeda()).split(";");
+            dados = (1 + ";" + (hasDescripiton(contrato.getObservacao()) ? "" : "Seguro de Responsabilidade Publica\n")+ contrato.getObservacao() + ";" + contrato.getPremioBrutoMoeda() + ";" + contrato.getPremioBrutoMoeda()).split(";");
             al.add(dados);
             RequestContext.getCurrentInstance().addCallbackParam("seguro", "rp");
             String reString = debito.docSeguros("Responsabilidade Publica", responsabilidadePublicaBean.getRp().getNumeroApolice(), SessionUtil.getUserlogado().getNomeAcesso(), session.getAttribute("CodigoCliente").toString(), " ", al, contrato, (String) ((Funcionario) SessionUtil.obterValor("utilizador")).getNomeAcesso(), contrato.getSigla(), getDiretorio(), responsabilidadePublicaBean.getRp().getNumeroRegistro());
@@ -1661,7 +1661,7 @@ public class ContratoBean implements Serializable {
             }
             //-----
             ArrayList<String[]> al = new ArrayList<>();
-            String[] dados = (1 + ";" + "Seguro Carga Maritiman\n" + contrato.getObservacao() + ";" + contrato.getPremioBrutoMoeda() + ";" + contrato.getPremioBrutoMoeda()).split(";");
+            String[] dados = (1 + ";" + (hasDescripiton(contrato.getObservacao()) ? "" : "Seguro Carga Maritima\n")+ contrato.getObservacao() + ";" + contrato.getPremioBrutoMoeda() + ";" + contrato.getPremioBrutoMoeda()).split(";");
             al.add(dados);
             String reString = debito.docSeguros("Carga Maritima", cargaMaritimaBean.getCargaMaritima().getNumerApolice(), SessionUtil.getUserlogado().getNomeAcesso(), session.getAttribute("CodigoCliente").toString(), " ", al, contrato, (String) ((Funcionario) SessionUtil.obterValor("utilizador")).getNomeAcesso(), contrato.getSigla(), getDiretorio(), cargaMaritimaBean.getCargaMaritima().getNumeroRegistro());
 
@@ -2184,5 +2184,8 @@ public class ContratoBean implements Serializable {
         MarcaDAgua.isSimulation = false;
     }
     
+    public boolean hasDescripiton(String desc){
+        return !(desc == null || desc.isEmpty() || "".equals(desc));
+    }
 
 }
