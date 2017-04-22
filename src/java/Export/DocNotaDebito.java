@@ -742,20 +742,20 @@ public class DocNotaDebito implements Serializable {
     }
 
     public static void main(String[] args) {
-        DocNotaDebito dr = new DocNotaDebito();
-        String[] Dados;
-        ArrayList<String[]> al = new ArrayList<>();
-
-        Dados = ("4;Seguros de Viagem;5000000;" + (5000000 * 4) + "").split(";");
-        al.add(Dados);
-
-        Dados = ("7;Seguros de Viagem;5000000;" + (5000000 * 7) + "").split(";");
-        al.add(Dados);
-
-        Dados = ("15;Seguros de Viagem;5000000;" + (5000000 * 15) + "").split(";");
-        al.add(Dados);
-
-        dr.docSeguros("Viagem", null, null, "88", null, al, new Contrato(), "ah", "STD", "", "numregistro");
+//        DocNotaDebito dr = new DocNotaDebito();
+//        String[] Dados;
+//        ArrayList<String[]> al = new ArrayList<>();
+//
+//        Dados = ("4;Seguros de Viagem;5000000;" + (5000000 * 4) + "").split(";");
+//        al.add(Dados);
+//
+//        Dados = ("7;Seguros de Viagem;5000000;" + (5000000 * 7) + "").split(";");
+//        al.add(Dados);
+//
+//        Dados = ("15;Seguros de Viagem;5000000;" + (5000000 * 15) + "").split(";");
+//        al.add(Dados);
+//
+//        dr.docSeguros("Viagem", null, null, "88", null, al, new Contrato(), "ah", "STD", "", "numregistro");
     }
 
 //    class MyFooter extends PdfPageEventHelper {

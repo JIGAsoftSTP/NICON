@@ -68,6 +68,13 @@ public class IncendioBean implements Serializable
              RequestContext.getCurrentInstance().execute("backAndcontine()");
          }
     }
+    
+    public IncendioBean(String isnull){
+        sd = null;
+        info = null;
+        moeda = null;
+    }
+    
     public Incendio getIncendio() 
     {
         return (incendio == null) ? incendio = new Incendio() : incendio;

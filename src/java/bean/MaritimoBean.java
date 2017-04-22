@@ -79,6 +79,9 @@ public class MaritimoBean implements Serializable
          }
      }
      
+    public MaritimoBean(String isNull){
+        
+    }
      
     public Maritimo getMaritimo() 
     {

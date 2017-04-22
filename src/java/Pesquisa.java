@@ -490,7 +490,7 @@ public class Pesquisa implements Serializable {
 
     private void reDoDocVeiculo(Object[] cO, ContratoDao cd) {
 
-        VeiculoBean veiculoBean = new VeiculoBean();
+        VeiculoBean veiculoBean = new VeiculoBean(null);
         Veiculo v = new Veiculo();
 
         v.setNumeroApolice(cO[1].toString());
@@ -614,7 +614,7 @@ public class Pesquisa implements Serializable {
         Double premioMorteMoeda = 0.0, premioDespesaMedicaMoeda = 0.0, premioIncapacidadeTemporariaMoeda = 0.0,
                 premioIncapacidadePermanenteMoeda = 0.0, premioCustoRepatriamentoMoeda = 0.0;
 
-        AcidentePGBean acidentePGBean = new AcidentePGBean();
+        AcidentePGBean acidentePGBean = new AcidentePGBean(null);
         ArrayList<AcidentePG> os = cd.loadDataContratoAPG(Integer.valueOf(dadosContrato.getId()), "GPA");
         AcidentePG pG;
 
@@ -666,7 +666,7 @@ public class Pesquisa implements Serializable {
     }
 
     public void reDoDocIncendio(Object[] cO, ContratoDao cd) {
-        IncendioBean incendioBean = new IncendioBean();
+        IncendioBean incendioBean = new IncendioBean(null);
         IncendioRisco o = cd.loadDataContratoIncendio(Integer.valueOf(dadosContrato.getId()), "FR");
         Incendio i = new Incendio();
 
@@ -702,7 +702,7 @@ public class Pesquisa implements Serializable {
     }
 
     public void reDoDocCargaM(Object[] cO, ContratoDao cd) {
-        CargaMaritimaBean cargaMaritimaBean = new CargaMaritimaBean();
+        CargaMaritimaBean cargaMaritimaBean = new CargaMaritimaBean(null);
         CargaMaritima o = cd.loadDataContratoCargaMaritima(Integer.valueOf(dadosContrato.getId()), "MAC");
         CargaMaritima cm = o;
 
@@ -742,7 +742,7 @@ public class Pesquisa implements Serializable {
     }
 
     public void reDoDocRoubo(Object[] cO, ContratoDao cd) {
-        RouboBean rouboBean = new RouboBean();
+        RouboBean rouboBean = new RouboBean(null);
         Object[] o = cd.loadDataContratoRoubo(Integer.valueOf(dadosContrato.getId()), "DI");
         Roubo r = ((Roubo) o[1]);
 
@@ -776,7 +776,7 @@ public class Pesquisa implements Serializable {
     }
 
     public void reDoDocMaritimo(Object[] cO, ContratoDao cd) {
-        MaritimoBean maritimoBean = new MaritimoBean();
+        MaritimoBean maritimoBean = new MaritimoBean(null);
         Maritimo m = cd.loadDataContratoMaritimo(Integer.valueOf(dadosContrato.getId()), "NHI");
 
         m.setNumeroApolice(cO[1].toString());

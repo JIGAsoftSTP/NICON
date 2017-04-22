@@ -82,6 +82,9 @@ public class CargaMaritimaBean implements Serializable
         }
     }
     
+    public CargaMaritimaBean(String isnull){
+        
+    }
 
     public CargaMaritima getCargaMaritima() 
     {

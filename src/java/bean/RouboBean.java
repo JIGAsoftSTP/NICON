@@ -67,6 +67,10 @@ public class RouboBean implements  Serializable
         } 
     }
     
+    public RouboBean(String isnull){
+        
+    }
+    
     @PostConstruct
     public void init()
     {

@@ -74,7 +74,11 @@ public class AcidentePGBean implements Serializable
               RequestContext.getCurrentInstance().execute("backAndcontine()");
         }
     }
-
+    
+    public AcidentePGBean(String isnull){
+        
+    }
+    
     public boolean isHabilitarRemover() {
         return habilitarRemover;
     }
