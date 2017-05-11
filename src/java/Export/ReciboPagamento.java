@@ -419,9 +419,6 @@ public class ReciboPagamento {
             pConteudo.add(new Phrase("Prémio Liquido: ".toUpperCase(), fontConteudo));
             pConteudo.add(new Phrase(converterMoeda(map.get(TOTALBRUTO), map.get(SIGLAMOEDA) + "") + "\n", fontConteudoTxt));
 
-            pConteudo.add(new Phrase("Acessórios: ".toUpperCase(), fontConteudo));
-            pConteudo.add(new Phrase((map.get(ACCESSORIO) == null) ? " " : map.get(ACCESSORIO) + "\n", fontConteudoTxt));
-
             pConteudo.add(new Phrase("Impostos: ".toUpperCase(), fontConteudo));
             pConteudo.add(new Phrase(converterMoeda(impostosCalculo(map.get(TOTAl), map.get(IMPOSTOCONSUMO)), map.get(SIGLAMOEDA) + "") + "\n", fontConteudoTxt));
 
@@ -541,7 +538,7 @@ public class ReciboPagamento {
 //            ▬↑†▄♠◘
             PdfPTable pTableTipoPagemento = new PdfPTable(new float[]{70f, 30f});
             pTableTipoPagemento.setWidthPercentage(100f);
-
+            
             PdfPCell cellTipoPageme = new PdfPCell();
             Paragraph pDatas = new Paragraph();
             pDatas.add(new Phrase("Pagamento: ".toUpperCase(), fontConteudo));
@@ -579,6 +576,20 @@ public class ReciboPagamento {
 
             PdfPTable pTableAssinatura = new PdfPTable(new float[]{50f, 50f});
             pTableAssinatura.setWidthPercentage(100f);
+            
+            Font fontConteudoTxt_acess= FontFactory.getFont(ConfigDoc.Fontes.FONT, BaseFont.WINANSI, BaseFont.EMBEDDED, 5f, Font.ITALIC, BaseColor.BLACK.darker().darker().darker());
+            Font fontConteudo_acess = FontFactory.getFont(ConfigDoc.Fontes.FONTB, BaseFont.WINANSI, BaseFont.EMBEDDED, 5f, Font.NORMAL, BaseColor.BLUE.darker().darker());
+            
+            PdfPCell cellAcessorio = new PdfPCell();
+            Paragraph pAcessorio = new Paragraph();
+            pAcessorio.add(new Phrase("Acessórios: ".toUpperCase(), fontConteudo_acess));
+            pAcessorio.add(new Phrase((map.get(ACCESSORIO) == null) ? " " : (map.get(ACCESSORIO) + "").replaceAll("\n", " "), fontConteudoTxt_acess));
+            cellAcessorio.addElement(pAcessorio);
+            cellAcessorio.setColspan(2);
+            cellAcessorio.setBorder(0);
+            cellAcessorio.setPaddingBottom(4f);
+            cellAcessorio.setPaddingTop(-2f);
+            pTableAssinatura.addCell(cellAcessorio);
 
             PdfPCell cellLinhaAssina = new PdfPCell();
             Paragraph pAssinatura = new Paragraph();
@@ -586,10 +597,9 @@ public class ReciboPagamento {
             pAssinatura.add(new Paragraph("                Carimbo e Assinatura", fontConteudo));
             pAssinatura.setAlignment(Element.ALIGN_CENTER);
             cellLinhaAssina.addElement(pAssinatura);
-            cellLinhaAssina.setPaddingTop(-2f);
             cellLinhaAssina.setPaddingBottom(2f);
             cellLinhaAssina.setBorder(0);
-            cellLinhaAssina.setPaddingTop(20f);
+            cellLinhaAssina.setPaddingTop(25f);
             pTableAssinatura.addCell(cellLinhaAssina);
 
             PdfPCell cellCambio = new PdfPCell();
@@ -603,7 +613,7 @@ public class ReciboPagamento {
             cellCambio.setPaddingTop(-2f);
             cellCambio.setPaddingBottom(2f);
             pTableAssinatura.addCell(cellCambio);
-
+            
             PdfPCell cellpTableAssinaturaPrincipal = new PdfPCell(pTableAssinatura);
             cellpTableAssinaturaPrincipal.setBorder(PdfPCell.NO_BORDER);
             pTablePrincipal.addCell(new PdfPCell(cellpTableAssinaturaPrincipal));
