@@ -58,8 +58,8 @@ public class GenericExcel {
     public static int paramFilterOculta = -1;
     public static HashMap<Integer,Alignment> alignment = new HashMap<>();
     private static String[] valoresTotal = new String[]{};
-//    public static HashMap<Integer,String> mapValoresTotal = new HashMap();
     public static int[] arrValoresTotal = new int[]{};
+    public static Object[] lista_titulo_table = new String[]{};
     
     /**
      *
@@ -95,7 +95,6 @@ public class GenericExcel {
             Font fTituloP = wb.createFont();
             fTituloP.setBoldweight(Font.BOLDWEIGHT_BOLD);
             fTituloP.setFontHeightInPoints((short) 12);
-//            fTituloP.setStrikeout(true);
             fTituloP.setUnderline(Font.U_SINGLE);
 
             Font fTituloTabela = wb.createFont();
@@ -265,23 +264,19 @@ public class GenericExcel {
             createCellM(c, r, s, csTituloT, linha, linha, titleDoc.toUpperCase()+((dF!=null&&dI!=null) ? (" de "+format.format(dI)+" à "+format.format(dF)).toUpperCase() : ""), 1, 22);
             linha += 2;
             if (paramFilter < 0) {
-//                int somak;
                 for (Object[] emap : list) {
                     k = 0;
-//                    somak = 1;
-//                if( colun[k] )
                     r = s.createRow(linha);
                     for (int j = 0; j < emap.length; j++) {
                         if (j != paramFilterOculta) {
                             if (i == 0) {
+                                lista_titulo_table = emap;
                                 csCorpoTabela.setFillBackgroundColor(HSSFColor.BLUE.index);
                                 createCell(c, r, s, csTituloTabela, linha, linha, toString(emap[j]), k+1, toInt(colun[k]));
-//                                somak += toInt(colun[k]);
                                 k++;
                             } else {
                                 csCorpoTabelaL.setFillBackgroundColor(((i % 2) == 0) ? HSSFColor.WHITE.index : HSSFColor.GREY_25_PERCENT.index);
                                 createCell(c, r, s, ((alignment.containsKey(j)) ? ((alignment.get(j) == Alignment.RIGHT) ? csCorpoTabelaR : ((alignment.get(j) == Alignment.CENTER) ? csCorpoTabela : csCorpoTabelaL)) : csCorpoTabelaL), linha, linha, toString(emap[j]), k+1, toInt(colun[k]));
-//                                somak += toInt(colun[k]);
                                 k++;
                             }
                         }
@@ -292,20 +287,17 @@ public class GenericExcel {
                 for (Map.Entry<String, ArrayList<Object[]>> entrySet : mapTotal.entrySet()) {
                     for (Object[] emapT : entrySet.getValue()) {
                         k = 0;
-//                        somak = 1;
                         r = s.createRow(linha);
                         for (int j = 0; j < emapT.length; j++) {
                             if (j != paramFilterOculta) {
                                 csCorpoTabelaL.setFillBackgroundColor(HSSFColor.LIGHT_BLUE.index);
                                 createCell(c, r, s, ((alignment.containsKey(j)) ? ((alignment.get(j) == Alignment.RIGHT) ? csRodapeTabelaR : ((alignment.get(j) == Alignment.CENTER) ? csRodapeTabelaR : csRodapeTabelaL)) : csRodapeTabelaL), linha, linha, ((j == 0) ? "TOTAL" : toString(emapT[j])), k+1, toInt(colun[k]));
-//                                somak += toInt(colun[k]);
                                 k++;
                             }
                         }
                     }
                 }
             } else {
-//                int somak;
                 int t = map.size();
                 for (Map.Entry<String, ArrayList<Object[]>> lista : map.entrySet()) {
                     r = s.createRow(linha);
@@ -314,19 +306,17 @@ public class GenericExcel {
                     linha+=2;
                     for (Object[] emap : lista.getValue()) {
                         k = 0;
-//                        somak = 1;
                         r = s.createRow(linha);
                         for (int j = 0; j < emap.length; j++) {
                             if (j != paramFilterOculta) {
                                 if (i == 0) {
+                                    lista_titulo_table = emap;
                                     csTituloTabela.setFillBackgroundColor(HSSFColor.BLUE.index);
                                     createCell(c, r, s, csTituloTabela, linha, linha, toString(emap[j]), k+1, toInt(colun[k]));
-//                                    somak += toInt(colun[k]);
                                     k++;
                                 } else {
                                     csCorpoTabelaL.setFillBackgroundColor(((i % 2) == 0) ? HSSFColor.WHITE.index : HSSFColor.GREY_25_PERCENT.index);
                                     createCell(c, r, s, ((alignment.containsKey(j)) ? ((alignment.get(j) == Alignment.RIGHT) ? csCorpoTabelaR : ((alignment.get(j) == Alignment.CENTER) ? csCorpoTabela : csCorpoTabelaL)) : csCorpoTabelaL), linha, linha, toString(emap[j]), k+1, toInt(colun[k]));
-//                                    somak += toInt(colun[k]);
                                     k++;
                                 }
                             }
@@ -339,13 +329,10 @@ public class GenericExcel {
                     if (mapTotal.containsKey(lista.getKey())) {
                         for (Object[] emapT : mapTotal.get(lista.getKey())) {
                             k = 0;
-//                            somak = 1;
                             r = s.createRow(linha);
                             for (int j = 0; j < emapT.length; j++) {
                                 if (j != paramFilterOculta) {
-//                                    csCorpoTabelaL.setFillBackgroundColor(HSSFColor.LIGHT_BLUE.index);
                                     createCell(c, r, s,((alignment.containsKey(j)) ? ((alignment.get(j) == Alignment.RIGHT) ? csRodapeTabelaR : ((alignment.get(j) == Alignment.CENTER) ? csRodapeTabela : csRodapeTabelaL)) : csRodapeTabelaL), linha, linha, ((j == 0) ? "TOTAL" : toString(emapT[j])), k+1, toInt(colun[k]));
-//                                    somak += toInt(colun[k]);
                                     k++;
                                 }
                             }
@@ -355,6 +342,31 @@ public class GenericExcel {
                     i = 0;
                     if (t != map.size()) {
                         linha += 3;
+                    }else{
+                        k = 0;
+                        r = s.createRow(linha);
+                        for (int j = 0; j < lista_titulo_table.length; j++) {
+                            if (j != paramFilterOculta) {
+                                csTituloTabela.setFillBackgroundColor(HSSFColor.BLUE.index);
+                                createCell(c, r, s, csTituloTabela, linha, linha, toString(lista_titulo_table[j]), k + 1, toInt(colun[k]));
+                                k++;
+                            }
+                        }
+                        for (Map.Entry<String, ArrayList<Object[]>> entry : mapTotal.entrySet()) {
+                            String key = entry.getKey();
+                            ArrayList<Object[]> value = entry.getValue();
+                            for (Object[] emapT : value) {
+                                k = 0;
+                                r = s.createRow(linha);
+                                for (int j = 0; j < emapT.length; j++) {
+                                    if (j != paramFilterOculta) {
+                                        createCell(c, r, s, ((alignment.containsKey(j)) ? ((alignment.get(j) == Alignment.RIGHT) ? csRodapeTabelaR : ((alignment.get(j) == Alignment.CENTER) ? csRodapeTabela : csRodapeTabelaL)) : csRodapeTabelaL), linha, linha, ((j == 0) ? "TOTAL "+key : toString(emapT[j])), k + 1, toInt(colun[k]));
+                                        k++;
+                                    }
+                                }
+                            }
+
+                        }
                     }
                 }
 
@@ -376,7 +388,6 @@ public class GenericExcel {
             renameItem = new HashMap<>();
             alignment = new HashMap<>();
             valoresTotal = new String[]{};
-//            mapValoresTotal = new HashMap();
             arrValoresTotal = new int[]{};
             return reString;
         } catch (FileNotFoundException ex) {
@@ -408,7 +419,6 @@ public class GenericExcel {
         if (paramFilter > -1) {
             map = new LinkedHashMap<>();
             for (int j = 1; j < list.size(); j++) {
-//                System.err.println(list.get(j)[paramFilter] + "");
                 if ((!no && !(list.get(j)[paramFilter] + "").equals(nomeNo) && !(list.get(j)[0] + "").trim().toUpperCase().equals("TOTAL"))
                         || (no && !(list.get(j)[paramFilter] + "").equals(nomeNo) && !(list.get(j)[0] + "").trim().toUpperCase().equals("TOTAL"))) {
                     if (map.containsKey(list.get(j)[paramFilter] + "")) {
@@ -478,14 +488,6 @@ public class GenericExcel {
 
         });
 
-//        for (int g = 0; g < perncetages.length; g++) {
-//            perncetages[g] = (((float) ((float) lenthMax[g] * 100) / somaTotal) > 30) ? (((float) ((float) lenthMax[g] * 5) / somaTotal))
-//                    : (((float) ((float) lenthMax[g] * 100) / somaTotal) > 20) ? (((float) ((float) lenthMax[g] * 15) / somaTotal))
-//                            : (((float) ((float) lenthMax[g] * 100) / somaTotal) > 10) ? (((float) ((float) lenthMax[g] * 25) / somaTotal))
-//                                    : (((float) ((float) lenthMax[g] * 100) / somaTotal) > 3) ? ((float) ((float) lenthMax[g] * 50) / somaTotal)
-//                                            : (((float) ((float) lenthMax[g] * 100) / somaTotal) < 1) ? 1 : ((float) ((float) lenthMax[g] * 100) / somaTotal);
-//        }
-
 for (int g = 0; g < perncetages.length; g++) {
             perncetages[g] = (((float) ((float) lenthMax[g] * 100) / somaTotal) > 15) ? (((float) ((float) lenthMax[g] * 100) / somaTotal) - 5)
                     : ((((float) ((float) lenthMax[g] * 100) / somaTotal) > 7) ? (((float) ((float) lenthMax[g] * 100) / somaTotal) - 1.5f)
@@ -502,16 +504,6 @@ for (int g = 0; g < perncetages.length; g++) {
     }
 
     public static void main(String[] args) {
-        ResultSet rs = Call.selectFrom("VER_CONTA_CONTABIL WHERE \"TIPO CONTA\"='Conta Banco'", "*");
-//        ResultSet rs = Call.callTableFunction("PACK_REPORT2.FUNCT_REPORT_SINISTRO", "*", null,null);
-//        String ff =GenericPDF.createDoc( "Ah","mome Doc", "Teste Titile", rs, GenericPDF.OrientacaoPagina.HORIZONTAL, GenericPDF.TypeParam.OCULTAR,"ID");
-//        System.err.println(ff);
-
-//        ResultSet rs = Call.callTableFunction("PACK_REPORT.reportContaMoviment", "*", null,null, new ArrayList<>());
-//        String ff =GenericExcel.createDoc( "Ah","Contrato", "Contrato Não Pago", rs, GenericExcel.TypeParam.OCULTAR,
-//                "ESTADO","ID","TIPO MOVIMENTO","NUMERO BANCARIO","DESCRICAO","TIPO CONTA","CREDITO","REGISTRO","DEBITO","SALDO");
-//        String ff =GenericExcel.createDoc( "Ah","Contrato", "Contrato Não Pago", rs, GenericExcel.TypeParam.OCULTAR);
-//        System.err.println(ff);
     }
 
     public static boolean sheachInParam(String key, int i, String... param) {
@@ -576,15 +568,6 @@ for (int g = 0; g < perncetages.length; g++) {
         public final int i;
         Alignment(int i) { this.i = i; } 
     }
-    
-//    private static void addTotalValores(int i)
-//     {
-//            valoresTotal = new String[i];
-//            mapValoresTotal.entrySet().stream().forEach((entrySet) -> {
-//                valoresTotal[entrySet.getKey()] = entrySet.getValue();
-//        });
-//        list.add(valoresTotal);
-//     }
     
     private static void calTotalValores(ArrayList<Object[]> list)
     {

@@ -21,12 +21,10 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
-import conexao.Call;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,8 +63,8 @@ public class GenericPDFs {
     public static int paramFilterOculta = -1;
     public static HashMap<Integer,Alignment> alignment = new HashMap<>();
     private static String[] valoresTotal = new String[]{};
-//    public static HashMap<Integer,String> mapValoresTotal = new HashMap();
     public static int[] arrValoresTotal = new int[]{};
+    public static Object[] lista_titulo_table = new String[]{};
     
     /**
      *
@@ -178,7 +176,6 @@ public class GenericPDFs {
             cellTitile.setPaddingBottom(20f);
             cellTitile.setBorder(0);
             cellTitile.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-//            cellTitile.setPaddingTop(10f);
             pTableTitile.addCell(cellTitile);
             documento.add(pTableTitile);
 
@@ -193,12 +190,12 @@ public class GenericPDFs {
                     if (emap[0] == null || !emap[0].equals("TOTAL")) {
                         for (int j = 0; j < emap.length; j++) {
                             if (cabe && i == 0) {
+                                lista_titulo_table = emap;
                                 PdfPCell cellTitileTable = new PdfPCell(new Phrase(toString(emap[j]).toUpperCase(), fontCorpoNG));
                                 cellTitileTable.setBorderWidth(1f);
                                 cellTitileTable.setPaddingTop(8f);
                                 cellTitileTable.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                                 cellTitileTable.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-//                                BaseColor colorAzul = new BaseColor(100, 149, 237);
                                 BaseColor colorAzul = new BaseColor(255, 255, 255);
                                 cellTitileTable.setBackgroundColor(colorAzul);
                                 cellTitileTable.setPaddingBottom(8f);
@@ -208,7 +205,6 @@ public class GenericPDFs {
                                 dados.setHorizontalAlignment( (alignment.containsKey(j)) ? alignment.get(j).i : PdfPCell.ALIGN_LEFT);
                                 dados.setPaddingTop(5f);
                                 dados.setPaddingBottom(5f);
-//                                BaseColor colorCinza = new BaseColor(240, 240, 240);
                                 BaseColor colorCinza = new BaseColor(255, 255, 255);
                                 dados.setBackgroundColor(((i % 2 != 0) ? colorCinza : null));
                                 tableDados.addCell(dados);
@@ -224,18 +220,12 @@ public class GenericPDFs {
 
                     documento.add(tableDados);
 
-//                if((i>1 && cabe))
-//                {  
-//                    documento.add(tableTest);
-//                    documento.add(tableTitile);
-//                }
                 }
 
                 PdfPTable tableTotal = new PdfPTable(ar);
                 tableTotal.setWidthPercentage(97f);
 
                 mapTotal.entrySet().stream().forEach((entrySet) -> {
-                    //                            System.err.println("entrou "+lista.getKey());
                     mapTotal.get(entrySet.getKey()).stream().forEach((get) -> {
                         for (int g = 0; g < get.length; g++) {
                             if (g != paramFilter) {
@@ -243,11 +233,9 @@ public class GenericPDFs {
                                 dados.setHorizontalAlignment( (alignment.containsKey(g)) ? alignment.get(g).i : PdfPCell.ALIGN_LEFT);
                                 dados.setPaddingTop(5f);
                                 dados.setPaddingBottom(5f);
-//                                BaseColor colorCinza = new BaseColor(176, 196, 222);
                                 BaseColor colorCinza = new BaseColor(255, 255, 255);
                                 dados.setBackgroundColor(colorCinza);
                                 tableTotal.addCell(dados);
-//                                    System.err.println(toString(get1));
                             }
                         }
                     });
@@ -277,16 +265,15 @@ public class GenericPDFs {
                         tableDados.setWidthPercentage(97f);
                         tableTitile.setWidthPercentage(97f);
                         int k = 0;
-//                         System.out.println(Arrays.toString(emap));
                         for (int j = 0; j < emap.length; j++) {
                             if (k != paramFilterOculta) {
                                 if (cabe && i == 0) {
+                                    lista_titulo_table = emap;
                                     PdfPCell cellTitileTable = new PdfPCell(new Phrase(toString(emap[j]).toUpperCase(), fontCorpoNG));
                                     cellTitileTable.setBorderWidth(1f);
                                     cellTitileTable.setPaddingTop(8f);
                                     cellTitileTable.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                                     cellTitileTable.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-//                                    BaseColor colorAzul = new BaseColor(100, 149, 237);
                                     BaseColor colorAzul = new BaseColor(255, 255, 255);
                                     cellTitileTable.setBackgroundColor(colorAzul);
                                     cellTitileTable.setPaddingBottom(8f);
@@ -296,7 +283,6 @@ public class GenericPDFs {
                                     dados.setHorizontalAlignment( (alignment.containsKey(j)) ? alignment.get(j).i : PdfPCell.ALIGN_LEFT);
                                     dados.setPaddingTop(5f);
                                     dados.setPaddingBottom(5f);
-//                                    BaseColor colorCinza = new BaseColor(240, 240, 240);
                                     BaseColor colorCinza = new BaseColor(255, 255, 255);
                                     dados.setBackgroundColor(((i % 2 != 0) ? colorCinza : null));
                                     tableDados.addCell(dados);
@@ -317,7 +303,6 @@ public class GenericPDFs {
                     PdfPTable tableTotal = new PdfPTable(ar);
                     tableTotal.setWidthPercentage(97f);
                     if (mapTotal.containsKey(lista.getKey())) {
-//                            System.err.println("entrou "+lista.getKey());
                         mapTotal.get(lista.getKey()).stream().forEach((get) -> {
                             for (int g = 0; g < get.length; g++) {
                                 if (g != paramFilterOculta) {
@@ -325,11 +310,9 @@ public class GenericPDFs {
                                     dados.setHorizontalAlignment( (alignment.containsKey(g)) ? alignment.get(g).i : PdfPCell.ALIGN_LEFT);
                                     dados.setPaddingTop(5f);
                                     dados.setPaddingBottom(5f);
-//                                    BaseColor colorCinza = new BaseColor(176, 196, 222);
                                     BaseColor colorCinza = new BaseColor(255, 255, 255);
                                     dados.setBackgroundColor(colorCinza);
                                     tableTotal.addCell(dados);
-//                                    System.err.println(toString(get1));
                                 }
                             }
                         });
@@ -340,8 +323,43 @@ public class GenericPDFs {
                         documento.add(new Paragraph(" "));
                         documento.add(new Paragraph(" "));
                         documento.add(new Paragraph(" "));
+                    }else{
+                        
+                        PdfPTable tableTotal_t = new PdfPTable(ar);
+                        for (int j = 0; j < lista_titulo_table.length; j++) {
+                            if (j != paramFilterOculta) {
+                                if (cabe && i == 0) {
+                                    PdfPCell cellTitileTable = new PdfPCell(new Phrase(toString(lista_titulo_table[j]).toUpperCase(), fontCorpoNG));
+                                    cellTitileTable.setBorderWidth(1f);
+                                    cellTitileTable.setPaddingTop(8f);
+                                    cellTitileTable.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                                    cellTitileTable.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                                    BaseColor colorAzul = new BaseColor(255, 255, 255);
+                                    cellTitileTable.setBackgroundColor(colorAzul);
+                                    cellTitileTable.setPaddingBottom(8f);
+                                    tableTotal_t.addCell(cellTitileTable);
+                                }
+                            }
+                        }
+                        
+                        mapTotal.entrySet().stream().forEach((entry) -> {
+                            String key = entry.getKey();
+                            ArrayList<Object[]> value = entry.getValue();
+                            
+                            for (int g = 0; g < value.size(); g++) {
+                                if (g != paramFilterOculta) {
+                                    PdfPCell dados = new PdfPCell(new Phrase(((g == 0) ? "TOTAL " + key : toString(value.get(g))), fontCorpoTableN));
+                                    dados.setHorizontalAlignment((alignment.containsKey(g)) ? alignment.get(g).i : PdfPCell.ALIGN_LEFT);
+                                    dados.setPaddingTop(5f);
+                                    dados.setPaddingBottom(5f);
+                                    BaseColor colorCinza = new BaseColor(255, 255, 255);
+                                    dados.setBackgroundColor(colorCinza);
+                                    tableTotal_t.addCell(dados);
+                                }
+                            }
+                        });
+                        documento.add(tableTotal_t);
                     }
-
                 }
             }
             documento.close();
@@ -354,7 +372,6 @@ public class GenericPDFs {
             renameItem = new HashMap<>();
             alignment = new HashMap<>();
             arrValoresTotal = new int[]{};
-//            mapValoresTotal = new HashMap();
             RequestContext.getCurrentInstance().execute("openAllDocument('" + reString + "')");
             return reString;
         } catch (BadElementException | IOException ex) {
@@ -389,7 +406,6 @@ public class GenericPDFs {
         if (paramFilter > -1) {
             map = new LinkedHashMap<>();
             for (int j = 1; j < list.size(); j++) {
-//                System.err.println(list.get(j)[paramFilter] + "");
                 if ((!no && !(list.get(j)[paramFilter] + "").equals(nomeNo) && !(list.get(j)[0] + "").trim().toUpperCase().equals("TOTAL"))
                         || (no && !(list.get(j)[paramFilter] + "").equals(nomeNo) && !(list.get(j)[0] + "").trim().toUpperCase().equals("TOTAL"))) {
                     if (map.containsKey(list.get(j)[paramFilter] + "")) {
@@ -486,27 +502,6 @@ public class GenericPDFs {
     }
 
     public static void main(String[] args) {
-//        ResultSet rs = Call.selectFrom("VER_CONTA_CONTABIL", "*");
-//        ResultSet rs = Call.callTableFunction("PACK_REPORT2.FUNCT_REPORT_SINISTRO", "*", null, null);
-//        String ff =GenericPDF.createDoc( "Ah","mome Doc", "Teste Titile", rs, GenericPDF.OrientacaoPagina.HORIZONTAL, GenericPDF.TypeParam.OCULTAR,"ID");
-//        System.err.println(ff);
-
-//        ResultSet rs = Call.callTableFunction("PACK_REPORT.reportContaMoviment", "*", null,null, new ArrayList<>());
-//        String ff =GenericPDFs.createDoc("Ah","mome Doc", "Teste Titile", rs, GenericPDFs.OrientacaoPagina.VERTICAL);
-//        System.err.println(ff);
-//        arrValoresTotal = new int[]{1,4,2};
-//        ArrayList<String[]> al = new ArrayList<>();
-//        
-//        String[] dd= new String[]{"ffjfjfjf","222222", "1122", "ffff",Moeda.format(1000)};
-//        al.add(dd);
-//        
-//        dd= new String[]{"ffjfjfjf","222222", "1122", "ffff",Moeda.format(2222)};
-//        al.add(dd);
-//        
-//        dd= new String[]{"ffjfjfjf","222222", "1122", "ffff",Moeda.format(1111)};
-//        al.add(dd);
-//        
-//        calTotalValores(al);
     }
 
     public static boolean sheachInParam(String key, int i, String... param) {
@@ -525,8 +520,6 @@ public class GenericPDFs {
             cabe = true;
             PdfPTable pTableNumPage = new PdfPTable(1);
             pTableNumPage.setTotalWidth(80f);
-//            BaseColor color = new BaseColor(red, green, blue);  
-//            BaseColor colorCinza = new BaseColor(220,220,220); 
             PdfPCell pCellImagem = new PdfPCell(new Phrase("Pag Nº: ".toUpperCase() + document.getPageNumber(), fontNump));
             pCellImagem.setRotation(270);
             pCellImagem.setBorder(0);
@@ -556,15 +549,6 @@ public class GenericPDFs {
         }
         return newArrayList;
     }
-    
-//    private static void addTotalValores(int i)
-//     {
-//            valoresTotal = new String[i];
-//            mapValoresTotal.entrySet().stream().forEach((entrySet) -> {
-//                valoresTotal[entrySet.getKey()] = entrySet.getValue();
-//        });
-//        list.add(valoresTotal);
-//     }
     
     private static void calTotalValores(ArrayList<Object[]> list)
     {
