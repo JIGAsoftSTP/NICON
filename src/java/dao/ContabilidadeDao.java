@@ -667,11 +667,13 @@ public class ContabilidadeDao implements Serializable {
                    {
                        CreditoDebito creditoDebito = new CreditoDebito();
                        creditoDebito.setCodigo(rs.getString("CODIGO"));
+                       creditoDebito.setId(rs.getInt("ID"));
                        creditoDebito.setTypeOperationDesc(rs.getString("OPERACAO"));
                        creditoDebito.setValor(rs.getString("VALOR"));
                        creditoDebito.setColaborador(rs.getString("COLABORADOR"));
                        creditoDebito.setTipo(rs.getString("TIPO"));
                        creditoDebito.setDataRegistro(rs.getString("REGISTRO"));
+                       creditoDebito.setOperation(rs.getString("OP"));
                        
                        listaLancamentos.add(creditoDebito);
                    }
@@ -684,20 +686,23 @@ public class ContabilidadeDao implements Serializable {
         return listaLancamentos;
     }
     
-    public List<CreditoDebito> listCredits(String codigo, String tipo)
+    public List<CreditoDebito> listCredits(int id, String tipo)
     {
-         ResultSet rs;
+         ResultSet rs = null;
          String field;
-        if(tipo.contains("pagamento"))
+        if(tipo.equalsIgnoreCase("p"))
         {
             field= "ID PAGAMENTO";
-           rs = Call.selectFrom("VER_CONTA_MOVIMENTO_PAGAMENTO WHERE \"" + field + "\"=?", "*",codigo);
+           rs = Call.selectFrom("VER_CONTA_MOVIMENTO_PAGAMENTO WHERE \"" + field + "\"=?", "*",id);
         }
-        else
+        else if(tipo.equalsIgnoreCase("l"))
         {
              field= "ID LANCAMENTO";
-            rs = Call.selectFrom("VER_CONTA_MOVIMENTO_LANCAMENTO WHERE \"" + field + "\"=?", "*",codigo);
+            rs = Call.selectFrom("VER_CONTA_MOVIMENTO_LANCAMENTO WHERE \"" + field + "\"=?", "*",id);
         }
+        else
+            rs = Call.selectFrom("VER_CONTA_MOVIMENTO_RECEBIMENT WHERE ID=?", "*",id);
+        
         
         List<CreditoDebito> creditoDebitos = new ArrayList<>();
         if(rs != null)
@@ -708,15 +713,19 @@ public class ContabilidadeDao implements Serializable {
                 {
                     CreditoDebito cd = new CreditoDebito();
                      cd.setConta(rs.getString("CONTA"));
-                     if(tipo.contains("Lancamento"))
+                     if(tipo.equalsIgnoreCase("l"))
                      {
-                        if(rs.getString("MOVIMENTACAO").equals("Credito"))  cd.setValorC(rs.getString("VALOR"));
-                        else  cd.setValorD(rs.getString("VALOR"));
+                        if(rs.getString("MOVIMENTACAO").equals("Credito")) 
+                            cd.setValorC(rs.getString("VALOR"));
+                        else
+                            cd.setValorD(rs.getString("VALOR"));
                      }
                      else
                      {
-                        if(rs.getString("MOVIMENTO").equals("Credito"))  cd.setValorC(rs.getString("VALOR"));
-                        else  cd.setValorD(rs.getString("VALOR"));
+                        if(rs.getString("MOVIMENTO").equals("Credito"))
+                            cd.setValorC(rs.getString("VALOR"));
+                        else
+                            cd.setValorD(rs.getString("VALOR"));
                      }
                     creditoDebitos.add(cd);
                 }
