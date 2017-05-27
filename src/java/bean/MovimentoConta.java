@@ -376,7 +376,7 @@ public class MovimentoConta implements Serializable {
     
     public void creditMoreInfo(CreditoDebito cd)
     {
-       this.creditInfo = contabilidadeDao.listCredits(cd.getCodigo(), cd.getTipo());
+       this.creditInfo = contabilidadeDao.listCredits(cd.getId(), cd.getOperation());
         Validacao.atualizar("movimentacao", "maisInforL");
         RequestContext.getCurrentInstance().execute("$('.modalCreditInfo').fadeIn()");
     }
