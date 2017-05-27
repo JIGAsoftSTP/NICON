@@ -34,6 +34,8 @@ public class CreditoDebito implements Serializable
     private String codigo;
     private String colaborador;
     private String dataRegistro;
+    private String operation;
+    private int id;
     private TipoPesquisa tipoPesquisa;
 
     public CreditoDebito() {
@@ -60,12 +62,28 @@ public class CreditoDebito implements Serializable
         return tipo;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Date getDataDocumento() {
         return dataDocumento;
     }
 
     public String getValorD() {
         return valorD;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
     }
 
     public void setValorD(String valorD) {
