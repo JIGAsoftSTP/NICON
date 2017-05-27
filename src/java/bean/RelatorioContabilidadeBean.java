@@ -176,7 +176,7 @@ public class RelatorioContabilidadeBean implements Serializable {
                     rs = cd.relatorioContas(relatorio);
                     this.resultado.updFaces(FacesContext.getCurrentInstance());
                     this.resultado.prepareModel(rs, DataTableControl.ShowMode.HIDE, "ID","VALOR","MOVIMENTACAO", "OBSERVACAO", "REGISTRO",
-                            "OPERACAO", "OP", "TP MOV", "ID CONTA", "DATA_SF", "REGISTRO_SF");
+                            "OPERACAO", "OP", "TP MOV", "ID CONTA", "DATA_SF", "REGISTRO_SF", "VALOR_SF", "VALOR_STD_SF");
 //                    this.resultado.prepareModel(rs, DataTableControl.ShowMode.HIDE, "DATA","DOC","CONTA", "DEBITO", "CREDITO"
                     this.resultado.renameColumn("DEBITO", "DÉBITO");
                     this.resultado.renameColumn("CREDITO", "CRÉDITO");
