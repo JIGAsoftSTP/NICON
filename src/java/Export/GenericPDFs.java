@@ -324,7 +324,7 @@ public class GenericPDFs {
                     documento.add(new Paragraph(" "));
                     documento.add(new Paragraph(" "));
 
-                    if (t == map.size()) {
+                    if (t == map.size() && paramFilter > -1) {
                         PdfPTable tableTotal_t = new PdfPTable(ar);
                         tableTotal_t.setWidthPercentage(97f);
                         for (int j = 0; j < lista_titulo_table.length; j++) {
@@ -347,9 +347,9 @@ public class GenericPDFs {
                                 for (int g = 0; g < value.length; g++) {
                                     if (!entrySet.getKey().equals("TOTAL")) {
                                         if (g != paramFilterOculta) {
-                                            if(Moeda.unFormat(toString(value[g]).replaceAll(" ", "").replaceAll(",", ".")) != -1){
-                                                Double v = ((total_total[g] == null) ? 0.0 : total_total[g]);
-                                                total_total[g] =  Moeda.unFormat(toString(value[g]).replaceAll(" ", "").replaceAll(",", "."))  + v;
+                                            if(Moeda.unFormat(toString(value[g]).replaceAll(" ", "").replaceAll(",", ".").replaceAll("STD", "")) != -1){
+                                                double v = ((total_total[g] == null) ? 0.0 : total_total[g]);
+                                                total_total[g] =  (Moeda.unFormat(toString(value[g]).replaceAll(" ", "").replaceAll(",", ".").replaceAll("STD", ""))  + v);
                                             }
                                             PdfPCell dados = new PdfPCell(new Phrase(((g == 0) ? "TOTAL " + entrySet.getKey().toUpperCase() : toString(value[g])), fontCorpoTableN));
                                             dados.setHorizontalAlignment((alignment.containsKey(g)) ? alignment.get(g).i : PdfPCell.ALIGN_LEFT);
@@ -388,6 +388,7 @@ public class GenericPDFs {
             renameItem = new HashMap<>();
             alignment = new HashMap<>();
             arrValoresTotal = new int[]{};
+            valoresTotal = new String[]{};
             RequestContext.getCurrentInstance().execute("openAllDocument('" + reString + "')");
             return reString;
         } catch (BadElementException | IOException ex) {
@@ -509,9 +510,14 @@ public class GenericPDFs {
 
         });
         for (int g = 0; g < perncetages.length; g++) {
-            perncetages[g] = (((float) ((float) lenthMax[g] * 100) / somaTotal) > 15) ? (((float) ((float) lenthMax[g] * 100) / somaTotal) - 5)
-                    : ((((float) ((float) lenthMax[g] * 100) / somaTotal) > 7) ? (((float) ((float) lenthMax[g] * 100) / somaTotal) - 1.5f)
-                            : ((((float) ((float) lenthMax[g] * 100) / somaTotal) < 4) ? (((float) ((float) lenthMax[g] * 100) / somaTotal) + 1) : ((float) ((float) lenthMax[g] * 100) / somaTotal)));
+            perncetages[g] = (((((float) ((float) lenthMax[g] * 100) / somaTotal) > 25) ? (((float) ((float) lenthMax[g] * 100) / somaTotal) - 24)
+                    : (((float) ((float) lenthMax[g] * 100) / somaTotal) > 15)
+                            ? (((float) ((float) lenthMax[g] * 100) / somaTotal) - 9)
+                            : ((((float) ((float) lenthMax[g] * 100) / somaTotal) > 7)
+                                    ? (((float) ((float) lenthMax[g] * 100) / somaTotal) - 1.5f)
+                                    : ((((float) ((float) lenthMax[g] * 100) / somaTotal) < 4)
+                                            ? (((float) ((float) lenthMax[g] * 100) / somaTotal) + 1)
+                                            : ((float) ((float) lenthMax[g] * 100) / somaTotal)))));
         }
         somaTotal = 0;
 
@@ -583,9 +589,9 @@ public class GenericPDFs {
                 for (int k = 0; k < arrValoresTotal.length; k++) {
                     if (j == arrValoresTotal[k]) {
                         System.err.println(value[j]);
-                        valor = ((valoresTotal[j] == null) ? 0.0 : Moeda.unFormat(valoresTotal[j]));
-                        valor += Moeda.unFormat(toString(value[j]));
-                        valoresTotal[j] = Double.toString(valor);
+                        valor = ((valoresTotal[j] == null) ? 0.0 : Moeda.unFormat(valoresTotal[j].replaceAll(" ", "").replaceAll(",", ".").replaceAll("STD", "")));
+                        valor += Moeda.unFormat(toString(value[j]).replaceAll(" ", "").replaceAll(",", ".").replaceAll("STD", ""));
+                        valoresTotal[j] = Moeda.format(valor);
                     }
                 }
             }

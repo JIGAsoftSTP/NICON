@@ -341,7 +341,7 @@ public class GenericExcel {
                     t++;
                     i = 0;
                     linha += 3;
-                    if (t == map.size()) {
+                    if (t == map.size() && paramFilter > -1) {
                         k = 0;
                         r = s.createRow(linha);                       
                         for (int j = 0; j < lista_titulo_table.length; j++) {
@@ -360,9 +360,9 @@ public class GenericExcel {
                                 r = s.createRow(linha);
                                 for (int j = 0; j < emapT.length; j++) {
                                     if (j != paramFilterOculta) {
-                                        if (Moeda.unFormat(toString(emapT[j]).replaceAll(" ", "").replaceAll(",", ".")) != -1) {
+                                        if (Moeda.unFormat(toString(emapT[j]).replaceAll(" ", "").replaceAll(",", ".").replaceAll("STD", "")) != -1) {
                                             Double v = ((total_total[j] == null) ? 0.0 : total_total[j]);
-                                            total_total[j] = Moeda.unFormat(toString(emapT[j]).replaceAll(" ", "").replaceAll(",", ".")) + v;
+                                            total_total[j] = Moeda.unFormat(toString(emapT[j]).replaceAll(" ", "").replaceAll(",", ".").replaceAll("STD", "")) + v;
                                         }
                                         createCell(c, r, s, ((alignment.containsKey(j)) ? ((alignment.get(j) == Alignment.RIGHT) ? csRodapeTabelaR : ((alignment.get(j) == Alignment.CENTER) ? csRodapeTabela : csRodapeTabelaL)) : csRodapeTabelaL), linha, linha, ((j == 0) ? "TOTAL "+key.toUpperCase() : toString(emapT[j])), k + 1, toInt(colun[k]));
                                         k++;
@@ -376,7 +376,7 @@ public class GenericExcel {
                         for (int j = 0; j < total_total.length; j++) {
                             if (j != paramFilterOculta) {
                                 csTituloTabela.setFillBackgroundColor(HSSFColor.BLUE.index);
-                                createCell(c, r, s, ((alignment.containsKey(j)) ? ((alignment.get(j) == Alignment.RIGHT) ? csRodapeTabelaR : ((alignment.get(j) == Alignment.CENTER) ? csRodapeTabela : csRodapeTabelaL)) : csRodapeTabelaL), linha, linha, (total_total[j] != null) ? Moeda.format(total_total[j]) : " ", k + 1, toInt(colun[k]));
+                                createCell(c, r, s, ((alignment.containsKey(j)) ? ((alignment.get(j) == Alignment.RIGHT) ? csRodapeTabelaR : ((alignment.get(j) == Alignment.CENTER) ? csRodapeTabela : csRodapeTabelaL)) : csRodapeTabelaL), linha, linha, (total_total[j] != null) ? Moeda.format_are(total_total[j]) : " ", k + 1, toInt(colun[k]));
                                 k++;
                             }
                         }
@@ -591,9 +591,9 @@ for (int g = 0; g < perncetages.length; g++) {
                 for (int s = 0; s < arrValoresTotal.length; s++) {
                     if( j == arrValoresTotal[s])
                     {   System.err.println(value[j]);
-                        valor = ((valoresTotal[j] == null)  ? 0.0 : Moeda.unFormat(valoresTotal[j]));
-                        valor += Moeda.unFormat(toString(value[j]));
-                        valoresTotal[j] = Double.toString(valor);
+                        valor = ((valoresTotal[j] == null)  ? 0.0 : Moeda.unFormat(valoresTotal[j].replaceAll(" ", "").replaceAll(",", ".").replaceAll("STD", "")));
+                        valor += Moeda.unFormat(toString(value[j]).replaceAll(" ", "").replaceAll(",", ".").replaceAll("STD", ""));
+                        valoresTotal[j] = Moeda.format(valor);
                     }
                 }
             }
@@ -603,7 +603,5 @@ for (int g = 0; g < perncetages.length; g++) {
             valoresTotal[0] = "TOTAL";
         
         list.add(valoresTotal);
-        
-        System.err.println(Arrays.toString(valoresTotal));
     }
 }

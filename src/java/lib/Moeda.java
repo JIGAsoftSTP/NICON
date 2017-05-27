@@ -220,6 +220,11 @@ public class Moeda {
         
         return NumberFormat.getInstance(Locale.FRENCH).format(value)+Moeda.addZerro(value);
     }
+    
+    public static String format_are(double value) {     
+        return NumberFormat.getInstance(Locale.FRENCH).format(value)+Moeda.addZerro(value);
+    }
+    
     public static double unFormat(String value) {
         try { return  NumberFormat.getInstance(Locale.FRENCH).parse(value).doubleValue(); } 
         catch (ParseException ex) { return -1;}

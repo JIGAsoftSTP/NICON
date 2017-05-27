@@ -169,14 +169,14 @@ public class RelatorioContabilidadeBean implements Serializable {
                     }
                 }
                 break;
-            case "Contas":
+            case "Jornal":
                 list.add(new ComoBox("CONTA", "Conta"));
                 if(relatorio.getDataInicio() != null && relatorio.getDataFim() != null)
                 {
                     rs = cd.relatorioContas(relatorio);
                     this.resultado.updFaces(FacesContext.getCurrentInstance());
-                    this.resultado.prepareModel(rs, DataTableControl.ShowMode.HIDE, "ID","VALOR","MOVIMENTACAO", "OBSERVACAO", "REGISTRO",
-                            "OPERACAO", "OP", "TP MOV", "ID CONTA", "DATA_SF", "REGISTRO_SF", "VALOR_SF", "VALOR_STD_SF");
+                    this.resultado.prepareModel(rs, DataTableControl.ShowMode.HIDE, "ID","VALOR","MOVIMENTACAO", "REGISTRO",
+                            "OPERACAO", "OP", "TP MOV", "ID CONTA", "DATA_SF", "REGISTRO_SF", "VALOR_SF", "VALOR_STD_SF", "VALOR STD");
 //                    this.resultado.prepareModel(rs, DataTableControl.ShowMode.HIDE, "DATA","DOC","CONTA", "DEBITO", "CREDITO"
                     this.resultado.renameColumn("DEBITO", "DÉBITO");
                     this.resultado.renameColumn("CREDITO", "CRÉDITO");
@@ -269,7 +269,7 @@ public class RelatorioContabilidadeBean implements Serializable {
                         GenericPDFs.alignment.put(5, GenericPDFs.Alignment.RIGHT);
                     }
                     
-                    if( relatorio.getTipoRelatorio().equals("Contas") )
+                    if( relatorio.getTipoRelatorio().equals("Jornal") )
                     {
                         this.resultado.selectShow(DataTableControl.ShowMode.SHOW, "OBSERVACAO");
                         this.resultado.renameColumn("OBSERVACAO", "OBSERVAÇÃO");
@@ -282,7 +282,7 @@ public class RelatorioContabilidadeBean implements Serializable {
                     GenericPDFs.createDoc(SessionUtil.getUserlogado().getNomeAcesso(), "Relatório de " + relatorio.getTipoRelatorio(), "Relatório de " + relatorio.getTipoRelatorio(), resultado, (relatorio.getTipoRelatorio().equals("Balancete") ? GenericPDFs.OrientacaoPagina.VERTICAL : GenericPDFs.OrientacaoPagina.HORIZONTAL), -1);
                 } else {
                     
-                    if( relatorio.getTipoRelatorio().equals("Contas") )
+                    if( relatorio.getTipoRelatorio().equals("Jornal") )
                     {
                         this.resultado.selectShow(DataTableControl.ShowMode.SHOW, "OBSERVACAO");
                         this.resultado.renameColumn("OBSERVACAO", "OBSERVAÇÃO");
