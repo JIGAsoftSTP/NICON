@@ -356,7 +356,7 @@ public class Moeda {
                     if (cent == 1 & dez == 0 & unid == 0) {
                         d.setText(d.getText() + "Cem");
                     } else {
-                        d.setText(d.getText() + "Cento");
+                        d.setText(d.getText() + "Cento ");
                     }
                     break;
                 case 2:
@@ -542,7 +542,7 @@ public class Moeda {
                 if (cent == 1 & dez == 0 & unid == 0) {
                     d.setText(d.getText() + "Cem");
                 } else {
-                    d.setText(d.getText() + "Cento");
+                    d.setText(d.getText() + "Cento ");
                 }
                 break;
             case 2:
@@ -569,6 +569,9 @@ public class Moeda {
             case 9:
                 d.setText(d.getText() + "Novecentas");
                 break;
+        }
+        if (dez > 0 && cent > 0) {
+            d.setText(d.getText() + " e ");
         }
     }
 

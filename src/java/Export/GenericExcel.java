@@ -298,7 +298,7 @@ public class GenericExcel {
                     }
                 }
             } else {
-                int t = map.size();
+                int t = 0;
                 for (Map.Entry<String, ArrayList<Object[]>> lista : map.entrySet()) {
                     r = s.createRow(linha);
                     csTituloTabela.setFillBackgroundColor(HSSFColor.WHITE.index);
@@ -340,11 +340,10 @@ public class GenericExcel {
                     }
                     t++;
                     i = 0;
-                    if (t != map.size()) {
-                        linha += 3;
-                    }else{
+                    linha += 3;
+                    if (t == map.size()) {
                         k = 0;
-                        r = s.createRow(linha);
+                        r = s.createRow(linha);                       
                         for (int j = 0; j < lista_titulo_table.length; j++) {
                             if (j != paramFilterOculta) {
                                 csTituloTabela.setFillBackgroundColor(HSSFColor.BLUE.index);
@@ -352,20 +351,34 @@ public class GenericExcel {
                                 k++;
                             }
                         }
-                        for (Map.Entry<String, ArrayList<Object[]>> entry : mapTotal.entrySet()) {
-                            String key = entry.getKey();
-                            ArrayList<Object[]> value = entry.getValue();
-                            for (Object[] emapT : value) {
+                        linha++;
+                        Double[] total_total = new Double[lista_titulo_table.length];
+                        for (Map.Entry<String, ArrayList<Object[]>> lista_for_total : map.entrySet()) {
+                           String key = lista_for_total.getKey();
+                           for (Object[] emapT : mapTotal.get(key)) {
                                 k = 0;
                                 r = s.createRow(linha);
                                 for (int j = 0; j < emapT.length; j++) {
                                     if (j != paramFilterOculta) {
-                                        createCell(c, r, s, ((alignment.containsKey(j)) ? ((alignment.get(j) == Alignment.RIGHT) ? csRodapeTabelaR : ((alignment.get(j) == Alignment.CENTER) ? csRodapeTabela : csRodapeTabelaL)) : csRodapeTabelaL), linha, linha, ((j == 0) ? "TOTAL "+key : toString(emapT[j])), k + 1, toInt(colun[k]));
+                                        if (Moeda.unFormat(toString(emapT[j]).replaceAll(" ", "").replaceAll(",", ".")) != -1) {
+                                            Double v = ((total_total[j] == null) ? 0.0 : total_total[j]);
+                                            total_total[j] = Moeda.unFormat(toString(emapT[j]).replaceAll(" ", "").replaceAll(",", ".")) + v;
+                                        }
+                                        createCell(c, r, s, ((alignment.containsKey(j)) ? ((alignment.get(j) == Alignment.RIGHT) ? csRodapeTabelaR : ((alignment.get(j) == Alignment.CENTER) ? csRodapeTabela : csRodapeTabelaL)) : csRodapeTabelaL), linha, linha, ((j == 0) ? "TOTAL "+key.toUpperCase() : toString(emapT[j])), k + 1, toInt(colun[k]));
                                         k++;
                                     }
                                 }
                             }
-
+                           linha++;
+                        }
+                        k = 0;
+                        r = s.createRow(linha);                       
+                        for (int j = 0; j < total_total.length; j++) {
+                            if (j != paramFilterOculta) {
+                                csTituloTabela.setFillBackgroundColor(HSSFColor.BLUE.index);
+                                createCell(c, r, s, ((alignment.containsKey(j)) ? ((alignment.get(j) == Alignment.RIGHT) ? csRodapeTabelaR : ((alignment.get(j) == Alignment.CENTER) ? csRodapeTabela : csRodapeTabelaL)) : csRodapeTabelaL), linha, linha, (total_total[j] != null) ? Moeda.format(total_total[j]) : " ", k + 1, toInt(colun[k]));
+                                k++;
+                            }
                         }
                     }
                 }

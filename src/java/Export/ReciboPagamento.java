@@ -153,7 +153,7 @@ public class ReciboPagamento {
 
     public String converterMoeda(Object o, String moeda) {
         if (o != null) {
-            return Moeda.format(Double.valueOf(o.toString())) + " " + moeda;
+            return Moeda.format(Moeda.arrendodamento(o.toString())) + " " + moeda;
         } else {
             return " ";
         }
@@ -166,7 +166,7 @@ public class ReciboPagamento {
     public Double impostosCalculo(Object valor, Object taxa) {
         if (taxa != null && taxa != "") {
             try {
-                return Double.valueOf(valor.toString()) * ((Double.valueOf(taxa.toString()) / 100));
+                return Moeda.arrendodamento(valor+"") * ((Double.valueOf(taxa.toString()) / 100));
             } catch (Exception ex) {
                 return null;
             }
@@ -385,7 +385,7 @@ public class ReciboPagamento {
             p = new Paragraph();
             p.add(new Phrase("Montante: ".toUpperCase(), fontRecibo));
 
-            Double montade = Double.parseDouble(toString(map.get(VALORAMORTIZADO)));
+            Double montade = Moeda.arrendodamento(toString(map.get(VALORAMORTIZADO)));
 
 //            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:");
             Object dRegistro = map.get(DATAREGAPOLICE);
@@ -493,12 +493,12 @@ public class ReciboPagamento {
             pConteudo.add(pTableNomeCod);
 
             JTextPane jtp = new JTextPane();
-            Double valor = Double.valueOf((map.get(VALORPRESTACAO) + ""));
+            Double valor = Moeda.arrendodamento((map.get(VALORPRESTACAO) + ""));
             valor *= valorCompra(map.get(SIGLAMOEDA) + "", dRegistro);
             Moeda.EscreverEstenso(valor, jtp, "Dobras");
 
             pConteudo.add(new Phrase("A soma (por extenso) ".toUpperCase(), fontConteudo));
-            pConteudo.add(new Phrase(jtp.getText() + "\n", fontConteudoTxt));
+            pConteudo.add(new Phrase(jtp.getText().trim() + "\n", fontConteudoTxt));
 
             PdfPTable pTableApoliceDatasP = new PdfPTable(new float[]{20, 80});
             pTableApoliceDatasP.setWidthPercentage(100);

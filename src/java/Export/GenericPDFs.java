@@ -58,14 +58,14 @@ public class GenericPDFs {
     public static String nomeNo;
     public static Date dI;
     public static Date dF;
-    public static int[] removeItem = new int[]{ };
+    public static int[] removeItem = new int[]{};
     public static HashMap<Integer, String> renameItem = new HashMap<>();
     public static int paramFilterOculta = -1;
-    public static HashMap<Integer,Alignment> alignment = new HashMap<>();
+    public static HashMap<Integer, Alignment> alignment = new HashMap<>();
     private static String[] valoresTotal = new String[]{};
     public static int[] arrValoresTotal = new int[]{};
     public static Object[] lista_titulo_table = new String[]{};
-    
+
     /**
      *
      * @param user
@@ -202,7 +202,7 @@ public class GenericPDFs {
                                 tableTitile.addCell(cellTitileTable);
                             } else {
                                 PdfPCell dados = new PdfPCell(new Phrase(toString(emap[j]), fontCorpoTable));
-                                dados.setHorizontalAlignment( (alignment.containsKey(j)) ? alignment.get(j).i : PdfPCell.ALIGN_LEFT);
+                                dados.setHorizontalAlignment((alignment.containsKey(j)) ? alignment.get(j).i : PdfPCell.ALIGN_LEFT);
                                 dados.setPaddingTop(5f);
                                 dados.setPaddingBottom(5f);
                                 BaseColor colorCinza = new BaseColor(255, 255, 255);
@@ -230,7 +230,7 @@ public class GenericPDFs {
                         for (int g = 0; g < get.length; g++) {
                             if (g != paramFilter) {
                                 PdfPCell dados = new PdfPCell(new Phrase(((g == 0) ? "TOTAL" : toString(get[g])), fontCorpoTableN));
-                                dados.setHorizontalAlignment( (alignment.containsKey(g)) ? alignment.get(g).i : PdfPCell.ALIGN_LEFT);
+                                dados.setHorizontalAlignment((alignment.containsKey(g)) ? alignment.get(g).i : PdfPCell.ALIGN_LEFT);
                                 dados.setPaddingTop(5f);
                                 dados.setPaddingBottom(5f);
                                 BaseColor colorCinza = new BaseColor(255, 255, 255);
@@ -280,7 +280,7 @@ public class GenericPDFs {
                                     tableTitile.addCell(cellTitileTable);
                                 } else {
                                     PdfPCell dados = new PdfPCell(new Phrase(toString(emap[j]), fontCorpoTable));
-                                    dados.setHorizontalAlignment( (alignment.containsKey(j)) ? alignment.get(j).i : PdfPCell.ALIGN_LEFT);
+                                    dados.setHorizontalAlignment((alignment.containsKey(j)) ? alignment.get(j).i : PdfPCell.ALIGN_LEFT);
                                     dados.setPaddingTop(5f);
                                     dados.setPaddingBottom(5f);
                                     BaseColor colorCinza = new BaseColor(255, 255, 255);
@@ -307,7 +307,7 @@ public class GenericPDFs {
                             for (int g = 0; g < get.length; g++) {
                                 if (g != paramFilterOculta) {
                                     PdfPCell dados = new PdfPCell(new Phrase(((g == 0) ? "TOTAL" : toString(get[g])), fontCorpoTableN));
-                                    dados.setHorizontalAlignment( (alignment.containsKey(g)) ? alignment.get(g).i : PdfPCell.ALIGN_LEFT);
+                                    dados.setHorizontalAlignment((alignment.containsKey(g)) ? alignment.get(g).i : PdfPCell.ALIGN_LEFT);
                                     dados.setPaddingTop(5f);
                                     dados.setPaddingBottom(5f);
                                     BaseColor colorCinza = new BaseColor(255, 255, 255);
@@ -319,45 +319,61 @@ public class GenericPDFs {
                     }
                     documento.add(tableTotal);
                     t++;
-                    if (t != map.size()) {
-                        documento.add(new Paragraph(" "));
-                        documento.add(new Paragraph(" "));
-                        documento.add(new Paragraph(" "));
-                    }else{
-                        
+
+                    documento.add(new Paragraph(" "));
+                    documento.add(new Paragraph(" "));
+                    documento.add(new Paragraph(" "));
+
+                    if (t == map.size()) {
                         PdfPTable tableTotal_t = new PdfPTable(ar);
+                        tableTotal_t.setWidthPercentage(97f);
                         for (int j = 0; j < lista_titulo_table.length; j++) {
                             if (j != paramFilterOculta) {
-                                if (cabe && i == 0) {
-                                    PdfPCell cellTitileTable = new PdfPCell(new Phrase(toString(lista_titulo_table[j]).toUpperCase(), fontCorpoNG));
-                                    cellTitileTable.setBorderWidth(1f);
-                                    cellTitileTable.setPaddingTop(8f);
-                                    cellTitileTable.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-                                    cellTitileTable.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                                    BaseColor colorAzul = new BaseColor(255, 255, 255);
-                                    cellTitileTable.setBackgroundColor(colorAzul);
-                                    cellTitileTable.setPaddingBottom(8f);
-                                    tableTotal_t.addCell(cellTitileTable);
-                                }
+                                PdfPCell cellTitileTable = new PdfPCell(new Phrase(toString(lista_titulo_table[j]).toUpperCase(), fontCorpoNG));
+                                cellTitileTable.setBorderWidth(1f);
+                                cellTitileTable.setPaddingTop(8f);
+                                cellTitileTable.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                                cellTitileTable.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                                BaseColor colorAzul = new BaseColor(255, 255, 255);
+                                cellTitileTable.setBackgroundColor(colorAzul);
+                                cellTitileTable.setPaddingBottom(8f);
+                                tableTotal_t.addCell(cellTitileTable);
                             }
                         }
                         
-                        mapTotal.entrySet().stream().forEach((entry) -> {
-                            String key = entry.getKey();
-                            ArrayList<Object[]> value = entry.getValue();
-                            
-                            for (int g = 0; g < value.size(); g++) {
-                                if (g != paramFilterOculta) {
-                                    PdfPCell dados = new PdfPCell(new Phrase(((g == 0) ? "TOTAL " + key : toString(value.get(g))), fontCorpoTableN));
-                                    dados.setHorizontalAlignment((alignment.containsKey(g)) ? alignment.get(g).i : PdfPCell.ALIGN_LEFT);
-                                    dados.setPaddingTop(5f);
-                                    dados.setPaddingBottom(5f);
-                                    BaseColor colorCinza = new BaseColor(255, 255, 255);
-                                    dados.setBackgroundColor(colorCinza);
-                                    tableTotal_t.addCell(dados);
+                        Double[] total_total = new Double[lista_titulo_table.length];
+                        mapTotal.entrySet().stream().forEach((entrySet) -> {
+                            mapTotal.get(entrySet.getKey()).stream().forEach((value) -> {
+                                for (int g = 0; g < value.length; g++) {
+                                    if (!entrySet.getKey().equals("TOTAL")) {
+                                        if (g != paramFilterOculta) {
+                                            if(Moeda.unFormat(toString(value[g]).replaceAll(" ", "").replaceAll(",", ".")) != -1){
+                                                Double v = ((total_total[g] == null) ? 0.0 : total_total[g]);
+                                                total_total[g] =  Moeda.unFormat(toString(value[g]).replaceAll(" ", "").replaceAll(",", "."))  + v;
+                                            }
+                                            PdfPCell dados = new PdfPCell(new Phrase(((g == 0) ? "TOTAL " + entrySet.getKey().toUpperCase() : toString(value[g])), fontCorpoTableN));
+                                            dados.setHorizontalAlignment((alignment.containsKey(g)) ? alignment.get(g).i : PdfPCell.ALIGN_LEFT);
+                                            dados.setPaddingTop(5f);
+                                            dados.setPaddingBottom(5f);
+                                            BaseColor colorCinza = new BaseColor(255, 255, 255);
+                                            dados.setBackgroundColor(colorCinza);
+                                            tableTotal_t.addCell(dados);
+                                        }
+                                    }
                                 }
-                            }
+                            });
                         });
+                        for (int j = 0; j < total_total.length; j++) {
+                            if (j != paramFilterOculta) {
+                                PdfPCell cellTitileTable = new PdfPCell(new Phrase((total_total[j] != null) ? Moeda.format(total_total[j]) : " ", fontCorpoNG));
+                                cellTitileTable.setPaddingTop(5f);
+                                cellTitileTable.setHorizontalAlignment((alignment.containsKey(j)) ? alignment.get(j).i : PdfPCell.ALIGN_LEFT);
+                                BaseColor colorAzul = new BaseColor(255, 255, 255);
+                                cellTitileTable.setBackgroundColor(colorAzul);
+                                cellTitileTable.setPaddingBottom(5f);
+                                tableTotal_t.addCell(cellTitileTable);
+                            }
+                        }
                         documento.add(tableTotal_t);
                     }
                 }
@@ -368,7 +384,7 @@ public class GenericPDFs {
             dI = null;
             dF = null;
             paramFilterOculta = -1;
-            removeItem = new int[]{ };
+            removeItem = new int[]{};
             renameItem = new HashMap<>();
             alignment = new HashMap<>();
             arrValoresTotal = new int[]{};
@@ -391,18 +407,21 @@ public class GenericPDFs {
                 titile.add(c.getValue());
             });
         });
-        
-        for (int j = 0; j < titile.size(); j++) {  titile.set(j, ( (  renameItem.containsKey(j) ) ? renameItem.get(j) : titile.get(j) )); }
+
+        for (int j = 0; j < titile.size(); j++) {
+            titile.set(j, ((renameItem.containsKey(j)) ? renameItem.get(j) : titile.get(j)));
+        }
 
         list.add(titile.toArray());
-        
+
         rs.onReciveDatas((values) -> {
             list.add(values);
         });
-        
-        if(arrValoresTotal.length>0)
+
+        if (arrValoresTotal.length > 0) {
             calTotalValores(list);
-        
+        }
+
         if (paramFilter > -1) {
             map = new LinkedHashMap<>();
             for (int j = 1; j < list.size(); j++) {
@@ -410,13 +429,11 @@ public class GenericPDFs {
                         || (no && !(list.get(j)[paramFilter] + "").equals(nomeNo) && !(list.get(j)[0] + "").trim().toUpperCase().equals("TOTAL"))) {
                     if (map.containsKey(list.get(j)[paramFilter] + "")) {
                         map.get((list.get(j)[paramFilter]) + "").add(list.get(j));
-                    } else {
-                        if (list.get(j)[paramFilter] != null) {
-                            ArrayList<Object[]> al = new ArrayList<>();
-                            al.add(list.get(0));
-                            al.add(list.get(j));
-                            map.put(list.get(j)[paramFilter] + "", al);
-                        }
+                    } else if (list.get(j)[paramFilter] != null) {
+                        ArrayList<Object[]> al = new ArrayList<>();
+                        al.add(list.get(0));
+                        al.add(list.get(j));
+                        map.put(list.get(j)[paramFilter] + "", al);
                     }
                 }
             }
@@ -431,31 +448,35 @@ public class GenericPDFs {
             }
         }
         
+
         if (paramFilter > -1) {
             map.entrySet().stream().forEach((entrySet) -> {
                 String key = entrySet.getKey();
                 ArrayList<Object[]> value = entrySet.getValue();
-            map.replace(key, removeParamm(value));
+                map.replace(key, removeParamm(value));
             });
         }
-        
+
         mapTotal.entrySet().stream().forEach((entrySet) -> {
             String key = entrySet.getKey();
             ArrayList<Object[]> value = entrySet.getValue();
             mapTotal.replace(key, removeParamm(value));
         });
-        
+
         list = removeParamm(list);
     }
 
     public static enum OrientacaoPagina {
         VERTICAL, HORIZONTAL;
     }
-    
+
     public static enum Alignment {
         LEFT(PdfPCell.ALIGN_LEFT), CENTER(PdfPCell.ALIGN_CENTER), RIGHT(PdfPCell.ALIGN_RIGHT);
         public final int i;
-         Alignment(int i) { this.i = i; } 
+
+        Alignment(int i) {
+            this.i = i;
+        }
     }
 
     public static enum TypeParam {
@@ -528,50 +549,52 @@ public class GenericPDFs {
             pTableNumPage.writeSelectedRows(-1, 2, 761f, 80.5f, writer.getDirectContent());
         }
     }
-    private static ArrayList<Object[]>removeParamm(ArrayList<Object[]> al)
-    {
+
+    private static ArrayList<Object[]> removeParamm(ArrayList<Object[]> al) {
         boolean b;
         Object[] newList;
         ArrayList<Object[]> newArrayList = new ArrayList<>();
         for (Object[] listActal : al) {
             int h = 0;
-            newList = new Object[al.get(0).length-removeItem.length]; 
+            newList = new Object[al.get(0).length - removeItem.length];
             for (int ii = 0; ii < listActal.length; ii++) {
-                b =true;
+                b = true;
                 for (int j = 0; j < removeItem.length; j++) {
-                   if( ii == removeItem[j] )
-                   { b = false; break;}
+                    if (ii == removeItem[j]) {
+                        b = false;
+                        break;
+                    }
                 }
-                if(b) 
-                { newList[h]=listActal[ii]; h++; }
+                if (b) {
+                    newList[h] = listActal[ii];
+                    h++;
+                }
             }
             newArrayList.add(newList);
         }
         return newArrayList;
     }
-    
-    private static void calTotalValores(ArrayList<Object[]> list)
-    {
-       Double valor;
-       valoresTotal = new String[list.get(0).length];
+
+    private static void calTotalValores(ArrayList<Object[]> list) {
+        Double valor;
+        valoresTotal = new String[list.get(0).length];
         for (Object[] value : list) {
             for (int j = 0; j < value.length; j++) {
                 for (int k = 0; k < arrValoresTotal.length; k++) {
-                    if( j == arrValoresTotal[k])
-                    {   System.err.println(value[j]);
-                        valor = ((valoresTotal[j] == null)  ? 0.0 : Moeda.unFormat(valoresTotal[j]));
+                    if (j == arrValoresTotal[k]) {
+                        System.err.println(value[j]);
+                        valor = ((valoresTotal[j] == null) ? 0.0 : Moeda.unFormat(valoresTotal[j]));
                         valor += Moeda.unFormat(toString(value[j]));
                         valoresTotal[j] = Double.toString(valor);
                     }
                 }
             }
         }
-        
-        if( !Arrays.toString(arrValoresTotal).contains("0") )
+
+        if (!Arrays.toString(arrValoresTotal).contains("0")) {
             valoresTotal[0] = "TOTAL";
-        
+        }
+
         list.add(valoresTotal);
-        
-        System.err.println(Arrays.toString(valoresTotal));
     }
 }

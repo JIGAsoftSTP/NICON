@@ -213,7 +213,7 @@ public class FuncPagamento {
                 Moeda.EscreverEstenso(valor, jtp, toString(hashMap.get(MOEDA)));
 
                 pDetalhesPagamento.add(new Phrase("Valor por Extenso: ", fontCorpoN));
-                pDetalhesPagamento.add(new Phrase(jtp.getText() + " \n\n", fontCorpo));
+                pDetalhesPagamento.add(new Phrase(jtp.getText().trim() + " \n\n", fontCorpo));
 
                 pDetalhesPagamento.add(new Paragraph("Descrição da Conta", fontCorpoNG));
                 pDetalhesPagamento.add(new Phrase("Cod Conta: ", fontCorpoN));
@@ -537,7 +537,7 @@ public class FuncPagamento {
             PdfPCell cellExteso = new PdfPCell(new Phrase("Recived the sum of", fontCorpoN));
             cellExteso.setBorder(0);
             pTableExteso.addCell(cellExteso);
-            cellExteso = new PdfPCell(new Phrase(jtp.getText().toUpperCase(), fontCorpoU));
+            cellExteso = new PdfPCell(new Phrase(jtp.getText().toUpperCase().trim(), fontCorpoU));
             cellExteso.setBorder(0);
             pTableExteso.addCell(cellExteso);
 
@@ -907,7 +907,7 @@ public class FuncPagamento {
                 Moeda.EscreverEstenso(valor, jtp, toString(hashMap.get(MOEDA)));
 
                 pDetalhesPagamento.add(new Phrase("Valor por Extenso: ", fontCorpoN));
-                pDetalhesPagamento.add(new Phrase(jtp.getText() + " \n\n", fontCorpo));
+                pDetalhesPagamento.add(new Phrase(jtp.getText().trim() + " \n\n", fontCorpo));
 
                 pDetalhesPagamento.add(new Paragraph("Descrição da Conta", fontCorpoNG));
                 pDetalhesPagamento.add(new Phrase("Cod Conta: ", fontCorpoN));

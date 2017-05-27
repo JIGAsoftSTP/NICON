@@ -390,7 +390,7 @@ public class DocNotaCredito implements Serializable {
             JTextPane jtp = new JTextPane();
             Moeda.EscreverEstenso(totalSTD, jtp, "Dobras");
             paragraphCorpoEndTitile.add(new Phrase("POR EXTENSO: ", fontCorpoN));
-            paragraphCorpoEndTitile.add(new Phrase(jtp.getText().toUpperCase()+"\n", fontCorpo));
+            paragraphCorpoEndTitile.add(new Phrase(jtp.getText().toUpperCase().trim()+"\n", fontCorpo));
 
             paragraphCorpoEndTitile.add(new Paragraph(" ", fontCorpoN));
             paragraphCorpoEndTitile.add(new Paragraph(" ", fontCorpoN));
