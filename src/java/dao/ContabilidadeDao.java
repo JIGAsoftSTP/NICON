@@ -99,8 +99,8 @@ public class ContabilidadeDao implements Serializable {
                     r.setMoeda(rs.getString("MOEDA"));
                     r.setEstado(rs.getString("PAGAMENTO"));
                     r.setIdMoeda(rs.getString("ID MOEDA"));
-                    r.setDataApolice(rs.getObject("DTREG SF"));
-                    lista.add(r);
+                    r.setDataApolice(rs.getObject("DATA_CONTRATO_SF"));
+                    lista.add(r);               
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(ContabilidadeDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -191,6 +191,7 @@ public class ContabilidadeDao implements Serializable {
                         r.setMoeda(rs.getString("MOEDA"));
                         r.setEstado(rs.getString("PAGAMENTO"));
                         r.setIdMoeda(rs.getString("ID MOEDA"));
+                        r.setDataApolice(rs.getObject("DATA_CONTRATO_SF"));
                         filtro.add(r);
                     }
                     rs.close();
