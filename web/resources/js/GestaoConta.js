@@ -200,3 +200,15 @@ function accountOperationRegistered()
     $(".operacao").addClass("hide");
     
 }
+
+function disableField(param)
+{
+    if(param === "desativar"){
+        $(".MultipleSelectInput").attr("disabled", true);
+        $(".MultipleSelectInput").val("Padrão");
+    }
+    else{
+        $(".MultipleSelectInput").attr("disabled", false);
+        $(".MultipleSelectInput").val("");
+    }
+}
