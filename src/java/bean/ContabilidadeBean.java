@@ -287,6 +287,7 @@ public class ContabilidadeBean implements Serializable
             }
             else
             {
+                prestacao.setStdValor(Double.valueOf(prestacao.getValorSF()));
                 prestacao.setValorSTD("");
             }
             Validacao.atualizar("recebimentoFormTabela", "apolicePrestacao","clientePrestacao","seguroPrestacao","prestacaoValor","prestacaoReceb","valorSTD");
@@ -308,6 +309,7 @@ public class ContabilidadeBean implements Serializable
        {
            if(validarCamposAmortizacao() == true)
            {
+              
                result = cd.regAmortizacao(prestacao).toString().split(";");
                 if(result != null)
                 {
