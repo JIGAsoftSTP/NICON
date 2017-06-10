@@ -1039,6 +1039,7 @@ public class ContabilidadeDao implements Serializable {
                while(rs.next())
                {
                    Conta c = new Conta();
+                   c.setIdAccount(rs.getInt("ID"));
                    c.setTipoContaMovimento(rs.getString("TYPEMOVIMENT"));
                    c.setConta(rs.getString("ACCOUNT"));
                    c.setDesignacao(rs.getString("GROUP_NAME"));
