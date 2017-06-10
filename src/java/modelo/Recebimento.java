@@ -44,7 +44,7 @@ public class Recebimento implements Serializable
         this.id = r.getId();
         this.valorPagar = r.getValorPagar();
         this.valorPago = r.getValorPago();
-        this.apolice = r.getApolice();
+        this.dataApolice = r.getDataApolice();
     }
     public Recebimento()
     {
@@ -53,6 +53,12 @@ public class Recebimento implements Serializable
     public String getIdMoeda() {
         return idMoeda;
     }
+
+    @Override
+    public String toString() {
+        return "Recebimento{" + "numDeposito=" + numDeposito + ", codigoSeguro=" + codigoSeguro + ", cliente=" + cliente + ", valorTotal=" + valorTotal + ", nomeSeguro=" + nomeSeguro + ", data=" + data + ", moeda=" + moeda + ", estado=" + estado + ", id=" + id + ", idPrestacao=" + idPrestacao + ", apolice=" + apolice + ", valorPagar=" + valorPagar + ", valorPago=" + valorPago + ", valorSF=" + valorSF + ", valorPagoSF=" + valorPagoSF + ", valor=" + valor + ", valorPagoPrestacao=" + valorPagoPrestacao + ", estadoPrestacao=" + estadoPrestacao + ", idMoeda=" + idMoeda + ", dataApolice=" + dataApolice + ", filtroRecebimento=" + filtroRecebimento + '}';
+    }
+
 
     public void setIdMoeda(String idMoeda) {
         this.idMoeda = idMoeda;
@@ -65,6 +71,15 @@ public class Recebimento implements Serializable
     public void setFiltroRecebimento(String filtroRecebimento) {
         this.filtroRecebimento = filtroRecebimento;
     }
+
+    public Object getDataApolice() {
+        return dataApolice;
+    }
+
+    public void setDataApolice(Object dataApolice) {
+        this.dataApolice = dataApolice;
+    }
+
 
     
     public String getEstadoPrestacao() {
@@ -209,17 +224,5 @@ public class Recebimento implements Serializable
         this.data = data;
     }
 
-    @Override
-    public String toString() {
-        return "Recebimento{" + "numDeposito=" + numDeposito + ", codigoSeguro=" + codigoSeguro + ", cliente=" + cliente + ", valorTotal=" + valorTotal + ", nomeSeguro=" + nomeSeguro + ", data=" + data + ", moeda=" + moeda + ", estado=" + estado + ", id=" + id + ", apolice=" + apolice + ", valorPagar=" + valorPagar + ", valorPago=" + valorPago + '}';
-    }
-
-    public Object getDataApolice() {
-        return dataApolice;
-    }
-
-    public void setDataApolice(Object dataApolice) {
-        this.dataApolice = dataApolice;
-    }
    
 }
