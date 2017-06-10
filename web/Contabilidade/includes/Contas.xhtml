@@ -158,6 +158,12 @@
                                 <p:column headerText="Descrição">
                                     #{op.obs}
                                 </p:column>
+                                <p:column width="80">
+                                      <h:outputLabel class="actionTable icon-cross" title="Anular Operação">
+                                          <p:ajax event="click" listener="#{contaBean.desativarOperacao(op)}"
+                                                  />
+                                    </h:outputLabel>
+                                </p:column>
                     </p:dataTable>
              </div>
         </h:form>
