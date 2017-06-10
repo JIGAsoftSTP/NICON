@@ -604,6 +604,7 @@ public class Moeda {
     private static double taxa;
     public static double valorCompra(String nomeMoeda, Object date) {
         taxa = 0;
+        System.out.println("data de contrato "+date);
         ResultSet rs = Call.callTableFunction("PACK_CONTA.getTaxaDay", "*", date, nomeMoeda);
         Consumer<HashMap<String, Object>> act = (map) -> { taxa = Float.valueOf(toString(map.get("TX_VENDA"))); };
         Call.forEchaResultSet(act, rs);
