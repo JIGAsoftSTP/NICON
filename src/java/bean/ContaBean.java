@@ -216,10 +216,31 @@ public class ContaBean implements Serializable
     
     public void determineOperationValue()
     {
-        RequestContext.getCurrentInstance().execute("$('.MultipleSelectInput').val('')");
+        if(conta.getTypeOperation().equals("REG.SEG"))
+              RequestContext.getCurrentInstance().execute("disableField('ativar')");
+        else
+        {
+            RequestContext.getCurrentInstance().execute("disableField('desativar')");
+        }
+
         listOperationValue = contabilidadeDao.listOperationValue(conta.getTypeOperation());
         listOperationDefinition = contabilidadeDao.listOperationDef(conta.getTypeOperation());
         Validacao.atualizar("GestConta", "accountOpValue", "accountInsurance");   
+    }
+    
+    public void desativarOperacao(Conta c)
+    {
+ 
+        String result = contabilidadeDao.disableOperation(c.getIdAccount());
+        
+        if(result.split(";")[0].equals("true"))
+        {
+            Message.addInfoMsg("Operação desativada com sucesso!", "GestConta", "accountGrowl");
+        }
+        else
+        {
+              Message.addErrorMsg(result.split(";")[1], "GestConta", "accountGrowl");
+        }
     }
     
     public void determineIns(String insurance)
