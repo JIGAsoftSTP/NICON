@@ -63,6 +63,7 @@ public class ContabilidadeBean implements Serializable
     private String idRequisicaoPagamento;
     private List<Pagamento> pagamentoSolicitados;
     private int typeMov = 1;
+    private Object dataApolice;
  
   
     
@@ -268,8 +269,10 @@ public class ContabilidadeBean implements Serializable
         this.prestacao = prestacao;
     }
     
+   
     public void carregarPrestacoes()
     {
+        System.out.println(recebimentoSelecionado.toString());
         this.prestacoes = cd.carregarPrestacoes(Integer.valueOf(recebimentoSelecionado.getId()));
         RequestContext.getCurrentInstance().update("recebimentoFormTabela:prestacaoRecebimento");
     }
