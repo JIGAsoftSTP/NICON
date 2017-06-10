@@ -847,6 +847,12 @@ public class ContabilidadeDao implements Serializable {
         return Call.callSampleFunction("PACK_CONTA1.func_end_lancamento", Types.VARCHAR, idUser, idLaunch).toString();
     }
     
+    public String disableOperation(int idOperation)
+    {
+         int idUser = Integer.valueOf(SessionUtil.getUserlogado().getId().toString());
+        return Call.callSampleFunction("FUNCT_CHANGE_OPERATION_DISABLE", Types.VARCHAR, idOperation, idUser).toString();
+    }
+    
     public List<ComoBox> bankAccounts()
     {
 //        ResultSet rs = Call.selectFrom("VER_ALL_ACCOUNT WHERE TP='B'", "*");
