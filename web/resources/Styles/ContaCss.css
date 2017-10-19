@@ -424,6 +424,7 @@ body{
     height: 13rem;
     overflow-x: hidden;
     overflow-y: auto;
+    z-index: 10;
 }
 .MultipleSelectDisplay article{
     border-bottom: 2px solid #fff;
