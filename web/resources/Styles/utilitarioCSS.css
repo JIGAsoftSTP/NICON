@@ -41,8 +41,8 @@ and open the template in the editor.
     width: 95.5%;
     position: absolute;
     display: none;
-    //max-height: 78vh;
-   // overflow: auto;
+/*    //max-height: 78vh;
+   // overflow: auto;*/
 }
 .divMasterUtil aside .actualMenu{
     background: #4d87e2;
