@@ -8,182 +8,185 @@
         <title>Taxas e Impostos</title>
         <h:outputStylesheet library="Styles" name="utilitarioCSS.css"></h:outputStylesheet>
         <h:outputStylesheet library="Styles" name="fonts.css"></h:outputStylesheet>
-        
+
     </h:head>
     <h:body class="bodyInUtilit">
-        
+
         <div class="divMasterUtil">
             <aside>
                 <h2>Menu</h2>
                 <p>IRS</p>
                 <p>Seg.Social</p>
                 <p>Outras Taxas</p>
+                <p>Operações</p>
             </aside>
             <article>
                 <h:form id="taxasImpostosForm">
 
-                <div class="divArticle">
-                <h3><h:outputText value="IRS"></h:outputText></h3> 
-                <div class="contentTaxa">
-                    <div class="ContentTaxaLeft">
-                        <h:outputLabel value="Limite de Valor"/>
-                        <article>
-                            <section>
-                                <h:outputLabel value="De" class="mg "></h:outputLabel>
-                                <div class="areaPercentagem">
-                                    <h:inputText class="txtMenor irsValorMinimo irsCampo formatValue double " id="IRSValorMinimo"
-                                                 required="true" value="#{taxaImpostoBean.taxa.valorMinimo}"></h:inputText><label> $ </label>
-                                </div>
-                            </section>
-                            <section>
-                                <h:outputLabel value="Até" class="mg"></h:outputLabel>
-                                <div class="areaPercentagem">
-                                    <h:inputText class="txtMenor irsValorMaximo irsCampo formatValue double" id="IRSValorMaximo"
-                                                 required="true" value="#{taxaImpostoBean.taxa.valorMaximo}"></h:inputText><label> $ </label>
-                                </div>
-                            </section>
-                        </article>
-                        <section>
-                            <h:outputLabel value="Percentagem"/>
-                            <div class="areaPercentagem">
-                                <h:inputText class="percentagem justNumeric irsPercentagem irsCampo" id="IRSPercentagem"
-                                             required="true" value="#{taxaImpostoBean.taxa.percentagem}"/><label>%</label>
-                            </div>
-                            <h:outputLabel value="Parcela a abater"/>
-                            <div class="areaPercentagem irsParcelaAbater">
-                                <h:inputText class="irsParcelaAbater irsCampo formatValue double" id="IRSParcela"
-                                             required="true" value="#{taxaImpostoBean.taxa.parcelaBater}"/><label> $ </label>
-                            </div>
-                        </section>
-                        
-                        <article class="areaButtonTaxa">
-                            <h:commandButton value="Guardar" class="irsBotao" action="#{taxaImpostoBean.regIrs()}">
-                                <p:ajax process="@this IRSValorMinimo IRSValorMaximo IRSPercentagem IRSParcela" 
-                                        onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()"/>
-                            </h:commandButton>
-                        </article>
-                    </div>
-                    <div class="ContentTaxaRight">
-                        <p:dataTable class="tableTaxa" value="#{taxaImpostoBean.listIRS}" scrollable="true" scrollHeight="300"
-                                     var="irs" selectionMode="single" rowKey="#{irs}" id="irsTabela">
-                            <p:column headerText="Valor Minimo">
-                                #{irs.valorMinimo}
-                            </p:column>
-                            <p:column headerText="Valor Máximo"> 
-                                #{irs.valorMaximo}
-                            </p:column>
-                            <p:column headerText="Percentagem"> 
-                                #{irs.percentagem}
-                            </p:column>
-                            <p:column headerText="Parcela a abater"> 
-                                #{irs.parcelaBater}
-                            </p:column>
-                            <p:column  width="50">
-                                <h:outputLabel class="icon-pencil">
-                                    <p:ajax event="click" listener="#{taxaImpostoBean.editarIrs(irs)}" />
-                                </h:outputLabel>
-                            </p:column>
+                    <div class="divArticle">
+                        <h3><h:outputText value="IRS"></h:outputText></h3> 
+                        <div class="contentTaxa">
+                            <div class="ContentTaxaLeft">
+                                <h:outputLabel value="Limite de Valor"/>
+                                <article>
+                                    <section>
+                                        <h:outputLabel value="De" class="mg "></h:outputLabel>
+                                        <div class="areaPercentagem">
+                                            <h:inputText class="txtMenor irsValorMinimo irsCampo formatValue double " id="IRSValorMinimo"
+                                                         required="true" value="#{taxaImpostoBean.taxa.valorMinimo}"></h:inputText><label> $ </label>
+                                        </div>
+                                    </section>
+                                    <section>
+                                        <h:outputLabel value="Até" class="mg"></h:outputLabel>
+                                        <div class="areaPercentagem">
+                                            <h:inputText class="txtMenor irsValorMaximo irsCampo formatValue double" id="IRSValorMaximo"
+                                                         required="true" value="#{taxaImpostoBean.taxa.valorMaximo}"></h:inputText><label> $ </label>
+                                        </div>
+                                    </section>
+                                </article>
+                                <section>
+                                    <h:outputLabel value="Percentagem"/>
+                                    <div class="areaPercentagem">
+                                        <h:inputText class="percentagem justNumeric irsPercentagem irsCampo" id="IRSPercentagem"
+                                                     required="true" value="#{taxaImpostoBean.taxa.percentagem}"/><label>%</label>
+                                    </div>
+                                    <h:outputLabel value="Parcela a abater"/>
+                                    <div class="areaPercentagem irsParcelaAbater">
+                                        <h:inputText class="irsParcelaAbater irsCampo formatValue double" id="IRSParcela"
+                                                     required="true" value="#{taxaImpostoBean.taxa.parcelaBater}"/><label> $ </label>
+                                    </div>
+                                </section>
 
-                        </p:dataTable>
+                                <article class="areaButtonTaxa">
+                                    <h:commandButton value="Guardar" class="irsBotao" action="#{taxaImpostoBean.regIrs()}">
+                                        <p:ajax process="@this IRSValorMinimo IRSValorMaximo IRSPercentagem IRSParcela" 
+                                                onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()"/>
+                                    </h:commandButton>
+                                </article>
+                            </div>
+                            <div class="ContentTaxaRight">
+                                <p:dataTable class="tableTaxa" value="#{taxaImpostoBean.listIRS}" scrollable="true" scrollHeight="300"
+                                             var="irs" selectionMode="single" rowKey="#{irs}" id="irsTabela">
+                                    <p:column headerText="Valor Minimo">
+                                        #{irs.valorMinimo}
+                                    </p:column>
+                                    <p:column headerText="Valor Máximo"> 
+                                        #{irs.valorMaximo}
+                                    </p:column>
+                                    <p:column headerText="Percentagem"> 
+                                        #{irs.percentagem}
+                                    </p:column>
+                                    <p:column headerText="Parcela a abater"> 
+                                        #{irs.parcelaBater}
+                                    </p:column>
+                                    <p:column  width="50">
+                                        <h:outputLabel class="icon-pencil">
+                                            <p:ajax event="click" listener="#{taxaImpostoBean.editarIrs(irs)}" />
+                                        </h:outputLabel>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </div>
+                        </div>
+
                     </div>
-                 </div>
-                     
-                </div>
-                <div class="divArticle">
-                     <h3><h:outputText value="Seg. Social"></h:outputText></h3>
-                     
-                     <div class="contentTaxa">
-                         <div class="ContentTaxaLeft">
-                            <section>
-                                <label>Empresa</label>
-                                <div class="areaPercentagem">
-                                    <h:inputText class="percentagem justNumeric segSocialEmpresa segSocialCampo" 
-                                                 value="#{taxaImpostoBean.empresaSegSocial}" id="empresaSegSocial"/><label>%</label> 
-                                </div>
-                                <label>Funcionário</label>
-                                <div class="areaPercentagem">
-                                    <h:inputText class="percentagem justNumeric segSocialFuncionario segSocialCampo" 
-                                                 value="#{taxaImpostoBean.funcionarioSegSocial}" id="funcionarioSegSocial"/><label>%</label> 
-                                </div>
-                                
-                            </section>
-                            <article class="areaButtonTaxa">
-                                <h:commandButton value="Guardar" action="#{taxaImpostoBean.segurancaSocial()}" class="segSocialBotao">
-                                    <p:ajax process="@this empresaSegSocial funcionarioSegSocial"
-                                             onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()" />
-                                </h:commandButton>
-                            </article> 
-                         </div>
-                         <div class="ContentTaxaRight">
-                             <p:dataTable class="tableTaxa" value="#{taxaImpostoBean.listSegSocial}" id="segSocialTabela" scrollable="true" scrollHeight="300"
-                                          var="seg" selectionMode="single" rowKey="#{seg}">
-                                <p:column headerText="Nome">
-                                    #{seg.nome}
-                                </p:column>
-                                <p:column headerText="Imposto"> 
-                                    #{seg.nomeImposto}
-                                </p:column>
-                                <p:column headerText="Percentagem"> 
-                                    #{seg.percentagem}
-                                </p:column>
-                                <p:column  width="80">
-                                    <h:outputLabel class="icon-pencil">
-                                        <p:ajax event="click" listener="#{taxaImpostoBean.editarSegurancaSocial(seg)}" />
-                                    </h:outputLabel>
-                                </p:column>
-                            </p:dataTable>
-                         </div> 
-                     </div>
-                </div>
-                
-                <div class="divArticle">
-                     <h3><h:outputText value="Outras Taxas"></h:outputText></h3>
-                      <p:growl id="outrasTaxasGrowl" showDetail="false" />
-                    <div class="contentTaxa">
-                    <div class="ContentTaxaLeft">
-                        <section>
-                            <h:outputLabel value="Nome"/>
-                            <h:inputText value="#{taxaImpostoBean.taxa.nomeImposto}" id="outrasTaxasNome" class="outrasTaxasCampo outrasTaxasNome"> </h:inputText>
-                            <h:outputLabel value="Taxa"/>
-                            <div class="areaPercentagem">
-                                <h:inputText value="#{taxaImpostoBean.taxa.percentagem}" id="outrasTaxasPercentagem" class="justNumeric outrasTaxasCampo outrasTaxasPercentagem" ></h:inputText><label>%</label>
+                    <div class="divArticle">
+                        <h3><h:outputText value="Seg. Social"></h:outputText></h3>
+
+                        <div class="contentTaxa">
+                            <div class="ContentTaxaLeft">
+                                <section>
+                                    <label>Empresa</label>
+                                    <div class="areaPercentagem">
+                                        <h:inputText class="percentagem justNumeric segSocialEmpresa segSocialCampo" 
+                                                     value="#{taxaImpostoBean.empresaSegSocial}" id="empresaSegSocial"/><label>%</label> 
+                                    </div>
+                                    <label>Funcionário</label>
+                                    <div class="areaPercentagem">
+                                        <h:inputText class="percentagem justNumeric segSocialFuncionario segSocialCampo" 
+                                                     value="#{taxaImpostoBean.funcionarioSegSocial}" id="funcionarioSegSocial"/><label>%</label> 
+                                    </div>
+
+                                </section>
+                                <article class="areaButtonTaxa">
+                                    <h:commandButton value="Guardar" action="#{taxaImpostoBean.segurancaSocial()}" class="segSocialBotao">
+                                        <p:ajax process="@this empresaSegSocial funcionarioSegSocial"
+                                                onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()" />
+                                    </h:commandButton>
+                                </article> 
+                            </div>
+                            <div class="ContentTaxaRight">
+                                <p:dataTable class="tableTaxa" value="#{taxaImpostoBean.listSegSocial}" id="segSocialTabela" scrollable="true" scrollHeight="300"
+                                             var="seg" selectionMode="single" rowKey="#{seg}">
+                                    <p:column headerText="Nome">
+                                        #{seg.nome}
+                                    </p:column>
+                                    <p:column headerText="Imposto"> 
+                                        #{seg.nomeImposto}
+                                    </p:column>
+                                    <p:column headerText="Percentagem"> 
+                                        #{seg.percentagem}
+                                    </p:column>
+                                    <p:column  width="80">
+                                        <h:outputLabel class="icon-pencil">
+                                            <p:ajax event="click" listener="#{taxaImpostoBean.editarSegurancaSocial(seg)}" />
+                                        </h:outputLabel>
+                                    </p:column>
+                                </p:dataTable>
                             </div> 
-                        </section>    
-                        <article class="areaButtonTaxa">
-                            <h:commandButton value="Guardar" action="#{taxaImpostoBean.editarOutrasTaxas()}" class="botaoEditarOutrasTaxas" >
-                                <f:ajax execute="outrasTaxasPercentagem" onevent="outrasTaxasRegistro()"/>
-                            </h:commandButton>
-                        </article>  
                         </div>
-                        <div class="ContentTaxaRight">
-                            <p:dataTable value="#{taxaImpostoBean.listOutrasTaxas}" var="taxa" rowKey="#{taxa}" id="outrasTaxasTabela" scrollable="true" scrollHeight="320"
-                                         selection="#{taxaImpostoBean.taxa}" selectionMode="single" class="tableTaxa">
-                                <p:column headerText="Imposto" >
-                                   #{taxa.nomeImposto}
-                                </p:column>
-                                <p:column headerText="Percentagem"> 
-                                          #{taxa.percentagem}
-                                </p:column>
-                                <p:column >
-                                    <h:outputLabel class="actionTable icon-pencil" title="Editar">
-                                        <p:ajax event="click" process="@this" listener="#{taxaImpostoBean.outrasTaxasCarregarEditar(taxa)}" />
-                                    </h:outputLabel>
-                                </p:column>
-                            </p:dataTable>
+                    </div>
+
+                    <div class="divArticle">
+                        <h3><h:outputText value="Outras Taxas"></h:outputText></h3>
+                        <p:growl id="outrasTaxasGrowl" showDetail="false" />
+                        <div class="contentTaxa">
+                            <div class="ContentTaxaLeft">
+                                <section>
+                                    <h:outputLabel value="Nome"/>
+                                    <h:inputText value="#{taxaImpostoBean.taxa.nomeImposto}" id="outrasTaxasNome" class="outrasTaxasCampo outrasTaxasNome"> </h:inputText>
+                                    <h:outputLabel value="Taxa"/>
+                                    <div class="areaPercentagem">
+                                        <h:inputText value="#{taxaImpostoBean.taxa.percentagem}" id="outrasTaxasPercentagem" class="justNumeric outrasTaxasCampo outrasTaxasPercentagem" ></h:inputText><label>%</label>
+                                    </div> 
+                                </section>    
+                                <article class="areaButtonTaxa">
+                                    <h:commandButton value="Guardar" action="#{taxaImpostoBean.editarOutrasTaxas()}" class="botaoEditarOutrasTaxas" >
+                                        <f:ajax execute="outrasTaxasPercentagem" onevent="outrasTaxasRegistro()"/>
+                                    </h:commandButton>
+                                </article>  
+                            </div>
+                            <div class="ContentTaxaRight">
+                                <p:dataTable value="#{taxaImpostoBean.listOutrasTaxas}" var="taxa" rowKey="#{taxa}" id="outrasTaxasTabela" scrollable="true" scrollHeight="320"
+                                             selection="#{taxaImpostoBean.taxa}" selectionMode="single" class="tableTaxa">
+                                    <p:column headerText="Imposto" >
+                                        #{taxa.nomeImposto}
+                                    </p:column>
+                                    <p:column headerText="Percentagem"> 
+                                        #{taxa.percentagem}
+                                    </p:column>
+                                    <p:column >
+                                        <h:outputLabel class="actionTable icon-pencil" title="Editar">
+                                            <p:ajax event="click" process="@this" listener="#{taxaImpostoBean.outrasTaxasCarregarEditar(taxa)}" />
+                                        </h:outputLabel>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
                         </div>
-                 </div>
-                </div>
-                
-            </h:form>
+                    </div>
+                    <div class="divArticle">
+                        <h3><h:outputText value="Operações"></h:outputText></h3>
+                    </div>
+                </h:form>
             </article>
         </div>
         <div class="processamento modalProcess">
             <h:graphicImage value="/Images/earth.gif" class="imageProcess" />
         </div>
-    
+
     </h:body>
     <script>
-        $('.divMasterUtil').css('height' , ($(document).height() - $('.ant-menus').height()) + 'px');
+        $('.divMasterUtil').css('height', ($(document).height() - $('.ant-menus').height()) + 'px');
 //        alert($(document).height());
         $(".botaoEditarOutrasTaxas").attr("disabled", true);
         $(".irsBotao").attr("disabled", true);
@@ -191,9 +194,9 @@
         $(".outrasTaxasNome").attr("disabled", true);
         $(".outrasTaxasPercentagem").keyup(function ()
         {
-            if($(this).val() !=="")
+            if ($(this).val() !== "")
             {
-                if(Number($(this).val())>100)
+                if (Number($(this).val()) > 100)
                     $(this).val("");
             }
         });
@@ -201,11 +204,11 @@
         {
             $(".irsCampo").each(function ()
             {
-               if($(this).val() === "")
-                   $(this).css("border","1px solid red");
+                if ($(this).val() === "")
+                    $(this).css("border", "1px solid red");
             });
         });
-     
+
         var linksParent = $('aside');
         var links = linksParent.find('p');
         var items = $('.divArticle');
@@ -231,13 +234,17 @@
             validoAvanco = true;
             $(".validadeSalario").find("input, textArea, select").each(function (e)
             {
-                if($(this).val()==="")
-                { $(this).css("border","1px solid red"); validoAvanco = false; }
-                else
-                { $(this).css("border",""); }
+                if ($(this).val() === "")
+                {
+                    $(this).css("border", "1px solid red");
+                    validoAvanco = false;
+                } else
+                {
+                    $(this).css("border", "");
+                }
             });
-            
-            if(validoAvanco)
+
+            if (validoAvanco)
             {
                 $(".gASalaral").keyup();
                 mostrarPU();
@@ -248,29 +255,33 @@
             validoAvanco = true;
             $(".situacaoFamiliar").find("input:text").each(function (e)
             {
-                if($(this).val()==="")
-                { $(this).css("border","1px solid red"); validoAvanco = false; }
-                else
-                { $(this).css("border",""); }
+                if ($(this).val() === "")
+                {
+                    $(this).css("border", "1px solid red");
+                    validoAvanco = false;
+                } else
+                {
+                    $(this).css("border", "");
+                }
             });
-            
-            if(validoAvanco)
+
+            if (validoAvanco)
             {
                 $(".sistuaFim").keyup();
                 mostrarPU();
             }
         }
-       function setSalarioBase(valor)
-       {
-           $("input:text[id='taxasImpostosForm:baseSalare']").val(valor);
-           $("input:text[id='taxasImpostosForm:baseSalare']").attr("disabled","disabled");
-       }
+        function setSalarioBase(valor)
+        {
+            $("input:text[id='taxasImpostosForm:baseSalare']").val(valor);
+            $("input:text[id='taxasImpostosForm:baseSalare']").attr("disabled", "disabled");
+        }
         function outrasTaxasRegistro()
         {
-            if($(".outrasTaxasPercentagem").val() ==="")
-                 $(".outrasTaxasPercentagem").css("border","1px solid red");
+            if ($(".outrasTaxasPercentagem").val() === "")
+                $(".outrasTaxasPercentagem").css("border", "1px solid red");
         }
-        
+
         function outrasTaxasEditar(nome, percentagem)
         {
             $(".botaoEditarOutrasTaxas").attr("disabled", false);
@@ -280,13 +291,13 @@
         function segSocialEditar(percentagemEmpresa, percentagemFuncionario)
         {
             $(".segSocialBotao").attr("disabled", false);
-            $(".segSocialEmpresa").val(((percentagemEmpresa === 'null')? "" : percentagemEmpresa));
+            $(".segSocialEmpresa").val(((percentagemEmpresa === 'null') ? "" : percentagemEmpresa));
             $(".segSocialFuncionario").val(((percentagemFuncionario === 'null') ? "" : percentagemFuncionario));
         }
-        
+
         function editarIRS(valorMinimo, valorMaximo, percentagem, parcelaAbater)
         {
-             $(".irsBotao").attr("disabled", false);
+            $(".irsBotao").attr("disabled", false);
             $(".irsValorMinimo").val(((valorMinimo === 'null') ? "" : valorMinimo));
             $(".irsValorMaximo").val(((valorMaximo === 'null') ? "" : valorMaximo));
             $(".percentagem").val(((percentagem === 'null') ? "" : percentagem));
