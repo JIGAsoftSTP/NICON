@@ -176,6 +176,90 @@
                     </div>
                     <div class="divArticle">
                         <h3><h:outputText value="Operações"></h:outputText></h3>
+                        <div class="contentTaxa">
+                            <div class="ContentTaxaLeft dvOperações">
+                                <div>
+                                    <section>
+                                        <label>Tipo de Operação</label>
+                                        <h:selectOneMenu></h:selectOneMenu>
+                                    </section>
+                                    <section>
+                                        <label>Valor</label>
+                                        <h:selectOneMenu></h:selectOneMenu>
+                                    </section>
+                                    <section>
+                                        <h:selectOneRadio>
+                                            <f:selectItem itemLabel="Débito" itemValue="1"></f:selectItem>
+                                            <f:selectItem itemLabel="Crédito" itemValue="2"></f:selectItem>
+                                        </h:selectOneRadio>
+                                    </section>
+                                    <section class="selectBoxes">
+                                        <label>Seguros</label>
+                                        <h:inputText class="MultipleSelectInput"></h:inputText>
+                                        <div class="MultipleSelectDisplay out" style="width: 25vw;">
+                                        <section class="areaChecks"><span id="GestConta:accountInsurance">
+                                                <article><input id="GestConta:accountInsuranceALL" type="checkbox" name="GestConta:accountInsuranceALL" class="operationInsurance"></input>
+                                                    <label for="GestConta:accountInsuranceALL">Todos</label>
+                                                </article>
+                                                <article><input id="GestConta:accountInsuranceGPA" type="checkbox" name="GestConta:accountInsuranceGPA" class="operationInsurance"></input>
+                                                    <label for="GestConta:accountInsuranceGPA">Seguro de Acidente do trabalho</label>
+                                                </article>
+                                                <article><input id="GestConta:accountInsuranceMV" type="checkbox" name="GestConta:accountInsuranceMV" class="operationInsurance"></input>
+                                                    <label for="GestConta:accountInsuranceMV">Seguro Automóvel</label>
+                                                </article>
+                                                <article><input id="GestConta:accountInsuranceTIN" type="checkbox" name="GestConta:accountInsuranceTIN" class="operationInsurance"></input>
+                                                    <label for="GestConta:accountInsuranceTIN">Seguro de Viagem</label>
+                                                </article>
+                                                <article><input id="GestConta:accountInsuranceFR" type="checkbox" name="GestConta:accountInsuranceFR" class="operationInsurance"></input>
+                                                    <label for="GestConta:accountInsuranceFR">Seguro de Incêndio</label>
+                                                </article>
+                                                <article><input id="GestConta:accountInsuranceNHI" type="checkbox" name="GestConta:accountInsuranceNHI" class="operationInsurance"></input>
+                                                    <label for="GestConta:accountInsuranceNHI">Seguro Maritimo</label>
+                                                </article>
+                                                <article><input id="GestConta:accountInsuranceDI" type="checkbox" name="GestConta:accountInsuranceDI" class="operationInsurance"></input>
+                                                    <label for="GestConta:accountInsuranceDI">Seguro de Roubo</label>
+                                                </article>
+                                                <article><input id="GestConta:accountInsuranceMAC" type="checkbox" name="GestConta:accountInsuranceMAC" class="operationInsurance"></input>
+                                                    <label for="GestConta:accountInsuranceMAC">Mercadoria em Trânsito</label>
+                                                </article>
+                                                <article><input id="GestConta:accountInsuranceRP" type="checkbox" name="GestConta:accountInsuranceRP" class="operationInsurance"></input>
+                                                    <label for="GestConta:accountInsuranceRP">Responsabilidade Pública</label>
+                                                </article>
+                                            <article><input id="GestConta:accountInsuranceDH" type="checkbox" name="GestConta:accountInsuranceDH" class="operationInsurance"></input>
+                                                    <label for="GestConta:accountInsuranceDH">Seguro Dinheiro</label>
+                                                </article>
+                                                <article><input id="GestConta:accountInsuranceMR" type="checkbox" name="GestConta:accountInsuranceMR" class="operationInsurance"></input>
+                                                    <label for="GestConta:accountInsuranceMR">Seguro MultI Risco</label>
+                                                </article></span>    
+                                        </section>                                   
+                                    </div>
+                                 
+                                </section>   
+                                     <article class="areaButtonTaxa">
+                                         <input type="submit" name="" value="Salvar" />
+                                    </article>   
+                                </div>
+                            </div>
+                            <div class="ContentTaxaRight">
+                                <p:dataTable class="tableTaxa" value="" scrollable="true" scrollHeight="300"
+                                             >
+                                    <p:column headerText="Nome">
+                                      
+                                    </p:column>
+                                    <p:column headerText="Imposto"> 
+                                       
+                                    </p:column>
+                                    <p:column headerText="Percentagem"> 
+                                        
+                                    </p:column>
+                                    <p:column  width="80">
+                                        <h:outputLabel class="icon-pencil">
+                                           
+                                        </h:outputLabel>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                        </div>
                     </div>
                 </h:form>
             </article>

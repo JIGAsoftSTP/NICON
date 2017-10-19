@@ -41,8 +41,8 @@ and open the template in the editor.
     width: 95.5%;
     position: absolute;
     display: none;
-    max-height: 78vh;
-    overflow: auto;
+    //max-height: 78vh;
+   // overflow: auto;
 }
 .divMasterUtil aside .actualMenu{
     background: #4d87e2;
@@ -144,3 +144,30 @@ and open the template in the editor.
     display: none;
 }
 .imageProcess{ top: 0; bottom: 0;right: 0; left: 0;margin: auto; position: absolute; }
+
+.dvOperações section{
+    padding-top: .8rem;
+}
+.dvOperações section input[type=text]{
+    width: 80% !important;
+    margin-left: -0.1px;
+}
+.dvOperações section input[type=radio]{
+    margin: 0 .3rem;
+}
+.dvOperações section label{
+    margin-right: 2rem !important;
+    font-size: .9rem;
+}
+
+.btSaveImposto{
+    width: 90%;
+    padding: 10px;
+    color: #fff;
+    background: #15AE32;
+    border: none;
+    font: 18px arial;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 10px 0;
+}
