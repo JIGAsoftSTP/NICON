@@ -879,7 +879,24 @@ public class ContabilidadeDao implements Serializable {
     }
     
     
-    
+    public List<Conta> listaContaRaizMovimentavel(){
+        List<Conta> list = new ArrayList<>();
+        ResultSet rs = Call.selectFrom("VER_CONTA_MOVIMENTAVEL", "*");
+        try {
+            while (rs.next()) {
+//                ACCOUNT_ID	ACCOUNT_NUMBER	ACCOUNT_DESC
+                Conta c = new Conta();
+                c.setIdAccount(rs.getInt("ACCOUNT_ID"));
+                c.setNumRaiz(rs.getString("ACCOUNT_NUMBER"));
+                c.setDesignacao(rs.getString("ACCOUNT_DESC"));
+                list.add(c);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ContabilidadeDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
 
     public List<Conta> listaContaRaiz(int typeOp, String value,Integer typePrint){
          List<Conta> list = new ArrayList<>();
@@ -1025,6 +1042,35 @@ public class ContabilidadeDao implements Serializable {
                definitionCode
             );
        return result+"";
+   }
+   
+   public List<Conta> listaOperacoes(int acctount)
+   {
+       List<Conta> list = new ArrayList<>();
+       rs = Call.selectFrom("VER_OPERATION_ACCOUNT where ACCOUNT_ID=?", "*", acctount);
+       
+       if(rs != null)
+       {
+           try 
+           {
+               while(rs.next())
+               {
+                   Conta c = new Conta();
+                   c.setIdAccount(rs.getInt("ID"));
+                   c.setTipoContaMovimento(rs.getString("TYPEMOVIMENT"));
+                   c.setConta(rs.getString("ACCOUNT"));
+                   c.setDesignacao(rs.getString("GROUP_NAME"));
+                   c.setObs(rs.getString("AFETAVEL_DESC"));
+                   c.setValue(rs.getString("VALUE_NAME"));
+                   list.add(c);
+               }
+               rs.close();
+           }
+            catch (SQLException ex) {
+               Logger.getLogger(ContabilidadeDao.class.getName()).log(Level.SEVERE, null, ex);
+           }
+       }
+       return list;
    }
    
    public List<Conta> listaOperacoes()

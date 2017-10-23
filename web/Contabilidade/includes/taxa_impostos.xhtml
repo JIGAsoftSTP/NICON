@@ -182,12 +182,12 @@
                                 <div>
                                     <section>
                                         <label>Conta</label>
-                                        <h:selectOneMenu value="#{contaBean.conta.typeOperation}" id="accountSelecionado"
+                                        <h:selectOneMenu value="#{contaBean.conta.idAccount}" id="accountSelecionado"
                                                          class="accountTypeOp" required="true">
                                             <f:selectItem itemLabel="(Selecione)" itemValue="" />
-                                            <f:selectItems value="#{contaBean.listAccounts}" var="conta"
+                                            <f:selectItems value="#{contaBean.listAccountsMovimentavel}" var="conta"
                                                            itemValue="#{conta.idAccount}" itemLabel="#{conta.numRaiz}" />
-                                            <!--<p:ajax process="@this" event="change" listener="{contaBean.determineOperationValue()}" />-->
+                                            <p:ajax process="@this" event="change" listener="#{contaBean.updateListOperacao()}" />
                                         </h:selectOneMenu>
                                     </section>
                                     <section>
@@ -244,20 +244,25 @@
                                 </div>
                             </div>
                             <div class="ContentTaxaRight">
-                                <p:dataTable class="tableTaxa" value="" scrollable="true" scrollHeight="300"
-                                             >
-                                    <p:column headerText="Nome">
-                                      
+                                <p:dataTable class="tableConta" id="operacao_table" scrollable="true" scrollHeight="350" value="#{contaBean.listOperations}" var="op"
+                                             rowKey="#{op}" selectionMode="single"
+                                             emptyMessage="Nenhum registo encontrado"> 
+                                    <p:column headerText="Tipo Operação">
+                                    #{op.designacao}
                                     </p:column>
-                                    <p:column headerText="Imposto"> 
-                                       
+                                    <p:column headerText="Tipo Movimento">
+                                     #{op.tipoContaMovimento}
                                     </p:column>
-                                    <p:column headerText="Percentagem"> 
-                                        
+                                    <p:column headerText="Operação">
+                                     #{op.value}
                                     </p:column>
-                                    <p:column  width="80">
-                                        <h:outputLabel class="icon-cancel-circle">
-                                           
+                                    <p:column headerText="Descrição">
+                                    #{op.obs}
+                                    </p:column>
+                                    <p:column >
+                                        <h:outputLabel class="actionTable icon-cross" title="Anular Operação">
+                                            <p:ajax event="click" listener="#{contaBean.desativarOperacao(op)}"
+                                                    />
                                         </h:outputLabel>
                                     </p:column>
                                 </p:dataTable>

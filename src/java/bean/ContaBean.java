@@ -28,6 +28,7 @@ public class ContaBean implements Serializable
     private int selectedAccount = -1;
     private final ContabilidadeDao contabilidadeDao = new ContabilidadeDao();
     private List<Conta> listAccounts = new ArrayList<>();
+    private List<Conta> listAccountsMovimentavel = new ArrayList<>();
     private List<ComoBox> listTypeOperations = new ArrayList<>();
     private List<ComoBox> listOperationValue = new ArrayList<>();
     private List<ComoBox> listOperationDefinition = new ArrayList<>();
@@ -44,10 +45,11 @@ public class ContaBean implements Serializable
     public ContaBean()
     {  
         listAccounts = contabilidadeDao.listaContaRaiz(1, null, null);    
+        listAccountsMovimentavel = contabilidadeDao.listaContaRaizMovimentavel();    
         listAccountsOriginal = listAccounts;  
         listTypeOperations = ComoBox.loadAllDados("T_OPERATIONGROUP", "OPRGROUP_COD", "OPRGROUP_DESC");
         listTypeMov = ComoBox.loadAllDados("T_TYPEMOVIMENTO", "TMOV_ID", "TMOV_OPERACTION");
-        listOperations = contabilidadeDao.listaOperacoes();
+//        listOperations = contabilidadeDao.listaOperacoes();
     }
     
     public List<Conta> getListAccounts() {
@@ -90,6 +92,9 @@ public class ContaBean implements Serializable
         this.search = search;
     }
 
+    public List<Conta> getListAccountsMovimentavel() {
+        return listAccountsMovimentavel;
+    }
 
     public void regConta()
     {
@@ -154,6 +159,11 @@ public class ContaBean implements Serializable
         }
         else
             RequestContext.getCurrentInstance().execute("$('.accountField').val(''),$('.accountFieldLabel').html('')");
+    }
+    
+    public void updateListOperacao(){
+        listOperations = contabilidadeDao.listaOperacoes(this.conta.getIdAccount());
+        validacao.Validacao.atualizar("GestConta", "operacao_table");
     }
     
     public void update(Conta c){
@@ -311,7 +321,7 @@ public class ContaBean implements Serializable
             Message.addWarningMsg("Selecione Seguro(s)!", "GestConta", "accountGrowl");
         else
         {
-            conta.setIdAccount(selectedAccount);
+//            conta.setIdAccount(selectedAccount);
             if(listSelectedInsurances.isEmpty())
                 result = contabilidadeDao.regOperation(conta, "DEFAULT");
             else
@@ -330,6 +340,7 @@ public class ContaBean implements Serializable
                 listSelectedInsurances.clear();
                 conta.setOperationInsurance("false");
                 Validacao.atualizar("GestConta", "accountInsurance");
+                this.updateListOperacao();
             }
             else
                 Message.addErrorMsg(result.split(";")[1], "GestConta", "accountGrowl");
