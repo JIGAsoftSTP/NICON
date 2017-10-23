@@ -119,13 +119,13 @@ $(function() {
      $(".conta").click(function () {
        $(".RegConta").removeClass("hide");
     });
-    $(".MultipleSelectInput").click(function() {
+    $(".MultipleSelectInput").on("click", function() {
        if($(".operationInsurance").attr("id") !== undefined && $(".accountTypeOp").val() !== "")
            $(".MultipleSelectDisplay").removeClass("out");
        
     });
     
-    $(".selectBoxes").focusout(function () {
+    $(".selectBoxes").on("focusout", function () {
         $(".MultipleSelectDisplay").addClass("out");
      
     });

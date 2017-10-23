@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui" 
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Taxas e Impostos</title>
         <h:outputStylesheet library="Styles" name="utilitarioCSS.css"></h:outputStylesheet>
@@ -21,7 +22,7 @@
                 <p>Operações</p>
             </aside>
             <article>
-                <h:form id="taxasImpostosForm">
+                <h:form id="GestConta">
 
                     <div class="divArticle">
                         <h3><h:outputText value="IRS"></h:outputText></h3> 
@@ -181,66 +182,64 @@
                                 <div>
                                     <section>
                                         <label>Conta</label>
-                                        <h:selectOneMenu></h:selectOneMenu>
+                                        <h:selectOneMenu value="#{contaBean.conta.typeOperation}" id="accountSelecionado"
+                                                         class="accountTypeOp" required="true">
+                                            <f:selectItem itemLabel="(Selecione)" itemValue="" />
+                                            <f:selectItems value="#{contaBean.listAccounts}" var="conta"
+                                                           itemValue="#{conta.idAccount}" itemLabel="#{conta.numRaiz}" />
+                                            <!--<p:ajax process="@this" event="change" listener="{contaBean.determineOperationValue()}" />-->
+                                        </h:selectOneMenu>
                                     </section>
                                     <section>
                                         <label>Tipo de Operação</label>
-                                        <h:selectOneMenu></h:selectOneMenu>
+                                        <h:selectOneMenu value="#{contaBean.conta.typeOperation}" id="accountOperationType"
+                                                         class="accountTypeOp" required="true">
+                                            <f:selectItem itemLabel="(Selecione)" itemValue="" />
+                                            <f:selectItems value="#{contaBean.listTypeOperations}" var="type"
+                                                           itemValue="#{type.id}" itemLabel="#{type.value}" />
+                                            <p:ajax process="@this" event="change" listener="#{contaBean.determineOperationValue()}" />
+                                        </h:selectOneMenu>
                                     </section>
                                     <section>
                                         <label>Valor</label>
-                                        <h:selectOneMenu></h:selectOneMenu>
+                                         <h:selectOneMenu class="accountOperationValue" id="accountOpValue" 
+                                                         required="true" value="#{contaBean.conta.accountOperationValue}" >
+                                            <f:selectItem itemLabel="(Selecione)" itemValue="" />
+                                            <f:selectItems value="#{contaBean.listOperationValue}" var="type"
+                                                           itemValue="#{type.id}" itemLabel="#{type.value}" />
+                                        </h:selectOneMenu>
                                     </section>
                                     <section>
-                                        <h:selectOneRadio>
+                                        <h:selectOneRadio value="#{contaBean.conta.tipoContaMovimento}" id="contaOpTipoMov">
                                             <f:selectItem itemLabel="Débito" itemValue="1"></f:selectItem>
                                             <f:selectItem itemLabel="Crédito" itemValue="2"></f:selectItem>
                                         </h:selectOneRadio>
                                     </section>
                                     <section class="selectBoxes">
-                                        <label>Seguros</label>
-                                        <h:inputText class="MultipleSelectInput"></h:inputText>
-                                        <div class="MultipleSelectDisplay out" style="width: 25vw;">
-                                        <section class="areaChecks"><span id="GestConta:accountInsurance">
-                                                <article><input id="GestConta:accountInsuranceALL" type="checkbox" name="GestConta:accountInsuranceALL" class="operationInsurance"></input>
-                                                    <label for="GestConta:accountInsuranceALL">Todos</label>
-                                                </article>
-                                                <article><input id="GestConta:accountInsuranceGPA" type="checkbox" name="GestConta:accountInsuranceGPA" class="operationInsurance"></input>
-                                                    <label for="GestConta:accountInsuranceGPA">Seguro de Acidente do trabalho</label>
-                                                </article>
-                                                <article><input id="GestConta:accountInsuranceMV" type="checkbox" name="GestConta:accountInsuranceMV" class="operationInsurance"></input>
-                                                    <label for="GestConta:accountInsuranceMV">Seguro Automóvel</label>
-                                                </article>
-                                                <article><input id="GestConta:accountInsuranceTIN" type="checkbox" name="GestConta:accountInsuranceTIN" class="operationInsurance"></input>
-                                                    <label for="GestConta:accountInsuranceTIN">Seguro de Viagem</label>
-                                                </article>
-                                                <article><input id="GestConta:accountInsuranceFR" type="checkbox" name="GestConta:accountInsuranceFR" class="operationInsurance"></input>
-                                                    <label for="GestConta:accountInsuranceFR">Seguro de Incêndio</label>
-                                                </article>
-                                                <article><input id="GestConta:accountInsuranceNHI" type="checkbox" name="GestConta:accountInsuranceNHI" class="operationInsurance"></input>
-                                                    <label for="GestConta:accountInsuranceNHI">Seguro Maritimo</label>
-                                                </article>
-                                                <article><input id="GestConta:accountInsuranceDI" type="checkbox" name="GestConta:accountInsuranceDI" class="operationInsurance"></input>
-                                                    <label for="GestConta:accountInsuranceDI">Seguro de Roubo</label>
-                                                </article>
-                                                <article><input id="GestConta:accountInsuranceMAC" type="checkbox" name="GestConta:accountInsuranceMAC" class="operationInsurance"></input>
-                                                    <label for="GestConta:accountInsuranceMAC">Mercadoria em Trânsito</label>
-                                                </article>
-                                                <article><input id="GestConta:accountInsuranceRP" type="checkbox" name="GestConta:accountInsuranceRP" class="operationInsurance"></input>
-                                                    <label for="GestConta:accountInsuranceRP">Responsabilidade Pública</label>
-                                                </article>
-                                            <article><input id="GestConta:accountInsuranceDH" type="checkbox" name="GestConta:accountInsuranceDH" class="operationInsurance"></input>
-                                                    <label for="GestConta:accountInsuranceDH">Seguro Dinheiro</label>
-                                                </article>
-                                                <article><input id="GestConta:accountInsuranceMR" type="checkbox" name="GestConta:accountInsuranceMR" class="operationInsurance"></input>
-                                                    <label for="GestConta:accountInsuranceMR">Seguro MultI Risco</label>
-                                                </article></span>    
-                                        </section>                                   
-                                    </div>
-                                 
-                                </section>   
+                                            <label>Seguros</label>
+                                            <h:inputText class="MultipleSelectInput"></h:inputText>
+                                            <div class="MultipleSelectDisplay out">
+                                                <section class="areaChecks">
+                                                    <h:panelGroup id="accountInsurance">
+                                                        <c:forEach items="#{contaBean.listOperationDefinition}" var="def"  >
+                                                            <article>
+                                                                <h:selectBooleanCheckbox id="accountInsurance#{def.id}" class="operationInsurance"
+                                                                                         value="#{contaBean.conta.operationInsurance}" >
+                                                                    <f:selectItem itemValue="#{def.id}" itemLabel="#{def.value}" />
+                                                                    <p:ajax process="@this" event="click" listener="#{contaBean.determineIns(def.id)}" />
+                                                                </h:selectBooleanCheckbox>
+                                                                <label for="GestConta:accountInsurance#{def.id}">#{def.value}</label>
+                                                            </article>    
+                                                        </c:forEach>
+                                                    </h:panelGroup>    
+                                                </section>                                   
+                                            </div>
+                                        </section>
                                      <article class="areaButtonTaxa">
-                                         <input type="submit" name="" value="Salvar" />
+                                         <h:commandButton value="Salvar" class="saveButton regOpA" action="#{contaBean.regOperation()}">
+                                             <p:ajax process="@this accountOperationType accountOpValue contaOpTipoMov"
+                                                     oncomplete="$('.modalProcess').hide()" />
+                                         </h:commandButton>  
                                     </article>   
                                 </div>
                             </div>
