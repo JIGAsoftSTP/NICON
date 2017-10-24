@@ -68,104 +68,7 @@
             </div>
             
             
-             <div class="areaModal operacao hide">
-                <div class="CloseModalFrame">
-                    <i class="icon-arrow-right2 iconRight" title="Fechar"></i>
-                </div>              
-                    <h3>Operações</h3>
-                    <div>
-                        <article>
-                            <section>
-                                <label>Tipo de Operação</label>
-                                <h:selectOneMenu value="#{contaBean.conta.typeOperation}" id="accountOperationType"
-                                                 class="accountTypeOp" required="true">
-                                    <f:selectItem itemLabel="(Selecione)" itemValue="" />
-                                    <f:selectItems value="#{contaBean.listTypeOperations}" var="type"
-                                                   itemValue="#{type.id}" itemLabel="#{type.value}" />
-                                    <p:ajax process="@this" event="change" listener="#{contaBean.determineOperationValue()}" />
-                                </h:selectOneMenu>
-                            </section>
-                        </article>
-                        <article>
-                            <section>
-                                <label>Valor</label>
-                                <h:selectOneMenu class="accountOperationValue" id="accountOpValue" 
-                                                 required="true" value="#{contaBean.conta.accountOperationValue}" >
-                                    <f:selectItem itemLabel="(Selecione)" itemValue="" />
-                                    <f:selectItems value="#{contaBean.listOperationValue}" var="type"
-                                                   itemValue="#{type.id}" itemLabel="#{type.value}" />
-                                </h:selectOneMenu>
-                            </section>
-                        </article>
-                       <article class="areaRadios">  
-                            <h:selectOneRadio value="#{contaBean.conta.tipoContaMovimento}" id="contaOpTipoMov">
-                                 <f:selectItem itemLabel="Débito" itemValue="1"></f:selectItem>
-                                 <f:selectItem itemLabel="Crédito" itemValue="2"></f:selectItem>
-                             </h:selectOneRadio>  
-                       </article> 
-                        <article class="selectBoxes">
-                            <section>
-                                <label>Seguros</label>
-                                <h:inputText class="MultipleSelectInput"></h:inputText>
-                                <div class="MultipleSelectDisplay out">
-                                    <section class="areaChecks">
-                                        <h:panelGroup id="accountInsurance">
-                                            <c:forEach items="#{contaBean.listOperationDefinition}" var="def"  >
-                                                <article>
-                                                    <h:selectBooleanCheckbox id="accountInsurance#{def.id}" class="operationInsurance"
-                                                                             value="#{contaBean.conta.operationInsurance}" >
-                                                        <f:selectItem itemValue="#{def.id}" itemLabel="#{def.value}" />
-                                                        <p:ajax process="@this" event="click" listener="#{contaBean.determineIns(def.id)}" />
-                                                    </h:selectBooleanCheckbox>
-                                                    <label for="GestConta:accountInsurance#{def.id}">#{def.value}</label>
-                                                </article>    
-                                            </c:forEach>
-                                        </h:panelGroup>    
-                                    </section>                                   
-                                </div>
-                            </section>
-                        </article>
-                        <br></br>
-                        <br></br>
-                        <h:commandButton value="Salvar" class="saveButton regOpA" action="#{contaBean.regOperation()}">
-                            <p:ajax process="@this accountOperationType accountOpValue contaOpTipoMov"
-                                   oncomplete="$('.modalProcess').hide()" />
-                        </h:commandButton>     
-                       
-                    </div>
-             </div>
-            
 
-             
-             <div class="areaTableOperações bottonn">
-                 <span class="closeSpanTable">x</span>
-                  <h3>Lista de Operações</h3>
-                  <p:dataTable class="tableConta" scrollable="true" scrollHeight="350" value="#{contaBean.listOperations}" var="op"
-                               rowKey="#{op}" selectionMode="single"
-                                         emptyMessage="Nenhum registo encontrado"> 
-                                <p:column headerText="Tipo Operação" width="150">
-                                    #{op.designacao}
-                                </p:column>
-                                <p:column headerText="Tipo Movimento" width="250">
-                                     #{op.tipoContaMovimento}
-                                </p:column>
-                                <p:column headerText="Conta" >
-                                    #{op.conta}
-                                </p:column>
-                                <p:column headerText="Operação">
-                                     #{op.value}
-                                </p:column>
-                                <p:column headerText="Descrição">
-                                    #{op.obs}
-                                </p:column>
-                                <p:column width="80">
-                                      <h:outputLabel class="actionTable icon-cross" title="Anular Operação">
-                                          <p:ajax event="click" listener="#{contaBean.desativarOperacao(op)}"
-                                                  />
-                                    </h:outputLabel>
-                                </p:column>
-                    </p:dataTable>
-             </div>
         </h:form>
         <h:form id="accountTableForm">
             <div class="contentConta">
@@ -175,9 +78,9 @@
                         <h:commandButton value="+ Adicionar Nova" class="btNewConta conta" type="button"  action="#{contaBean.addNewAccount()}">
                         <p:ajax process="@this" />
                         </h:commandButton>
-                        <h:commandButton value="Ver Operações" class="btNewConta openOperacao" type="button">
+<!--                        <h:commandButton value="Ver Operações" class="btNewConta openOperacao" type="button">
                         <p:ajax process="@this" />
-                        </h:commandButton>
+                        </h:commandButton>-->
                         
                     </article>
                     <article class="areaExports">
@@ -211,10 +114,6 @@
                             <h:outputLabel class="actionTable icon-pencil" title="Atualizar Conta" >
                                 <p:ajax event="click" listener="#{contaBean.update(conta)}" onstart="$('.modalProcess').show()"
                                         oncomplete="$('.modalProcess').hide()"/>
-                            </h:outputLabel>
-                            <h:outputLabel class="icon-folder-plus moreOperacao" title="Adicionar Operações">
-                                  <p:ajax event="click" listener="#{contaBean.selectAccountOperation(conta)}"  onstart="$('.modalProcess').show()"
-                                          oncomplete="$('.modalProcess').hide(),operationRegistry()"/>
                             </h:outputLabel>
                         </p:column>
                         <p:column headerText="Número" width="130">

@@ -28,7 +28,7 @@
                         <li>Recebimentos</li>
                         <li>Mapa de Produção</li>
                         <li>Taxas</li>
-                        <li>Balancete</li>
+                        <li id="btBalancete">Balancete</li>
                         <li>Jornal</li>
                     </ul>
                 </div>
@@ -38,6 +38,14 @@
                     <div class="rel-group active-rel">
                         <div class="export">
                             <h2 class="titleSelected">Pagamentos</h2>
+                            <article class="articleBalancete out">
+                                <h4>Dígitos</h4>
+                                <h:selectOneMenu>
+                                    <f:selectItem itemLabel="Todos"></f:selectItem>
+                                    <f:selectItem itemLabel="2"></f:selectItem>
+                                </h:selectOneMenu>
+                            </article>
+                            
                             <span>
                                 <h2>Exportar para: </h2>
                                 <h:outputLabel class="icon-file-pdf" title="Exportar para PDF">
@@ -214,8 +222,6 @@
                             </section>
                     </div>
  
-
-
                     <span class="close-mi-values">X</span>
                 </div>
             </div>
@@ -238,16 +244,28 @@
         .date--- span{
             min-width: 100px;
         }
+        .out{
+            display: none !important;
+        }
+        
     </style>
     <script>
         $('.sectionsMenu li').click(function () {
-            if ($(this).index() === 4)
-                $('.rel-group').toggleClass('active-rel');
-            else
+            if ($(this).index() === 4){
+                 $('.rel-group').toggleClass('active-rel');
+            } 
+            else if ($(this).index() === 5)
+            {
+                $('.articleBalancete').removeClass('out');
+            }
+            else{
                 $('.rel-group:first-child').addClass('active-rel')
                         .siblings().removeClass('active-rel');
+                $('.articleBalancete').addClass('out');
+            }
+                
         });
-
+         
     </script>
 </html>
 
