@@ -10,9 +10,9 @@
     </h:head>
     <h:body>
         <div>
-            <h1>404</h1>
+            <h1>500</h1>
             <h4>oOps, algo deu errado!<br/><br/> A página solicitada não pôde ser encontrada.</h4>
-            <label class="lab"><label class="icon-undo2">&nbsp;</label>Voltar</label>
+            <label class="lab"><label class="icon-spinner11">&nbsp;</label>Recarregar</label>
         </div>
     </h:body>
     <style>
@@ -55,7 +55,7 @@
     </style>
     <script>
         $('.lab').click(function(){
-            window.history.back();
+            location.reload();
         });
     </script>
 </html>

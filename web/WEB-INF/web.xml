@@ -25,6 +25,10 @@
         <error-code>404</error-code>
         <location>/redirect/error-404.xhtml</location>
     </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/redirect/error-500.xhtml</location>
+    </error-page>
    <servlet>
        <servlet-name>Push Servlet</servlet-name>
        <servlet-class>org.primefaces.push.PushServlet</servlet-class>
