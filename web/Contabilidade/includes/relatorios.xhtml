@@ -20,7 +20,6 @@
             <p:remoteCommand name="relatorioContabilidade" actionListener="#{relatorioContabilidadeBean.relatorioSelecionado()}" process="@this" />
             <div class="menu-lateral">
                 <i class="icon-menu hide-show-lateral"></i>
-
                 <div class="sectionsMenu section1">
                     <ul class="single-menu-lateral">
                         <li class="header-menu">Menu</li>
@@ -40,9 +39,13 @@
                             <h2 class="titleSelected">Pagamentos</h2>
                             <article class="articleBalancete out">
                                 <h4>Dígitos</h4>
-                                <h:selectOneMenu>
-                                    <f:selectItem itemLabel="Todos"></f:selectItem>
-                                    <f:selectItem itemLabel="2"></f:selectItem>
+                                <h:selectOneMenu id="relatorioContabilidadeDigitos" value="#{relatorioContabilidadeBean.relatorio.balanceteDigitos}">
+                                    <f:selectItem itemLabel="Todos" itemValue="-1"></f:selectItem>
+                                    <f:selectItems value="#{relatorioContabilidadeBean.listaDigitos}" var="field" itemValue="#{field.id}" itemLabel="#{field.value}" />
+                                      <p:ajax event="change" 
+                                              listener="#{relatorioContabilidadeBean.filterDigit()}"
+                                                process="@this relatorioContabilidadeCampoPesquisa relatorioContabilidadeDataInicio relatorioContabilidadeDataFim relatorioContabilidadeValorPesqusia" />
+                                  
                                 </h:selectOneMenu>
                             </article>
                             
@@ -66,8 +69,8 @@
                                     <p:calendar  pattern="dd-MM-yyyy"  navigator="true" id="relatorioContabilidadeDataInicio"
                                                  value="#{relatorioContabilidadeBean.relatorio.dataInicio}" >
                                         <p:ajax event="dateSelect"
-                                                listener="#{relatorioContabilidadeBean.searchReport()}"
-                                                process="relatorioContabilidadeCampoPesquisa relatorioContabilidadeDataInicio relatorioContabilidadeDataFim relatorioContabilidadeValorPesqusia" />
+                                                listener="#{relatorioContabilidadeBean.search()}"
+                                                process="relatorioContabilidadeDigitos relatorioContabilidadeCampoPesquisa relatorioContabilidadeDataInicio relatorioContabilidadeDataFim relatorioContabilidadeValorPesqusia" />
                                     </p:calendar>
                                 </span>
                                 <span>
@@ -75,8 +78,8 @@
                                     <p:calendar  pattern="dd-MM-yyyy" navigator="true" 
                                                  value="#{relatorioContabilidadeBean.relatorio.dataFim}" id="relatorioContabilidadeDataFim">
                                         <p:ajax event="dateSelect"
-                                                listener="#{relatorioContabilidadeBean.searchReport()}"
-                                                process="relatorioContabilidadeCampoPesquisa relatorioContabilidadeDataInicio relatorioContabilidadeDataFim relatorioContabilidadeValorPesqusia" />
+                                                listener="#{relatorioContabilidadeBean.search()}"
+                                                process="relatorioContabilidadeDigitos relatorioContabilidadeCampoPesquisa relatorioContabilidadeDataInicio relatorioContabilidadeDataFim relatorioContabilidadeValorPesqusia" />
                                     </p:calendar>
                                 </span>
                             </nav>
@@ -84,8 +87,8 @@
                                 <h:selectOneMenu class="textClient field" value="#{relatorioContabilidadeBean.relatorio.campoPesquisa}" id="relatorioContabilidadeCampoPesquisa">
                                     <f:selectItems value="#{relatorioContabilidadeBean.list}" var="field" itemValue="#{field.id}" itemLabel="#{field.value}" />
                                     <p:ajax event="change" onstart="$('.modalProcess').show()" oncomplete="$('.modalProcess').hide()" 
-                                            listener="#{relatorioContabilidadeBean.searchReport()}"
-                                            process="relatorioContabilidadeCampoPesquisa relatorioContabilidadeDataInicio relatorioContabilidadeDataFim relatorioContabilidadeValorPesqusia" />
+                                            listener="#{relatorioContabilidadeBean.search()}"
+                                            process="relatorioContabilidadeDigitos relatorioContabilidadeCampoPesquisa relatorioContabilidadeDataInicio relatorioContabilidadeDataFim relatorioContabilidadeValorPesqusia" />
                                 </h:selectOneMenu>
                                 <h:inputText pt:placeholder="Descrição..." class="textClient searchReportField" 
                                              value="#{relatorioContabilidadeBean.relatorio.valorPesquisa}"
@@ -122,7 +125,7 @@
                                         <p:calendar  pattern="dd-MM-yyyy" navigator="true" id="contabilidadeRelatorioTaxaDataI"
                                                      value="#{relatorioContabilidadeBean.relatorio.dataInicio}" >
                                             <p:ajax event="dateSelect"
-                                                    listener="#{relatorioContabilidadeBean.searchReport()}"
+                                                    listener="#{relatorioContabilidadeBean.search()}"
                                                     process="@this" />
                                         </p:calendar>
                                     </span>
