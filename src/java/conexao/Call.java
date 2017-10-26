@@ -155,6 +155,7 @@ public class Call
             String sql = "SELECT "+campos+" FROM TABLE("+functionName+interogations+")";
             
             CallableStatement call  = mapParamsType(con, sql, 1, param);
+          
             if(call==null)
                 return null;
             call.execute();
@@ -293,7 +294,7 @@ public class Call
      * @param parans Os parametros que seram setados para as interogacoes
      * @return 
      */
-    @SuppressWarnings("CallToPrintStackTrace")
+                                                @SuppressWarnings("CallToPrintStackTrace")
     public static ResultCall executeQuere (String quereSQL, Object ... parans)
     {
         if(!EstadoConnexao.isValid) return null;
@@ -342,7 +343,7 @@ public class Call
     {
         try
         {
-            CallableStatement call = connect.prepareCall(sql);
+            CallableStatement call = connect.prepareCall(sql, ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
             System.out.println(sql);
             if (parans != null && parans.length >0)
             {

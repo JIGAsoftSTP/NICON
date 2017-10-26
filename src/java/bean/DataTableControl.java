@@ -58,6 +58,7 @@ public class DataTableControl implements Serializable
     private ExpressionFactory ef;
     private final String idDataTable;
     private ELContext elc;
+    private int accountLength = -1;
     
     /**
      * Essa funcao serve para proucurar por uma tabela em um formulario
@@ -106,7 +107,16 @@ public class DataTableControl implements Serializable
         this.listInclud = new ArrayList<>();
         this.columns = new ArrayList<>();
     }
-    
+
+    public int getAccountLength() {
+        return accountLength;
+    }
+
+    public void setAccountLength(int accountLength) {
+        this.accountLength = accountLength;
+    }
+
+
     /**
      * Atualizar o faces na data control
      * @param pageFace 
@@ -276,6 +286,7 @@ public class DataTableControl implements Serializable
                         aux[i] = "";
                         try
                         {
+                           System.out.println("dados "+rs.getString("CONTA"));
                             aux[i] = rs.getString(i+1);
                             if(aux[i] == null) aux[i] = "";
                             if(aux[i].length()> this.columns.get(i).maxLength)
@@ -283,7 +294,12 @@ public class DataTableControl implements Serializable
                             
                         }catch (Exception ex) {}
                     }
-                    this.listaValue.add(aux);
+                    if(accountLength != -1){
+                        if(rs.getString("CONTA").length() == accountLength)
+                            this.listaValue.add(aux);
+                    }
+                    else
+                         this.listaValue.add(aux);
                 }
                 rs.close();
                 this.updPercentageColumn();

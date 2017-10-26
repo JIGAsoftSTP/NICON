@@ -20,10 +20,11 @@ public class Relatorio implements Serializable
     private String tipoTaxa;
     private String nome;
     private String valor;
+    private int balanceteDigitos = -1;
 
     public Relatorio()
     {
-        
+ 
     }
     public Relatorio ( String nome, String valor)
     {
@@ -36,6 +37,14 @@ public class Relatorio implements Serializable
 
     public void setDataInicio(Date dataInicio) {
         this.dataInicio = dataInicio;
+    }
+
+    public int getBalanceteDigitos() {
+        return balanceteDigitos;
+    }
+
+    public void setBalanceteDigitos(int balanceteDigitos) {
+        this.balanceteDigitos = balanceteDigitos;
     }
 
     public Date getDataFim() {

@@ -737,10 +737,11 @@ public class ContabilidadeDao implements Serializable {
         }
         return creditoDebitos;
     }
-
+            
     public ResultSet relatorioBalancete(Relatorio relatorio) {
         ResultSet rs = null;
         String functionName = "PACK_REPORT2.reportBalancete";
+        
         if (relatorio.getValorPesquisa() != null && !relatorio.getValorPesquisa().equals("")) {
 
             String colunasSearch[] = {"CONTA", "DESIGNACAO"};
@@ -752,6 +753,7 @@ public class ContabilidadeDao implements Serializable {
                     ((relatorio.getDataInicio() == null) ? null : OperacaoData.toSQLDate(relatorio.getDataInicio())),
                     (relatorio.getDataFim() == null) ? null : OperacaoData.toSQLDate(relatorio.getDataFim()));
         }
+       
         return rs;
     }
     

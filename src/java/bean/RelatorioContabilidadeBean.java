@@ -9,6 +9,7 @@ import dao.ContabilidadeDao;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -39,9 +40,11 @@ public class RelatorioContabilidadeBean implements Serializable {
     private final List<Taxa> listaResumoTaxa = new ArrayList<>();
     private ResultSet rs;
     private List<ComoBox> list = new ArrayList<>();
+    private List<ComoBox> listaDigitos = new ArrayList<>();
     private List<Relatorio> listaTaxaSalario = new ArrayList<>();
     private final List<Relatorio> listaTaxaSegurancaSocial = new ArrayList<>();
     private String valorTotal;
+    private boolean loadDigit = true;
 
     public RelatorioContabilidadeBean() {
         resultado = new DataTableControl("relatorioContabilidadeTabela", "relatorioContabilidadeBean.resultado");
@@ -68,6 +71,10 @@ public class RelatorioContabilidadeBean implements Serializable {
         return valorTotal;
     }
 
+    public List<ComoBox> getListaDigitos() {
+        return listaDigitos;
+    }
+
     public void setRelatorio(Relatorio relatorio) {
         this.relatorio = relatorio;
     }
@@ -85,9 +92,19 @@ public class RelatorioContabilidadeBean implements Serializable {
     public List<ComoBox> getList() {
         return list;
     }
-
+    
+    public void filterDigit(){
+       loadDigit = false;
+       resultado.setAccountLength(relatorio.getBalanceteDigitos());
+        searchReport();
+    }
+    public void search(){
+        loadDigit = true;
+              resultado.setAccountLength(-1);
+        searchReport();
+    }
     public void searchReport() {
-        
+       
         list.clear();// limpa tudo na lista 
         switch (relatorio.getTipoRelatorio()) {
             case "Pagamentos":
@@ -141,14 +158,17 @@ public class RelatorioContabilidadeBean implements Serializable {
             case "Balancete":
                 list.add(new ComoBox("CONTA", "Conta"));
                 list.add(new ComoBox("DESIGNACAO", "Designação"));
+                   System.out.println("digitos "+relatorio.getBalanceteDigitos());
                 if(relatorio.getDataInicio() != null && relatorio.getDataFim() != null)
                 {
                     rs = cd.relatorioBalancete(relatorio);
                     this.resultado.updFaces(FacesContext.getCurrentInstance());
                     this.resultado.prepareModel(rs, DataTableControl.ShowMode.SHOWALL);
+                    if(loadDigit)
+                            getDigit(); 
+                 
                     if(relatorio.getValorPesquisa() != null && !relatorio.getValorPesquisa().equals(""))
                     {
-
                         RequestContext.getCurrentInstance().execute("balanceteTotaisBalanco('"+0+"','"+0+"','"+0+"','"+0+"')");
                         RequestContext.getCurrentInstance().execute("balanceteTotaisResultado('"+0+"','"+0+"','"+0+"','"+0+"')");
                         RequestContext.getCurrentInstance().execute("balanceteTotaisBalancete('"+0+"','"+0+"','"+0+"','"+0+"')");
@@ -187,7 +207,7 @@ public class RelatorioContabilidadeBean implements Serializable {
                 "relatorioContabilidadeCampoPesquisa", "contabilidadeTabelaTaxaProducao", 
             "contabilidadeTabelaTaxaSalario", "contabilidadeTabelaSecurityTax", "contabilidadeTabelaMapaResumoTaxa");
     }
-
+    
     private void mapaResumoTaxa() {
         this.listaResumoTaxa.clear();
         if (this.taxaProducao.getListaValue().size() > 0) {
@@ -312,6 +332,7 @@ public class RelatorioContabilidadeBean implements Serializable {
         ReciboPagamento rp = new ReciboPagamento();
         String ret = rp.criarDoc(Integer.valueOf(idPrestacao), SessionUtil.getUserlogado().getNomeAcesso());
         RequestContext.getCurrentInstance().execute("openAllDocument('" + ret + "')");
+        
     }
     
     private void accountingReportTotalValues(String report)
@@ -389,6 +410,19 @@ public class RelatorioContabilidadeBean implements Serializable {
                   }
                   break;
         }
+    }
+    
+    private void getDigit(){
+        String account;
+        listaDigitos.clear();
+        for(int i = 0;i<resultado.getListaValue().size();i++){
+            account = resultado.getRowMap(i).get("CONTA");
+            
+            if(account.length() == 1){
+                listaDigitos.add(new ComoBox(account, account));
+            }
+        }
+        Validacao.atualizar("contabilidadeRelatorioForm", "relatorioContabilidadeDigitos");
     }
        
 }

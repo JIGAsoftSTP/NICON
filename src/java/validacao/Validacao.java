@@ -285,7 +285,7 @@ public class Validacao
     
     public static double unformatValue(String valor)
     {
-  
+        System.out.println("valor "+valor);
         char [] value = valor.toCharArray();
         valor ="";
         
